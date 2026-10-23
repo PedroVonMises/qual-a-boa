@@ -1,11 +1,5 @@
-import { Text, View } from 'react-native';
+import { ScreenStub } from '@/shell/ScreenStub';
 
-import { palette } from '@/theme/tokens';
-
-export default function PerfilScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: palette.night }}>
-      <Text style={{ color: palette.bone, fontSize: 24 }}>Perfil</Text>
-    </View>
-  );
+export default function Screen() {
+  return <ScreenStub title="Perfil" routeName="(tabs)/perfil" links={[{ label: 'Ajuda', href: '/ajuda' }, { label: 'Acompanhar', href: '/acompanhar' }]} />;
 }

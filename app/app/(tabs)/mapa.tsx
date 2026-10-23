@@ -1,11 +1,5 @@
-import { Text, View } from 'react-native';
+import { ScreenStub } from '@/shell/ScreenStub';
 
-import { palette } from '@/theme/tokens';
-
-export default function MapaScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: palette.night }}>
-      <Text style={{ color: palette.bone, fontSize: 24 }}>Mapa</Text>
-    </View>
-  );
+export default function Screen() {
+  return <ScreenStub title="Mapa" routeName="(tabs)/mapa" links={[{ label: 'Casa de exemplo', href: '/casa/exemplo' }]} />;
 }

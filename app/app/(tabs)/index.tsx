@@ -1,11 +1,5 @@
-import { Text, View } from 'react-native';
+import { ScreenStub } from '@/shell/ScreenStub';
 
-import { palette } from '@/theme/tokens';
-
-export default function ExplorarScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: palette.night }}>
-      <Text style={{ color: palette.bone, fontSize: 24 }}>Explorar</Text>
-    </View>
-  );
+export default function Screen() {
+  return <ScreenStub title="Explorar" routeName="(tabs)/index" links={[{ label: 'Filtros', href: '/filtros' }, { label: 'Evento de exemplo', href: '/evento/exemplo' }, { label: 'Casa de exemplo', href: '/casa/exemplo' }, { label: 'Acompanhar', href: '/acompanhar' }, { label: 'Ajuda', href: '/ajuda' }]} />;
 }
