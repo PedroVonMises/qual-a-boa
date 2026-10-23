@@ -47,3 +47,15 @@ Method: a manual review of the markup against the `design:design-critique` and `
 | 19 | Rim text on sticker was overlapping at first render | Fixed (textLength) |
 | 20 | Wristband marks collapsed to 0 width in a flex row | Fixed (flex:none) |
 | 21 | Canvas renders (art images, fonts) when opened in a browser | Checked; individual new boards were checked via a local static render, not the canvas viewer |
+
+## UX sprint additions (tracking, feedback, reviews, support)
+| # | Finding | Status |
+|---|---|---|
+| 22 | Logo unified on the bulb across B1-B4, Idade, Web | Done; Q? archived |
+| 23 | Review/status/chat mocks could be read as real data about real venues | Fixed: moved to fictional Casa Maré, labeled "exemplo ilustrativo" |
+| 24 | Text area in Avaliar 2/2 and Novo chamado is a styled div, not a real `<textarea>` with `<label for>` | Open: use real inputs in the build |
+| 25 | Status chips (Respondido, Em análise) are color + text | OK |
+| 26 | Star rating is a radiogroup of 52px targets; topic dots are 28px visual (44px row hit area needed) | Open for the build |
+| 27 | Chat typing indicator has an aria-label but no live region | Open: add `aria-live="polite"` |
+| 28 | Date consistency (Sáb 24 out) fixed on Acompanhar | Done |
+| 29 | Layout checks of U1-U10 done in a browser through a local static render; not tested with screen readers | Done / open |

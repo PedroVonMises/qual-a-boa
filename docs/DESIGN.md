@@ -95,3 +95,16 @@ Casual, short, local. Examples: "Qual a boa hoje?", "Perto de você", "Até R$ 4
 - **Glow:** allowed only in brand art (neon mark, splash). UI never glows.
 - **Motion:** splash draws the ring and hook on (700 ms), then the dot flickers on; with Reduce Motion it shows the final lit state.
 - **Trademark:** run an INPI search for "Qual a boa?" and the mark before launch.
+
+## 13. Decision update: the light bulb is the single logo (2026-10-23)
+- The bulb mark (`mark.svg`, `mark-mono.svg`, `app-icon.svg`) is the only logo. The Q? exploration is archived in `app/assets/brand/alt-q/` and no longer used. Section 12 is superseded.
+- **Wordmark:** "Qual a boa?" with a capital Q, Outfit 700, tracking -2%.
+- **Neon variations (brand art only):** `mark-neon.svg` (four layers: blurred glow, pink tube, blush core, amber light), neon sign lockup (CSS text-shadow glow), neon app icon for the store, wine-gradient icon `app-icon-wine.svg`. UI never glows.
+- **Sticker/pattern:** circular "Tá na Qual a boa?" decal with the bulb and "hoje"; bulb pattern at 4-8% opacity on pink.
+- **Splash:** tube and base draw on, then the amber core flickers on; Reduce Motion shows the lit logo.
+
+## 14. UX flows added (2026-10-23)
+- **Event tracking:** Acompanhando (timeline Salvo / Ingresso / Dia do evento / Avaliar, countdown, change feed with unread markers), Avisos (per-event toggles and channels), Ao vivo (queue, crowd, music, price from community reports with age and sample size, a pre-departure checklist, "Estou aqui").
+- **Feedback and reviews:** Avaliar in two steps (rating + topics + tags, then text + photo + anonymous option), Avaliações do evento (distribution, topic scores, "Foi ao evento" verified badge, helpful/report actions).
+- **Support messaging:** Ajuda (search, common topics, open ticket, expected response time), Mensagens (ticket inbox with text status chips), Conversa com o suporte (event context card, quick replies, read receipts, typing, attach, security reminder), Novo chamado (topic radio list, related event, validated description, optional screenshot).
+- **UX rules used:** status never by color alone (text chips, icons, check marks); every tappable 44px+; honest data labels ("Relatos de 14 pessoas, o último há 12 min"); response-time expectations stated before contact; inline field errors with the fix; mock content uses the fictional Casa Maré, never invented reviews or status for real venues.
