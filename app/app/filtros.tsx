@@ -1,5 +1,5 @@
-import { ScreenStub } from '@/shell/ScreenStub';
+import { FiltrosScreen } from '@/features/filtros';
 
 export default function Screen() {
-  return <ScreenStub title="Filtros" routeName="filtros" links={[{ label: 'Voltar para Explorar', href: '/' }]} />;
+  return <FiltrosScreen />;
 }
