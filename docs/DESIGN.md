@@ -14,12 +14,12 @@ Dark theme (default):
 - **Hairline** (rgba(255,255,255,0.08)) — 1px dividers and card borders
 - **Bone Text** (#F4F1EC) — Primary text (contrast 16.7:1 on Night Charcoal)
 - **Dusk Text** (#A8A29A) — Secondary text, metadata (contrast 7.5:1)
-- **Riot Pink** (#E8553A) — The single accent: primary CTA, active chip, selected tab, focus ring, "hoje" badge
-- **Riot Ink** (#1A0A06) — Text on Riot Pink fills (contrast 5.6:1)
+- **Riot Pink** (#FF4F81, 6.0:1 on Night Charcoal) — A hot, warm punk pink; the single accent: primary CTA, active chip, selected tab, focus ring, "hoje" badge
+- **Riot Ink** (#1A0A06) — Text on Riot Pink fills (contrast 6.1:1)
 - **Signal Green** (#4FB286) — "Grátis" / open-now status only
 - **Alert Red** (#E0524D) — Errors only (kept distinct from Riot Pink by usage, never as a button fill)
 
-Light theme: Paper (#F7F4EF) background, White (#FFFFFF) surface, Ink (#1C1A17) text, Stone (#6B655D) secondary, Riot Pink (#D6173F, 4.7:1 on Paper, for AA on light), same roles.
+Light theme: Paper (#F7F4EF) background, White (#FFFFFF) surface, Ink (#1C1A17) text, Stone (#6B655D) secondary, Riot Pink (#D01B58, 4.8:1 on Paper, for AA on light), same roles.
 Rules: max one accent; no purple/blue neon, no gradient text, no glow shadows. Image scrims are neutral (black 0 to 60%) for legibility only.
 
 ## 3. Typography Rules
