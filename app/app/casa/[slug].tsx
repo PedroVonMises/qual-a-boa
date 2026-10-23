@@ -1,15 +1,8 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { ScreenStub } from '@/shell/ScreenStub';
+import { CasaScreen } from '@/features/casa/CasaScreen';
 
 export default function Screen() {
-  const params = useLocalSearchParams();
-  return (
-    <ScreenStub
-      title="Casa"
-      routeName="casa/[slug]"
-      params={params}
-      links={[{ label: 'Evento', href: '/evento/exemplo' }, { label: 'Avaliações', href: '/avaliacoes/exemplo' }]}
-    />
-  );
+  const { slug } = useLocalSearchParams<{ slug: string }>();
+  return <CasaScreen slug={slug} />;
 }
