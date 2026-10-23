@@ -74,7 +74,7 @@ export function mapEvent(r: Row): EventItem {
   const artistIds: string[] =
     pick<string[] | undefined>(r, 'artist_ids', 'artistIds') ??
     [...(r.event_artists ?? [])]
-      .sort((a: Row, b: Row) => (a.position ?? 0) - (b.position ?? 0))
+      .sort((a: Row, b: Row) => (a.billing_order ?? 0) - (b.billing_order ?? 0))
       .map((a: Row) => a.artist_id);
   return {
     id: r.id,
@@ -95,7 +95,31 @@ export function mapEvent(r: Row): EventItem {
   };
 }
 
-const EVENT_SELECT = '*, event_genres(genres(slug)), event_artists(artist_id, position)';
+const EVENT_SELECT = '*, event_genres(genres(slug)), event_artists(artist_id, billing_order)';
+
+/** One flat row of the `search_events` RPC (see supabase/migrations/0002_search_events.sql). */
+export function mapSearchRow(r: Row): SearchItem {
+  return {
+    event: mapEvent(r),
+    venue: mapVenue({
+      id: r.venue_id,
+      slug: r.venue_slug,
+      name: r.venue_name,
+      area: r.venue_area,
+      city: r.venue_city,
+      address: r.venue_address,
+      lat: r.venue_lat,
+      lng: r.venue_lng,
+      status: r.venue_status,
+      adult_only: r.venue_adult_only,
+      genre_slugs: r.venue_genre_slugs,
+      hours: r.venue_hours,
+      cover_key: r.venue_cover_key,
+      placeholder: r.venue_placeholder,
+    }),
+    distanceKm: Number(r.distance_km),
+  };
+}
 
 export class SupabaseRepo implements Repo {
   private readonly client: SupabaseClient;
@@ -154,14 +178,10 @@ export class SupabaseRepo implements Repo {
         p_now: params.now ?? null,
       }),
     );
-    // Each row: { event: jsonb, venue: jsonb, distance_km, total_count }.
+    // Flat columns per row: event fields, venue_* fields, distance_km, total_count.
     const list = rows ?? [];
-    const items: SearchItem[] = list.map((r) => ({
-      event: mapEvent(r.event),
-      venue: mapVenue(r.venue),
-      distanceKm: Number(pick(r, 'distance_km', 'distanceKm')),
-    }));
-    let total = list.length ? Number(pick(list[0], 'total_count', 'total')) : 0;
+    const items: SearchItem[] = list.map(mapSearchRow);
+    let total = list.length ? Number(list[0].total_count) : 0;
     if (!list.length && offset > 0) {
       // search_events returns no rows (hence no total_count) for a page past the end: re-query page 0.
       total = (await this.searchEvents({ ...params, cursor: null, limit: 1 })).total;
@@ -211,7 +231,13 @@ export class SupabaseRepo implements Repo {
       this.wrap<Row[]>('artistas anteriores', () => this.client.rpc('venue_past_artists', { p_venue_id: venue.id })),
     ]);
     const pastArtists: PastArtist[] = (past ?? []).map((r) => ({
-      artist: mapArtist(r.artist ?? r),
+      artist: mapArtist({
+        id: r.artist_id,
+        slug: r.artist_slug,
+        name: r.artist_name,
+        genre_slugs: r.artist_genre_slugs,
+        photo_url: r.artist_photo_url,
+      }),
       lastPlayedAt: new Date(pick<string>(r, 'last_played_at', 'lastPlayedAt')).toISOString(),
       times: Number(r.times),
     }));
@@ -248,10 +274,15 @@ export class SupabaseRepo implements Repo {
       if (!venue || venue.status === 'closed') continue;
       upcoming.push({ event, venue, distanceKm: haversineKm(origin.lat, origin.lng, venue.lat, venue.lng) });
     }
-    const playedAt = (played ?? []).map((r) => ({
-      venue: mapVenue(r.venue ?? r),
-      lastPlayedAt: new Date(pick<string>(r, 'last_played_at', 'lastPlayedAt')).toISOString(),
-    }));
+    // artist_played_at returns venue_* summary columns without coordinates: load full venues by id.
+    const playedIds = [...new Set((played ?? []).map((r) => r.venue_id as string))];
+    const playedVenues = playedIds.length
+      ? await this.wrap<Row[]>('locais', () => this.client.from('venues').select('*').in('id', playedIds))
+      : [];
+    const playedById = new Map(playedVenues.map((v) => [v.id as string, mapVenue(v)]));
+    const playedAt = (played ?? [])
+      .map((r) => ({ venue: playedById.get(r.venue_id as string), lastPlayedAt: new Date(r.last_played_at).toISOString() }))
+      .filter((p): p is { venue: Venue; lastPlayedAt: string } => !!p.venue);
     return { artist, upcoming, playedAt };
   }
 
