@@ -15,7 +15,7 @@ export interface HeroProps {
   actions?: ReactNode;
 }
 
-/** Cover hero: 380px on phones, wide 280px rounded banner at >= 1024. Scrim + fade into the background. */
+/** Cover hero: 380px on phones, wide 340px rounded banner (max 560px, so the poster art is not over-cropped) at >= 1024. Scrim + fade into the background. */
 export function Hero({ coverKey, onBack, actions }: HeroProps) {
   const { colors } = useTheme();
   const { isLarge } = useBreakpoint();
@@ -46,7 +46,7 @@ export function Hero({ coverKey, onBack, actions }: HeroProps) {
 const styles = StyleSheet.create({
   box: { width: '100%', overflow: 'hidden' },
   full: { height: 380 },
-  banner: { height: 280, borderRadius: radius.lg, marginTop: space.lg },
+  banner: { height: 340, maxWidth: 560, alignSelf: 'flex-start', borderRadius: radius.lg, marginTop: space.lg },
   fade: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 120 },
   bar: { position: 'absolute', left: space.lg, right: space.lg, flexDirection: 'row', justifyContent: 'space-between' },
   actions: { flexDirection: 'row', gap: space.sm },
