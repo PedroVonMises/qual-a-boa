@@ -72,3 +72,16 @@ Casual, short, local. Examples: "Qual a boa hoje?", "Perto de você", "Até R$ 4
 - Nested cards inside cards, carousels without scroll affordance, hidden filter state.
 - Placeholder names like "John Doe"/"Acme"; fake round stats; "Scroll to explore" text.
 - Color as the only signal (always pair with text/icon); touch targets under 44pt.
+
+## 10. Logo (added 2026-10-22)
+- **Concept:** a light bulb rotated 45 degrees reads as a "Q": the globe is the ring, the screw base is the tail, the amber core is the light on. Tagline: "Acende a noite."
+- **Files:** `app/assets/brand/mark.svg` (full color), `mark-mono.svg` (one color), `app-icon.svg` (dark rounded square). Wordmark is "Qual a boa?" in Outfit 700, tracking -2%; it is live text in the design, not an SVG, so outline it before shipping.
+- **Colors:** ring and base Riot Pink `#FF4F81`, core Amber `#F2A65A` (the only place amber is allowed outside imagery). On pink backgrounds use the mono mark in Riot Ink `#1A0A06`.
+- **Rules:** minimum size 16px; clear space equal to the core diameter; never bone/white on Riot Pink (2.8:1).
+- **Alternatives kept on the canvas (Marca board):** B filament tail, C Q inside a bulb. A chosen for legibility at small sizes.
+
+## 11. Refinements (added 2026-10-22)
+- Chips and all tap targets are 44px tall minimum (was 40px for chips).
+- Selected chips show a check icon in addition to the pink fill.
+- Active tab shows a 3px top indicator in addition to the pink color.
+- Empty states use the unlit bulb (mark in Ash tones) with a specific next action.
