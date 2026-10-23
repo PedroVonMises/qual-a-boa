@@ -1,11 +1,5 @@
-import { Text, View } from 'react-native';
+import { ScreenStub } from '@/shell/ScreenStub';
 
-import { palette } from '@/theme/tokens';
-
-export default function SalvosScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: palette.night }}>
-      <Text style={{ color: palette.bone, fontSize: 24 }}>Salvos</Text>
-    </View>
-  );
+export default function Screen() {
+  return <ScreenStub title="Salvos" routeName="(tabs)/salvos" links={[{ label: 'Acompanhar', href: '/acompanhar' }, { label: 'Evento de exemplo', href: '/evento/exemplo' }]} />;
 }
