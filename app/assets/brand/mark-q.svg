@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Qual a boa?">
+  <g fill="none" stroke="#FF4F81" stroke-width="15" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="84" cy="84" r="58"/>
+    <path d="M114 114C132 124 154 124 158 142C161 156 152 164 138 164"/>
+  </g>
+  <circle cx="138" cy="187" r="9.5" fill="#F2A65A"/>
+</svg>

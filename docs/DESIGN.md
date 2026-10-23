@@ -85,3 +85,13 @@ Casual, short, local. Examples: "Qual a boa hoje?", "Perto de você", "Até R$ 4
 - Selected chips show a check icon in addition to the pink fill.
 - Active tab shows a 3px top indicator in addition to the pink color.
 - Empty states use the unlit bulb (mark in Ash tones) with a specific next action.
+
+## 12. Brand direction "Q?" (supersedes the bulb logo, 2026-10-22)
+- **Mark (B, chosen):** a Q whose tail is the hook of a question mark, ending in a lit amber dot. Files: `app/assets/brand/mark-q.svg` (color), `mark-q-mono.svg`, `mark-q-neon.svg` (brand art only), `app-icon-q.svg` (wine gradient). The earlier bulb-Q (`mark.svg`) stays as an alternative.
+- **Rejected:** a Q with an inner "?" (version A) because it reads as the search/magnifier icon in a discovery app.
+- **Wordmark:** lowercase "qual a boa?" in Outfit 700, tracking -3%, final "?" in Riot Pink. Outline the text before shipping.
+- **Color depth added:** Wine `#3A1220`, Burgundy `#6B1D3A`, Blush `#FFC2D1`. Amber `#F2A65A` is reserved for light (the dot, glows). Gradients only wine to burgundy in brand art.
+- **Contrast:** Blush on Wine 10.8, on Burgundy 7.5; Bone on Wine 14.5, on Burgundy 10.0; Amber on Wine 8.1; Pink on Wine 5.2 (ok for text); **Pink on Burgundy 3.6 (graphics and text of 24px+ only)**; Ink on Pink 6.1.
+- **Glow:** allowed only in brand art (neon mark, splash). UI never glows.
+- **Motion:** splash draws the ring and hook on (700 ms), then the dot flickers on; with Reduce Motion it shows the final lit state.
+- **Trademark:** run an INPI search for "Qual a boa?" and the mark before launch.

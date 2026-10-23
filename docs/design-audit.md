@@ -37,3 +37,13 @@ Method: a manual review of the markup against the `design:design-critique` and `
 - Test with VoiceOver (iOS), TalkBack (Android), keyboard on web, 200% text scaling.
 - Lighthouse a11y and perf on the Expo web build.
 - Pt-BR copy review (`design:ux-copy`) for onboarding, empty states and legal text.
+
+## Brand sprint additions (Q?)
+| # | Finding | Status |
+|---|---|---|
+| 16 | Inner-"?" Q looked like a magnifier/search icon | Rejected; hook-tail Q chosen |
+| 17 | Pink on Burgundy is 3.6:1 | Rule: graphics and 24px+ text only |
+| 18 | Splash animation | Verified in a browser (final lit state shows); `prefers-reduced-motion` handled in CSS, not toggled in a real browser |
+| 19 | Rim text on sticker was overlapping at first render | Fixed (textLength) |
+| 20 | Wristband marks collapsed to 0 width in a flex row | Fixed (flex:none) |
+| 21 | Canvas renders (art images, fonts) when opened in a browser | Checked; individual new boards were checked via a local static render, not the canvas viewer |
