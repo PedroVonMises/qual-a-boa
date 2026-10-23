@@ -4,7 +4,7 @@ Mobile-first (iOS, Android, responsive web). Pilot market: Vitória, ES, Brazil.
 Taste dials: Density 5 (Daily App Balanced), Variance 6 (Offset Asymmetric), Motion 6 (Fluid, spring-driven).
 
 ## 1. Visual Theme & Atmosphere
-A late-evening interface: deep warm-charcoal surfaces, one ember-coral accent, and photography doing the heavy lifting. It should feel like the sidewalk outside a good club at 11pm: lit, a little loud, but easy to read. Event covers are full-bleed and rounded; typography is confident and tightly tracked; chrome stays quiet so the posters and artists stand out. Browse patterns borrow from delivery apps (shelves, chips, sticky filters), but the tone is local and playful, not corporate.
+A late-evening interface: deep warm-charcoal surfaces, one hot punk-pink accent (Riot Pink), and photography doing the heavy lifting. It should feel like the sidewalk outside a good club at 11pm: lit, a little loud, but easy to read. Event covers are full-bleed and rounded; typography is confident and tightly tracked; chrome stays quiet so the posters and artists stand out. Browse patterns borrow from delivery apps (shelves, chips, sticky filters), but the tone is local and playful, not corporate.
 
 ## 2. Color Palette & Roles
 Dark theme (default):
@@ -14,12 +14,12 @@ Dark theme (default):
 - **Hairline** (rgba(255,255,255,0.08)) — 1px dividers and card borders
 - **Bone Text** (#F4F1EC) — Primary text (contrast 16.7:1 on Night Charcoal)
 - **Dusk Text** (#A8A29A) — Secondary text, metadata (contrast 7.5:1)
-- **Ember** (#E8553A) — The single accent: primary CTA, active chip, selected tab, focus ring, "hoje" badge
-- **Ember Ink** (#1A0A06) — Text on Ember fills (contrast 5.3:1)
+- **Riot Pink** (#E8553A) — The single accent: primary CTA, active chip, selected tab, focus ring, "hoje" badge
+- **Riot Ink** (#1A0A06) — Text on Riot Pink fills (contrast 5.6:1)
 - **Signal Green** (#4FB286) — "Grátis" / open-now status only
-- **Alert Red** (#E0524D) — Errors only (kept distinct from Ember by usage, never as a button fill)
+- **Alert Red** (#E0524D) — Errors only (kept distinct from Riot Pink by usage, never as a button fill)
 
-Light theme: Paper (#F7F4EF) background, White (#FFFFFF) surface, Ink (#1C1A17) text, Stone (#6B655D) secondary, Ember (#B93B24 for AA on light), same roles.
+Light theme: Paper (#F7F4EF) background, White (#FFFFFF) surface, Ink (#1C1A17) text, Stone (#6B655D) secondary, Riot Pink (#D6173F, 4.7:1 on Paper, for AA on light), same roles.
 Rules: max one accent; no purple/blue neon, no gradient text, no glow shadows. Image scrims are neutral (black 0 to 60%) for legibility only.
 
 ## 3. Typography Rules
@@ -31,17 +31,17 @@ Rules: max one accent; no purple/blue neon, no gradient text, no glow shadows. I
 - Banned: Inter, Roboto-as-brand, generic serifs, all-caps paragraphs.
 
 ## 4. Component Stylings
-- **Buttons:** Primary = Ember fill, Ember Ink label, 52px tall, radius 16. Secondary = Raised Ash fill. Ghost for tertiary. Press = scale 0.97 spring + light haptic (native). Disabled at 40% opacity with label retained.
-- **Chips (genre, date):** 40px tall, radius full, Raised Ash idle, Ember fill when active, icon-free text, horizontal scroll with snap, edge fade.
+- **Buttons:** Primary = Riot Pink fill, Riot Ink label, 52px tall, radius 16. Secondary = Raised Ash fill. Ghost for tertiary. Press = scale 0.97 spring + light haptic (native). Disabled at 40% opacity with label retained.
+- **Chips (genre, date):** 40px tall, radius full, Raised Ash idle, Riot Pink fill when active, icon-free text, horizontal scroll with snap, edge fade.
 - **Event card (shelf):** 280x360 poster card, radius 24, cover image full-bleed, neutral bottom scrim, title (Outfit 20), venue + distance (Dusk), price pill (Geist Mono). Save heart top-right (44px target).
 - **Event card (list):** horizontal, 112px square cover left, text right, divider below instead of nested card.
 - **Artist chip:** 40px circular photo + name; "já tocou aqui" variant adds date in mono.
-- **Filter sheet:** bottom sheet (native) / right drawer (web >=1024). Sections: Gênero (multi chips), Preço (range slider + "Grátis" toggle), Distância (1/3/5/10/25 km stops), Data, Artista (searchable). Sticky footer: "Limpar" + "Ver N eventos" (Ember).
+- **Filter sheet:** bottom sheet (native) / right drawer (web >=1024). Sections: Gênero (multi chips), Preço (range slider + "Grátis" toggle), Distância (1/3/5/10/25 km stops), Data, Artista (searchable). Sticky footer: "Limpar" + "Ver N eventos" (Riot Pink).
 - **Search bar:** 48px, Raised Ash, radius 16, label via placeholder AND accessible label.
 - **Skeletons:** shimmer blocks matching exact card dimensions; no spinners.
 - **Empty states:** a composed poster-style illustration and a specific next action ("Aumente o raio para 10 km").
 - **Errors:** inline with retry; offline banner keeps cached results visible.
-- **Tab bar:** Explorar, Mapa, Salvos, Perfil; 64px + safe area; active = Ember icon + label.
+- **Tab bar:** Explorar, Mapa, Salvos, Perfil; 64px + safe area; active = Riot Pink icon + label.
 
 ## 5. Layout Principles
 - Grid: 4pt base; screen gutters 16 (sm), 24 (md), 32 (lg). Content max-width 1280 on web.
