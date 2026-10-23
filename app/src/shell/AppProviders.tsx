@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { ThemeProvider } from '@/theme/ThemeProvider';
 import { palette } from '@/theme/tokens';
 
 export function createAppQueryClient() {
@@ -29,7 +30,9 @@ export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <GestureHandlerRootView style={styles.root}>
       <SafeAreaProvider>
-        <QueryClientProvider client={client}>{children}</QueryClientProvider>
+        <ThemeProvider mode="dark">
+          <QueryClientProvider client={client}>{children}</QueryClientProvider>
+        </ThemeProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

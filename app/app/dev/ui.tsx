@@ -1,6 +1,6 @@
-import { ScreenStub } from '@/shell/ScreenStub';
+import { Gallery } from '@/ui/Gallery';
 
-// The UI gallery is mounted here by the orchestrator once @/ui exists.
+// Dev-only: every design-system component in all states.
 export default function Screen() {
-  return <ScreenStub title="Galeria de UI (dev)" routeName="dev/ui" />;
+  return <Gallery />;
 }

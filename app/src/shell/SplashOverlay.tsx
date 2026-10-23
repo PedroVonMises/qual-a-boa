@@ -10,8 +10,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { motion, palette } from '@/theme/tokens';
-
-import { BrandBulb } from './BrandBulb';
+import { AnimatedLogo } from '@/ui';
 
 type Props = {
   /** True once fonts and session are ready; the overlay then fades out and unmounts. */
@@ -19,16 +18,17 @@ type Props = {
 };
 
 /**
- * In-app splash that continues the native splash. Wine background plus the static bulb.
- * TODO(orchestrator): swap BrandBulb for the ui AnimatedLogo (draw-on, then flicker).
+ * In-app splash that continues the native splash: wine background plus the animated bulb
+ * (tube draws on, core flickers on). It fades out only after the logo animation finished AND the app is ready.
  */
 export function SplashOverlay({ ready }: Props) {
   const reduceMotion = useReducedMotion();
   const opacity = useSharedValue(1);
+  const [animDone, setAnimDone] = useState(false);
   const [gone, setGone] = useState(false);
 
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || !animDone) return;
     const duration = reduceMotion ? motion.reducedFadeMs : 350;
     const hold = reduceMotion ? 0 : 250;
     opacity.value = withDelay(
@@ -37,18 +37,18 @@ export function SplashOverlay({ ready }: Props) {
         if (finished) runOnJS(setGone)(true);
       }),
     );
-  }, [ready, reduceMotion, opacity]);
+  }, [ready, animDone, reduceMotion, opacity]);
 
   const style = useAnimatedStyle(() => ({ opacity: opacity.value }));
 
   if (gone) return null;
   return (
     <Animated.View
-      pointerEvents={ready ? 'none' : 'auto'}
+      pointerEvents={ready && animDone ? 'none' : 'auto'}
       style={[StyleSheet.absoluteFill, styles.root, style]}
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants">
-      <BrandBulb size={160} />
+      <AnimatedLogo size={200} onDone={() => setAnimDone(true)} />
     </Animated.View>
   );
 }

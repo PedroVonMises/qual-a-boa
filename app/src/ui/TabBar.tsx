@@ -11,7 +11,11 @@ import { useInsets } from './useInsets';
 export interface TabBarProps {
   state: { index: number; routes: { key: string; name: string }[] };
   descriptors: Record<string, { options: { title?: string; tabBarAccessibilityLabel?: string } }>;
-  navigation: {
+  /** React Navigation 7 (current expo-router): `emitter.emit` + `navigateToTab(routeKey)`. */
+  emitter?: { emit: (event: any) => unknown };
+  navigateToTab?: (routeKey: string) => void;
+  /** Legacy shape (tests, older navigators). */
+  navigation?: {
     emit: (event: any) => { defaultPrevented: boolean };
     navigate: (...args: any[]) => void;
   };
@@ -30,7 +34,7 @@ const DEFAULT_ICONS: Record<string, IconName> = {
 export const TAB_BAR_HEIGHT = 64;
 
 /** Custom bar for expo-router Tabs: 64px + safe area, active = pink + 3px top indicator + selected state. */
-export function TabBar({ state, descriptors, navigation, icons }: TabBarProps) {
+export function TabBar({ state, descriptors, navigation, emitter, navigateToTab, icons }: TabBarProps) {
   const { colors } = useTheme();
   const insets = useInsets();
   const map = { ...DEFAULT_ICONS, ...icons };
@@ -47,10 +51,13 @@ export function TabBar({ state, descriptors, navigation, icons }: TabBarProps) {
         const label = options.title ?? route.name;
         const color = focused ? colors.accent : colors.textMuted;
         const onPress = () => {
-          const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-          if (!focused && !event.defaultPrevented) {
+          const emit = emitter?.emit ?? navigation?.emit;
+          const event = emit?.({ type: 'tabPress', target: route.key, canPreventDefault: true });
+          const prevented = !!(event as { defaultPrevented?: boolean } | undefined)?.defaultPrevented;
+          if (!focused && !prevented) {
             lightHaptic();
-            navigation.navigate(route.name);
+            if (navigateToTab) navigateToTab(route.key);
+            else navigation?.navigate(route.name);
           }
         };
         const webProps = Platform.OS === 'web' ? ({ 'aria-current': focused ? 'page' : undefined } as object) : {};

@@ -2,14 +2,16 @@ import { Tabs } from 'expo-router';
 import { useWindowDimensions } from 'react-native';
 
 import { breakpoints, fonts, palette } from '@/theme/tokens';
+import { TabBar } from '@/ui';
 
-// TODO(orchestrator): pass `tabBar={(props) => <TabBar {...props} />}` from @/ui to replace the
-// default bar (adds the 3px top indicator and 64px height + safe area). Keep tabBarPosition logic.
+// Narrow screens use the design-system TabBar (3px top indicator, 64px + safe area).
+// Wide screens (>= 1024) keep the default side rail, styled with tokens below.
 export default function TabLayout() {
   const { width } = useWindowDimensions();
   const wide = width >= breakpoints.lg;
   return (
     <Tabs
+      tabBar={wide ? undefined : (props) => <TabBar {...props} />}
       screenOptions={{
         headerShown: false,
         tabBarPosition: wide ? 'left' : 'bottom',
