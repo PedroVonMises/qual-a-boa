@@ -1,5 +1,5 @@
-import { IdadeScreen } from '@/shell/IdadeScreen';
+import { IdadeView } from '@/features/onboarding';
 
 export default function Screen() {
-  return <IdadeScreen />;
+  return <IdadeView />;
 }

@@ -1,0 +1,107 @@
+import Constants from 'expo-constants';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+
+import { RADIUS_OPTIONS } from '@/domain/filters';
+import { useFilters } from '@/state/filters';
+import { useSession } from '@/state/session';
+import { useTheme } from '@/theme/ThemeProvider';
+import { radius, space } from '@/theme/tokens';
+import { Button, Icon, IconButton, ListRow, Screen, Switch, Text } from '@/ui';
+import { NARROW_MAX_WIDTH } from '../layout';
+import { GenresSheet } from './GenresSheet';
+import { LegalSheet } from './LegalSheet';
+import { PRIVACY, TERMS, type LegalDoc } from './legalText';
+
+/** Perfil tab: visitor header, preferences, about. */
+export function PerfilView() {
+  const router = useRouter();
+  const { colors } = useTheme();
+  const genreCount = useFilters((s) => s.filters.genreSlugs.length);
+  const radiusKm = useFilters((s) => s.filters.radiusKm);
+  const setFilters = useFilters((s) => s.set);
+  const resetSession = useSession((s) => s.reset);
+  const [alerts, setAlerts] = useState(true);
+  const [genresOpen, setGenresOpen] = useState(false);
+  const [legal, setLegal] = useState<LegalDoc | null>(null);
+
+  const idx = RADIUS_OPTIONS.indexOf(radiusKm);
+  const step = (d: number) => setFilters({ radiusKm: RADIUS_OPTIONS[Math.min(RADIUS_OPTIONS.length - 1, Math.max(0, idx + d))] });
+  const version = Constants.expoConfig?.version ?? '0.0.0';
+
+  return (
+    <Screen testID="perfil-screen">
+      <ScrollView contentContainerStyle={styles.column} showsVerticalScrollIndicator={false}>
+        <Text variant="headline" accessibilityRole="header">
+          Perfil
+        </Text>
+        <View style={styles.who}>
+          <View style={[styles.avatar, { backgroundColor: colors.surfaceAlt }]}>
+            <Icon name="user" size={32} color="textMuted" />
+          </View>
+          <View style={styles.flex}>
+            <Text variant="title">Visitante</Text>
+            <Text variant="bodySm" tone="textMuted">
+              Login chega em breve
+            </Text>
+          </View>
+        </View>
+        <Button label="Entrar para sincronizar" variant="secondary" fullWidth disabled />
+
+        <Text variant="caption" tone="textMuted" style={styles.section}>
+          PREFERÊNCIAS
+        </Text>
+        <ListRow
+          title="Estilos favoritos"
+          value={genreCount ? String(genreCount) : 'Todos'}
+          chevron
+          divider
+          onPress={() => setGenresOpen(true)}
+        />
+        <View style={[styles.stepper, { borderBottomColor: colors.border }]}>
+          <Text variant="body" style={styles.flex}>
+            Raio padrão
+          </Text>
+          <IconButton icon="chevronLeft" label="Diminuir raio" variant="filled" disabled={idx <= 0} onPress={() => step(-1)} />
+          <Text variant="mono" accessibilityLabel={`Raio ${radiusKm} quilômetros`} testID="radius-value" style={styles.radius}>
+            {radiusKm} km
+          </Text>
+          <IconButton icon="chevronRight" label="Aumentar raio" variant="filled" disabled={idx >= RADIUS_OPTIONS.length - 1} onPress={() => step(1)} />
+        </View>
+        <Switch label="Avisos de eventos salvos" value={alerts} onValueChange={setAlerts} style={styles.switchRow} />
+
+        <Text variant="caption" tone="textMuted" style={styles.section}>
+          SOBRE
+        </Text>
+        <ListRow title="Privacidade e dados (LGPD)" chevron divider onPress={() => setLegal(PRIVACY)} />
+        <ListRow title="Termos de uso" chevron divider onPress={() => setLegal(TERMS)} />
+        <ListRow title="Ajuda e suporte" chevron divider onPress={() => router.push('/ajuda')} />
+        <ListRow title="Versão do app" value={version} divider={__DEV__} />
+        {__DEV__ ? (
+          <ListRow
+            title="Refazer a verificação de idade"
+            subtitle="Só em desenvolvimento"
+            onPress={() => {
+              resetSession();
+              router.replace('/onboarding/idade');
+            }}
+          />
+        ) : null}
+      </ScrollView>
+      <GenresSheet visible={genresOpen} onClose={() => setGenresOpen(false)} />
+      <LegalSheet doc={legal} onClose={() => setLegal(null)} />
+    </Screen>
+  );
+}
+
+const styles = StyleSheet.create({
+  column: { width: '100%', maxWidth: NARROW_MAX_WIDTH, alignSelf: 'center', gap: space.md, paddingVertical: space.lg },
+  flex: { flex: 1 },
+  who: { flexDirection: 'row', alignItems: 'center', gap: space.lg },
+  avatar: { width: 64, height: 64, borderRadius: radius.full, alignItems: 'center', justifyContent: 'center' },
+  section: { marginTop: space.lg },
+  stepper: { minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: space.sm, borderBottomWidth: 1 },
+  radius: { minWidth: 56, textAlign: 'center' },
+  switchRow: { minHeight: 56 },
+});
