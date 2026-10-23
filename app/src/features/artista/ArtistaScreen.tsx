@@ -9,7 +9,7 @@ import { genreLabels, monthYear } from '@/features/evento/labels';
 import { useFavorites } from '@/state/favorites';
 import { useLocation } from '@/state/location';
 import { space } from '@/theme/tokens';
-import { EventCard, Tag, Text, VenueRow, useBreakpoint } from '@/ui';
+import { EventCard, IconButton, Tag, Text, VenueRow, useBreakpoint } from '@/ui';
 
 export function ArtistaScreen({ slug }: { slug?: string }) {
   const { gutter } = useBreakpoint();
@@ -20,6 +20,8 @@ export function ArtistaScreen({ slug }: { slug?: string }) {
   const genres = useGenres().data;
   const eventIds = useFavorites((s) => s.eventIds);
   const toggleEvent = useFavorites((s) => s.toggleEvent);
+  const artistSlugs = useFavorites((s) => s.artistSlugs);
+  const toggleArtist = useFavorites((s) => s.toggleArtist);
 
   if (q.isPending && q.fetchStatus !== 'idle') return <StateShell state="loading" />;
   if (q.isError) return <StateShell state="error" onRetry={() => q.refetch()} />;
@@ -35,7 +37,19 @@ export function ArtistaScreen({ slug }: { slug?: string }) {
 
   return (
     <Frame>
-      <Hero coverKey={coverKey} onBack={goBack} />
+      <Hero
+        coverKey={coverKey}
+        onBack={goBack}
+        actions={
+          <IconButton
+            icon={artistSlugs.includes(artist.slug) ? 'heartFilled' : 'heart'}
+            label={artistSlugs.includes(artist.slug) ? 'Remover artista dos salvos' : 'Salvar artista'}
+            selected={artistSlugs.includes(artist.slug)}
+            variant="filled"
+            onPress={() => toggleArtist(artist.slug)}
+          />
+        }
+      />
       <View style={[styles.body, { paddingHorizontal: gutter }]}>
         <View style={styles.tags}>
           {genreLabels(artist.genreSlugs, genres).map((t) => (

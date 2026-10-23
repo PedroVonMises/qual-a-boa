@@ -7,10 +7,10 @@ import { useFavorites } from '@/state/favorites';
 import { useTheme } from '@/theme/ThemeProvider';
 import { hit, radius, space } from '@/theme/tokens';
 import {
-  Badge, EmptyState, EventCard, EventCardSkeleton, IconButton, PressableScale, Screen, SegmentedControl, Text, VenueRow,
+  ArtistRow, Badge, EmptyState, EventCard, EventCardSkeleton, IconButton, PressableScale, Screen, SegmentedControl, Text, VenueRow,
 } from '@/ui';
 import { groupSaved, type SavedEvent } from './grouping';
-import { useSavedEvents, useSavedVenues } from './hooks';
+import { useSavedArtists, useSavedEvents, useSavedVenues } from './hooks';
 import { UndoToast } from './UndoToast';
 
 type Tab = 'eventos' | 'casas' | 'artistas';
@@ -31,6 +31,8 @@ export function SalvosScreen({ now }: { now?: string }) {
   const toggleEvent = useFavorites((s) => s.toggleEvent);
   const events = useSavedEvents(eventIds);
   const venues = useSavedVenues(venueIds);
+  const artistSlugs = useFavorites((s) => s.artistSlugs);
+  const artists = useSavedArtists(artistSlugs);
   const groups = useMemo(() => groupSaved(events, nowIso), [events, nowIso]);
   const dismiss = useCallback(() => setUndoId(null), []);
 
@@ -125,9 +127,26 @@ export function SalvosScreen({ now }: { now?: string }) {
       </View>
     );
   } else {
-    body = (
-      <EmptyState title="Nenhum artista salvo" message="Artistas salvos aparecem aqui." actionLabel="Explorar eventos" onAction={explore} />
-    );
+    body =
+      artistSlugs.length === 0 ? (
+        <EmptyState title="Nenhum artista salvo" message="Artistas salvos aparecem aqui." actionLabel="Explorar eventos" onAction={explore} />
+      ) : (
+        <View style={styles.section}>
+          {artists.map((a) =>
+            a.data ? (
+              <ArtistRow
+                key={a.key}
+                divider
+                name={a.data.artist.name}
+                subtitle={`${a.data.upcoming.length} próximos shows`}
+                onPress={() => router.push(`/artista/${a.key}`)}
+              />
+            ) : a.loading ? null : (
+              <Badge key={a.key} label="Artista indisponível" tone="danger" style={styles.status} />
+            ),
+          )}
+        </View>
+      );
   }
 
   return (

@@ -32,7 +32,7 @@ export function CasaScreen({ slug }: { slug?: string }) {
 
   const { venue, upcoming, pastArtists } = q.data;
   const closed = venue.status === 'closed';
-  const saved = venueIds.includes(venue.id);
+  const saved = venueIds.includes(venue.slug);
   const go = (path: string) => router.push(path as Href);
   const lastEvent = pastArtists.map((p) => p.lastPlayedAt).sort().pop();
   const address = [venue.address, venue.area].filter(Boolean).join(' · ');
@@ -54,7 +54,7 @@ export function CasaScreen({ slug }: { slug?: string }) {
             selected={saved}
             variant="filled"
             color={saved ? colors.accent : undefined}
-            onPress={() => toggleVenue(venue.id)}
+            onPress={() => toggleVenue(venue.slug)}
           />
         }
       />
