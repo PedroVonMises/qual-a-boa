@@ -20,7 +20,6 @@ export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts(fontMap);
   const hydrated = useSession((s) => s.hydrated);
   const ready = (fontsLoaded || !!fontError) && hydrated;
-
   useEffect(() => {
     if (fontsLoaded || fontError) SplashScreen.hideAsync().catch(() => {});
   }, [fontsLoaded, fontError]);
