@@ -79,7 +79,17 @@ export interface SearchParams {
   query?: string; // matches event title, venue name, artist name
   sort: SortKey;
   limit?: number; // default 20
-  cursor?: string | null; // opaque; offset-based in MVP
+  cursor?: string | null; // opaque; offset-based in MVP (cursor = String(offset))
+  now?: string; // ISO; "current time" for filtering past events. Default: real now. Tests pass a fixed value.
+}
+
+/** Whole dataset: output of supabase/seed (app/src/data/seed.json) and input of SeedRepo. */
+export interface SeedDataset {
+  generatedAt: string;
+  genres: Genre[];
+  venues: Venue[];
+  artists: Artist[];
+  events: EventItem[]; // includes past events (used for "já passaram por aqui")
 }
 
 export interface SearchItem {
