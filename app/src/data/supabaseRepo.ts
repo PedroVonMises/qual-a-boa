@@ -27,7 +27,7 @@ export class RepoError extends Error {
   }
 }
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 type Row = Record<string, any>;
 
 const pick = <T>(row: Row, snake: string, camel: string): T => (row[snake] !== undefined ? row[snake] : row[camel]) as T;
@@ -161,7 +161,11 @@ export class SupabaseRepo implements Repo {
       venue: mapVenue(r.venue),
       distanceKm: Number(pick(r, 'distance_km', 'distanceKm')),
     }));
-    const total = list.length ? Number(pick(list[0], 'total_count', 'total')) : 0;
+    let total = list.length ? Number(pick(list[0], 'total_count', 'total')) : 0;
+    if (!list.length && offset > 0) {
+      // search_events returns no rows (hence no total_count) for a page past the end: re-query page 0.
+      total = (await this.searchEvents({ ...params, cursor: null, limit: 1 })).total;
+    }
     const next = offset + limit;
     return { items, total, nextCursor: next < total ? String(next) : null };
   }

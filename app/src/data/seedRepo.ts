@@ -84,7 +84,7 @@ export class SeedRepo implements Repo {
     const fromMs = params.dateFrom ? Date.parse(params.dateFrom) : nowMs;
     const toMs = params.dateTo ? Date.parse(params.dateTo) : null;
     const genres = params.genreSlugs?.length ? new Set(params.genreSlugs) : null;
-    const area = params.area ? normalizeText(params.area) : null;
+    const area = params.area ? params.area.toLowerCase() : null;
     const q = params.query?.trim() ? normalizeText(params.query.trim()) : null;
 
     const items: SearchItem[] = [];
@@ -106,12 +106,12 @@ export class SeedRepo implements Repo {
         }
       }
       if (params.artistId && !event.artistIds.includes(params.artistId)) continue;
-      if (area && normalizeText(venue.area) !== area) continue;
+      if (area && venue.area.toLowerCase() !== area) continue;
       if (q) {
         const hay = [event.title, venue.name, ...event.artistIds.map((id) => this.artistsById.get(id)?.name ?? '')];
         if (!hay.some((s) => normalizeText(s).includes(q))) continue;
       }
-      items.push({ event, venue, distanceKm });
+      items.push({ event, venue, distanceKm: Math.round(distanceKm * 1000) / 1000 });
     }
 
     items.sort(compareItems(params.sort));

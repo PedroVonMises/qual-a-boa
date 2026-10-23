@@ -13,7 +13,6 @@ let instance: Repo | null = null;
 /** Builds the repo for the configured data source. seed.json is produced by `npm run seed`. */
 export function createRepo(source = env.dataSource): Repo {
   if (source === 'supabase') return new SupabaseRepo(env.supabaseUrl, env.supabaseAnonKey);
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const dataset = require('./seed.json') as SeedDataset;
   return new SeedRepo(dataset);
 }

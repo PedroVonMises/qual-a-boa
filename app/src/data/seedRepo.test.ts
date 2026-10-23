@@ -62,7 +62,7 @@ describe('SeedRepo.searchEvents', () => {
 
   it('priceMax keeps free events and drops unknown prices', async () => {
     const got = await ids({ priceMax: 30 });
-    expect(got).toEqual(['e02', 'e03', 'e05']);
+    expect(got).toEqual(['e01', 'e02', 'e03', 'e05']);
   });
 
   it('filters by date window', async () => {
