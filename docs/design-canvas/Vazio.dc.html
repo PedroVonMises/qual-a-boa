@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Sem resultados</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+body{margin:0;background:#121110}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="position:relative;width:390px;height:844px;overflow:hidden;background:#121110;color:#F4F1EC;font-family:'Geist',sans-serif;box-sizing:border-box">
+  <div style="padding:56px 20px 0;display:flex;flex-direction:column;gap:12px">
+    <h1 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:26px;letter-spacing:-0.02em">Resultados</h1>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <span style="height:44px;padding:0 14px;border-radius:999px;background:#262421;font-size:14px;display:flex;align-items:center;gap:8px">Metal / Punk<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A8A29A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+      <span style="height:44px;padding:0 14px;border-radius:999px;background:#262421;font-size:14px;display:flex;align-items:center;gap:8px">Grátis<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A8A29A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+      <span style="height:44px;padding:0 14px;border-radius:999px;background:#262421;font-family:'Geist Mono',monospace;font-size:14px;display:flex;align-items:center;gap:8px">1 km<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A8A29A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+    </div>
+  </div>
+
+  <div style="margin-top:56px;padding:0 32px;display:flex;flex-direction:column;align-items:flex-start;gap:16px">
+    <svg width="120" height="120" viewBox="0 0 200 200" role="img" aria-label="Lâmpada apagada">
+      <g transform="translate(88 88) rotate(-45)">
+        <g fill="none" stroke="#3A3835" stroke-width="16" stroke-linecap="round"><path d="M29.100 54.700A62 62 0 1 0 -29.100 54.700"/><path d="M29.100 54.700L21 72M-29.100 54.700L-21 72"/></g>
+        <rect x="-21" y="78" width="42" height="13" rx="6.500" fill="#3A3835"/><rect x="-15" y="95" width="30" height="11" rx="5.500" fill="#3A3835"/>
+        <circle cx="0" cy="-2" r="13" fill="#262421"/>
+      </g>
+    </svg>
+    <h2 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:28px;letter-spacing:-0.02em;line-height:1.1">Nada aceso por aqui</h2>
+    <p style="margin:0;font-size:16px;line-height:1.5;color:#A8A29A;max-width:300px">Não achamos eventos de Metal / Punk grátis a 1 km. Tente abrir o raio ou tirar um filtro.</p>
+  </div>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:0 24px 34px;display:flex;flex-direction:column;gap:12px">
+    <button style="height:52px;border-radius:16px;border:0;background:#FF4F81;color:#1A0A06;font-size:16px;font-weight:600">Aumentar o raio para 10 km</button>
+    <button style="height:52px;border-radius:16px;border:0;background:#262421;color:#F4F1EC;font-size:16px;font-weight:600">Limpar filtros</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

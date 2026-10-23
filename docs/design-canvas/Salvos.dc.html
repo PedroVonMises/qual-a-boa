@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Salvos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+body{margin:0;background:#121110}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="position:relative;width:390px;height:844px;overflow:hidden;background:#121110;color:#F4F1EC;font-family:'Geist',sans-serif;box-sizing:border-box">
+  <div style="padding:56px 20px 0;display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <h1 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:32px;letter-spacing:-0.02em">Salvos</h1>
+      <a href="Acompanhar.dc.html" style="height:44px;padding:0 16px;border-radius:999px;background:#262421;color:#F4F1EC;font-size:14px;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#FF4F81"></span>Acompanhando · 3</a>
+    </div>
+    <div role="tablist" aria-label="Tipo" style="display:flex;padding:4px;border-radius:16px;background:#262421">
+      <span role="tab" aria-selected="true" style="flex:1;height:44px;border-radius:12px;background:#121110;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center">Eventos</span>
+      <span role="tab" aria-selected="false" style="flex:1;height:44px;border-radius:12px;color:#A8A29A;font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:center">Casas</span>
+      <span role="tab" aria-selected="false" style="flex:1;height:44px;border-radius:12px;color:#A8A29A;font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:center">Artistas</span>
+    </div>
+  </div>
+
+  <div style="margin-top:12px;padding:0 20px;display:flex;flex-direction:column">
+    <div style="padding:12px 0 6px;font-size:14px;font-weight:600;color:#A8A29A">Esta semana</div>
+    <a href="EventoGordinho.dc.html" style="display:flex;gap:12px;align-items:center;min-height:92px;text-decoration:none;color:inherit;border-bottom:1px solid rgba(255,255,255,.08)">
+      <img src="art/gordinho.svg" alt="" style="flex:none;width:72px;height:72px;border-radius:16px;object-fit:cover">
+      <div style="flex:1;display:flex;flex-direction:column;gap:2px"><strong style="font-family:'Outfit',sans-serif;font-size:17px">Roda de Pagode</strong><span style="font-size:14px;color:#A8A29A">Gordinho · Praia do Canto</span><span style="font-family:'Geist Mono',monospace;font-size:14px">Sex, 23 out · 20h</span></div>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF4F81" stroke="#FF4F81" stroke-width="1.75" stroke-linejoin="round" role="img" aria-label="Salvo"><path d="M12 20s-7-4.400-7-10a4 4 0 0 1 7-2.400A4 4 0 0 1 19 10c0 5.600-7 10-7 10z"/></svg>
+    </a>
+    <a href="EventoBolt.dc.html" style="display:flex;gap:12px;align-items:center;min-height:92px;text-decoration:none;color:inherit;border-bottom:1px solid rgba(255,255,255,.08)">
+      <img src="art/bolt.svg" alt="" style="flex:none;width:72px;height:72px;border-radius:16px;object-fit:cover">
+      <div style="flex:1;display:flex;flex-direction:column;gap:2px"><strong style="font-family:'Outfit',sans-serif;font-size:17px">Lovy Bolt</strong><span style="font-size:14px;color:#A8A29A">Bolt · Jardim da Penha</span><span style="font-family:'Geist Mono',monospace;font-size:14px">Sáb, 24 out · 23h</span></div>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF4F81" stroke="#FF4F81" stroke-width="1.75" stroke-linejoin="round" role="img" aria-label="Salvo"><path d="M12 20s-7-4.400-7-10a4 4 0 0 1 7-2.400A4 4 0 0 1 19 10c0 5.600-7 10-7 10z"/></svg>
+    </a>
+    <div style="padding:16px 0 6px;font-size:14px;font-weight:600;color:#A8A29A">Mais tarde</div>
+    <a href="EventoSelva.dc.html" style="display:flex;gap:12px;align-items:center;min-height:92px;text-decoration:none;color:inherit">
+      <img src="art/selva.svg" alt="" style="flex:none;width:72px;height:72px;border-radius:16px;object-fit:cover">
+      <div style="flex:1;display:flex;flex-direction:column;gap:2px"><strong style="font-family:'Outfit',sans-serif;font-size:17px">Discotopia</strong><span style="font-size:14px;color:#A8A29A">A Selva · Centro</span><span style="font-family:'Geist Mono',monospace;font-size:14px">Sáb, 24 out · 22h</span></div>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF4F81" stroke="#FF4F81" stroke-width="1.75" stroke-linejoin="round" role="img" aria-label="Salvo"><path d="M12 20s-7-4.400-7-10a4 4 0 0 1 7-2.400A4 4 0 0 1 19 10c0 5.600-7 10-7 10z"/></svg>
+    </a>
+  </div>
+
+  <nav aria-label="Principal" style="position:absolute;left:0;right:0;bottom:0;height:84px;padding:0 12px 22px;box-sizing:border-box;background:#1B1A18;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-around">
+    <a href="HomeReal.dc.html" style="position:relative;width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#A8A29A;font-size:12px;font-weight:500;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.500"/><path d="M15.500 8.500l-2 5-5 2 2-5z"/></svg>Explorar</a>
+    <a href="MapaReal.dc.html" style="position:relative;width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#A8A29A;font-size:12px;font-weight:500;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l-5 2v12l5-2 6 2 5-2V5l-5 2z"/><path d="M9 5v12M15 7v12"/></svg>Mapa</a>
+    <a href="Salvos.dc.html" aria-current="page" style="position:relative;width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#FF4F81;font-size:12px;font-weight:600;text-decoration:none">
+      <span style="position:absolute;top:-4px;left:18px;right:18px;height:3px;border-radius:2px;background:#FF4F81"></span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16l-5-3.500L7 20z"/></svg>Salvos</a>
+    <a href="Perfil.dc.html" style="position:relative;width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#A8A29A;font-size:12px;font-weight:500;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.500" r="3.500"/><path d="M5 20c1-4 4-5.500 7-5.500s6 1.500 7 5.500"/></svg>Perfil</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Kit social</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+body{margin:0;background:#0E0D0C}
+</style>
+</helmet>
+<div style="width:1000px;height:760px;box-sizing:border-box;padding:40px;background:#0E0D0C;color:#F4F1EC;font-family:'Geist',sans-serif;display:flex;gap:40px;align-items:flex-start">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+      <symbol id="qn" viewBox="0 0 200 200">
+        <g transform="translate(88 88) rotate(-45)">
+          <g fill="none" stroke="#FF4F81" stroke-width="12" stroke-linecap="round" opacity=".6" filter="url(#glow)"><path d="M29.100 54.700A62 62 0 1 0 -29.100 54.700"/><path d="M29.100 54.700L21 72M-29.100 54.700L-21 72"/><rect x="-21" y="78" width="42" height="13" rx="6.500"/><rect x="-15" y="95" width="30" height="11" rx="5.500"/></g>
+          <g fill="none" stroke="#FF4F81" stroke-width="7" stroke-linecap="round"><path d="M29.100 54.700A62 62 0 1 0 -29.100 54.700"/><path d="M29.100 54.700L21 72M-29.100 54.700L-21 72"/><rect x="-21" y="78" width="42" height="13" rx="6.500"/><rect x="-15" y="95" width="30" height="11" rx="5.500"/></g>
+          <g fill="none" stroke="#FFC2D1" stroke-width="2.500" stroke-linecap="round"><path d="M29.100 54.700A62 62 0 1 0 -29.100 54.700"/><path d="M29.100 54.700L21 72M-29.100 54.700L-21 72"/><rect x="-21" y="78" width="42" height="13" rx="6.500"/><rect x="-15" y="95" width="30" height="11" rx="5.500"/></g>
+          <circle cx="0" cy="-2" r="22" fill="#F2A65A" opacity=".55" filter="url(#glow)"/><circle cx="0" cy="-2" r="11" fill="#F2A65A"/><circle cx="-3" cy="-5" r="4" fill="#FFE2A8"/>
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="font-size:14px;color:#A8A29A">Feed 4:5 (1080×1350)</div>
+    <div style="position:relative;width:540px;height:675px;overflow:hidden;border-radius:12px;background:#3A1220">
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 70% 25%,#6B1D3A 0%,#3A1220 60%,#241014 100%)"></div>
+      <svg width="260" height="260" viewBox="0 0 200 200" style="position:absolute;right:20px;top:20px" aria-hidden="true"><use href="#qn"/></svg>
+      <div style="position:absolute;left:36px;top:300px;right:36px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:64px;letter-spacing:-0.03em;line-height:1">Qual a boa<br>hoje<span style="color:#FF4F81">?</span></div>
+        <div style="font-size:18px;color:#FFC2D1">Sexta, 23 de outubro</div>
+      </div>
+      <div style="position:absolute;left:36px;right:36px;bottom:36px;display:flex;flex-direction:column;gap:0">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-top:1px solid rgba(255,194,209,.3)"><span style="font-family:'Outfit',sans-serif;font-weight:600;font-size:22px">Gordinho</span><span style="font-size:16px;color:#FFC2D1">Pagode · 20h</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-top:1px solid rgba(255,194,209,.3)"><span style="font-family:'Outfit',sans-serif;font-weight:600;font-size:22px">Bolt</span><span style="font-size:16px;color:#FFC2D1">Pop, indie, funk · 23h</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-top:1px solid rgba(255,194,209,.3)"><span style="font-family:'Outfit',sans-serif;font-weight:600;font-size:22px">A Selva</span><span style="font-size:16px;color:#FFC2D1">House e disco · 22h</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="font-size:14px;color:#A8A29A">Story 9:16 (1080×1920)</div>
+    <div style="position:relative;width:360px;height:640px;overflow:hidden;border-radius:12px;background:#1B2322">
+      <img src="art/bolt.svg" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover">
+      <div style="position:absolute;left:0;right:0;bottom:0;height:340px;background:linear-gradient(180deg,rgba(58,18,32,0),#3A1220 80%)"></div>
+      <span style="position:absolute;left:24px;top:28px;height:34px;padding:0 14px;border-radius:999px;background:#121110;color:#FF4F81;font-size:14px;font-weight:600;display:flex;align-items:center">Hoje · 23h</span>
+      <div style="position:absolute;left:24px;right:24px;bottom:100px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:52px;letter-spacing:-0.03em;line-height:1">Lovy Bolt</div>
+        <div style="font-size:18px;color:#FFC2D1">Bolt · Jardim da Penha</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:18px">R$ 30 · pop, indie, funk</div>
+      </div>
+      <div style="position:absolute;left:24px;right:24px;bottom:28px;height:52px;border-radius:16px;background:#FF4F81;color:#1A0A06;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center">Ver no app</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1000,"height":760}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

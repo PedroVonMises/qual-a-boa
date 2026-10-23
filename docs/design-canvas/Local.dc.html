@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Localização e estilos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+body{margin:0;background:#121110}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="position:relative;width:390px;height:844px;overflow:hidden;background:#121110;color:#F4F1EC;font-family:'Geist',sans-serif;box-sizing:border-box">
+  <div style="padding:56px 24px 0;display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <a href="Idade.dc.html" aria-label="Voltar" style="width:44px;height:44px;border-radius:50%;background:#262421;display:flex;align-items:center;justify-content:center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F1EC" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </a>
+      <span style="font-family:'Geist Mono',monospace;font-size:14px;color:#A8A29A">2 de 2</span>
+    </div>
+    <h1 style="margin:8px 0 0;font-family:'Outfit',sans-serif;font-weight:700;font-size:34px;letter-spacing:-0.02em;line-height:1.05">O que rola<br><span style="color:#FF4F81">perto de você</span></h1>
+    <p style="margin:0;font-size:16px;line-height:1.5;color:#A8A29A;max-width:330px">Usamos sua localização só para ordenar as casas por distância. Você pode mudar isso depois.</p>
+  </div>
+
+  <div style="margin:22px 24px 0;height:190px;border-radius:24px;background:#1B1A18;position:relative;overflow:hidden" aria-hidden="true">
+    <svg width="342" height="190" viewBox="0 0 342 190">
+      <g fill="none" stroke="#FF4F81"><circle cx="171" cy="95" r="34" stroke-opacity=".9" stroke-width="2"/><circle cx="171" cy="95" r="64" stroke-opacity=".5" stroke-width="2"/><circle cx="171" cy="95" r="94" stroke-opacity=".25" stroke-width="2"/></g>
+      <circle cx="171" cy="95" r="9" fill="#FF4F81"/>
+      <circle cx="120" cy="60" r="6" fill="#F4F1EC"/><circle cx="236" cy="70" r="6" fill="#F4F1EC"/><circle cx="214" cy="140" r="6" fill="#F4F1EC"/><circle cx="96" cy="124" r="6" fill="#F4F1EC"/>
+      <text x="171" y="40" text-anchor="middle" font-family="monospace" font-size="13" fill="#A8A29A">1 km</text>
+      <text x="171" y="10" text-anchor="middle" font-family="monospace" font-size="13" fill="#A8A29A">5 km</text>
+    </svg>
+  </div>
+
+  <div style="margin-top:22px;padding:0 24px;display:flex;flex-direction:column;gap:10px">
+    <div style="font-size:14px;font-weight:600;color:#A8A29A">Seus estilos <span style="font-weight:400">(opcional)</span></div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <span style="height:44px;padding:0 16px;border-radius:999px;background:#FF4F81;color:#1A0A06;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg>Pagode</span>
+      <span style="height:44px;padding:0 16px;border-radius:999px;background:#FF4F81;color:#1A0A06;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg>Funk</span>
+      <span style="height:44px;padding:0 16px;border-radius:999px;background:#262421;font-size:14px;font-weight:500;display:flex;align-items:center">Eletrônica</span>
+      <span style="height:44px;padding:0 16px;border-radius:999px;background:#262421;font-size:14px;font-weight:500;display:flex;align-items:center">Rock</span>
+      <span style="height:44px;padding:0 16px;border-radius:999px;background:#262421;font-size:14px;font-weight:500;display:flex;align-items:center">Sertanejo</span>
+      <span style="height:44px;padding:0 16px;border-radius:999px;background:#262421;font-size:14px;font-weight:500;display:flex;align-items:center">Pop</span>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:0 24px 34px;display:flex;flex-direction:column;gap:12px">
+    <a href="HomeReal.dc.html" style="height:52px;border-radius:16px;background:#FF4F81;color:#1A0A06;font-size:16px;font-weight:600;text-decoration:none;display:flex;align-items:center;justify-content:center">Usar minha localização</a>
+    <a href="HomeReal.dc.html" style="height:52px;border-radius:16px;background:#262421;color:#F4F1EC;font-size:16px;font-weight:600;text-decoration:none;display:flex;align-items:center;justify-content:center">Escolher o bairro</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

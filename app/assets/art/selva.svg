@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF4F81"/><stop offset=".55" stop-color="#8E2547"/><stop offset="1" stop-color="#241114"/></linearGradient>
+    <radialGradient id="ball" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FFE2A8"/><stop offset=".6" stop-color="#F2A65A"/><stop offset="1" stop-color="#9B5A2A"/></radialGradient>
+    <clipPath id="c"><circle cx="200" cy="190" r="74"/></clipPath>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="9"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0"/></filter>
+  </defs>
+  <rect width="400" height="500" fill="url(#bg)"/>
+  <g fill="#F4F1EC" opacity=".12">
+    <polygon points="200,190 -20,60 20,0 120,0"/><polygon points="200,190 420,60 380,0 280,0"/><polygon points="200,190 -20,300 -20,240"/><polygon points="200,190 420,300 420,240"/><polygon points="200,190 150,520 250,520"/>
+  </g>
+  <line x1="200" y1="0" x2="200" y2="116" stroke="#1A0A06" stroke-width="3"/>
+  <circle cx="200" cy="190" r="74" fill="url(#ball)"/>
+  <g clip-path="url(#c)" stroke="#5A2A1E" stroke-opacity=".45" stroke-width="2" fill="none">
+    <path d="M126 190H274M134 160H266M134 220H266M150 135H250M150 245H250"/>
+    <path d="M200 116V264M165 122Q150 190 165 258M235 122Q250 190 235 258M130 160Q118 190 130 220M270 160Q282 190 270 220"/>
+  </g>
+  <g fill="#1A0A06">
+    <ellipse cx="40" cy="430" rx="30" ry="120" transform="rotate(-28 40 430)"/><ellipse cx="86" cy="450" rx="26" ry="100" transform="rotate(12 86 450)"/><ellipse cx="14" cy="360" rx="22" ry="80" transform="rotate(-60 14 360)"/>
+    <ellipse cx="360" cy="430" rx="30" ry="120" transform="rotate(28 360 430)"/><ellipse cx="314" cy="450" rx="26" ry="100" transform="rotate(-12 314 450)"/><ellipse cx="386" cy="360" rx="22" ry="80" transform="rotate(60 386 360)"/>
+    <ellipse cx="200" cy="520" rx="150" ry="60"/>
+  </g>
+  <rect width="400" height="500" filter="url(#grain)"/>
+</svg>

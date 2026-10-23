@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Splash</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Geist:wght@400;500;600&display=swap">
+<style>
+body{margin:0;background:#3A1220}
+.draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 700ms cubic-bezier(.3,.7,.2,1) forwards}
+.d2{animation-delay:350ms}
+.d3{animation-delay:650ms}
+.core{opacity:0;animation:flick 650ms steps(1,end) 1000ms forwards}
+.word{opacity:0;transform:translateY(8px);animation:rise 500ms ease-out 1350ms forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes flick{0%{opacity:0}20%{opacity:1}35%{opacity:.2}55%{opacity:1}70%{opacity:.5}100%{opacity:1}}
+@keyframes rise{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){
+  .draw{animation:none;stroke-dashoffset:0}
+  .core{animation:none;opacity:1}
+  .word{animation:none;opacity:1;transform:none}
+}
+</style>
+</helmet>
+<div style="position:relative;width:390px;height:844px;overflow:hidden;background:#3A1220;color:#F4F1EC;font-family:'Geist',sans-serif;box-sizing:border-box">
+  <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 38%,#6B1D3A 0%,#3A1220 58%,#241014 100%)"></div>
+  <svg width="260" height="260" viewBox="0 0 200 200" style="position:absolute;left:65px;top:190px" role="img" aria-label="Qual a boa? Acende a noite.">
+    <defs><filter id="g" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter></defs>
+    <g transform="translate(88 88) rotate(-45)">
+      <g fill="none" stroke="#FF4F81" stroke-width="12" stroke-linecap="round" opacity=".5" filter="url(#g)">
+        <path d="M29.100 54.700A62 62 0 1 0 -29.100 54.700"/><path d="M29.100 54.700L21 72M-29.100 54.700L-21 72"/><rect x="-21" y="78" width="42" height="13" rx="6.500"/><rect x="-15" y="95" width="30" height="11" rx="5.500"/>
+      </g>
+      <g fill="none" stroke="#FF4F81" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+        <path class="draw" pathLength="1" d="M29.100 54.700A62 62 0 1 0 -29.100 54.700"/>
+        <path class="draw d2" pathLength="1" d="M29.100 54.700L21 72M-29.100 54.700L-21 72"/>
+        <rect class="draw d3" pathLength="1" x="-21" y="78" width="42" height="13" rx="6.500"/>
+        <rect class="draw d3" pathLength="1" x="-15" y="95" width="30" height="11" rx="5.500"/>
+      </g>
+      <g fill="none" stroke="#FFC2D1" stroke-width="2.500" stroke-linecap="round" stroke-linejoin="round">
+        <path class="draw" pathLength="1" d="M29.100 54.700A62 62 0 1 0 -29.100 54.700"/>
+        <path class="draw d2" pathLength="1" d="M29.100 54.700L21 72M-29.100 54.700L-21 72"/>
+        <rect class="draw d3" pathLength="1" x="-21" y="78" width="42" height="13" rx="6.500"/>
+        <rect class="draw d3" pathLength="1" x="-15" y="95" width="30" height="11" rx="5.500"/>
+      </g>
+      <g class="core"><circle cx="0" cy="-2" r="24" fill="#F2A65A" opacity=".55" filter="url(#g)"/><circle cx="0" cy="-2" r="12" fill="#F2A65A"/><circle cx="-3.500" cy="-5.500" r="4.500" fill="#FFE2A8"/></g>
+    </g>
+  </svg>
+  <div class="word" style="position:absolute;left:0;right:0;top:580px;display:flex;flex-direction:column;align-items:center;gap:10px">
+    <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:40px;letter-spacing:-0.02em;line-height:1">Qual a boa?</div>
+    <div style="font-size:16px;color:#FFC2D1">Acende a noite.</div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:44px;text-align:center;font-size:14px;color:#FFC2D1;opacity:.85">Vitória · ES</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

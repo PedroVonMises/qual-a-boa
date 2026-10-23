@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Ao vivo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+body{margin:0;background:#121110}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="position:relative;width:390px;height:844px;overflow:hidden;background:#121110;color:#F4F1EC;font-family:'Geist',sans-serif;box-sizing:border-box">
+  <div style="position:relative;height:210px;background:#1B2322;overflow:hidden">
+    <div style="position:absolute;inset:0;background:linear-gradient(165deg,#FF4F81 0%,#9B2A4C 50%,#2A1418 100%)"></div>
+    <div style="position:absolute;right:-30px;top:20px;width:200px;height:200px;border-radius:50%;background:#F2A65A;opacity:.85"></div>
+    <a href="Acompanhar.dc.html" aria-label="Voltar" style="position:absolute;left:16px;top:52px;width:44px;height:44px;border-radius:50%;background:rgba(18,17,16,.55);display:flex;align-items:center;justify-content:center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F1EC" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+    <div style="position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(180deg,rgba(18,17,16,0),#121110)"></div>
+  </div>
+
+  <div style="margin-top:-52px;position:relative;padding:0 20px;display:flex;flex-direction:column;gap:6px">
+    <span style="align-self:flex-start;height:28px;padding:0 12px;border-radius:999px;background:#121110;color:#FF4F81;font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#FF4F81"></span>Ao vivo</span>
+    <h1 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:30px;letter-spacing:-0.02em;line-height:1.05">Noite do Pagodão</h1>
+    <div style="font-size:14px;color:#A8A29A">Casa Maré · aberto agora até 03h · exemplo ilustrativo</div>
+  </div>
+
+  <div style="margin:16px 20px 0;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div style="padding:14px;border-radius:20px;background:#1B1A18;display:flex;flex-direction:column;gap:6px">
+      <span style="font-size:14px;color:#A8A29A">Fila</span>
+      <strong style="font-family:'Outfit',sans-serif;font-size:22px">Curta</strong>
+      <span style="font-family:'Geist Mono',monospace;font-size:14px">~10 min</span>
+    </div>
+    <div style="padding:14px;border-radius:20px;background:#1B1A18;display:flex;flex-direction:column;gap:6px">
+      <span style="font-size:14px;color:#A8A29A">Lotação</span>
+      <strong style="font-family:'Outfit',sans-serif;font-size:22px">Cheia</strong>
+      <div style="display:flex;gap:4px" aria-label="4 de 5">
+        <span style="flex:1;height:8px;border-radius:4px;background:#FF4F81"></span><span style="flex:1;height:8px;border-radius:4px;background:#FF4F81"></span><span style="flex:1;height:8px;border-radius:4px;background:#FF4F81"></span><span style="flex:1;height:8px;border-radius:4px;background:#FF4F81"></span><span style="flex:1;height:8px;border-radius:4px;background:#262421"></span>
+      </div>
+    </div>
+    <div style="padding:14px;border-radius:20px;background:#1B1A18;display:flex;flex-direction:column;gap:6px">
+      <span style="font-size:14px;color:#A8A29A">Tocando agora</span>
+      <strong style="font-family:'Outfit',sans-serif;font-size:18px;line-height:1.2">Pagode e samba</strong>
+    </div>
+    <div style="padding:14px;border-radius:20px;background:#1B1A18;display:flex;flex-direction:column;gap:6px">
+      <span style="font-size:14px;color:#A8A29A">Na porta</span>
+      <strong style="font-family:'Geist Mono',monospace;font-size:20px;font-weight:500">R$ 30</strong>
+    </div>
+  </div>
+  <div style="margin:10px 20px 0;font-size:14px;color:#A8A29A;line-height:1.4">Relatos de 14 pessoas, o último há 12 min. Pode estar desatualizado.</div>
+
+  <div style="margin:14px 20px 0;display:flex;gap:10px">
+    <button style="flex:1;height:48px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:none;color:#F4F1EC;font-size:14px;font-weight:600">Fila mudou</button>
+    <button style="flex:1;height:48px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:none;color:#F4F1EC;font-size:14px;font-weight:600">Lotou</button>
+    <button style="flex:1;height:48px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:none;color:#F4F1EC;font-size:14px;font-weight:600">Música</button>
+  </div>
+
+  <div style="margin:18px 20px 0;display:flex;flex-direction:column">
+    <h2 style="margin:0 0 4px;font-family:'Outfit',sans-serif;font-weight:600;font-size:18px">Antes de sair</h2>
+    <div style="display:flex;align-items:center;gap:12px;min-height:48px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4FB286" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.500l3 3 5-6"/></svg><span style="font-size:16px">Documento com foto (18+)</span></div>
+    <div style="display:flex;align-items:center;gap:12px;min-height:48px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4FB286" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.500l3 3 5-6"/></svg><span style="font-size:16px">Ingresso salvo no celular</span></div>
+  </div>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 30px;box-sizing:border-box;background:#121110;border-top:1px solid rgba(255,255,255,.08);display:flex;gap:12px">
+    <button style="flex:none;height:52px;padding:0 18px;border-radius:16px;border:0;background:#262421;color:#F4F1EC;font-size:16px;font-weight:600">Como chegar</button>
+    <a href="AoVivo.dc.html" style="flex:1;height:52px;border-radius:16px;background:#FF4F81;color:#1A0A06;font-size:16px;font-weight:600;text-decoration:none;display:flex;align-items:center;justify-content:center">Estou aqui</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

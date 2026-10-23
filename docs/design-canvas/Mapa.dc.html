@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Mapa</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+body{margin:0;background:#121110}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="position:relative;width:390px;height:844px;overflow:hidden;background:#171614;color:#F4F1EC;font-family:'Geist',sans-serif;box-sizing:border-box">
+  <svg width="390" height="560" viewBox="0 0 390 560" style="position:absolute;left:0;top:0" aria-hidden="true">
+    <rect width="390" height="560" fill="#171614"/>
+    <path d="M0 470 Q90 430 170 470 T390 440 V560 H0z" fill="#1E2A2B"/>
+    <g stroke="#2A2825" stroke-width="10" fill="none" stroke-linecap="round">
+      <path d="M-10 120 L400 180"/><path d="M40 -10 L120 570"/><path d="M-10 300 L400 330"/><path d="M250 -10 L300 420"/>
+    </g>
+    <g stroke="#232120" stroke-width="4" fill="none">
+      <path d="M-10 210 L400 250"/><path d="M180 -10 L200 400"/><path d="M-10 390 L300 400"/><path d="M340 -10 L370 400"/>
+    </g>
+  </svg>
+
+  <div style="position:absolute;left:20px;right:20px;top:56px;display:flex;gap:10px">
+    <label style="flex:1;display:flex;align-items:center;gap:10px;height:48px;padding:0 16px;border-radius:16px;background:#262421;box-shadow:0 6px 18px rgba(0,0,0,.35)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A8A29A" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.500"/><path d="M16 16l4 4"/></svg>
+      <input aria-label="Buscar" placeholder="Buscar nesta área" style="flex:1;background:none;border:0;outline:0;color:#F4F1EC;font-family:'Geist',sans-serif;font-size:16px">
+    </label>
+    <button aria-label="Filtros" style="width:48px;height:48px;border-radius:16px;border:0;background:#FF4F81;display:flex;align-items:center;justify-content:center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A0A06" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+    </button>
+  </div>
+
+  <div style="position:absolute;left:92px;top:200px;display:flex;flex-direction:column;align-items:center">
+    <span style="height:32px;padding:0 12px;border-radius:999px;background:#FF4F81;color:#1A0A06;font-family:'Geist Mono',monospace;font-size:14px;font-weight:500;display:flex;align-items:center">R$ 35</span>
+    <span style="width:2px;height:8px;background:#FF4F81"></span>
+  </div>
+  <div style="position:absolute;left:230px;top:280px;display:flex;flex-direction:column;align-items:center">
+    <span style="height:32px;padding:0 12px;border-radius:999px;background:#F4F1EC;color:#121110;font-family:'Geist Mono',monospace;font-size:14px;font-weight:500;display:flex;align-items:center">R$ 20</span>
+    <span style="width:2px;height:8px;background:#F4F1EC"></span>
+  </div>
+  <div style="position:absolute;left:150px;top:380px;display:flex;flex-direction:column;align-items:center">
+    <span style="height:32px;padding:0 12px;border-radius:999px;background:#F4F1EC;color:#121110;font-family:'Geist Mono',monospace;font-size:14px;font-weight:500;display:flex;align-items:center">Grátis</span>
+    <span style="width:2px;height:8px;background:#F4F1EC"></span>
+  </div>
+  <div style="position:absolute;left:290px;top:170px;display:flex;flex-direction:column;align-items:center">
+    <span style="height:32px;padding:0 12px;border-radius:999px;background:#F4F1EC;color:#121110;font-family:'Geist Mono',monospace;font-size:14px;font-weight:500;display:flex;align-items:center">R$ 60</span>
+    <span style="width:2px;height:8px;background:#F4F1EC"></span>
+  </div>
+  <div style="position:absolute;left:187px;top:332px;width:18px;height:18px;border-radius:50%;background:#4F8CFF;border:3px solid #F4F1EC;box-shadow:0 0 0 8px rgba(79,140,255,.22)" aria-label="Você está aqui"></div>
+
+  <section aria-label="Eventos nesta área" style="position:absolute;left:0;right:0;bottom:84px;height:300px;box-sizing:border-box;background:#1B1A18;border-radius:28px 28px 0 0;padding:12px 20px 0;display:flex;flex-direction:column;gap:12px">
+    <div style="align-self:center;width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.2)"></div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline">
+      <h2 style="margin:0;font-family:'Outfit',sans-serif;font-weight:600;font-size:20px">Nesta área</h2>
+      <span style="font-size:14px;color:#A8A29A">9 eventos</span>
+    </div>
+    <a href="Evento.dc.html" style="display:flex;gap:12px;text-decoration:none;color:inherit;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)">
+      <div style="flex:none;width:88px;height:88px;border-radius:16px;background:linear-gradient(160deg,#FF4F81,#2A1418)"></div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:3px">
+        <strong style="font-family:'Outfit',sans-serif;font-size:17px">Noite do Pagodão</strong>
+        <span style="font-size:14px;color:#A8A29A">Casa Maré · Pagode</span>
+        <span style="font-family:'Geist Mono',monospace;font-size:14px">R$ 35 · 1,2 km · 23h</span>
+      </div>
+    </a>
+    <a href="Evento.dc.html" style="display:flex;gap:12px;text-decoration:none;color:inherit">
+      <div style="flex:none;width:88px;height:88px;border-radius:16px;background:linear-gradient(160deg,#F2A65A,#1D1513)"></div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:3px">
+        <strong style="font-family:'Outfit',sans-serif;font-size:17px">Baile do Porão</strong>
+        <span style="font-size:14px;color:#A8A29A">Porão 27 · Funk</span>
+        <span style="font-family:'Geist Mono',monospace;font-size:14px">R$ 20 · 2,8 km · 22h</span>
+      </div>
+    </a>
+  </section>
+
+  <nav aria-label="Principal" style="position:absolute;left:0;right:0;bottom:0;height:84px;padding:0 12px 22px;box-sizing:border-box;background:#1B1A18;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-around">
+    <a href="Main.dc.html" style="width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#A8A29A;font-size:12px;font-weight:500;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.500"/><path d="M15.500 8.500l-2 5-5 2 2-5z"/></svg>Explorar</a>
+    <a href="Mapa.dc.html" style="width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#FF4F81;font-size:12px;font-weight:600;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l-5 2v12l5-2 6 2 5-2V5l-5 2z"/><path d="M9 5v12M15 7v12"/></svg>Mapa</a>
+    <a href="Main.dc.html" style="width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#A8A29A;font-size:12px;font-weight:500;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16l-5-3.500L7 20z"/></svg>Salvos</a>
+    <a href="Main.dc.html" style="width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#A8A29A;font-size:12px;font-weight:500;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.500" r="3.500"/><path d="M5 20c1-4 4-5.500 7-5.500s6 1.500 7 5.500"/></svg>Perfil</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

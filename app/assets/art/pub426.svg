@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A1418"/><stop offset="1" stop-color="#14100F"/></linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2A65A"/><stop offset="1" stop-color="#FF4F81"/></linearGradient>
+    <clipPath id="sc"><circle cx="200" cy="230" r="128"/></clipPath>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="6"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0"/></filter>
+  </defs>
+  <rect width="400" height="500" fill="url(#bg)"/>
+  <circle cx="200" cy="230" r="128" fill="url(#sun)"/>
+  <g clip-path="url(#sc)" fill="#2A1418">
+    <rect x="60" y="240" width="280" height="8"/><rect x="60" y="270" width="280" height="12"/><rect x="60" y="304" width="280" height="16"/><rect x="60" y="340" width="280" height="20"/>
+  </g>
+  <text x="200" y="160" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="64" fill="none" stroke="#F4F1EC" stroke-width="3" letter-spacing="4">426</text>
+  <g stroke="#F4F1EC" stroke-opacity=".35" stroke-width="2"><line x1="0" y1="400" x2="400" y2="400"/><line x1="200" y1="400" x2="-60" y2="500"/><line x1="200" y1="400" x2="60" y2="500"/><line x1="200" y1="400" x2="200" y2="500"/><line x1="200" y1="400" x2="340" y2="500"/><line x1="200" y1="400" x2="460" y2="500"/><line x1="0" y1="440" x2="400" y2="440"/><line x1="0" y1="475" x2="400" y2="475"/></g>
+  <g fill="#0B0A09">
+    <path d="M70 500V330L58 316L82 316L70 330" opacity="0"/>
+    <rect x="48" y="300" width="8" height="200"/><ellipse cx="52" cy="292" rx="16" ry="20"/><path d="M52 320Q70 360 96 360" stroke="#0B0A09" stroke-width="6" fill="none"/>
+    <path d="M300 500L330 330L348 336L330 500Z"/><ellipse cx="352" cy="310" rx="34" ry="24" transform="rotate(-30 352 310)"/><rect x="336" y="212" width="8" height="120" transform="rotate(25 340 270)"/>
+  </g>
+  <rect width="400" height="500" filter="url(#grain)"/>
+</svg>

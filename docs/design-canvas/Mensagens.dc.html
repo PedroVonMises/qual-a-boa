@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Mensagens</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+body{margin:0;background:#121110}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="position:relative;width:390px;height:844px;overflow:hidden;background:#121110;color:#F4F1EC;font-family:'Geist',sans-serif;box-sizing:border-box">
+  <div style="padding:56px 20px 0;display:flex;align-items:center;gap:12px">
+    <a href="Ajuda.dc.html" aria-label="Voltar" style="flex:none;width:44px;height:44px;border-radius:50%;background:#262421;display:flex;align-items:center;justify-content:center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F1EC" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+    <h1 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:30px;letter-spacing:-0.02em">Mensagens</h1>
+  </div>
+
+  <div role="tablist" aria-label="Filtro" style="margin:16px 20px 0;display:flex;padding:4px;border-radius:16px;background:#262421">
+    <span role="tab" aria-selected="true" style="flex:1;height:44px;border-radius:12px;background:#121110;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center">Abertos · 2</span>
+    <span role="tab" aria-selected="false" style="flex:1;height:44px;border-radius:12px;color:#A8A29A;font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:center">Resolvidos</span>
+  </div>
+
+  <div style="margin:8px 20px 0;display:flex;flex-direction:column">
+    <a href="Suporte.dc.html" style="display:flex;gap:12px;align-items:flex-start;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:inherit">
+      <span style="flex:none;width:44px;height:44px;border-radius:50%;background:#262421;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F1EC" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 16 0v4a2 2 0 0 1-2 2h-1v-6h3M4 12v0h3v6H6a2 2 0 0 1-2-2z"/></svg></span>
+      <div style="flex:1;display:flex;flex-direction:column;gap:3px;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px"><strong style="font-size:16px;font-weight:600">Ingresso não abre</strong><span style="height:22px;padding:0 8px;border-radius:999px;background:#2A2118;color:#F2A65A;font-size:12px;font-weight:600;display:flex;align-items:center">Respondido</span></div>
+        <span style="font-size:14px;color:#F4F1EC;line-height:1.4">Equipe: Conseguimos reenviar o link. Pode tentar de novo?</span>
+        <span style="font-size:14px;color:#A8A29A">Chamado nº 4821 · há 1 h</span>
+      </div>
+      <span style="flex:none;margin-top:8px;width:10px;height:10px;border-radius:50%;background:#FF4F81" aria-label="Não lida"></span>
+    </a>
+    <a href="Suporte.dc.html" style="display:flex;gap:12px;align-items:flex-start;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;color:inherit">
+      <span style="flex:none;width:44px;height:44px;border-radius:50%;background:#262421;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F1EC" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.200 7-11.500A7 7 0 0 0 5 9.500C5 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg></span>
+      <div style="flex:1;display:flex;flex-direction:column;gap:3px;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px"><strong style="font-size:16px;font-weight:500">Endereço errado</strong><span style="height:22px;padding:0 8px;border-radius:999px;background:#262421;color:#A8A29A;font-size:12px;font-weight:600;display:flex;align-items:center;white-space:nowrap">Em análise</span></div>
+        <span style="font-size:14px;color:#A8A29A;line-height:1.4">Você: Mandei uma foto da fachada.</span>
+        <span style="font-size:14px;color:#A8A29A">Chamado nº 4790 · ontem</span>
+      </div>
+    </a>
+  </div>
+
+  <div style="margin:22px 20px 0;padding:16px;border-radius:20px;background:#1B1A18;display:flex;flex-direction:column;gap:6px">
+    <strong style="font-family:'Outfit',sans-serif;font-size:17px">Quanto tempo leva?</strong>
+    <span style="font-size:14px;color:#A8A29A;line-height:1.5">Respondemos em até 2 h, de seg a sáb, das 10h às 22h. Fora desse horário, a resposta vem no próximo dia útil.</span>
+  </div>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 30px;box-sizing:border-box;background:#121110;border-top:1px solid rgba(255,255,255,.08)">
+    <a href="NovoChamado.dc.html" style="height:52px;border-radius:16px;background:#FF4F81;color:#1A0A06;font-size:16px;font-weight:600;text-decoration:none;display:flex;align-items:center;justify-content:center">Novo chamado</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

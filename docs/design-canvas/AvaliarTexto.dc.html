@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Conte mais</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+body{margin:0;background:#121110}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="position:relative;width:390px;height:844px;overflow:hidden;background:#121110;color:#F4F1EC;font-family:'Geist',sans-serif;box-sizing:border-box">
+  <div style="padding:56px 20px 0;display:flex;align-items:center;justify-content:space-between">
+    <a href="Avaliar.dc.html" aria-label="Voltar" style="width:44px;height:44px;border-radius:50%;background:#262421;display:flex;align-items:center;justify-content:center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F1EC" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+    <span style="font-family:'Geist Mono',monospace;font-size:14px;color:#A8A29A">2 de 2</span>
+  </div>
+
+  <div style="padding:22px 20px 0;display:flex;flex-direction:column;gap:8px">
+    <h1 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:30px;letter-spacing:-0.02em;line-height:1.1">Conte mais</h1>
+    <p style="margin:0;font-size:16px;line-height:1.5;color:#A8A29A">Opcional. Seu relato ajuda quem vai decidir onde sair.</p>
+  </div>
+
+  <div style="padding:18px 20px 0;display:flex;flex-direction:column;gap:6px">
+    <label for="rel" style="font-size:14px;font-weight:600;color:#A8A29A">Sua avaliação</label>
+    <div style="min-height:150px;padding:14px 16px;border-radius:16px;background:#262421;border:2px solid #FF4F81;box-sizing:border-box;font-size:16px;line-height:1.5">Som muito bom e DJ acertou no repertório. A fila no começo foi grande, mas andou rápido<span style="display:inline-block;width:2px;height:18px;background:#FF4F81;vertical-align:middle;margin-left:2px"></span></div>
+    <div style="display:flex;justify-content:space-between;font-size:14px;color:#A8A29A"><span>Evite dados pessoais de terceiros.</span><span style="font-family:'Geist Mono',monospace">96/500</span></div>
+  </div>
+
+  <div style="padding:16px 20px 0;display:flex;flex-direction:column;gap:4px">
+    <button style="height:52px;border-radius:16px;border:1px dashed rgba(255,255,255,.3);background:none;color:#F4F1EC;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="12" cy="12" r="3.500"/></svg>Adicionar foto</button>
+    <span style="font-size:14px;color:#A8A29A">Só fotos tiradas por você. Sem rostos de outras pessoas.</span>
+  </div>
+
+  <div style="margin:18px 20px 0;display:flex;align-items:center;gap:12px;min-height:60px;border-top:1px solid rgba(255,255,255,.08)">
+    <div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-size:16px">Publicar sem meu nome</span><span style="font-size:14px;color:#A8A29A">Aparece como "Frequentador"</span></div>
+    <span role="switch" aria-checked="false" aria-label="Publicar sem meu nome" style="width:52px;height:32px;border-radius:16px;background:#262421;position:relative;border:1px solid rgba(255,255,255,.16);box-sizing:border-box"><span style="position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:#A8A29A"></span></span>
+  </div>
+  <div style="margin:0 20px;font-size:14px;color:#A8A29A;line-height:1.5">Avaliações passam por revisão antes de aparecer. Só quem foi ao evento pode avaliar.</div>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 30px;box-sizing:border-box;background:#121110;border-top:1px solid rgba(255,255,255,.08);display:flex;gap:12px">
+    <a href="Avaliacoes.dc.html" style="flex:none;height:52px;padding:0 20px;border-radius:16px;background:#262421;color:#F4F1EC;font-size:16px;font-weight:600;text-decoration:none;display:flex;align-items:center">Pular</a>
+    <a href="Avaliacoes.dc.html" style="flex:1;height:52px;border-radius:16px;background:#FF4F81;color:#1A0A06;font-size:16px;font-weight:600;text-decoration:none;display:flex;align-items:center;justify-content:center">Enviar avaliação</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Explorar Vitória</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+body{margin:0;background:#121110}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="position:relative;width:390px;height:844px;overflow:hidden;background:#121110;color:#F4F1EC;font-family:'Geist',sans-serif;box-sizing:border-box">
+  <div style="padding:56px 20px 0;display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <button style="display:flex;align-items:center;gap:8px;height:44px;padding:0 4px;background:none;border:0;color:#F4F1EC;font-size:14px;font-weight:500">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF4F81" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.200 7-11.500A7 7 0 0 0 5 9.500C5 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg>
+        <span>Praia do Canto, Vitória</span>
+        <span style="color:#A8A29A;font-family:'Geist Mono',monospace">5 km</span>
+      </button>
+      <button aria-label="Filtros" style="width:44px;height:44px;border-radius:14px;background:#262421;border:0;display:flex;align-items:center;justify-content:center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F1EC" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+      </button>
+    </div>
+    <h1 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:32px;letter-spacing:-0.02em;line-height:1.05">Qual a boa <span style="color:#FF4F81">hoje?</span></h1>
+    <label style="display:flex;align-items:center;gap:10px;height:48px;padding:0 16px;border-radius:16px;background:#262421">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A8A29A" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.500"/><path d="M16 16l4 4"/></svg>
+      <input aria-label="Buscar" placeholder="Bolt, A Selva, Pub 426..." style="flex:1;background:none;border:0;outline:0;color:#F4F1EC;font-family:'Geist',sans-serif;font-size:16px">
+    </label>
+  </div>
+
+  <div style="margin-top:16px;padding:0 20px;display:flex;gap:8px;overflow:hidden;white-space:nowrap">
+    <span style="flex:none;height:44px;padding:0 18px;border-radius:999px;background:#FF4F81;color:#1A0A06;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg>Tudo</span>
+    <span style="flex:none;height:44px;padding:0 18px;border-radius:999px;background:#262421;font-size:14px;font-weight:500;display:flex;align-items:center">Funk</span>
+    <span style="flex:none;height:44px;padding:0 18px;border-radius:999px;background:#262421;font-size:14px;font-weight:500;display:flex;align-items:center">Pagode</span>
+    <span style="flex:none;height:44px;padding:0 18px;border-radius:999px;background:#262421;font-size:14px;font-weight:500;display:flex;align-items:center">Eletrônica</span>
+    <span style="flex:none;height:44px;padding:0 18px;border-radius:999px;background:#262421;font-size:14px;font-weight:500;display:flex;align-items:center">Rock</span>
+  </div>
+
+  <div style="margin-top:20px;padding:0 20px;display:flex;align-items:baseline;justify-content:space-between">
+    <h2 style="margin:0;font-family:'Outfit',sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.01em">Hoje à noite</h2>
+    <span style="font-size:14px;color:#A8A29A">qui, 22 out</span>
+  </div>
+
+  <div style="margin-top:12px;padding:0 20px;display:flex;gap:12px;overflow:hidden">
+    <a href="EventoBolt.dc.html" style="flex:none;position:relative;display:block;width:264px;height:240px;border-radius:24px;overflow:hidden;background:#14100F;color:inherit;text-decoration:none">
+      <img src="art/pub426.svg" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover">
+      <span style="position:absolute;left:14px;top:14px;height:28px;padding:0 12px;border-radius:999px;background:#121110;color:#FF4F81;font-size:12px;font-weight:600;display:flex;align-items:center">Hoje · 21h</span>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:48px 16px 16px;background:linear-gradient(180deg,rgba(18,17,16,0),rgba(18,17,16,.9));display:flex;flex-direction:column;gap:4px">
+        <h3 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:20px;line-height:1.1">Noite 80s e 90s</h3>
+        <div style="font-size:14px;color:#E4DFD8">Pub 426 · Praia do Canto</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:14px;font-weight:500">R$ 20 · ~0,5 km</div>
+      </div>
+    </a>
+    <a href="EventoSelva.dc.html" style="flex:none;position:relative;display:block;width:264px;height:240px;border-radius:24px;overflow:hidden;background:#8E2547;color:inherit;text-decoration:none">
+      <img src="art/selva.svg" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover">
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:48px 16px 16px;background:linear-gradient(180deg,rgba(18,17,16,0),rgba(18,17,16,.9));display:flex;flex-direction:column;gap:4px">
+        <h3 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:20px;line-height:1.1">Discotopia</h3>
+        <div style="font-size:14px;color:#E4DFD8">A Selva · Centro</div>
+      </div>
+    </a>
+  </div>
+
+  <div style="margin-top:20px;padding:0 20px;display:flex;align-items:baseline;justify-content:space-between">
+    <h2 style="margin:0;font-family:'Outfit',sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.01em">Este fim de semana</h2>
+    <span style="font-size:14px;color:#A8A29A">ver todos</span>
+  </div>
+  <div style="margin-top:6px;padding:0 20px;display:flex;flex-direction:column">
+    <a href="EventoGordinho.dc.html" style="display:flex;gap:12px;align-items:center;min-height:76px;text-decoration:none;color:inherit;border-bottom:1px solid rgba(255,255,255,.08)">
+      <img src="art/gordinho.svg" alt="" style="flex:none;width:60px;height:60px;border-radius:14px;object-fit:cover">
+      <div style="flex:1;display:flex;flex-direction:column;gap:2px"><strong style="font-family:'Outfit',sans-serif;font-size:17px">Roda de Pagode</strong><span style="font-size:14px;color:#A8A29A">Gordinho · Pagode</span></div>
+      <span style="font-family:'Geist Mono',monospace;font-size:14px">R$ 30</span>
+    </a>
+    <a href="EventoBolt.dc.html" style="display:flex;gap:12px;align-items:center;min-height:76px;text-decoration:none;color:inherit">
+      <img src="art/bolt.svg" alt="" style="flex:none;width:60px;height:60px;border-radius:14px;object-fit:cover">
+      <div style="flex:1;display:flex;flex-direction:column;gap:2px"><strong style="font-family:'Outfit',sans-serif;font-size:17px">Lovy Bolt</strong><span style="font-size:14px;color:#A8A29A">Bolt · Pop, indie, funk</span></div>
+      <span style="font-family:'Geist Mono',monospace;font-size:14px">R$ 30</span>
+    </a>
+  </div>
+
+  <nav aria-label="Principal" style="position:absolute;left:0;right:0;bottom:0;height:84px;padding:0 12px 22px;box-sizing:border-box;background:#1B1A18;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-around">
+    <a href="HomeReal.dc.html" aria-current="page" style="position:relative;width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#FF4F81;font-size:12px;font-weight:600;text-decoration:none">
+      <span style="position:absolute;top:-4px;left:18px;right:18px;height:3px;border-radius:2px;background:#FF4F81"></span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.500"/><path d="M15.500 8.500l-2 5-5 2 2-5z"/></svg>Explorar</a>
+    <a href="MapaReal.dc.html" style="width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#A8A29A;font-size:12px;font-weight:500;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l-5 2v12l5-2 6 2 5-2V5l-5 2z"/><path d="M9 5v12M15 7v12"/></svg>Mapa</a>
+    <a href="Salvos.dc.html" style="width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#A8A29A;font-size:12px;font-weight:500;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16l-5-3.500L7 20z"/></svg>Salvos</a>
+    <a href="Perfil.dc.html" style="width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#A8A29A;font-size:12px;font-weight:500;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.500" r="3.500"/><path d="M5 20c1-4 4-5.500 7-5.500s6 1.500 7 5.500"/></svg>Perfil</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

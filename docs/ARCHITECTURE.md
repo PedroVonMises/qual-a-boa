@@ -43,3 +43,6 @@ Need a new dependency? Do not edit package.json. Put it in your report; the orch
 
 ## Commands (run in `app/`)
 `npm run typecheck` · `npm run lint` · `npm test` · `npm run test:sql` · `npm run seed` · `npx expo export --platform web` · `npx expo start --web`
+
+## Visual spec
+`docs/design-canvas/*.dc.html` are the design mockups (static HTML, open through a local http server). Screen map: Main/Filtros/Mapa/Evento/Casa = generic; HomeReal, FiltrosReal, MapaReal, Evento{Bolt,Selva,Gordinho}, Casa{Bolt,Selva,Gordinho,Caipora} = real-venue variants (R1-R10); Idade, Local, Salvos, Perfil, Artista, Vazio, Web = N1-N7; Acompanhar, Avisos, AoVivo, Avaliar, AvaliarTexto, Avaliacoes, Ajuda, Mensagens, Suporte, NovoChamado = U1-U10; Marca/Marca2/Splash/Social/Aplicacoes = brand. Cover art SVGs: `app/assets/art/*.svg`, brand marks: `app/assets/brand/`.

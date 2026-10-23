@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Explorar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+body{margin:0;background:#121110}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="position:relative;width:390px;height:844px;overflow:hidden;background:#121110;color:#F4F1EC;font-family:'Geist',sans-serif;box-sizing:border-box">
+  <div style="padding:56px 20px 0;display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <button style="display:flex;align-items:center;gap:8px;height:44px;padding:0 4px;background:none;border:0;color:#F4F1EC;font-size:14px;font-weight:500">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF4F81" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+        <span>Praia do Canto, Vitória</span>
+        <span style="color:#A8A29A;font-family:'Geist Mono',monospace">5 km</span>
+      </button>
+      <button aria-label="Filtros" style="width:44px;height:44px;border-radius:14px;background:#262421;border:0;display:flex;align-items:center;justify-content:center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F1EC" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+      </button>
+    </div>
+    <h1 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:34px;letter-spacing:-0.02em;line-height:1.05">Qual a boa<br><span style="color:#FF4F81">hoje à noite?</span></h1>
+    <label style="display:flex;align-items:center;gap:10px;height:48px;padding:0 16px;border-radius:16px;background:#262421">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A8A29A" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg>
+      <input aria-label="Buscar" placeholder="Casa, artista ou estilo" style="flex:1;background:none;border:0;outline:0;color:#F4F1EC;font-family:'Geist',sans-serif;font-size:16px">
+    </label>
+  </div>
+
+  <div style="margin-top:16px;padding:0 20px;display:flex;gap:8px;overflow:hidden;white-space:nowrap">
+    <span style="flex:none;height:40px;padding:0 18px;border-radius:999px;background:#FF4F81;color:#1A0A06;font-size:14px;font-weight:600;display:flex;align-items:center">Tudo</span>
+    <span style="flex:none;height:40px;padding:0 18px;border-radius:999px;background:#262421;color:#F4F1EC;font-size:14px;font-weight:500;display:flex;align-items:center">Funk</span>
+    <span style="flex:none;height:40px;padding:0 18px;border-radius:999px;background:#262421;color:#F4F1EC;font-size:14px;font-weight:500;display:flex;align-items:center">Sertanejo</span>
+    <span style="flex:none;height:40px;padding:0 18px;border-radius:999px;background:#262421;color:#F4F1EC;font-size:14px;font-weight:500;display:flex;align-items:center">Pagode</span>
+    <span style="flex:none;height:40px;padding:0 18px;border-radius:999px;background:#262421;color:#F4F1EC;font-size:14px;font-weight:500;display:flex;align-items:center">Eletrônica</span>
+  </div>
+
+  <div style="margin-top:22px;padding:0 20px;display:flex;align-items:baseline;justify-content:space-between">
+    <h2 style="margin:0;font-family:'Outfit',sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.01em">Hoje à noite</h2>
+    <span style="font-size:14px;color:#A8A29A">12 eventos</span>
+  </div>
+
+  <div style="margin-top:12px;padding:0 20px;display:flex;gap:12px;overflow:hidden">
+    <article style="flex:none;position:relative;width:280px;height:330px;border-radius:24px;overflow:hidden;background:linear-gradient(165deg,#FF4F81 0%,#9B2A4C 48%,#2A1418 100%)">
+      <div style="position:absolute;right:-50px;top:30px;width:220px;height:220px;border-radius:50%;background:#F2A65A;opacity:.85"></div>
+      <div style="position:absolute;left:20px;top:46px;width:120px;height:120px;border-radius:50%;border:2px solid rgba(244,241,236,.55)"></div>
+      <button aria-label="Salvar" style="position:absolute;right:12px;top:12px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(18,17,16,.55);display:flex;align-items:center;justify-content:center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F1EC" stroke-width="1.75" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.4A4 4 0 0 1 19 10c0 5.600-7 10-7 10z"/></svg>
+      </button>
+      <span style="position:absolute;left:16px;top:16px;height:28px;padding:0 12px;border-radius:999px;background:#121110;color:#FF4F81;font-size:12px;font-weight:600;display:flex;align-items:center">Hoje · 23h</span>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:56px 18px 18px;background:linear-gradient(180deg,rgba(18,17,16,0),rgba(18,17,16,.88));display:flex;flex-direction:column;gap:6px">
+        <h3 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.01em;line-height:1.1">Noite do Pagodão</h3>
+        <div style="font-size:14px;color:#E4DFD8">Casa Maré · Praia do Canto</div>
+        <div style="display:flex;gap:8px;align-items:center;font-family:'Geist Mono',monospace;font-size:14px;font-weight:500">
+          <span style="color:#F4F1EC">R$ 35</span><span style="color:#A8A29A">·</span><span style="color:#F4F1EC">1,2 km</span>
+        </div>
+      </div>
+    </article>
+    <article style="flex:none;position:relative;width:280px;height:330px;border-radius:24px;overflow:hidden;background:linear-gradient(165deg,#F2A65A 0%,#7A3B2A 50%,#1D1513 100%)">
+      <div style="position:absolute;left:30px;top:50px;width:160px;height:160px;border-radius:50%;background:#FF4F81;opacity:.8"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:56px 18px 18px;background:linear-gradient(180deg,rgba(18,17,16,0),rgba(18,17,16,.88));display:flex;flex-direction:column;gap:6px">
+        <h3 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:22px;line-height:1.1">Baile do Porão</h3>
+        <div style="font-size:14px;color:#E4DFD8">Porão 27 · Centro</div>
+      </div>
+    </article>
+  </div>
+
+  <div style="margin-top:22px;padding:0 20px">
+    <h2 style="margin:0;font-family:'Outfit',sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.01em">Até R$ 40</h2>
+  </div>
+
+  <nav aria-label="Principal" style="position:absolute;left:0;right:0;bottom:0;height:84px;padding:0 12px 22px;box-sizing:border-box;background:#1B1A18;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-around">
+    <a href="Main.dc.html" style="width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#FF4F81;font-size:12px;font-weight:600;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.500"/><path d="M15.500 8.500l-2 5-5 2 2-5z"/></svg>Explorar</a>
+    <a href="Mapa.dc.html" style="width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#A8A29A;font-size:12px;font-weight:500;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l-5 2v12l5-2 6 2 5-2V5l-5 2z"/><path d="M9 5v12M15 7v12"/></svg>Mapa</a>
+    <a href="Main.dc.html" style="width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#A8A29A;font-size:12px;font-weight:500;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16l-5-3.500L7 20z"/></svg>Salvos</a>
+    <a href="Main.dc.html" style="width:72px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#A8A29A;font-size:12px;font-weight:500;text-decoration:none">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.500" r="3.500"/><path d="M5 20c1-4 4-5.500 7-5.500s6 1.500 7 5.500"/></svg>Perfil</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

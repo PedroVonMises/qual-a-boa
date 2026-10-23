@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Explorar web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+body{margin:0;background:#121110}
+button{font-family:inherit}
+a{color:inherit}
+</style>
+</helmet>
+<div style="width:1440px;height:900px;overflow:hidden;background:#121110;color:#F4F1EC;font-family:'Geist',sans-serif;display:flex">
+  <nav aria-label="Principal" style="flex:none;width:248px;box-sizing:border-box;padding:28px 20px;background:#1B1A18;border-right:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <svg width="44" height="44" viewBox="0 0 200 200" role="img" aria-label="Qual a boa?">
+        <g transform="translate(88 88) rotate(-45)">
+          <g fill="none" stroke="#FF4F81" stroke-width="16" stroke-linecap="round"><path d="M29.100 54.700A62 62 0 1 0 -29.100 54.700"/><path d="M29.100 54.700L21 72M-29.100 54.700L-21 72"/></g>
+          <rect x="-21" y="78" width="42" height="13" rx="6.500" fill="#FF4F81"/><rect x="-15" y="95" width="30" height="11" rx="5.500" fill="#FF4F81"/>
+          <circle cx="0" cy="-2" r="13" fill="#F2A65A"/>
+        </g>
+      </svg>
+      <span style="font-family:'Outfit',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.02em">Qual a boa?</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <a href="Web.dc.html" aria-current="page" style="height:48px;padding:0 14px;border-radius:14px;background:#262421;color:#FF4F81;font-size:16px;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:12px;border-left:3px solid #FF4F81">Explorar</a>
+      <a href="MapaReal.dc.html" style="height:48px;padding:0 14px;border-radius:14px;color:#A8A29A;font-size:16px;font-weight:500;text-decoration:none;display:flex;align-items:center">Mapa</a>
+      <a href="Salvos.dc.html" style="height:48px;padding:0 14px;border-radius:14px;color:#A8A29A;font-size:16px;font-weight:500;text-decoration:none;display:flex;align-items:center">Salvos</a>
+      <a href="Perfil.dc.html" style="height:48px;padding:0 14px;border-radius:14px;color:#A8A29A;font-size:16px;font-weight:500;text-decoration:none;display:flex;align-items:center">Perfil</a>
+    </div>
+    <p style="margin:auto 0 0;font-size:14px;line-height:1.5;color:#A8A29A">Maiores de 18 anos. Beba com moderação.</p>
+  </nav>
+
+  <main style="flex:1;min-width:0;padding:28px 40px 0;display:flex;flex-direction:column;gap:20px">
+    <header style="display:flex;gap:16px;align-items:center">
+      <label style="flex:1;display:flex;align-items:center;gap:10px;height:48px;padding:0 16px;border-radius:16px;background:#262421">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A8A29A" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.500"/><path d="M16 16l4 4"/></svg>
+        <input aria-label="Buscar" placeholder="Bolt, A Selva, Pub 426..." style="flex:1;background:none;border:0;outline:0;color:#F4F1EC;font-family:'Geist',sans-serif;font-size:16px">
+      </label>
+      <button style="height:48px;padding:0 16px;border-radius:16px;border:0;background:#262421;color:#F4F1EC;font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF4F81" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.200 7-11.500A7 7 0 0 0 5 9.500C5 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg>
+        Praia do Canto · <span style="font-family:'Geist Mono',monospace">5 km</span></button>
+    </header>
+
+    <div style="display:flex;align-items:flex-end;justify-content:space-between">
+      <h1 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:44px;letter-spacing:-0.02em;line-height:1">Qual a boa <span style="color:#FF4F81">hoje?</span></h1>
+      <div style="display:flex;gap:8px">
+        <span style="height:44px;padding:0 18px;border-radius:999px;background:#FF4F81;color:#1A0A06;font-size:14px;font-weight:600;display:flex;align-items:center">Tudo</span>
+        <span style="height:44px;padding:0 18px;border-radius:999px;background:#262421;font-size:14px;font-weight:500;display:flex;align-items:center">Funk</span>
+        <span style="height:44px;padding:0 18px;border-radius:999px;background:#262421;font-size:14px;font-weight:500;display:flex;align-items:center">Pagode</span>
+        <span style="height:44px;padding:0 18px;border-radius:999px;background:#262421;font-size:14px;font-weight:500;display:flex;align-items:center">Eletrônica</span>
+        <span style="height:44px;padding:0 18px;border-radius:999px;background:#262421;font-size:14px;font-weight:500;display:flex;align-items:center">Rock</span>
+      </div>
+    </div>
+
+    <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:16px;padding-bottom:28px">
+      <a href="EventoBolt.dc.html" style="grid-column:span 2;grid-row:span 2;position:relative;border-radius:28px;overflow:hidden;background:#14100F;text-decoration:none">
+        <img src="art/pub426.svg" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover">
+        <span style="position:absolute;left:20px;top:20px;height:32px;padding:0 14px;border-radius:999px;background:#121110;color:#FF4F81;font-size:14px;font-weight:600;display:flex;align-items:center">Hoje · 21h</span>
+        <div style="position:absolute;left:0;right:0;bottom:0;padding:90px 24px 24px;background:linear-gradient(180deg,rgba(18,17,16,0),rgba(18,17,16,.92));display:flex;flex-direction:column;gap:6px">
+          <span style="font-family:'Outfit',sans-serif;font-weight:700;font-size:34px;letter-spacing:-0.01em;line-height:1.05">Noite 80s e 90s</span>
+          <span style="font-size:16px;color:#E4DFD8">Pub 426 · Praia do Canto</span>
+          <span style="font-family:'Geist Mono',monospace;font-size:16px">R$ 20 · ~0,5 km</span>
+        </div>
+      </a>
+      <a href="EventoSelva.dc.html" style="position:relative;border-radius:24px;overflow:hidden;background:#8E2547;text-decoration:none">
+        <img src="art/selva.svg" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;left:0;right:0;bottom:0;padding:60px 16px 16px;background:linear-gradient(180deg,rgba(18,17,16,0),rgba(18,17,16,.9));display:flex;flex-direction:column;gap:2px"><span style="font-family:'Outfit',sans-serif;font-weight:700;font-size:20px">Discotopia</span><span style="font-size:14px;color:#E4DFD8">A Selva · Centro</span></div>
+      </a>
+      <a href="EventoGordinho.dc.html" style="position:relative;border-radius:24px;overflow:hidden;background:#8A4228;text-decoration:none">
+        <img src="art/gordinho.svg" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;left:0;right:0;bottom:0;padding:60px 16px 16px;background:linear-gradient(180deg,rgba(18,17,16,0),rgba(18,17,16,.9));display:flex;flex-direction:column;gap:2px"><span style="font-family:'Outfit',sans-serif;font-weight:700;font-size:20px">Roda de Pagode</span><span style="font-size:14px;color:#E4DFD8">Gordinho · Praia do Canto</span></div>
+      </a>
+      <a href="EventoBolt.dc.html" style="position:relative;border-radius:24px;overflow:hidden;background:#1B2322;text-decoration:none">
+        <img src="art/bolt.svg" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;left:0;right:0;bottom:0;padding:60px 16px 16px;background:linear-gradient(180deg,rgba(18,17,16,0),rgba(18,17,16,.9));display:flex;flex-direction:column;gap:2px"><span style="font-family:'Outfit',sans-serif;font-weight:700;font-size:20px">Lovy Bolt</span><span style="font-size:14px;color:#E4DFD8">Bolt · Jardim da Penha</span></div>
+      </a>
+      <a href="MapaReal.dc.html" style="position:relative;border-radius:24px;overflow:hidden;background:#C03A66;text-decoration:none">
+        <img src="art/fluente.svg" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;left:0;right:0;bottom:0;padding:60px 16px 16px;background:linear-gradient(180deg,rgba(18,17,16,0),rgba(18,17,16,.9));display:flex;flex-direction:column;gap:2px"><span style="font-family:'Outfit',sans-serif;font-weight:700;font-size:20px">Match</span><span style="font-size:14px;color:#E4DFD8">Fluente · Jardim da Penha</span></div>
+      </a>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Artista</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+body{margin:0;background:#121110}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="position:relative;width:390px;height:844px;overflow:hidden;background:#121110;color:#F4F1EC;font-family:'Geist',sans-serif;box-sizing:border-box">
+  <div style="position:relative;height:300px;background:#8A4228;overflow:hidden">
+    <img src="art/gordinho.svg" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover">
+    <a href="EventoGordinho.dc.html" aria-label="Voltar" style="position:absolute;left:16px;top:52px;width:44px;height:44px;border-radius:50%;background:rgba(18,17,16,.55);display:flex;align-items:center;justify-content:center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F1EC" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+    <button aria-label="Seguir artista" style="position:absolute;right:16px;top:52px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(18,17,16,.55);display:flex;align-items:center;justify-content:center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F1EC" stroke-width="1.75" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.400-7-10a4 4 0 0 1 7-2.400A4 4 0 0 1 19 10c0 5.600-7 10-7 10z"/></svg>
+    </button>
+    <div style="position:absolute;left:0;right:0;bottom:0;height:130px;background:linear-gradient(180deg,rgba(18,17,16,0),#121110)"></div>
+  </div>
+
+  <div style="margin-top:-52px;position:relative;padding:0 20px;display:flex;flex-direction:column;gap:8px">
+    <span style="align-self:flex-start;height:28px;padding:0 12px;border-radius:999px;background:#262421;color:#FF4F81;font-size:12px;font-weight:600;display:flex;align-items:center">Pagode</span>
+    <h1 style="margin:0;font-family:'Outfit',sans-serif;font-weight:700;font-size:32px;letter-spacing:-0.02em;line-height:1.05">Grupo Cais</h1>
+    <div style="display:flex;gap:24px;font-family:'Geist Mono',monospace;font-size:14px;color:#A8A29A"><span>12 shows</span><span>4 casas</span></div>
+  </div>
+
+  <div style="margin-top:22px;padding:0 20px;display:flex;flex-direction:column;gap:12px">
+    <h2 style="margin:0;font-family:'Outfit',sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.01em">Próximo show</h2>
+    <a href="EventoGordinho.dc.html" style="display:flex;gap:12px;text-decoration:none;color:inherit;align-items:center;min-height:72px">
+      <img src="art/gordinho.svg" alt="" style="flex:none;width:64px;height:64px;border-radius:14px;object-fit:cover">
+      <div style="display:flex;flex-direction:column;gap:2px"><strong style="font-family:'Outfit',sans-serif;font-size:17px">Roda de Pagode</strong><span style="font-size:14px;color:#A8A29A">Gordinho · Praia do Canto</span><span style="font-family:'Geist Mono',monospace;font-size:14px">Sex, 23 out · R$ 30</span></div>
+    </a>
+  </div>
+
+  <div style="margin-top:18px;padding:0 20px;display:flex;flex-direction:column;gap:6px">
+    <h2 style="margin:0;font-family:'Outfit',sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.01em">Já tocou em</h2>
+    <div style="display:flex;align-items:center;min-height:56px;border-bottom:1px solid rgba(255,255,255,.08)"><strong style="flex:1;font-size:16px;font-weight:600">Gordinho</strong><span style="font-family:'Geist Mono',monospace;font-size:14px;color:#A8A29A">out/2026</span></div>
+    <div style="display:flex;align-items:center;min-height:56px;border-bottom:1px solid rgba(255,255,255,.08)"><strong style="flex:1;font-size:16px;font-weight:600">Casa Caipora</strong><span style="font-family:'Geist Mono',monospace;font-size:14px;color:#A8A29A">ago/2026</span></div>
+    <div style="display:flex;align-items:center;min-height:56px"><strong style="flex:1;font-size:16px;font-weight:600">Bolt</strong><span style="font-family:'Geist Mono',monospace;font-size:14px;color:#A8A29A">jul/2026</span></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
