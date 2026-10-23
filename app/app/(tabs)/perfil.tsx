@@ -1,5 +1,5 @@
-import { ScreenStub } from '@/shell/ScreenStub';
+import { PerfilView } from '@/features/perfil';
 
 export default function Screen() {
-  return <ScreenStub title="Perfil" routeName="(tabs)/perfil" links={[{ label: 'Ajuda', href: '/ajuda' }, { label: 'Acompanhar', href: '/acompanhar' }]} />;
+  return <PerfilView />;
 }

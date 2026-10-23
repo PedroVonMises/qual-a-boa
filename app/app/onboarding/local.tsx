@@ -1,5 +1,5 @@
-import { LocalScreen } from '@/shell/LocalScreen';
+import { LocalView } from '@/features/onboarding';
 
 export default function Screen() {
-  return <LocalScreen />;
+  return <LocalView />;
 }
