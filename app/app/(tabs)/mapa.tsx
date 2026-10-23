@@ -1,5 +1,5 @@
-import { ScreenStub } from '@/shell/ScreenStub';
+import { MapaScreen } from '@/features/mapa/MapaScreen';
 
-export default function Screen() {
-  return <ScreenStub title="Mapa" routeName="(tabs)/mapa" links={[{ label: 'Casa de exemplo', href: '/casa/exemplo' }]} />;
+export default function Mapa() {
+  return <MapaScreen />;
 }
