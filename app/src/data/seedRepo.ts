@@ -60,6 +60,11 @@ function compareItems(sort: SearchParams['sort']) {
 export class SeedRepo implements Repo {
   private readonly venuesById = new Map<string, Venue>();
   private readonly artistsById = new Map<string, Artist>();
+  /** Normalised searchable text per event id, computed once. */
+  private readonly hayByEvent = new Map<string, string[]>();
+  /** Last filtered+sorted result, so paging through one query does not redo the scan. */
+  private lastKey = '';
+  private lastItems: SearchItem[] = [];
 
   constructor(
     private readonly data: SeedDataset,
@@ -67,6 +72,13 @@ export class SeedRepo implements Repo {
   ) {
     for (const v of data.venues) this.venuesById.set(v.id, v);
     for (const a of data.artists) this.artistsById.set(a.id, a);
+    for (const e of data.events) {
+      const venueName = this.venuesById.get(e.venueId)?.name ?? '';
+      this.hayByEvent.set(
+        e.id,
+        [e.title, venueName, ...e.artistIds.map((id) => this.artistsById.get(id)?.name ?? '')].map(normalizeText),
+      );
+    }
   }
 
   async listGenres(): Promise<Genre[]> {
@@ -81,6 +93,21 @@ export class SeedRepo implements Repo {
 
   async searchEvents(params: SearchParams): Promise<SearchPage> {
     const nowMs = params.now ? Date.parse(params.now) : this.clock();
+    const { cursor: _cursor, limit: _limit, ...filterParams } = params;
+    const key = JSON.stringify([filterParams, params.now ? 0 : Math.floor(nowMs / 60_000)]);
+    const items = key === this.lastKey ? this.lastItems : this.scan(params, nowMs);
+    this.lastKey = key;
+    this.lastItems = items;
+
+    const limit = params.limit ?? DEFAULT_LIMIT;
+    const parsed = Number.parseInt(params.cursor ?? '0', 10);
+    const offset = Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+    const page = items.slice(offset, offset + limit);
+    const next = offset + limit;
+    return { items: page, total: items.length, nextCursor: next < items.length ? String(next) : null };
+  }
+
+  private scan(params: SearchParams, nowMs: number): SearchItem[] {
     const fromMs = params.dateFrom ? Date.parse(params.dateFrom) : nowMs;
     const toMs = params.dateTo ? Date.parse(params.dateTo) : null;
     const genres = params.genreSlugs?.length ? new Set(params.genreSlugs) : null;
@@ -108,20 +135,13 @@ export class SeedRepo implements Repo {
       if (params.artistId && !event.artistIds.includes(params.artistId)) continue;
       if (area && venue.area.toLowerCase() !== area) continue;
       if (q) {
-        const hay = [event.title, venue.name, ...event.artistIds.map((id) => this.artistsById.get(id)?.name ?? '')];
-        if (!hay.some((s) => normalizeText(s).includes(q))) continue;
+        if (!this.hayByEvent.get(event.id)!.some((s) => s.includes(q))) continue;
       }
       items.push({ event, venue, distanceKm: Math.round(distanceKm * 1000) / 1000 });
     }
 
     items.sort(compareItems(params.sort));
-
-    const limit = params.limit ?? DEFAULT_LIMIT;
-    const parsed = Number.parseInt(params.cursor ?? '0', 10);
-    const offset = Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
-    const page = items.slice(offset, offset + limit);
-    const next = offset + limit;
-    return { items: page, total: items.length, nextCursor: next < items.length ? String(next) : null };
+    return items;
   }
 
   async getEvent(id: string, from?: GeoPoint): Promise<EventDetail | null> {

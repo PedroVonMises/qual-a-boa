@@ -35,17 +35,24 @@ function spMidnight(dayNumber: number): number {
   return dayNumber * DAY + SP_OFFSET_MS;
 }
 
+/** Nights run past midnight: an event that started up to this long ago is still "on" and stays in search. */
+export const IN_PROGRESS_WINDOW_MS = 5 * 3600_000;
+/** "Hoje" lasts until 06:00 SP, so a 01:00 party on Friday night counts as tonight. */
+const NIGHT_END_HOUR = 6;
+
 export function dateRangeBounds(range: DateRange, nowMs: number): { dateFrom?: string; dateTo?: string } {
-  if (range === 'qualquer') return {};
+  const from = nowMs - IN_PROGRESS_WINDOW_MS;
+  if (range === 'qualquer') return { dateFrom: new Date(from).toISOString() };
   const p = spParts(nowMs);
   if (range === 'hoje') {
-    return { dateFrom: new Date(nowMs).toISOString(), dateTo: new Date(spMidnight(p.dayNumber + 1) - 1).toISOString() };
+    const endDay = p.hour < NIGHT_END_HOUR ? p.dayNumber : p.dayNumber + 1;
+    return { dateFrom: new Date(from).toISOString(), dateTo: new Date(spMidnight(endDay) + NIGHT_END_HOUR * 3600_000 - 1).toISOString() };
   }
   // fim-de-semana: Friday 18h through Sunday 23:59:59.999 (SP). On Sat/Sun, starts now.
   const daysToFriday = p.weekday === 0 ? -2 : p.weekday === 6 ? -1 : 5 - p.weekday;
   const fridayDay = p.dayNumber + daysToFriday;
-  const start = Math.max(nowMs, spMidnight(fridayDay) + 18 * 3600_000);
-  const end = spMidnight(fridayDay + 3) - 1;
+  const start = Math.max(from, spMidnight(fridayDay) + 18 * 3600_000);
+  const end = spMidnight(fridayDay + 3) + NIGHT_END_HOUR * 3600_000 - 1;
   return { dateFrom: new Date(start).toISOString(), dateTo: new Date(end).toISOString() };
 }
 

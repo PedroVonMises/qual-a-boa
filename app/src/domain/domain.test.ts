@@ -3,6 +3,7 @@ import {
   countActiveFilters,
   dateRangeBounds,
   defaultFilters,
+  IN_PROGRESS_WINDOW_MS,
   filtersToUrlParams,
   toSearchParams,
   urlParamsToFilters,
@@ -52,25 +53,37 @@ describe('geo', () => {
 });
 
 describe('filters', () => {
-  it('hoje ends at SP midnight', () => {
+  it('hoje lasts until 06:00 SP and keeps in-progress events', () => {
     const b = dateRangeBounds('hoje', NOW);
-    expect(b.dateTo).toBe('2026-10-24T02:59:59.999Z');
+    expect(b.dateTo).toBe('2026-10-24T08:59:59.999Z');
+    expect(Date.parse(b.dateFrom!)).toBe(NOW - IN_PROGRESS_WINDOW_MS);
+  });
+  it('hoje after midnight still covers last night until 06:00', () => {
+    const lateNight = Date.parse('2026-10-24T03:30:00.000Z'); // 00:30 SP Saturday
+    expect(dateRangeBounds('hoje', lateNight).dateTo).toBe('2026-10-24T08:59:59.999Z');
   });
   it('fim-de-semana from Friday 18h to Sunday end', () => {
     const b = dateRangeBounds('fim-de-semana', NOW);
     expect(b.dateFrom).toBe('2026-10-23T21:00:00.000Z');
-    expect(b.dateTo).toBe('2026-10-26T02:59:59.999Z');
+    expect(b.dateTo).toBe('2026-10-26T08:59:59.999Z');
   });
-  it('fim-de-semana on Saturday starts now', () => {
+  it('fim-de-semana on Saturday starts 5h back, keeping in-progress events', () => {
     const sat = Date.parse('2026-10-24T15:00:00.000Z');
-    expect(dateRangeBounds('fim-de-semana', sat).dateFrom).toBe(new Date(sat).toISOString());
+    expect(dateRangeBounds('fim-de-semana', sat).dateFrom).toBe(new Date(sat - IN_PROGRESS_WINDOW_MS).toISOString());
   });
-  it('qualquer has no bounds', () => {
-    expect(dateRangeBounds('qualquer', NOW)).toEqual({});
+  it('qualquer only reaches back to in-progress events', () => {
+    expect(dateRangeBounds('qualquer', NOW)).toEqual({ dateFrom: new Date(NOW - IN_PROGRESS_WINDOW_MS).toISOString() });
   });
   it('toSearchParams omits empty filters', () => {
     const p = toSearchParams(defaultFilters, { lat: 1, lng: 2 }, NOW);
-    expect(p).toEqual({ lat: 1, lng: 2, radiusKm: 10, sort: 'distance', now: MINI_NOW });
+    expect(p).toEqual({
+      lat: 1,
+      lng: 2,
+      radiusKm: 10,
+      sort: 'distance',
+      now: MINI_NOW,
+      dateFrom: new Date(NOW - IN_PROGRESS_WINDOW_MS).toISOString(),
+    });
     const q = toSearchParams({ ...defaultFilters, genreSlugs: ['funk'], priceMax: 0, query: ' x ' }, { lat: 1, lng: 2 }, NOW);
     expect(q).toMatchObject({ genreSlugs: ['funk'], priceMax: 0, query: 'x' });
   });
