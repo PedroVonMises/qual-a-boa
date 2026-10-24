@@ -24,7 +24,7 @@ export const defaultFilters: FilterState = {
   artistId: null,
   area: null,
   query: '',
-  sort: 'distance',
+  sort: 'recommended',
 };
 
 const SP_OFFSET_MS = 3 * 3600_000;
@@ -56,6 +56,9 @@ export function dateRangeBounds(range: DateRange, nowMs: number): { dateFrom?: s
   return { dateFrom: new Date(start).toISOString(), dateTo: new Date(end).toISOString() };
 }
 
+/** Candidate pool size fetched for the client-side `recommended` ranking. */
+export const RECOMMENDED_CANDIDATES = 80;
+
 export function toSearchParams(
   filters: FilterState,
   location: Pick<GeoPoint, 'lat' | 'lng'>,
@@ -66,10 +69,11 @@ export function toSearchParams(
     lat: location.lat,
     lng: location.lng,
     radiusKm: filters.radiusKm,
-    sort: filters.sort,
+    sort: filters.sort === 'recommended' ? 'popularity' : filters.sort,
     now: new Date(nowMs).toISOString(),
     ...dateRangeBounds(filters.dateRange, nowMs),
   };
+  if (filters.sort === 'recommended') params.limit = RECOMMENDED_CANDIDATES;
   if (filters.genreSlugs.length) params.genreSlugs = filters.genreSlugs;
   if (filters.priceMax != null) params.priceMax = filters.priceMax;
   if (filters.artistId) params.artistId = filters.artistId;
@@ -123,6 +127,6 @@ export function urlParamsToFilters(raw: RawUrlParams): FilterState {
   f.area = first(raw.area) || null;
   f.query = first(raw.q) ?? '';
   const sort = first(raw.sort);
-  if (sort === 'distance' || sort === 'price' || sort === 'date' || sort === 'popularity') f.sort = sort;
+  if (sort === 'distance' || sort === 'price' || sort === 'date' || sort === 'popularity' || sort === 'recommended') f.sort = sort;
   return f;
 }

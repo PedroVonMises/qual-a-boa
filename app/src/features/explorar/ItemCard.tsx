@@ -19,10 +19,12 @@ interface Props {
   variant?: 'poster' | 'row';
   divider?: boolean;
   style?: StyleProp<ViewStyle>;
+  /** Recommender tag ("Você curte Funk"). */
+  reason?: string;
 }
 
 /** Maps a SearchItem to the kit EventCard; owns the save toggle and navigation. */
-export const ItemCard = memo(function ItemCard({ item, variant = 'poster', divider, style }: Props) {
+export const ItemCard = memo(function ItemCard({ item, variant = 'poster', divider, style, reason }: Props) {
   const { event, venue, distanceKm } = item;
   const saved = useFavorites((s) => s.eventIds.includes(event.id));
   const toggle = useFavorites((s) => s.toggleEvent);
@@ -34,6 +36,7 @@ export const ItemCard = memo(function ItemCard({ item, variant = 'poster', divid
       variant={variant}
       divider={divider}
       style={style}
+      reason={reason}
       title={event.title}
       venueName={venue.name}
       area={venue.area}

@@ -80,7 +80,8 @@ describe('filters', () => {
       lat: 1,
       lng: 2,
       radiusKm: 10,
-      sort: 'distance',
+      sort: 'popularity', // `recommended` is client-only: repos get a candidate query
+      limit: 80,
       now: MINI_NOW,
       dateFrom: new Date(NOW - IN_PROGRESS_WINDOW_MS).toISOString(),
     });
@@ -98,5 +99,10 @@ describe('filters', () => {
     const bad = urlParamsToFilters({ radius: '7', sort: 'zzz', priceMax: 'abc', date: 'x' });
     expect(bad).toEqual(defaultFilters);
     expect(urlParamsToFilters({ genres: ['funk'] }).genreSlugs).toEqual(['funk']);
+    // recommended is the default (omitted from the URL, not an active filter) and parses when explicit
+    expect(urlParamsToFilters({ sort: 'recommended' }).sort).toBe('recommended');
+    expect(filtersToUrlParams({ ...defaultFilters, sort: 'recommended' })).toEqual({});
+    expect(countActiveFilters({ ...defaultFilters, sort: 'recommended' })).toBe(0);
+    expect(urlParamsToFilters(filtersToUrlParams({ ...defaultFilters, sort: 'distance' })).sort).toBe('distance');
   });
 });

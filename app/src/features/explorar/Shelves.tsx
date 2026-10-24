@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { useSearchEvents } from '@/data/queries';
@@ -8,7 +9,7 @@ import { space } from '@/theme/tokens';
 import { EventCardSkeleton, Shelf, useBreakpoint } from '@/ui';
 import { ItemCard } from './ItemCard';
 import { LeadGrid } from './LeadGrid';
-import { useSearchParams } from './useSearch';
+import { useRecommendedSearch, useSearchParams } from './useSearch';
 
 interface ShelfDef {
   key: string;
@@ -55,12 +56,51 @@ function ShelfSection({ def, grid }: { def: ShelfDef; grid: boolean }) {
   );
 }
 
+export const FOR_YOU_COUNT = 10;
+
+/** First shelf: the top of the on-device ranking. On large screens the top item is the lead card. */
+function ForYouShelf({ grid }: { grid: boolean }) {
+  const set = useFilters((s) => s.set);
+  const q = useRecommendedSearch(FOR_YOU_COUNT);
+  const { gutter } = useBreakpoint();
+  const reasons = useMemo(() => {
+    const out: Record<string, string> = {};
+    for (const s of q.scored) if (s.reasons[0]) out[s.item.event.id] = s.reasons[0].text;
+    return out;
+  }, [q.scored]);
+
+  if (q.isLoading) {
+    return (
+      <View testID="shelf-para-voce-loading" style={[styles.skeletons, { paddingHorizontal: gutter }]}>
+        <EventCardSkeleton />
+        <EventCardSkeleton />
+      </View>
+    );
+  }
+  if (q.items.length === 0) return null;
+  // "ver todos" widens the radius, which switches to the full ranked list (sorted "Para você").
+  const onAction = () => set({ radiusKm: 25, sort: 'recommended' });
+  if (grid) return <LeadGrid title="Para você" items={q.items} reasons={reasons} onAction={onAction} />;
+  return (
+    <Shelf
+      title="Para você"
+      data={q.items}
+      gutter={gutter}
+      actionLabel="ver todos"
+      onAction={onAction}
+      keyExtractor={(i) => i.event.id}
+      renderItem={({ item }) => <ItemCard item={item} reason={reasons[item.event.id]} />}
+    />
+  );
+}
+
 export function Shelves() {
   const { isLarge } = useBreakpoint();
   return (
     <View style={styles.wrap}>
-      {SHELVES.map((def, i) => (
-        <ShelfSection key={def.key} def={def} grid={isLarge && i === 0} />
+      <ForYouShelf grid={isLarge} />
+      {SHELVES.map((def) => (
+        <ShelfSection key={def.key} def={def} grid={false} />
       ))}
     </View>
   );
