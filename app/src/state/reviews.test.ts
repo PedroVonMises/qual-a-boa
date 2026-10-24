@@ -51,3 +51,14 @@ describe('reviews store', () => {
     expect(validateReviewText('a'.repeat(REVIEW_TEXT_MAX + 1))).toMatch(/passou de 800/);
   });
 });
+
+describe('hasCheckin default lookup', () => {
+  it('reads the persisted check-ins store', () => {
+    const { useCheckins } = require('./checkins');
+    setCheckinLookup(undefined);
+    expect(hasCheckin('evt-x')).toBe(false);
+    useCheckins.getState().checkIn('evt-x');
+    expect(hasCheckin('evt-x')).toBe(true);
+    useCheckins.setState({ checkins: [] });
+  });
+});

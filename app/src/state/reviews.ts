@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
+
+import { useCheckins } from '@/state/checkins';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { Review, ReviewTopic } from '@/domain/engage';
@@ -26,24 +28,10 @@ export function setCheckinLookup(fn: CheckinLookup | undefined) {
   injected = fn;
 }
 
-/**
- * Check-in lookup: the injected function, else `@/state/checkins` if that module exists
- * (loaded lazily so this file works before it lands), else false.
- */
+/** Check-in lookup: the injected function (tests), else the persisted check-ins store. */
 export function hasCheckin(eventId: string): boolean {
   if (injected) return injected(eventId);
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const mod = require('@/state/checkins') as Record<string, unknown>;
-    if (typeof mod.hasCheckin === 'function') return !!(mod.hasCheckin as CheckinLookup)(eventId);
-    const store = mod.useCheckins as { getState?: () => Record<string, unknown> } | undefined;
-    const state = store?.getState?.();
-    if (state && typeof state.hasCheckin === 'function') return !!(state.hasCheckin as CheckinLookup)(eventId);
-    if (state && Array.isArray(state.checkins)) return (state.checkins as { eventId: string }[]).some((c) => c.eventId === eventId);
-  } catch {
-    // module not present yet
-  }
-  return false;
+  return useCheckins.getState().hasCheckedIn(eventId);
 }
 
 /** Normalizes user text: trims, collapses 3+ newlines, clamps to the limit. Empty becomes undefined. */
