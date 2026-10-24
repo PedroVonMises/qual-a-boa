@@ -444,7 +444,7 @@
         "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
       ],
       "status": "published",
-      "coverKey": "mare",
+      "coverKey": "art:neon:tangerina-petroleo:b",
       "popularity": 75,
       "ticketUrl": "https://example.com/ingressos/casa-mare-mare-de-verao-p25"
     },
@@ -467,7 +467,7 @@
         "5feceed4-aef2-374c-b729-91849468146a"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:arcos:ceu-poente:d",
       "popularity": 93,
       "ticketUrl": "https://example.com/ingressos/a-selva-carnaval-na-selva-p24"
     },
@@ -488,7 +488,7 @@
         "2cb88238-8b85-3523-93b8-23f16dbe785b"
       ],
       "status": "published",
-      "coverKey": "caipora",
+      "coverKey": "art:palmas:ceu-poente:c",
       "popularity": 62
     },
     {
@@ -509,7 +509,7 @@
         "72cb1b78-5c53-368f-8632-b20a8590cb59"
       ],
       "status": "published",
-      "coverKey": "generic",
+      "coverKey": "art:vinil:tangerina-petroleo:b",
       "popularity": 69,
       "ticketUrl": "https://example.com/ingressos/correria-music-bar-metal-capixaba-fest-p20"
     },
@@ -530,7 +530,7 @@
         "8b2d30e0-d042-3cf4-8692-b028781c7aa8"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:equalizador:rosa-oceano:b",
       "popularity": 85,
       "ticketUrl": "https://example.com/ingressos/a-selva-discotopia-p18"
     },
@@ -551,7 +551,7 @@
         "b5765942-93ba-3552-bff9-e08d8e14c207"
       ],
       "status": "published",
-      "coverKey": "pub426",
+      "coverKey": "art:skyline:ceu-poente:c",
       "popularity": 61,
       "ticketUrl": "https://example.com/ingressos/pub-426-rock-no-pub-p16"
     },
@@ -572,7 +572,7 @@
         "b40790f3-93c7-3fd1-959a-4fba3f6f8d37"
       ],
       "status": "published",
-      "coverKey": "caipora",
+      "coverKey": "art:disco:anil-ouro:d",
       "popularity": 70,
       "ticketUrl": "https://example.com/ingressos/casa-caipora-caipora-eletronica-p15"
     },
@@ -594,7 +594,7 @@
         "8d5c8ee8-9a40-3677-8c78-f0ba225304a0"
       ],
       "status": "published",
-      "coverKey": "bolt",
+      "coverKey": "art:drink:sol-vinho:a",
       "popularity": 68,
       "ticketUrl": "https://example.com/ingressos/bolt-retro-bolt-p14"
     },
@@ -616,7 +616,7 @@
         "8b2d30e0-d042-3cf4-8692-b028781c7aa8"
       ],
       "status": "published",
-      "coverKey": "mare",
+      "coverKey": "art:vinil:anil-ouro:b",
       "popularity": 82,
       "ticketUrl": "https://example.com/ingressos/casa-mare-mare-alta-p13"
     },
@@ -638,7 +638,7 @@
         "8e444303-15a3-36c2-b22e-ef63b0e8cd42"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:equalizador:sol-vinho:b",
       "popularity": 83,
       "ticketUrl": "https://example.com/ingressos/a-selva-baile-da-selva-p12"
     },
@@ -660,7 +660,7 @@
         "6855ae57-afdb-3854-a20e-e9613cdd8063"
       ],
       "status": "published",
-      "coverKey": "gordinho",
+      "coverKey": "art:arcos:turquesa-coral:b",
       "popularity": 77,
       "ticketUrl": "https://example.com/ingressos/gordinho-pagode-de-sabado-p11"
     },
@@ -681,7 +681,7 @@
         "d9bb9f8a-b15f-32a2-819c-025029394e2f"
       ],
       "status": "published",
-      "coverKey": "caipora",
+      "coverKey": "art:neon:coral-marinho:a",
       "popularity": 66,
       "ticketUrl": "https://example.com/ingressos/casa-caipora-rap-na-caipora-p10"
     },
@@ -702,7 +702,7 @@
         "8e444303-15a3-36c2-b22e-ef63b0e8cd42"
       ],
       "status": "published",
-      "coverKey": "fluente",
+      "coverKey": "art:neon:sol-vinho:d",
       "popularity": 72,
       "ticketUrl": "https://example.com/ingressos/fluente-fluente-funk-p9"
     },
@@ -723,7 +723,7 @@
         "512cb209-39e2-3737-b3b2-973c39177006"
       ],
       "status": "published",
-      "coverKey": "bolt",
+      "coverKey": "art:galera:violeta-ciano:b",
       "popularity": 80,
       "ticketUrl": "https://example.com/ingressos/bolt-funk-na-penha-p9"
     },
@@ -744,7 +744,7 @@
         "7910d733-aedc-375b-ac83-61aaee365692"
       ],
       "status": "published",
-      "coverKey": "generic",
+      "coverKey": "art:raio:ceu-poente:c",
       "popularity": 55,
       "ticketUrl": "https://example.com/ingressos/correria-music-bar-hardcore-na-itaparica-p8"
     },
@@ -766,7 +766,7 @@
         "ff1b3603-3953-3e74-bc2e-3bb3ff18c274"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:raio:esmeralda-pessego:d",
       "popularity": 88,
       "ticketUrl": "https://example.com/ingressos/a-selva-discotopia-p7"
     },
@@ -788,7 +788,7 @@
         "8d5c8ee8-9a40-3677-8c78-f0ba225304a0"
       ],
       "status": "published",
-      "coverKey": "pub426",
+      "coverKey": "art:vinil:ceu-poente:a",
       "popularity": 73,
       "ticketUrl": "https://example.com/ingressos/pub-426-anos-80-e-90-p6"
     },
@@ -809,7 +809,7 @@
         "92c5ee5f-2c70-35bf-af83-ed0b17eac919"
       ],
       "status": "published",
-      "coverKey": "caipora",
+      "coverKey": "art:palmas:coral-marinho:b",
       "popularity": 74,
       "ticketUrl": "https://example.com/ingressos/casa-caipora-samba-na-caipora-p6"
     },
@@ -830,7 +830,7 @@
         "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b"
       ],
       "status": "published",
-      "coverKey": "bolt",
+      "coverKey": "art:neon:rosa-ambar:b",
       "popularity": 84,
       "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-p5"
     },
@@ -851,7 +851,7 @@
         "df60c370-47a0-3ec8-bcf4-d3657964c349"
       ],
       "status": "published",
-      "coverKey": "mare",
+      "coverKey": "art:penha:anil-ouro:a",
       "popularity": 59,
       "ticketUrl": "https://example.com/ingressos/casa-mare-quinta-sertaneja-p5"
     },
@@ -872,7 +872,7 @@
         "7910d733-aedc-375b-ac83-61aaee365692"
       ],
       "status": "cancelled",
-      "coverKey": "bolt",
+      "coverKey": "art:raio:coral-marinho:d",
       "popularity": 20,
       "ticketUrl": "https://example.com/ingressos/bolt-show-cancelado-p4"
     },
@@ -893,7 +893,7 @@
         "2cb88238-8b85-3523-93b8-23f16dbe785b"
       ],
       "status": "published",
-      "coverKey": "gordinho",
+      "coverKey": "art:ondas:ceu-poente:b",
       "popularity": 66
     },
     {
@@ -916,7 +916,7 @@
         "d9bb9f8a-b15f-32a2-819c-025029394e2f"
       ],
       "status": "published",
-      "coverKey": "caipora",
+      "coverKey": "art:ondas:rosa-ambar:c",
       "popularity": 95,
       "ticketUrl": "https://example.com/ingressos/casa-caipora-despedida-da-caipora-p3"
     },
@@ -937,7 +937,7 @@
         "92c5ee5f-2c70-35bf-af83-ed0b17eac919"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:ondas:menta-amora:c",
       "popularity": 78,
       "ticketUrl": "https://example.com/ingressos/a-selva-noite-do-pagodao-p3"
     },
@@ -960,7 +960,7 @@
         "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b"
       ],
       "status": "published",
-      "coverKey": "fluente",
+      "coverKey": "art:galera:lima-ameixa:d",
       "popularity": 80,
       "ticketUrl": "https://example.com/ingressos/fluente-match-p2"
     },
@@ -981,7 +981,7 @@
         "72cb1b78-5c53-368f-8632-b20a8590cb59"
       ],
       "status": "published",
-      "coverKey": "generic",
+      "coverKey": "art:vinil:ceu-poente:c",
       "popularity": 58,
       "ticketUrl": "https://example.com/ingressos/correria-music-bar-noite-gotica-p2"
     },
@@ -1002,7 +1002,7 @@
         "627a8486-6de8-3f6e-95dd-5189add7041c"
       ],
       "status": "published",
-      "coverKey": "bolt",
+      "coverKey": "art:guitarra:lima-ameixa:b",
       "popularity": 72,
       "ticketUrl": "https://example.com/ingressos/bolt-bolt-indie-club-p2"
     },
@@ -1024,7 +1024,7 @@
         "afd11fda-5593-3387-a6a6-4ed34dab6143"
       ],
       "status": "published",
-      "coverKey": "mare",
+      "coverKey": "art:neon:lima-ameixa:a",
       "popularity": 77,
       "ticketUrl": "https://example.com/ingressos/casa-mare-mare-alta-p1"
     },
@@ -1045,7 +1045,7 @@
         "ff1b3603-3953-3e74-bc2e-3bb3ff18c274"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:equalizador:violeta-ciano:b",
       "popularity": 90,
       "ticketUrl": "https://example.com/ingressos/a-selva-discotopia-p1"
     },
@@ -1067,7 +1067,7 @@
         "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
       ],
       "status": "published",
-      "coverKey": "bolt",
+      "coverKey": "art:lua:tangerina-petroleo:d",
       "popularity": 86,
       "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-p1"
     },
@@ -1088,7 +1088,7 @@
         "6855ae57-afdb-3854-a20e-e9613cdd8063"
       ],
       "status": "published",
-      "coverKey": "gordinho",
+      "coverKey": "art:galera:esmeralda-pessego:a",
       "popularity": 79,
       "ticketUrl": "https://example.com/ingressos/gordinho-pagode-de-sabado-p1"
     },
@@ -1109,7 +1109,7 @@
         "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
       ],
       "status": "published",
-      "coverKey": "pub426",
+      "coverKey": "art:neon:esmeralda-pessego:b",
       "popularity": 53
     },
     {
@@ -1129,7 +1129,7 @@
         "df60c370-47a0-3ec8-bcf4-d3657964c349"
       ],
       "status": "published",
-      "coverKey": "mare",
+      "coverKey": "art:sol-mare:coral-marinho:d",
       "popularity": 70,
       "ticketUrl": "https://example.com/ingressos/casa-mare-demo-encerrado"
     },
@@ -1151,7 +1151,7 @@
         "afd11fda-5593-3387-a6a6-4ed34dab6143"
       ],
       "status": "published",
-      "coverKey": "mare",
+      "coverKey": "art:disco:ceu-poente:b",
       "popularity": 90,
       "ticketUrl": "https://example.com/ingressos/casa-mare-demo-agora"
     },
@@ -1172,7 +1172,7 @@
         "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
       ],
       "status": "published",
-      "coverKey": "mare",
+      "coverKey": "art:disco:anil-ouro:a",
       "popularity": 80,
       "ticketUrl": "https://example.com/ingressos/casa-mare-demo-em-breve"
     },
@@ -1195,7 +1195,7 @@
         "a033a85b-4cdb-39ca-8937-a02f4deb3a81"
       ],
       "status": "published",
-      "coverKey": "pub426",
+      "coverKey": "art:vinil:ceu-poente:a",
       "popularity": 74,
       "ticketUrl": "https://example.com/ingressos/pub-426-anos-80-e-90-w0"
     },
@@ -1217,7 +1217,7 @@
         "afd11fda-5593-3387-a6a6-4ed34dab6143"
       ],
       "status": "published",
-      "coverKey": "mare",
+      "coverKey": "art:neon:lima-ameixa:d",
       "popularity": 78,
       "ticketUrl": "https://example.com/ingressos/casa-mare-mare-alta-w0"
     },
@@ -1239,7 +1239,7 @@
         "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
       ],
       "status": "published",
-      "coverKey": "bolt",
+      "coverKey": "art:neon:ceu-poente:a",
       "popularity": 88,
       "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-w0"
     },
@@ -1261,7 +1261,7 @@
         "b40790f3-93c7-3fd1-959a-4fba3f6f8d37"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:vinil:violeta-ciano:d",
       "popularity": 91,
       "ticketUrl": "https://example.com/ingressos/a-selva-discotopia-w0"
     },
@@ -1283,7 +1283,7 @@
         "92c5ee5f-2c70-35bf-af83-ed0b17eac919"
       ],
       "status": "published",
-      "coverKey": "gordinho",
+      "coverKey": "art:galera:sol-vinho:c",
       "popularity": 80,
       "ticketUrl": "https://example.com/ingressos/gordinho-pagode-de-sabado-w0"
     },
@@ -1307,7 +1307,7 @@
         "512cb209-39e2-3737-b3b2-973c39177006"
       ],
       "status": "published",
-      "coverKey": "fluente",
+      "coverKey": "art:galera:lima-ameixa:d",
       "popularity": 83,
       "ticketUrl": "https://example.com/ingressos/fluente-match-w0"
     },
@@ -1329,7 +1329,7 @@
         "2cb88238-8b85-3523-93b8-23f16dbe785b"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:galera:violeta-ciano:b",
       "popularity": 79,
       "ticketUrl": "https://example.com/ingressos/a-selva-noite-do-pagodao-w0"
     },
@@ -1350,7 +1350,7 @@
         "72cb1b78-5c53-368f-8632-b20a8590cb59"
       ],
       "status": "published",
-      "coverKey": "generic",
+      "coverKey": "art:penha:coral-marinho:b",
       "popularity": 57,
       "ticketUrl": "https://example.com/ingressos/correria-music-bar-noite-gotica-w0"
     },
@@ -1373,7 +1373,7 @@
         "b5765942-93ba-3552-bff9-e08d8e14c207"
       ],
       "status": "published",
-      "coverKey": "bolt",
+      "coverKey": "art:skyline:menta-amora:c",
       "popularity": 76,
       "ticketUrl": "https://example.com/ingressos/bolt-bolt-indie-club-w0"
     },
@@ -1394,7 +1394,7 @@
         "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
       ],
       "status": "published",
-      "coverKey": "pub426",
+      "coverKey": "art:guitarra:tangerina-petroleo:c",
       "popularity": 55
     },
     {
@@ -1414,7 +1414,7 @@
         "2cb88238-8b85-3523-93b8-23f16dbe785b"
       ],
       "status": "published",
-      "coverKey": "gordinho",
+      "coverKey": "art:ondas:rosa-ambar:d",
       "popularity": 68
     },
     {
@@ -1434,7 +1434,7 @@
         "df60c370-47a0-3ec8-bcf4-d3657964c349"
       ],
       "status": "published",
-      "coverKey": "mare",
+      "coverKey": "art:penha:coral-marinho:d",
       "popularity": 60,
       "ticketUrl": "https://example.com/ingressos/casa-mare-quinta-sertaneja-w0"
     },
@@ -1456,7 +1456,7 @@
         "72cb1b78-5c53-368f-8632-b20a8590cb59"
       ],
       "status": "published",
-      "coverKey": "generic",
+      "coverKey": "art:vinil:violeta-ciano:b",
       "popularity": 54,
       "ticketUrl": "https://example.com/ingressos/correria-music-bar-hardcore-na-itaparica-w1"
     },
@@ -1477,7 +1477,7 @@
         "8e444303-15a3-36c2-b22e-ef63b0e8cd42"
       ],
       "status": "published",
-      "coverKey": "fluente",
+      "coverKey": "art:neon:rosa-ambar:d",
       "popularity": 75,
       "ticketUrl": "https://example.com/ingressos/fluente-fluente-funk-w1"
     },
@@ -1499,7 +1499,7 @@
         "5feceed4-aef2-374c-b729-91849468146a"
       ],
       "status": "published",
-      "coverKey": "bolt",
+      "coverKey": "art:galera:lima-ameixa:b",
       "popularity": 82,
       "ticketUrl": "https://example.com/ingressos/bolt-funk-na-penha-w1"
     },
@@ -1520,7 +1520,7 @@
         "b5765942-93ba-3552-bff9-e08d8e14c207"
       ],
       "status": "published",
-      "coverKey": "pub426",
+      "coverKey": "art:raio:violeta-ciano:d",
       "popularity": 63,
       "ticketUrl": "https://example.com/ingressos/pub-426-rock-no-pub-w1"
     },
@@ -1542,7 +1542,7 @@
         "8b2d30e0-d042-3cf4-8692-b028781c7aa8"
       ],
       "status": "published",
-      "coverKey": "mare",
+      "coverKey": "art:equalizador:esmeralda-pessego:b",
       "popularity": 84,
       "ticketUrl": "https://example.com/ingressos/casa-mare-mare-alta-w1"
     },
@@ -1566,7 +1566,7 @@
         "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:skyline:anil-ouro:a",
       "popularity": 87,
       "ticketUrl": "https://example.com/ingressos/a-selva-baile-da-selva-w1"
     },
@@ -1588,7 +1588,7 @@
         "8d5c8ee8-9a40-3677-8c78-f0ba225304a0"
       ],
       "status": "published",
-      "coverKey": "bolt",
+      "coverKey": "art:skyline:rosa-oceano:b",
       "popularity": 70,
       "ticketUrl": "https://example.com/ingressos/bolt-retro-bolt-w1"
     },
@@ -1609,7 +1609,7 @@
         "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
       ],
       "status": "published",
-      "coverKey": "pub426",
+      "coverKey": "art:galera:coral-marinho:d",
       "popularity": 52
     },
     {
@@ -1629,7 +1629,7 @@
         "6a991642-49d1-347b-9b9a-1a0a10974c58"
       ],
       "status": "published",
-      "coverKey": "mare",
+      "coverKey": "art:vinil:violeta-ciano:b",
       "popularity": 46
     },
     {
@@ -1649,7 +1649,7 @@
         "92c5ee5f-2c70-35bf-af83-ed0b17eac919"
       ],
       "status": "published",
-      "coverKey": "gordinho",
+      "coverKey": "art:galera:violeta-ciano:c",
       "popularity": 65
     },
     {
@@ -1669,7 +1669,7 @@
         "51efadfc-e260-3164-9934-fed5f79d5056"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:ondas:esmeralda-pessego:b",
       "popularity": 58,
       "ticketUrl": "https://example.com/ingressos/a-selva-tecnobrega-selvagem-w1"
     },
@@ -1691,7 +1691,7 @@
         "a033a85b-4cdb-39ca-8937-a02f4deb3a81"
       ],
       "status": "published",
-      "coverKey": "pub426",
+      "coverKey": "art:skyline:menta-amora:a",
       "popularity": 48,
       "ticketUrl": "https://example.com/ingressos/pub-426-new-wave-night-w2"
     },
@@ -1713,7 +1713,7 @@
         "ff1b3603-3953-3e74-bc2e-3bb3ff18c274"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:neon:coral-marinho:d",
       "popularity": 89,
       "ticketUrl": "https://example.com/ingressos/a-selva-discotopia-w2"
     },
@@ -1734,7 +1734,7 @@
         "6855ae57-afdb-3854-a20e-e9613cdd8063"
       ],
       "status": "published",
-      "coverKey": "gordinho",
+      "coverKey": "art:sol-mare:coral-marinho:c",
       "popularity": 77,
       "ticketUrl": "https://example.com/ingressos/gordinho-pagode-de-sabado-w2"
     },
@@ -1755,7 +1755,7 @@
         "00aa5331-32b6-315d-b0e9-bb527f756d33"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:ondas:esmeralda-pessego:b",
       "popularity": 61
     },
     {
@@ -1777,7 +1777,7 @@
         "5feceed4-aef2-374c-b729-91849468146a"
       ],
       "status": "published",
-      "coverKey": "fluente",
+      "coverKey": "art:ponte:ceu-poente:b",
       "popularity": 81,
       "ticketUrl": "https://example.com/ingressos/fluente-match-w2"
     },
@@ -1800,7 +1800,7 @@
         "b5765942-93ba-3552-bff9-e08d8e14c207"
       ],
       "status": "published",
-      "coverKey": "generic",
+      "coverKey": "art:skyline:anil-ouro:a",
       "popularity": 67,
       "ticketUrl": "https://example.com/ingressos/correria-music-bar-metal-capixaba-fest-w2"
     },
@@ -1821,7 +1821,7 @@
         "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b"
       ],
       "status": "published",
-      "coverKey": "bolt",
+      "coverKey": "art:neon:turquesa-coral:c",
       "popularity": 85,
       "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-w2"
     },
@@ -1842,7 +1842,7 @@
         "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
       ],
       "status": "published",
-      "coverKey": "pub426",
+      "coverKey": "art:guitarra:lima-ameixa:b",
       "popularity": 50
     },
     {
@@ -1863,7 +1863,7 @@
         "6a991642-49d1-347b-9b9a-1a0a10974c58"
       ],
       "status": "published",
-      "coverKey": "mare",
+      "coverKey": "art:sol-mare:esmeralda-pessego:b",
       "popularity": 62,
       "ticketUrl": "https://example.com/ingressos/casa-mare-quinta-sertaneja-w2"
     },
@@ -1885,7 +1885,7 @@
         "92c5ee5f-2c70-35bf-af83-ed0b17eac919"
       ],
       "status": "published",
-      "coverKey": "gordinho",
+      "coverKey": "art:palmas:turquesa-coral:b",
       "popularity": 70,
       "ticketUrl": "https://example.com/ingressos/gordinho-roda-de-samba-da-praia-w3"
     },
@@ -1907,7 +1907,7 @@
         "6a991642-49d1-347b-9b9a-1a0a10974c58"
       ],
       "status": "published",
-      "coverKey": "fluente",
+      "coverKey": "art:penha:rosa-oceano:b",
       "popularity": 69,
       "ticketUrl": "https://example.com/ingressos/fluente-sofrencia-na-penha-w3"
     },
@@ -1928,7 +1928,7 @@
         "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b"
       ],
       "status": "draft",
-      "coverKey": "mare",
+      "coverKey": "art:neon:menta-amora:c",
       "popularity": 40,
       "ticketUrl": "https://example.com/ingressos/casa-mare-festa-rascunho-w3"
     },
@@ -1950,7 +1950,7 @@
         "b95aaecc-c28d-3d74-93b6-fd195ada1756"
       ],
       "status": "published",
-      "coverKey": "bolt",
+      "coverKey": "art:skyline:violeta-ciano:d",
       "popularity": 64,
       "ticketUrl": "https://example.com/ingressos/bolt-hip-hop-na-penha-w3"
     },
@@ -1972,7 +1972,7 @@
         "72cb1b78-5c53-368f-8632-b20a8590cb59"
       ],
       "status": "published",
-      "coverKey": "generic",
+      "coverKey": "art:raio:esmeralda-pessego:c",
       "popularity": 53,
       "ticketUrl": "https://example.com/ingressos/correria-music-bar-pos-punk-80-w3"
     },
@@ -1995,7 +1995,7 @@
         "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
       ],
       "status": "published",
-      "coverKey": "mare",
+      "coverKey": "art:vinil:lima-ameixa:d",
       "popularity": 86,
       "ticketUrl": "https://example.com/ingressos/casa-mare-mare-de-neon-w3"
     },
@@ -2017,7 +2017,7 @@
         "8d5c8ee8-9a40-3677-8c78-f0ba225304a0"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:guitarra:turquesa-coral:d",
       "popularity": 66,
       "ticketUrl": "https://example.com/ingressos/a-selva-selva-indie-w3"
     },
@@ -2038,7 +2038,7 @@
         "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
       ],
       "status": "cancelled",
-      "coverKey": "pub426",
+      "coverKey": "art:neon:lima-ameixa:c",
       "popularity": 51
     },
     {
@@ -2058,7 +2058,7 @@
         "6855ae57-afdb-3854-a20e-e9613cdd8063"
       ],
       "status": "published",
-      "coverKey": "selva",
+      "coverKey": "art:ondas:coral-marinho:c",
       "popularity": 72,
       "ticketUrl": "https://example.com/ingressos/a-selva-noite-do-pagodao-w3"
     }
