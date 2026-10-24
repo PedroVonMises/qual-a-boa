@@ -1,15 +1,8 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { ScreenStub } from '@/shell/ScreenStub';
+import { AvaliacoesScreen } from '@/features/avaliacoes/AvaliacoesScreen';
 
 export default function Screen() {
-  const params = useLocalSearchParams();
-  return (
-    <ScreenStub
-      title="Avaliações"
-      routeName="avaliacoes/[id]"
-      params={params}
-      links={[{ label: 'Casa', href: '/casa/exemplo' }]}
-    />
-  );
+  const { id, enviada } = useLocalSearchParams<{ id: string; enviada?: string }>();
+  return <AvaliacoesScreen id={id} sent={enviada === '1'} />;
 }
