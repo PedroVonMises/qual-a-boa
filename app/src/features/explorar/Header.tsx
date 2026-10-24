@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useGenres } from '@/data/queries';
 import { countActiveFilters } from '@/domain/filters';
+import { OUTSIDE_PILOT_MESSAGE } from '@/lib/location/pilot';
 import { useFilters } from '@/state/filters';
 import { useLocation } from '@/state/location';
 import { radius, space } from '@/theme/tokens';
@@ -75,6 +76,14 @@ function GenreChips() {
 
 export function Header({ onPickArea }: { onPickArea: () => void }) {
   const location = useLocation((s) => s.location);
+  const outsidePilot = useLocation((s) => s.outsidePilot);
+  const accuracyM = useLocation((s) => s.accuracyM);
+  const source = useLocation((s) => s.source);
+  const chipLabel = outsidePilot
+    ? OUTSIDE_PILOT_MESSAGE
+    : source === 'device' && accuracyM > 1000
+      ? `${location.label} (aproximada)`
+      : location.label;
   const radiusKm = useFilters((s) => s.filters.radiusKm);
   const [text, setText] = useSearchText();
   const { gutter } = useBreakpoint();
@@ -83,13 +92,13 @@ export function Header({ onPickArea }: { onPickArea: () => void }) {
     <View style={[styles.wrap, { paddingHorizontal: gutter }]}>
       <PressableScale
         accessibilityRole="button"
-        accessibilityLabel={`Local: ${location.label}, raio de ${radiusKm} km. Alterar`}
+        accessibilityLabel={`Local: ${chipLabel}, raio de ${radiusKm} km. Alterar`}
         onPress={onPickArea}
         style={[styles.location, { backgroundColor: colors.surfaceAlt }]}
         testID="location-chip">
         <Icon name="pin" size={18} color="accent" />
         <Text variant="bodySm" numberOfLines={1} style={styles.locText}>
-          {location.label}
+          {chipLabel}
         </Text>
         <Text variant="mono" tone="textMuted">
           {radiusKm} km
