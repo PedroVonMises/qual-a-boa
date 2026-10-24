@@ -249,17 +249,25 @@ export class SupabaseRepo implements Repo {
     if (!row) return null;
     const artist = mapArtist(row);
     const origin = from ?? DEFAULT_LOCATION;
+    // Two steps instead of an inner-joined embed: filtering on a second event_artists embed would
+    // truncate each event's line-up to this artist only.
+    const links = await this.wrap<Row[]>('próximos eventos', () =>
+      this.client.from('event_artists').select('event_id').eq('artist_id', artist.id),
+    );
+    const eventIds = [...new Set(links.map((l) => l.event_id as string))];
     const [eventRows, played] = await Promise.all([
-      this.wrap<Row[]>('próximos eventos', () =>
-        this.client
-          .from('events')
-          .select(`${EVENT_SELECT}, event_artists!inner(artist_id)`)
-          .eq('event_artists.artist_id', artist.id)
-          .eq('status', 'published')
-          .gte('starts_at', new Date().toISOString())
-          .order('starts_at', { ascending: true })
-          .order('id', { ascending: true }),
-      ),
+      eventIds.length
+        ? this.wrap<Row[]>('próximos eventos', () =>
+            this.client
+              .from('events')
+              .select(EVENT_SELECT)
+              .in('id', eventIds)
+              .eq('status', 'published')
+              .gte('starts_at', new Date().toISOString())
+              .order('starts_at', { ascending: true })
+              .order('id', { ascending: true }),
+          )
+        : Promise.resolve([] as Row[]),
       this.wrap<Row[]>('locais', () => this.client.rpc('artist_played_at', { p_artist_id: artist.id })),
     ]);
     const events = eventRows.map(mapEvent);
@@ -290,7 +298,7 @@ export class SupabaseRepo implements Repo {
     const q = query.trim().replace(/[%,()]/g, ' ');
     if (!q) return [];
     const rows = await this.wrap<Row[]>('artistas', () =>
-      this.client.from('artists').select('*').ilike('name', `%${q}%`).order('name').limit(limit),
+      this.client.from('artists').select('*').ilike('name', `%${q.replace(/[\%_]/g, '\$&')}%`).order('name').limit(limit),
     );
     return rows.map(mapArtist);
   }
