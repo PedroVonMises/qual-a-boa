@@ -8,6 +8,7 @@ import { SeedRepo } from '@/data/seedRepo';
 import { useDemoLoaded } from '@/state/demo';
 import { useFavorites } from '@/state/favorites';
 import { useFilters } from '@/state/filters';
+import { useLocation } from '@/state/location';
 import { useSession } from '@/state/session';
 import { PerfilView } from '../PerfilView';
 
@@ -96,5 +97,26 @@ describe('Perfil', () => {
     await fireEvent.press(screen.getByRole('button', { name: 'Voltar ao início (resetar app)' }));
     expect(useSession.getState().ageConfirmed).toBe(false);
     expect(mockReplace).toHaveBeenCalledWith('/onboarding/idade');
+  });
+});
+
+describe('Perfil localização', () => {
+  it('shows status, change-area, refresh and the on-device note; settings only when blocked', async () => {
+    useLocation.getState().resetLocation();
+    useLocation.getState().setPermission('undetermined');
+    await renderPerfil();
+    expect(screen.getByTestId('location-status')).toHaveTextContent(/Ponto padrão/);
+    expect(screen.getByText('Alterar bairro')).toBeTruthy();
+    expect(screen.getByText('Atualizar localização')).toBeTruthy();
+    expect(screen.getByText(/nunca é enviada a um servidor/)).toBeTruthy();
+    expect(screen.queryByText('Abrir configurações')).toBeNull();
+  });
+
+  it('blocked: offers Abrir configurações', async () => {
+    useLocation.getState().setPermission('blocked');
+    await renderPerfil();
+    expect(screen.getByTestId('location-status')).toHaveTextContent(/Bloqueada nas configurações/);
+    expect(screen.getByText('Abrir configurações')).toBeTruthy();
+    useLocation.getState().setPermission('undetermined');
   });
 });

@@ -11,7 +11,8 @@ import { Button, Chip, IconButton, Screen, Text } from '@/ui';
 import { NARROW_MAX_WIDTH } from '../layout';
 import { AreaSheet } from './AreaSheet';
 import { areaToLocation } from './areas';
-import { LOCATION_MESSAGES, requestDeviceLocation } from './deviceLocation';
+import { LOCATION_MESSAGES, LOCATION_RATIONALE, requestDeviceLocation } from './deviceLocation';
+import { openSettings } from '@/lib/location';
 import { RadiusArt } from './RadiusArt';
 
 /** Location + styles onboarding step (canvas Local). */
@@ -25,6 +26,7 @@ export function LocalView() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [blocked, setBlocked] = useState(false);
 
   const done = () => {
     finishOnboarding();
@@ -37,7 +39,10 @@ export function LocalView() {
     const result = await requestDeviceLocation();
     setBusy(false);
     if (result === 'granted') done();
-    else setMessage(LOCATION_MESSAGES[result]);
+    else {
+      setBlocked(result === 'blocked');
+      setMessage(LOCATION_MESSAGES[result]);
+    }
   };
 
   const chooseArea = (area: string) => {
@@ -64,6 +69,9 @@ export function LocalView() {
         <Text variant="body" tone="textMuted">
           Usamos sua localização só para ordenar as casas por distância. Você pode mudar isso depois.
         </Text>
+        <Text variant="bodySm" tone="textMuted" testID="location-rationale">
+          {LOCATION_RATIONALE}
+        </Text>
         <Text variant="bodySm" tone="textMuted">
           Seus estilos (opcional)
         </Text>
@@ -78,7 +86,17 @@ export function LocalView() {
           </Text>
         ) : null}
         <View style={styles.actions}>
-          <Button label="Usar minha localização" icon="pin" fullWidth loading={busy} onPress={useDevice} />
+          {blocked ? (
+            <Button label="Abrir configurações" icon="pin" fullWidth onPress={() => openSettings()} />
+          ) : null}
+          <Button
+            label="Usar minha localização"
+            icon="pin"
+            variant={blocked ? 'secondary' : 'primary'}
+            fullWidth
+            loading={busy}
+            onPress={useDevice}
+          />
           <Button label="Escolher o bairro" variant="secondary" fullWidth onPress={() => setPickerOpen(true)} />
         </View>
       </ScrollView>

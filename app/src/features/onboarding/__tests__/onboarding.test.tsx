@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import * as Location from 'expo-location';
 import type { ReactNode } from 'react';
+import { Linking } from 'react-native';
 
 import { setRepo } from '@/data';
 import { miniDataset } from '@/data/__fixtures__/mini';
@@ -21,12 +22,25 @@ jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
 );
 jest.mock('expo-location', () => ({
+  getForegroundPermissionsAsync: jest.fn(),
   requestForegroundPermissionsAsync: jest.fn(),
   getCurrentPositionAsync: jest.fn(),
+  getLastKnownPositionAsync: jest.fn(),
+  reverseGeocodeAsync: jest.fn(),
   Accuracy: { Balanced: 3 },
 }));
+const mockOpenSettings = jest.fn();
+jest.spyOn(Linking, 'openSettings').mockImplementation(mockOpenSettings);
 
-const perm = Location.requestForegroundPermissionsAsync as jest.Mock;
+const getPerm = Location.getForegroundPermissionsAsync as jest.Mock;
+const reqPerm = Location.requestForegroundPermissionsAsync as jest.Mock;
+const perm = {
+  mockResolvedValue: (v: { granted: boolean; canAskAgain?: boolean }) => {
+    const r = { status: v.granted ? 'granted' : 'denied', canAskAgain: true, ...v };
+    getPerm.mockResolvedValue(v.granted ? r : { ...r, status: 'undetermined' });
+    reqPerm.mockResolvedValue(r);
+  },
+};
 const pos = Location.getCurrentPositionAsync as jest.Mock;
 
 const wrap = (ui: ReactNode) => {
@@ -36,6 +50,7 @@ const wrap = (ui: ReactNode) => {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  (Location.reverseGeocodeAsync as jest.Mock).mockResolvedValue([{ district: 'Jardim da Penha' }]);
   setRepo(new SeedRepo(miniDataset));
   useSession.setState({ ageConfirmed: false, onboardingDone: false });
   useLocation.getState().resetLocation();
@@ -73,13 +88,32 @@ describe('Local', () => {
 
   it('granted: stores device location and finishes onboarding', async () => {
     perm.mockResolvedValue({ granted: true });
-    pos.mockResolvedValue({ coords: { latitude: -20.31, longitude: -40.3 } });
+    pos.mockResolvedValue({ coords: { latitude: -20.31, longitude: -40.3, accuracy: 20 }, timestamp: Date.now() });
     await wrap(<LocalView />);
     await fireEvent.press(screen.getByRole('button', { name: 'Usar minha localização' }));
     await waitFor(() => expect(mockReplace).toHaveBeenCalledWith('/'));
     expect(useLocation.getState().location).toMatchObject({ lat: -20.31, lng: -40.3 });
     expect(useLocation.getState().isCustom).toBe(true);
+    expect(useLocation.getState().source).toBe('device');
+    expect(useLocation.getState().location.label).toBe('Jardim da Penha');
     expect(useSession.getState().onboardingDone).toBe(true);
+  });
+
+  it('explains why before the system prompt', async () => {
+    await wrap(<LocalView />);
+    expect(screen.getByTestId('location-rationale')).toHaveTextContent(/permissão de localização do seu aparelho/);
+  });
+
+  it('blocked: distinct copy, opens settings, offers the area fallback', async () => {
+    perm.mockResolvedValue({ granted: false, canAskAgain: false });
+    await wrap(<LocalView />);
+    await fireEvent.press(screen.getByRole('button', { name: 'Usar minha localização' }));
+    expect(await screen.findByText(/bloqueada para o app/)).toBeTruthy();
+    expect(screen.queryByText(/Sem permissão de localização/)).toBeNull();
+    expect(screen.getByRole('button', { name: 'Escolher o bairro' })).toBeTruthy();
+    await fireEvent.press(screen.getByRole('button', { name: 'Abrir configurações' }));
+    expect(mockOpenSettings).toHaveBeenCalled();
+    expect(useSession.getState().onboardingDone).toBe(false);
   });
 
   it('denied: shows message, keeps default location, does not finish', async () => {
@@ -88,6 +122,7 @@ describe('Local', () => {
     await fireEvent.press(screen.getByRole('button', { name: 'Usar minha localização' }));
     expect(await screen.findByText(/Sem permissão de localização/)).toBeTruthy();
     expect(pos).not.toHaveBeenCalled();
+    expect(screen.queryByRole('button', { name: 'Abrir configurações' })).toBeNull();
     expect(useLocation.getState().location).toEqual(DEFAULT_LOCATION);
     expect(useSession.getState().onboardingDone).toBe(false);
     expect(mockReplace).not.toHaveBeenCalled();

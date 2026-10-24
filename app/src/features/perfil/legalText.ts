@@ -10,6 +10,7 @@ export const PRIVACY: LegalDoc = {
   paragraphs: [
     DRAFT,
     'Usamos sua localização apenas para ordenar casas e eventos por distância. Ela fica neste aparelho e você pode trocá-la quando quiser.',
+    'Sua localização fica somente neste aparelho e nunca é enviada a um servidor.',
     'Seus favoritos, filtros e preferências ficam salvos localmente. Nesta versão não há conta nem envio de dados pessoais.',
     'Você poderá pedir acesso, correção ou exclusão dos seus dados quando o login estiver disponível.',
   ],
