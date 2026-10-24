@@ -52,7 +52,6 @@
       "expo-image",
       "expo-localization",
       "expo-font",
-      "expo-build-properties",
       [
         "expo-build-properties",
         {
