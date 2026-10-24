@@ -298,7 +298,7 @@ export class SupabaseRepo implements Repo {
     const q = query.trim().replace(/[%,()]/g, ' ');
     if (!q) return [];
     const rows = await this.wrap<Row[]>('artistas', () =>
-      this.client.from('artists').select('*').ilike('name', `%${q.replace(/[\%_]/g, '\$&')}%`).order('name').limit(limit),
+      this.client.from('artists').select('*').ilike('name', `%${q.replace(/[\\%_]/g, '\\$&')}%`).order('name').limit(limit),
     );
     return rows.map(mapArtist);
   }
