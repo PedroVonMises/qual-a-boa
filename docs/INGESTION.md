@@ -33,3 +33,13 @@ Default data source stays `seed` until the feed has at least N real upcoming eve
 
 ## LGPD, takedown, retention
 No personal data is ingested (organizer names are business names). A takedown request removes the event/venue within 48 h. Past events are kept for history views and pruned after 12 months.
+
+## Core pipeline: curated submissions and approval flow (`ingest/`, agent D)
+Full field tables and commands: [`ingest/README.md`](../ingest/README.md). Summary:
+
+- **Tier 1, `manual`:** venues/producers send events as JSON or as a Google Form CSV export; files go in `ingest/data/curated/`. Columns are matched by header name (Nome do evento, Local, Endereço, Data, Horário de início/término, Valor mínimo/máximo, Gratuito, Idade mínima, Atrações, Link dos ingressos, Descrição, Status). JSON uses `title`, `venue`, `startsAt` (ISO, `-03:00` assumed when no zone), `endsAt`, `priceMin/priceMax` or `price` text, `isFree`, `ageMin`, `lineup[]`, `url` (https), `status`, optional stable `sourceId`. Invalid rows are reported in `ingest/out/candidates.json` (`needsReview`), never guessed.
+- **Tier 2, `link`:** `npm run add -- <https url>` appends to `ingest/data/links.txt`; robots.txt honored, 1 request / 2 s / host, JSON-LD `Event` then OpenGraph. Unparsable pages become `needsReview` entries.
+- **Approval:** tier 1 is published automatically. Tier 2/3 records are published only after their `source:sourceId` key (shown in the PR body and `candidates.json`, e.g. `link:3f2a9c1d5b7e0a44`) is added to `ingest/data/approved.json`. Cancellations seen on a source page apply to already published events without approval.
+- **Lifecycle:** a source page that returns 404/410, or a source status `cancelled`, turns the published event `cancelled`; events ended more than 24 h ago are dropped from the feed (history lives in the database later).
+- **Cutover:** the feed starts as a copy of the fictional seed and previous events are carried forward; one run with `--fresh` (`INGEST_FRESH=1`) replaces it with real data only.
+- **Workflow:** `.github/workflows/ingest.yml` (daily 09:00 UTC + manual) runs the pipeline and opens a PR titled "Ingest <date>: N new, M changed, K cancelled" touching only `app/public/feed/v1/**` and `ingest/data/approved.json`. Merging it is the human review. Requires the repo setting "Allow GitHub Actions to create pull requests". `SYMPLA_TOKENS_JSON` is an optional secret used by the Sympla API adapter.

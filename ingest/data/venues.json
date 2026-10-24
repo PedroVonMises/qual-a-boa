@@ -1,0 +1,93 @@
+[
+  {
+    "id": "bolt",
+    "name": "Bolt",
+    "aliases": ["Bolt Vitória", "Bolt Antimofo", "Bolt Bar"],
+    "address": "R. Darcy Grijó, 20 - Jardim da Penha",
+    "area": "Jardim da Penha",
+    "city": "Vitória",
+    "lat": -20.2778,
+    "lng": -40.2908,
+    "genreSlugs": ["funk", "pop-hits", "rock-indie", "hip-hop-rnb"],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "a-selva",
+    "name": "A Selva",
+    "aliases": ["Selva", "A Selva Vitória", "Selva Casa de Eventos"],
+    "address": "R. Sete de Setembro, 493 - Centro",
+    "area": "Centro",
+    "city": "Vitória",
+    "lat": -20.3195,
+    "lng": -40.3372,
+    "genreSlugs": ["funk", "pagode-samba", "eletronica-house", "forro-tecnobrega", "hip-hop-rnb", "rock-indie"],
+    "status": "open",
+    "hours": "Qui a sáb, 22h–05h"
+  },
+  {
+    "id": "gordinho",
+    "name": "Gordinho",
+    "aliases": ["Gordinho Praia do Canto", "Gordinho Bar"],
+    "address": "R. Joaquim Lírio, 823 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.2968,
+    "lng": -40.2949,
+    "genreSlugs": ["pagode-samba"],
+    "status": "open",
+    "hours": "Qui a sáb, a partir das 18h"
+  },
+  {
+    "id": "pub-426",
+    "name": "Pub 426",
+    "aliases": ["426", "Pub426", "Pub 426 Vitória"],
+    "address": "R. João da Cruz, 370 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.2985,
+    "lng": -40.2966,
+    "genreSlugs": ["pop-hits", "rock-indie", "karaoke-ao-vivo"],
+    "status": "open",
+    "hours": "Qua a sáb, 21h–03h (karaokê às quartas)"
+  },
+  {
+    "id": "fluente",
+    "name": "Fluente",
+    "aliases": ["Fluente Vitória", "Fluente Bar"],
+    "address": "Av. Saturnino Rangel Mauro - Jardim da Penha",
+    "area": "Jardim da Penha",
+    "city": "Vitória",
+    "lat": -20.2803,
+    "lng": -40.2885,
+    "genreSlugs": ["funk", "pop-hits", "sertanejo"],
+    "status": "unverified",
+    "hours": "Sex e sáb, 22h–04h"
+  },
+  {
+    "id": "correria-music-bar",
+    "name": "Correria Music Bar",
+    "aliases": ["Correria", "Correria Bar"],
+    "address": "Av. Est. José Júlio de Souza, 740 - Praia de Itaparica",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.3625,
+    "lng": -40.2838,
+    "genreSlugs": ["metal-punk-goth", "rock-indie"],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–04h"
+  },
+  {
+    "id": "casa-caipora",
+    "name": "Casa Caipora",
+    "aliases": ["Caipora"],
+    "address": "R. Nestor Gomes - Centro",
+    "area": "Centro",
+    "city": "Vitória",
+    "lat": -20.3182,
+    "lng": -40.3391,
+    "genreSlugs": ["pagode-samba", "hip-hop-rnb", "rock-indie", "eletronica-house"],
+    "status": "closed",
+    "hours": "Encerrou as atividades em out/2026"
+  }
+]

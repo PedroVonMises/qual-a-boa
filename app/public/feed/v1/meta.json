@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2026-10-24T23:11:52.790Z",
+  "counts": {
+    "events": 76,
+    "upcoming": 42,
+    "cancelled": 2,
+    "venues": 8,
+    "artists": 25
+  },
+  "sources": {
+    "seed": 76
+  },
+  "schemaVersion": 1
+}

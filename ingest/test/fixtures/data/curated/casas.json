@@ -1,0 +1,29 @@
+{
+  "events": [
+    {
+      "sourceId": "pub426-karaoke-nov",
+      "title": "Quarta de Karaokê",
+      "venue": "Pub 426",
+      "startsAt": "2026-11-18T21:00:00-03:00",
+      "endsAt": "2026-11-19T01:00:00-03:00",
+      "price": "gratuito",
+      "ageMin": 18,
+      "description": "Karaokê aberto, canta quem quiser."
+    },
+    {
+      "title": "Sexta Sertaneja com Henrique Alves e Dupla Pé de Serra",
+      "venue": "Quintal Rock Bar",
+      "address": "Rua das Palmeiras, 100 - Serra",
+      "date": "2026-11-27",
+      "start": "22h",
+      "end": "03:00",
+      "priceMin": 40,
+      "priceMax": 80,
+      "url": "https://quintalrock.example.com/sexta-sertaneja",
+      "lineup": ["Henrique Alves", "Dupla Pé de Serra"]
+    },
+    {
+      "title": "Evento sem local"
+    }
+  ]
+}
