@@ -1,6 +1,9 @@
 import { keepPreviousData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import type { GeoPoint, SearchParams } from '@/domain/types';
+import { useFeedInvalidation } from './feedStatus';
 import { getRepo } from './index';
+
+export { useFeedStatus, relativeTimePt } from './feedStatus';
 
 type SearchBase = Omit<SearchParams, 'cursor'>;
 
@@ -14,13 +17,18 @@ export const queryKeys = {
   artists: (q: string) => ['artists', q] as const,
 };
 
-export const useGenres = () =>
-  useQuery({ queryKey: queryKeys.genres, queryFn: () => getRepo().listGenres(), staleTime: Infinity });
+export function useGenres() {
+  useFeedInvalidation();
+  return useQuery({ queryKey: queryKeys.genres, queryFn: () => getRepo().listGenres(), staleTime: Infinity });
+}
 
-export const useAreas = () =>
-  useQuery({ queryKey: queryKeys.areas, queryFn: () => getRepo().listAreas(), staleTime: Infinity });
+export function useAreas() {
+  useFeedInvalidation();
+  return useQuery({ queryKey: queryKeys.areas, queryFn: () => getRepo().listAreas(), staleTime: Infinity });
+}
 
 export function useSearchEvents(params: SearchBase) {
+  useFeedInvalidation();
   return useInfiniteQuery({
     queryKey: queryKeys.search(params),
     queryFn: ({ pageParam }) => getRepo().searchEvents({ ...params, cursor: pageParam }),

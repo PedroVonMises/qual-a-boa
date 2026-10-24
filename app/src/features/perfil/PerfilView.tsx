@@ -17,6 +17,7 @@ import { radius, space } from '@/theme/tokens';
 import { Button, Icon, IconButton, ListRow, Screen, Switch, Text } from '@/ui';
 import { NARROW_MAX_WIDTH } from '../layout';
 import { AreaSheet } from '../explorar/AreaSheet';
+import { FeedStatusRow } from './FeedStatusRow';
 import { GenresSheet } from './GenresSheet';
 import { LegalSheet } from './LegalSheet';
 import { PRIVACY, TERMS, type LegalDoc } from './legalText';
@@ -173,6 +174,7 @@ export function PerfilView() {
         <ListRow title="Privacidade e dados (LGPD)" chevron divider onPress={() => setLegal(PRIVACY)} />
         <ListRow title="Termos de uso" chevron divider onPress={() => setLegal(TERMS)} />
         <ListRow title="Ajuda e suporte" chevron divider onPress={() => router.push('/ajuda')} />
+        <FeedStatusRow />
         <ListRow title="Versão do app" value={version} divider={__DEV__} />
         {__DEV__ ? (
           <ListRow

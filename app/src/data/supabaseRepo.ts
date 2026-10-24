@@ -86,6 +86,7 @@ export function mapEvent(r: Row): EventItem {
     priceMax: num(pick(r, 'price_max', 'priceMax')),
     isFree: pick<boolean>(r, 'is_free', 'isFree') ?? false,
     ticketUrl: pick<string | null>(r, 'ticket_url', 'ticketUrl') ?? undefined,
+    imageUrl: pick<string | null>(r, 'image_url', 'imageUrl') ?? undefined,
     ageMin: pick<number | null>(r, 'age_min', 'ageMin') ?? 18,
     genreSlugs,
     artistIds,

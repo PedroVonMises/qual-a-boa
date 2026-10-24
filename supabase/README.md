@@ -24,6 +24,11 @@ migrations/0005_engage.sql         event_follows, checkins, event_reports, revie
                                    revoked from public/anon/authenticated. SupportMessage.from is column `sender`
 0003_rls.sql note                  events (and their join rows) are readable when published OR cancelled; search_events and the
                                    history functions still filter published. https-only ticket_url / photo_url checks live in 0001
+migrations/0006_catalog_ingest.sql events.source/source_id/source_url/fetched_at/image_url (https checks, unique (source, source_id)
+                                   where both set); venue_aliases(venue_id, alias unique; read-only for anon/authenticated via RLS,
+                                   writes service_role only); cover_key CHECK relaxed to ^[a-z0-9:_-]{1,48}$ on venues and events;
+                                   search_events returns image_url after cover_key (function dropped, recreated, grants re-applied).
+                                   Tests: tests/catalog_ingest.test.ts. Used by ingest/ and the static feed (docs/INGESTION.md)
 tests/harness.ts                   PGlite + stub auth schema + roles anon/authenticated/service_role
 tests/reference.ts                 TS reading of the search spec used to cross-check the SQL
 tests/fixtures/seed-fixed.json     dataset with now = 2026-10-23T12:00:00Z
