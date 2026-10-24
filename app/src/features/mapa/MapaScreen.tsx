@@ -7,6 +7,7 @@ import { toSearchParams } from '@/domain/filters';
 import { rankItems } from '@/domain/recommend';
 import { useRecoContext } from '@/features/explorar/useSearch';
 import { useFilters } from '@/state/filters';
+import { refreshDeviceLocation, useLocationWatch } from '@/lib/location';
 import { useLocation } from '@/state/location';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
@@ -24,6 +25,7 @@ export function MapaScreen({ now }: { now?: string }) {
   const { isLarge } = useBreakpoint();
   const location = useLocation((s) => s.location);
   const isCustom = useLocation((s) => s.isCustom);
+  useLocationWatch(true);
   const filters = useFilters((s) => s.filters);
   const [query, setQuery] = useState('');
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -77,6 +79,8 @@ export function MapaScreen({ now }: { now?: string }) {
       onSelect={setSelectedId}
       center={location}
       userLocation={isCustom ? location : undefined}
+      onLocate={() => void refreshDeviceLocation(true)}
+      fitKey={pins.map((p) => p.venue.id).join(',')}
     />
   );
 

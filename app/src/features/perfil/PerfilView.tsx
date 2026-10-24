@@ -6,6 +6,8 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { RADIUS_OPTIONS } from '@/domain/filters';
 import { clearDemoData, loadDemoData, resetApp, useDemoLoaded } from '@/state/demo';
 import { OUTSIDE_PILOT_MESSAGE, openSettings, refreshDeviceLocation } from '@/lib/location';
+import { useGenres } from '@/data/queries';
+import { explainProfile, useResetRecommendations, useTasteProfile } from '../explorar/useTasteProfile';
 import { useFilters } from '@/state/filters';
 import { useLocation } from '@/state/location';
 import { useSession } from '@/state/session';
@@ -31,6 +33,10 @@ export function PerfilView() {
   const [genresOpen, setGenresOpen] = useState(false);
   const [legal, setLegal] = useState<LegalDoc | null>(null);
 
+  const profile = useTasteProfile();
+  const genres = useGenres();
+  const resetReco = useResetRecommendations();
+  const labelBySlug = Object.fromEntries((genres.data ?? []).map((g) => [g.slug, g.label]));
   const loc = useLocation();
   const permission = loc.permission;
   const [areaOpen, setAreaOpen] = useState(false);
@@ -118,6 +124,23 @@ export function PerfilView() {
         <Text variant="bodySm" tone="textMuted">
           Sua localização fica neste aparelho e nunca é enviada a um servidor.
         </Text>
+
+        <Text variant="caption" tone="textMuted" style={styles.section}>
+          RECOMENDAÇÕES
+        </Text>
+        <Text variant="bodySm" tone="textMuted">
+          Por que estou vendo isso?
+        </Text>
+        {explainProfile(profile, labelBySlug).map((line) => (
+          <Text key={line} variant="bodySm" testID="reco-explain-line">
+            {line}
+          </Text>
+        ))}
+        <Text variant="bodySm" tone="textMuted">
+          O gosto é calculado só neste aparelho, a partir dos seus salvos, eventos acompanhados, check-ins, avaliações e
+          filtros.
+        </Text>
+        <Button label="Zerar recomendações" variant="secondary" fullWidth onPress={() => resetReco()} />
 
         <Text variant="caption" tone="textMuted" style={styles.section}>
           DADOS DE DEMONSTRAÇÃO

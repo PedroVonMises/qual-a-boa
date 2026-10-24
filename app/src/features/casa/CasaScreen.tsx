@@ -8,6 +8,7 @@ import { Hero } from '@/features/evento/Hero';
 import { genreLabels, longDate, monthYear } from '@/features/evento/labels';
 import { openMaps } from '@/features/evento/linking';
 import { needsIllustrativeLabel } from '@/features/acompanhar/logic';
+import { useRecordView } from '@/features/explorar/useTasteProfile';
 import { useFavorites } from '@/state/favorites';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
@@ -19,6 +20,7 @@ export function CasaScreen({ slug }: { slug?: string }) {
   const router = useRouter();
   const goBack = useGoBack();
   const q = useVenue(slug);
+  useRecordView('venue', q.data ? slug : undefined);
   const genres = useGenres().data;
   const venueIds = useFavorites((s) => s.venueIds);
   const eventIds = useFavorites((s) => s.eventIds);
