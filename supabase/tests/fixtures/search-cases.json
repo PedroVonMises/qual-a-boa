@@ -9,6 +9,7 @@
       "sort": "date"
     },
     "expectedEventIds": [
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
       "c731778b-f2cc-35fb-b6d1-89c9440b4280",
       "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
       "54437fb9-a804-3431-85c8-f3a3a50647d9",
@@ -27,10 +28,9 @@
       "04dbb15c-0529-34c5-a430-26b9f31faae8",
       "6e542966-331e-38e2-82be-b385bbc00cca",
       "63d81cfb-de92-3871-ae18-1ba1444b709b",
-      "a92e1527-09a0-38b2-9f42-5782431aca47",
-      "256d60b1-db0b-39fd-b714-afb7e07e33fa"
+      "a92e1527-09a0-38b2-9f42-5782431aca47"
     ],
-    "expectedTotal": 39
+    "expectedTotal": 40
   },
   {
     "name": "sort distance",
@@ -53,6 +53,7 @@
       "256d60b1-db0b-39fd-b714-afb7e07e33fa",
       "affc57b6-a11c-3791-9732-d86ee5de69ee",
       "32bba6ee-0698-3001-8505-e1f36b67b261",
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
       "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
       "4a3e47a3-c12f-39b7-905c-0dd8b2e9f575",
       "6e542966-331e-38e2-82be-b385bbc00cca",
@@ -60,10 +61,9 @@
       "c2121608-13fa-33d1-8e17-0e3492c1a1d5",
       "c1ae43af-9926-37cc-9bc1-cc8d02d1b595",
       "3617fd16-9f81-399d-bef1-881a9988aa76",
-      "7269bb51-6b70-38ed-88f8-35d4192ee0ea",
-      "2f7b77c2-9ee0-3e7f-94ac-41920cdc7192"
+      "7269bb51-6b70-38ed-88f8-35d4192ee0ea"
     ],
-    "expectedTotal": 39
+    "expectedTotal": 40
   },
   {
     "name": "sort price (free first, null price last)",
@@ -99,6 +99,7 @@
       "c2121608-13fa-33d1-8e17-0e3492c1a1d5",
       "04580d93-93a2-33fb-81df-e87e4960754a",
       "881fa839-291d-36f5-a3f2-1879c051c36f",
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
       "54437fb9-a804-3431-85c8-f3a3a50647d9",
       "3617fd16-9f81-399d-bef1-881a9988aa76",
       "9316c5c3-b738-3345-aa73-e9297bab0313",
@@ -116,7 +117,7 @@
       "c1ae43af-9926-37cc-9bc1-cc8d02d1b595",
       "affc57b6-a11c-3791-9732-d86ee5de69ee"
     ],
-    "expectedTotal": 39
+    "expectedTotal": 40
   },
   {
     "name": "sort popularity desc",
@@ -138,6 +139,7 @@
       "3617fd16-9f81-399d-bef1-881a9988aa76",
       "9316c5c3-b738-3345-aa73-e9297bab0313",
       "2f7b77c2-9ee0-3e7f-94ac-41920cdc7192",
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
       "b83e0bc3-382d-307b-8467-710a99f3b967",
       "e07499e8-9f13-37ef-95f2-40d7fdf05490",
       "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
@@ -146,10 +148,9 @@
       "7269bb51-6b70-38ed-88f8-35d4192ee0ea",
       "c731778b-f2cc-35fb-b6d1-89c9440b4280",
       "60499e33-f9d1-30f2-b6cb-1cd21fc61017",
-      "a92e1527-09a0-38b2-9f42-5782431aca47",
-      "50ae2bfc-9032-3097-b71f-f28bbbf3deb7"
+      "a92e1527-09a0-38b2-9f42-5782431aca47"
     ],
-    "expectedTotal": 39
+    "expectedTotal": 40
   },
   {
     "name": "all results in one page",
@@ -162,6 +163,7 @@
       "limit": 100
     },
     "expectedEventIds": [
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
       "c731778b-f2cc-35fb-b6d1-89c9440b4280",
       "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
       "54437fb9-a804-3431-85c8-f3a3a50647d9",
@@ -202,7 +204,7 @@
       "881fa839-291d-36f5-a3f2-1879c051c36f",
       "60499e33-f9d1-30f2-b6cb-1cd21fc61017"
     ],
-    "expectedTotal": 39
+    "expectedTotal": 40
   },
   {
     "name": "radius 1 km around Praia do Canto",
@@ -215,6 +217,7 @@
       "limit": 50
     },
     "expectedEventIds": [
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
       "c731778b-f2cc-35fb-b6d1-89c9440b4280",
       "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
       "b83e0bc3-382d-307b-8467-710a99f3b967",
@@ -233,7 +236,7 @@
       "50ae2bfc-9032-3097-b71f-f28bbbf3deb7",
       "c1ae43af-9926-37cc-9bc1-cc8d02d1b595"
     ],
-    "expectedTotal": 17
+    "expectedTotal": 18
   },
   {
     "name": "radius 4 km excludes Vila Velha and Centro",
@@ -257,6 +260,7 @@
       "256d60b1-db0b-39fd-b714-afb7e07e33fa",
       "affc57b6-a11c-3791-9732-d86ee5de69ee",
       "32bba6ee-0698-3001-8505-e1f36b67b261",
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
       "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
       "4a3e47a3-c12f-39b7-905c-0dd8b2e9f575",
       "6e542966-331e-38e2-82be-b385bbc00cca",
@@ -274,7 +278,7 @@
       "b8cbd8a9-4d3d-3448-9669-e2a0203d2edd",
       "04580d93-93a2-33fb-81df-e87e4960754a"
     ],
-    "expectedTotal": 27
+    "expectedTotal": 28
   },
   {
     "name": "radius 0 km",
@@ -351,13 +355,13 @@
       "limit": 5
     },
     "expectedEventIds": [
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
       "c731778b-f2cc-35fb-b6d1-89c9440b4280",
       "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
       "54437fb9-a804-3431-85c8-f3a3a50647d9",
-      "59400a6d-5314-3719-8ba9-5c9ca7e3c8c6",
-      "b83e0bc3-382d-307b-8467-710a99f3b967"
+      "59400a6d-5314-3719-8ba9-5c9ca7e3c8c6"
     ],
-    "expectedTotal": 39
+    "expectedTotal": 40
   },
   {
     "name": "priceMax 0 = only free",
@@ -425,6 +429,7 @@
       "limit": 50
     },
     "expectedEventIds": [
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
       "c731778b-f2cc-35fb-b6d1-89c9440b4280",
       "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
       "54437fb9-a804-3431-85c8-f3a3a50647d9",
@@ -460,7 +465,7 @@
       "881fa839-291d-36f5-a3f2-1879c051c36f",
       "60499e33-f9d1-30f2-b6cb-1cd21fc61017"
     ],
-    "expectedTotal": 34
+    "expectedTotal": 35
   },
   {
     "name": "date range: next 3 days",
@@ -475,6 +480,7 @@
       "limit": 50
     },
     "expectedEventIds": [
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
       "c731778b-f2cc-35fb-b6d1-89c9440b4280",
       "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
       "54437fb9-a804-3431-85c8-f3a3a50647d9",
@@ -485,7 +491,7 @@
       "f24b7bab-518f-36a3-878d-38d2e38095cb",
       "39fddc4f-3496-3d5e-90d3-7ad7853923bd"
     ],
-    "expectedTotal": 9
+    "expectedTotal": 10
   },
   {
     "name": "dateFrom in the past overrides now",
@@ -508,6 +514,9 @@
       "ef1b5e1d-2b53-35ef-8d8b-e091911334fa",
       "c7082424-fef4-3f25-8ab2-4e37505330f2",
       "a5ddb53e-970c-3303-b135-efa417d240fb",
+      "7f894708-b0fc-3c0b-b14a-40e8f0cd8c64",
+      "75f0ee04-617f-357c-b238-db52f29008cc",
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
       "c731778b-f2cc-35fb-b6d1-89c9440b4280",
       "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
       "54437fb9-a804-3431-85c8-f3a3a50647d9",
@@ -518,7 +527,7 @@
       "f24b7bab-518f-36a3-878d-38d2e38095cb",
       "39fddc4f-3496-3d5e-90d3-7ad7853923bd"
     ],
-    "expectedTotal": 17
+    "expectedTotal": 20
   },
   {
     "name": "artist DJ Caju",
@@ -638,6 +647,7 @@
       "limit": 50
     },
     "expectedEventIds": [
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
       "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
       "4a3e47a3-c12f-39b7-905c-0dd8b2e9f575",
       "6e542966-331e-38e2-82be-b385bbc00cca",
@@ -645,7 +655,7 @@
       "c2121608-13fa-33d1-8e17-0e3492c1a1d5",
       "c1ae43af-9926-37cc-9bc1-cc8d02d1b595"
     ],
-    "expectedTotal": 6
+    "expectedTotal": 7
   },
   {
     "name": "query \"noctambulos\" (artist name)",
@@ -726,13 +736,13 @@
       "limit": 5
     },
     "expectedEventIds": [
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
       "c731778b-f2cc-35fb-b6d1-89c9440b4280",
       "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
       "54437fb9-a804-3431-85c8-f3a3a50647d9",
-      "59400a6d-5314-3719-8ba9-5c9ca7e3c8c6",
-      "b83e0bc3-382d-307b-8467-710a99f3b967"
+      "59400a6d-5314-3719-8ba9-5c9ca7e3c8c6"
     ],
-    "expectedTotal": 39
+    "expectedTotal": 40
   },
   {
     "name": "pagination page 2 (limit 5, cursor 5)",
@@ -746,13 +756,13 @@
       "cursor": "5"
     },
     "expectedEventIds": [
+      "b83e0bc3-382d-307b-8467-710a99f3b967",
       "3617fd16-9f81-399d-bef1-881a9988aa76",
       "e07499e8-9f13-37ef-95f2-40d7fdf05490",
       "f24b7bab-518f-36a3-878d-38d2e38095cb",
-      "39fddc4f-3496-3d5e-90d3-7ad7853923bd",
-      "91eaecd1-4fb7-3a25-83ec-b3a7e87a0ac7"
+      "39fddc4f-3496-3d5e-90d3-7ad7853923bd"
     ],
-    "expectedTotal": 39
+    "expectedTotal": 40
   },
   {
     "name": "pagination last partial page",
@@ -766,12 +776,13 @@
       "cursor": "35"
     },
     "expectedEventIds": [
+      "04580d93-93a2-33fb-81df-e87e4960754a",
       "94a65a02-a314-3374-9de2-3894395999f7",
       "c1ae43af-9926-37cc-9bc1-cc8d02d1b595",
       "881fa839-291d-36f5-a3f2-1879c051c36f",
       "60499e33-f9d1-30f2-b6cb-1cd21fc61017"
     ],
-    "expectedTotal": 39
+    "expectedTotal": 40
   },
   {
     "name": "combined: funk|pop-hits, <= 40, Jardim da Penha, by popularity",

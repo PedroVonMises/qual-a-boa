@@ -303,7 +303,17 @@ function pastStart(now: Date, weekday: number, weeksAgo: number, hour: number): 
 }
 
 // ---------------------------------------------------------------------------
-export function buildSeed(now: Date): SeedDataset {
+/**
+ * Casa Maré demo events relative to `now`, so Ao vivo / Avaliar can always be exercised
+ * (in progress, starting in ~2h, just ended). Included by default so seed.json and the fixed-now fixtures agree.
+ */
+const DEMO_LIVE: { key: string; title: string; startH: number; endH: number; genres: string[]; artists: string[]; price: [number, number]; popularity: number }[] = [
+  { key: 'agora', title: 'Maré Cheia (demo) - rolando agora', startH: -1, endH: 4, genres: ['eletronica-house', 'pop-hits'], artists: ['DJ Maresia'], price: [35, 50], popularity: 90 },
+  { key: 'em-breve', title: 'Maré Vazante (demo) - começa em 2h', startH: 2, endH: 7, genres: ['pop-hits'], artists: ['Lia Sol'], price: [30, 40], popularity: 80 },
+  { key: 'encerrado', title: 'Maré Baixa (demo) - acabou de encerrar', startH: -8, endH: -3, genres: ['sertanejo'], artists: ['Duo Moqueca'], price: [25, 35], popularity: 70 },
+];
+
+export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: true }): SeedDataset {
   const genres: Genre[] = GENRES.map(([slug, label]) => ({ id: genreId(slug), slug, label }));
 
   const venues: Venue[] = VENUES.map((v) => ({
@@ -357,9 +367,38 @@ export function buildSeed(now: Date): SeedDataset {
     return ev;
   };
 
+  const demoLive: EventItem[] = opts.demoLive
+    ? DEMO_LIVE.map((d) => {
+        const venue = venueBySlug.get('casa-mare');
+        if (!venue) throw new Error('casa-mare missing');
+        return {
+          id: eventId(`casa-mare-demo-${d.key}`),
+          title: d.title,
+          venueId: venue.id,
+          startsAt: new Date(now.getTime() + d.startH * 3_600_000).toISOString(),
+          endsAt: new Date(now.getTime() + d.endH * 3_600_000).toISOString(),
+          priceMin: d.price[0],
+          priceMax: d.price[1],
+          isFree: false,
+          ageMin: 18,
+          genreSlugs: sortGenres(d.genres),
+          artistIds: d.artists.map((n) => {
+            const a = artistByName.get(n);
+            if (!a) throw new Error(`unknown artist ${n}`);
+            return a.id;
+          }),
+          status: 'published' as const,
+          coverKey: venue.coverKey as CoverKey,
+          popularity: d.popularity,
+          ticketUrl: `https://example.com/ingressos/casa-mare-demo-${d.key}`,
+        };
+      })
+    : [];
+
   const events = [
     ...UPCOMING.map((s) => toEvent(s, 'w')),
     ...PAST.map((s) => toEvent(s, 'p')),
+    ...demoLive,
   ].sort((a, b) => a.startsAt.localeCompare(b.startsAt) || a.id.localeCompare(b.id));
 
   const ids = new Set<string>();

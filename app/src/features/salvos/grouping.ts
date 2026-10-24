@@ -1,3 +1,4 @@
+import { IN_PROGRESS_WINDOW_MS } from '@/domain/filters';
 import { toMs, type NowLike } from '@/domain/format';
 import type { EventDetail } from '@/domain/types';
 import type { Resolved } from './hooks';
@@ -19,7 +20,8 @@ export function groupSaved(items: SavedEvent[], now: NowLike): SavedGroups {
   for (const it of items) {
     if (it.loading) continue;
     const t = it.data ? Date.parse(it.data.event.startsAt) : -Infinity;
-    if (t < nowMs) out.past.push(it);
+    const endMs = it.data?.event.endsAt ? Date.parse(it.data.event.endsAt) : t + IN_PROGRESS_WINDOW_MS;
+    if (endMs < nowMs) out.past.push(it); // still running events stay with the upcoming ones
     else if (t < nowMs + WEEK_MS) out.week.push(it);
     else out.later.push(it);
   }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-24T17:50:40.819Z",
+  "generatedAt": "2026-10-24T19:28:16.576Z",
   "genres": [
     {
       "id": "18927a65-f850-38b3-a5ba-33a476a24a9b",
@@ -1113,6 +1113,49 @@
       "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-p1"
     },
     {
+      "id": "7f894708-b0fc-3c0b-b14a-40e8f0cd8c64",
+      "title": "Maré Baixa (demo) - acabou de encerrar",
+      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
+      "startsAt": "2026-10-24T11:28:16.576Z",
+      "endsAt": "2026-10-24T16:28:16.576Z",
+      "priceMin": 25,
+      "priceMax": 35,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "sertanejo"
+      ],
+      "artistIds": [
+        "df60c370-47a0-3ec8-bcf4-d3657964c349"
+      ],
+      "status": "published",
+      "coverKey": "mare",
+      "popularity": 70,
+      "ticketUrl": "https://example.com/ingressos/casa-mare-demo-encerrado"
+    },
+    {
+      "id": "75f0ee04-617f-357c-b238-db52f29008cc",
+      "title": "Maré Cheia (demo) - rolando agora",
+      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
+      "startsAt": "2026-10-24T18:28:16.576Z",
+      "endsAt": "2026-10-24T23:28:16.576Z",
+      "priceMin": 35,
+      "priceMax": 50,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "eletronica-house",
+        "pop-hits"
+      ],
+      "artistIds": [
+        "afd11fda-5593-3387-a6a6-4ed34dab6143"
+      ],
+      "status": "published",
+      "coverKey": "mare",
+      "popularity": 90,
+      "ticketUrl": "https://example.com/ingressos/casa-mare-demo-agora"
+    },
+    {
       "id": "b83e0bc3-382d-307b-8467-710a99f3b967",
       "title": "Pagode de Sábado",
       "venueId": "6501df07-02c0-3cad-8679-e6913649a4c0",
@@ -1133,6 +1176,27 @@
       "coverKey": "gordinho",
       "popularity": 80,
       "ticketUrl": "https://example.com/ingressos/gordinho-pagode-de-sabado-w0"
+    },
+    {
+      "id": "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
+      "title": "Maré Vazante (demo) - começa em 2h",
+      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
+      "startsAt": "2026-10-24T21:28:16.576Z",
+      "endsAt": "2026-10-25T02:28:16.576Z",
+      "priceMin": 30,
+      "priceMax": 40,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pop-hits"
+      ],
+      "artistIds": [
+        "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
+      ],
+      "status": "published",
+      "coverKey": "mare",
+      "popularity": 80,
+      "ticketUrl": "https://example.com/ingressos/casa-mare-demo-em-breve"
     },
     {
       "id": "3617fd16-9f81-399d-bef1-881a9988aa76",

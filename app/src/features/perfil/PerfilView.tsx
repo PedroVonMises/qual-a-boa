@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { RADIUS_OPTIONS } from '@/domain/filters';
+import { clearDemoData, loadDemoData, resetApp, useDemoLoaded } from '@/state/demo';
 import { useFilters } from '@/state/filters';
 import { useSession } from '@/state/session';
 import { useTheme } from '@/theme/ThemeProvider';
@@ -22,6 +23,7 @@ export function PerfilView() {
   const radiusKm = useFilters((s) => s.filters.radiusKm);
   const setFilters = useFilters((s) => s.set);
   const resetSession = useSession((s) => s.reset);
+  const demoLoaded = useDemoLoaded((s) => s.loaded);
   const [alerts, setAlerts] = useState(true);
   const [genresOpen, setGenresOpen] = useState(false);
   const [legal, setLegal] = useState<LegalDoc | null>(null);
@@ -70,6 +72,26 @@ export function PerfilView() {
           <IconButton icon="chevronRight" label="Aumentar raio" variant="filled" disabled={idx >= RADIUS_OPTIONS.length - 1} onPress={() => step(1)} />
         </View>
         <Switch label="Avisos de eventos salvos" value={alerts} onValueChange={setAlerts} style={styles.switchRow} />
+
+        <Text variant="caption" tone="textMuted" style={styles.section}>
+          DADOS DE DEMONSTRAÇÃO
+        </Text>
+        <Text variant="bodySm" tone="textMuted" testID="demo-explainer">
+          Preenche este aparelho com dados de exemplo (salvos, acompanhando, check-in, avaliações e mensagens) para você
+          testar o app. Nada é enviado para a internet.{demoLoaded ? ' Dados de exemplo carregados.' : ''}
+        </Text>
+        <Button label="Carregar dados de exemplo" variant="secondary" fullWidth onPress={() => loadDemoData()} />
+        <Button label="Limpar dados de exemplo" variant="secondary" fullWidth onPress={() => clearDemoData()} />
+        <Button
+          label="Voltar ao início (resetar app)"
+          variant="ghost"
+          fullWidth
+          accessibilityHint="Apaga tudo neste aparelho e mostra a verificação de idade de novo"
+          onPress={() => {
+            resetApp();
+            router.replace('/onboarding/idade');
+          }}
+        />
 
         <Text variant="caption" tone="textMuted" style={styles.section}>
           SOBRE

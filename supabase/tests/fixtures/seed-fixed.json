@@ -1113,6 +1113,70 @@
       "popularity": 53
     },
     {
+      "id": "7f894708-b0fc-3c0b-b14a-40e8f0cd8c64",
+      "title": "Maré Baixa (demo) - acabou de encerrar",
+      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
+      "startsAt": "2026-10-23T04:00:00.000Z",
+      "endsAt": "2026-10-23T09:00:00.000Z",
+      "priceMin": 25,
+      "priceMax": 35,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "sertanejo"
+      ],
+      "artistIds": [
+        "df60c370-47a0-3ec8-bcf4-d3657964c349"
+      ],
+      "status": "published",
+      "coverKey": "mare",
+      "popularity": 70,
+      "ticketUrl": "https://example.com/ingressos/casa-mare-demo-encerrado"
+    },
+    {
+      "id": "75f0ee04-617f-357c-b238-db52f29008cc",
+      "title": "Maré Cheia (demo) - rolando agora",
+      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
+      "startsAt": "2026-10-23T11:00:00.000Z",
+      "endsAt": "2026-10-23T16:00:00.000Z",
+      "priceMin": 35,
+      "priceMax": 50,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "eletronica-house",
+        "pop-hits"
+      ],
+      "artistIds": [
+        "afd11fda-5593-3387-a6a6-4ed34dab6143"
+      ],
+      "status": "published",
+      "coverKey": "mare",
+      "popularity": 90,
+      "ticketUrl": "https://example.com/ingressos/casa-mare-demo-agora"
+    },
+    {
+      "id": "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
+      "title": "Maré Vazante (demo) - começa em 2h",
+      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
+      "startsAt": "2026-10-23T14:00:00.000Z",
+      "endsAt": "2026-10-23T19:00:00.000Z",
+      "priceMin": 30,
+      "priceMax": 40,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pop-hits"
+      ],
+      "artistIds": [
+        "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
+      ],
+      "status": "published",
+      "coverKey": "mare",
+      "popularity": 80,
+      "ticketUrl": "https://example.com/ingressos/casa-mare-demo-em-breve"
+    },
+    {
       "id": "c731778b-f2cc-35fb-b6d1-89c9440b4280",
       "title": "Anos 80 & 90",
       "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
