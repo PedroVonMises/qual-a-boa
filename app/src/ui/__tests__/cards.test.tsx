@@ -1,6 +1,8 @@
 import '../testSetup';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
+import { COVER_PALETTE_IDS, COVER_TEMPLATE_IDS, COVER_VARIANT_IDS } from '@/domain/cover';
+import { LEGACY_COVER_KEYS } from '@/domain/types';
 import { ArtistRow, Cover, EmptyState, ErrorState, EventCard, VenueRow } from '..';
 import { HIDDEN, heightOf } from '../testHelpers';
 
@@ -61,9 +63,47 @@ describe('VenueRow / ArtistRow', () => {
 });
 
 describe('Cover', () => {
-  it.each(['bolt', 'selva', 'gordinho', 'pub426', 'caipora', 'fluente', 'mare', 'generic'] as const)('renders %s', async (k) => {
+  it.each(LEGACY_COVER_KEYS)('renders legacy key %s', async (k) => {
     await render(<Cover coverKey={k} />);
     expect(screen.getByTestId(`cover-${k}`, HIDDEN)).toBeTruthy();
+  });
+
+  const combos = COVER_TEMPLATE_IDS.flatMap((t) => COVER_PALETTE_IDS.map((p) => [t, p] as const));
+  it.each(combos)('renders template %s in palette %s', async (t, p) => {
+    const key = `art:${t}:${p}:${COVER_VARIANT_IDS[(t.length + p.length) % COVER_VARIANT_IDS.length]}`;
+    await render(<Cover coverKey={key} />);
+    expect(screen.getByTestId(`cover-${key}`, HIDDEN)).toBeTruthy();
+  });
+
+  it.each(COVER_VARIANT_IDS)('renders variant %s', async (v) => {
+    await render(<Cover coverKey={`art:disco:rosa-ambar:${v}`} />);
+    expect(screen.getByTestId(`cover-art:disco:rosa-ambar:${v}`, HIDDEN)).toBeTruthy();
+  });
+
+  it('unknown keys fall back to the generic art', async () => {
+    await render(<Cover coverKey="art:nao-existe:rosa-ambar:a" />);
+    expect(screen.getByTestId('cover-art:nao-existe:rosa-ambar:a', HIDDEN)).toBeTruthy();
+  });
+
+  it('gives every cover on screen its own gradient ids', async () => {
+    await render(
+      <>
+        <Cover coverKey="art:disco:rosa-ambar:a" />
+        <Cover coverKey="art:disco:rosa-ambar:a" />
+      </>,
+    );
+    const ids = (JSON.stringify(screen.toJSON()).match(/"name":"[^"]+-bg"/g) ?? []) as string[];
+    expect(ids).toHaveLength(2);
+    expect(new Set(ids).size).toBe(2);
+  });
+
+  it('shows the organizer poster and falls back to the illustration on error', async () => {
+    await render(<Cover coverKey="art:disco:rosa-ambar:a" imageUrl="https://example.com/p.jpg" />);
+    const img = screen.getByTestId('cover-image', HIDDEN);
+    expect(screen.queryByTestId('cover-art:disco:rosa-ambar:a', HIDDEN)).toBeNull();
+    await fireEvent(img, 'error', { nativeEvent: { error: 'x' } });
+    expect(screen.queryByTestId('cover-image', HIDDEN)).toBeNull();
+    expect(screen.getByTestId('cover-art:disco:rosa-ambar:a', HIDDEN)).toBeTruthy();
   });
 });
 

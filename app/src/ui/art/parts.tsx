@@ -31,23 +31,23 @@ export function Grad({
  * Crowd silhouette (port of the <symbol id="p|pa"> in bolt/gordinho.svg).
  * viewBox 0 0 40 70, or -8 -4 56 74 with raised arms; meet-fit and centered into (w, h).
  */
-export function Person({ x, y, w, h, arms }: { x: number; y: number; w: number; h: number; arms?: boolean }) {
+export function Person({ x, y, w, h, arms, fill = INK }: { x: number; y: number; w: number; h: number; arms?: boolean; fill?: string }) {
   const [vx, vy, vw, vh] = arms ? [-8, -4, 56, 74] : [0, 0, 40, 70];
   const s = Math.min(w / vw, h / vh);
   const tx = x + (w - vw * s) / 2 - vx * s;
   const ty = y + (h - vh * s) / 2 - vy * s;
   return (
     <>
-      <Circle cx={tx + 20 * s} cy={ty + 14 * s} r={11 * s} fill={INK} />
+      <Circle cx={tx + 20 * s} cy={ty + 14 * s} r={11 * s} fill={fill} />
       <Path
         d="M0 70C0 40 8 30 20 30s20 10 20 40z"
-        fill={INK}
+        fill={fill}
         transform={`translate(${tx} ${ty}) scale(${s})`}
       />
       {arms ? (
         <Path
           d="M8 42L-2 6M32 42L42 6"
-          stroke={INK}
+          stroke={fill}
           strokeWidth={7 * s}
           strokeLinecap="round"
           fill="none"

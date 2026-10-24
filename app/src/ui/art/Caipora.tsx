@@ -2,21 +2,21 @@ import { Circle, Defs, G, Polygon, Rect } from 'react-native-svg';
 
 import { Grad } from './parts';
 
-export function CaiporaArt() {
+export function CaiporaArt({ uid }: { uid: string }) {
   return (
     <>
       <Defs>
-        <Grad id="cai-bg" stops={[[0, '#3A3835'], [1, '#181716']]} />
-        <Grad id="cai-fog" stops={[[0, '#A8A29A', 0], [1, '#A8A29A', 0.25]]} />
+        <Grad id={`${uid}-bg`} stops={[[0, '#3A3835'], [1, '#181716']]} />
+        <Grad id={`${uid}-fog`} stops={[[0, '#A8A29A', 0], [1, '#A8A29A', 0.25]]} />
       </Defs>
-      <Rect width={400} height={500} fill="url(#cai-bg)" />
+      <Rect width={400} height={500} fill={`url(#${uid}-bg)`} />
       <Circle cx={270} cy={130} r={64} fill="none" stroke="#F4F1EC" strokeOpacity={0.35} strokeWidth={2} />
       <Circle cx={270} cy={130} r={50} fill="#F4F1EC" fillOpacity={0.1} />
       <G fill="#262421">
         <Polygon points="0,500 0,260 40,330 70,250 110,340 140,270 190,500" />
         <Polygon points="200,500 250,280 290,350 320,260 360,340 400,270 400,500" />
       </G>
-      <Rect x={0} y={300} width={400} height={140} fill="url(#cai-fog)" />
+      <Rect x={0} y={300} width={400} height={140} fill={`url(#${uid}-fog)`} />
       <G fill="#14130F">
         <Polygon points="-20,500 20,300 40,360 70,280 100,370 130,320 160,500" />
         <Polygon points="170,500 210,360 240,420 270,330 300,430 340,350 380,500" />

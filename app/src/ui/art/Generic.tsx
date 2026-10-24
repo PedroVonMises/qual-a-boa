@@ -4,13 +4,13 @@ import { palette } from '@/theme/tokens';
 import { Grad } from './parts';
 
 /** Neutral cover: wine gradient with the bulb mark (unlit) as a watermark. */
-export function GenericArt() {
+export function GenericArt({ uid }: { uid: string }) {
   return (
     <>
       <Defs>
-        <Grad id="gen-bg" stops={[[0, palette.wine], [1, '#14100F']]} />
+        <Grad id={`${uid}-bg`} stops={[[0, palette.wine], [1, '#14100F']]} />
       </Defs>
-      <Rect width={400} height={500} fill="url(#gen-bg)" />
+      <Rect width={400} height={500} fill={`url(#${uid}-bg)`} />
       <G transform="translate(200 250) scale(1.4) rotate(-45)" opacity={0.28}>
         <G fill="none" stroke={palette.blush} strokeWidth={16} strokeLinecap="round">
           <Path d="M29.1 54.7A62 62 0 1 0 -29.1 54.7" />

@@ -16,6 +16,7 @@ import type {
   SeedDataset,
   Venue,
 } from '../../app/src/domain/types';
+import { coverFor } from '../../app/src/domain/cover';
 
 /** Deterministic UUID (md5, RFC 4122 v3 layout) derived from a namespaced slug. */
 export function uuidFromSlug(key: string): string {
@@ -360,7 +361,7 @@ export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: 
       genreSlugs: sortGenres(s.genres),
       artistIds,
       status: s.status ?? 'published',
-      coverKey: venue.coverKey as CoverKey,
+      coverKey: coverFor({ genreSlugs: sortGenres(s.genres), venueSlug: venue.slug, eventId: eventId(key) }),
       popularity: s.popularity,
     };
     if (!isFree) ev.ticketUrl = `https://example.com/ingressos/${key}`;
@@ -388,7 +389,7 @@ export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: 
             return a.id;
           }),
           status: 'published' as const,
-          coverKey: venue.coverKey as CoverKey,
+          coverKey: coverFor({ genreSlugs: d.genres, venueSlug: venue.slug, eventId: eventId(`casa-mare-demo-${d.key}`) }),
           popularity: d.popularity,
           ticketUrl: `https://example.com/ingressos/casa-mare-demo-${d.key}`,
         };
