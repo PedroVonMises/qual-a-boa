@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 
+import { pushFollow, pushUnfollow } from '@/data/sync/follows';
+
 import { safeMerge } from './safeMerge';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -94,11 +96,28 @@ export const useFollows = create<FollowsStore>()(
   persist(
     (set, get) => ({
       ...emptyFollows,
-      follow: (eventId, nowIso = new Date().toISOString()) => set((s) => followEvent(s, eventId, nowIso)),
-      unfollow: (eventId) => set((s) => unfollowEvent(s, eventId)),
-      setAlert: (eventId, kind, on) => set((s) => setAlert(s, eventId, kind, on)),
-      setChannel: (eventId, channel, on) => set((s) => setChannel(s, eventId, channel, on)),
-      setHasTicket: (eventId, v) => set((s) => setHasTicket(s, eventId, v)),
+      follow: (eventId, nowIso = new Date().toISOString()) => {
+        const had = !!get().follows[eventId];
+        set((s) => followEvent(s, eventId, nowIso));
+        if (!had) void pushFollow(get().follows[eventId]);
+      },
+      unfollow: (eventId) => {
+        const had = !!get().follows[eventId];
+        set((s) => unfollowEvent(s, eventId));
+        if (had) void pushUnfollow(eventId);
+      },
+      setAlert: (eventId, kind, on) => {
+        set((s) => setAlert(s, eventId, kind, on));
+        void pushFollow(get().follows[eventId]);
+      },
+      setChannel: (eventId, channel, on) => {
+        set((s) => setChannel(s, eventId, channel, on));
+        void pushFollow(get().follows[eventId]);
+      },
+      setHasTicket: (eventId, v) => {
+        set((s) => setHasTicket(s, eventId, v));
+        void pushFollow(get().follows[eventId]);
+      },
       addChanges: (list) => set((s) => addChanges(s, list)),
       markRead: (id) => set((s) => markRead(s, id)),
       markAllRead: (eventId) => set((s) => markAllRead(s, eventId)),

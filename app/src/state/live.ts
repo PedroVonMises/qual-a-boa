@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 
+import { pushReport } from '@/data/sync/live';
+
 import { safeMerge } from './safeMerge';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -48,6 +50,8 @@ export const reportsFor = (list: LiveReport[], eventId: string) => list.filter((
 interface LiveStore {
   /** Reports made on this device. Community reports arrive with the backend (migration 0005). */
   reports: LiveReport[];
+  /** Ids of local reports the server rejected (no check-in, throttle). Kept locally, never retried. */
+  unsynced: string[];
   report: (input: ReportInput, nowIso?: string) => LiveReport | null;
 }
 
@@ -57,10 +61,14 @@ export const useLive = create<LiveStore>()(
   persist(
     (set, get) => ({
       reports: [],
+      unsynced: [],
       report: (input, nowIso = new Date().toISOString()) => {
         seq += 1;
         const r = buildReport(input, `local-${Date.parse(nowIso)}-${seq}-${Math.random().toString(36).slice(2, 7)}`, nowIso);
-        if (r) set({ reports: addReport(get().reports, r) });
+        if (r) {
+          set({ reports: addReport(get().reports, r) });
+          void pushReport(r);
+        }
         return r;
       },
     }),
@@ -68,7 +76,7 @@ export const useLive = create<LiveStore>()(
       name: 'qab.live',
       merge: (persisted, current) => safeMerge(persisted, current),
       storage: createJSONStorage(() => AsyncStorage),
-      partialize: (s) => ({ reports: s.reports }),
+      partialize: (s) => ({ reports: s.reports, unsynced: s.unsynced }),
     },
   ),
 );
