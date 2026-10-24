@@ -3,6 +3,9 @@ import { create } from 'zustand';
 
 import { safeMerge } from './safeMerge';
 
+import { isRemote } from '@/data/supabaseClient';
+import { pushHelpful, pushReport, pushReview } from '@/data/sync/reviews';
+
 import { useCheckins } from '@/state/checkins';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -56,11 +59,18 @@ interface ReviewsStore {
   mine: Review[];
   helpfulIds: string[];
   reportedIds: string[];
+  /** Event ids whose own review is not on the server yet (offline, signed out or rejected). Empty when not remote. */
+  unsynced: string[];
+  /** Review ids whose report the server accepted ('Denúncia enviada'); the rest are only saved on this device. */
+  reportSentIds: string[];
   submitReview: (input: ReviewInput) => Review;
   toggleHelpful: (id: string) => void;
   report: (id: string) => void;
   isHelpful: (id: string) => boolean;
   isReported: (id: string) => boolean;
+  isReportSent: (id: string) => boolean;
+  /** Merges the author's own server row for an event (e.g. moderation status) unless a local edit is unsent. */
+  adoptRemote: (eventId: string, remote: Review[]) => void;
   mineFor: (eventId: string) => Review | undefined;
 }
 
@@ -73,6 +83,8 @@ export const useReviews = create<ReviewsStore>()(
       mine: [],
       helpfulIds: [],
       reportedIds: [],
+      unsynced: [],
+      reportSentIds: [],
       submitReview: (input) => {
         const review: Review = {
           id: newId(),
@@ -89,21 +101,64 @@ export const useReviews = create<ReviewsStore>()(
           mine: true,
         };
         // One review per event: editing replaces the previous one (and re-enters moderation).
-        set((s) => ({ mine: [review, ...s.mine.filter((r) => r.eventId !== input.eventId)] }));
+        set((s) => ({
+          mine: [review, ...s.mine.filter((r) => r.eventId !== input.eventId)],
+          unsynced: isRemote() && !s.unsynced.includes(review.eventId) ? [...s.unsynced, review.eventId] : s.unsynced,
+        }));
+        if (isRemote()) void syncReview(review);
         return review;
       },
-      toggleHelpful: (id) =>
-        set((s) => ({ helpfulIds: s.helpfulIds.includes(id) ? s.helpfulIds.filter((x) => x !== id) : [...s.helpfulIds, id] })),
-      report: (id) => set((s) => (s.reportedIds.includes(id) ? s : { reportedIds: [...s.reportedIds, id] })),
+      toggleHelpful: (id) => {
+        const on = !get().helpfulIds.includes(id);
+        set((s) => ({ helpfulIds: on ? [...s.helpfulIds, id] : s.helpfulIds.filter((x) => x !== id) }));
+        if (isRemote()) void pushHelpful(id, on);
+      },
+      report: (id) => {
+        if (get().reportedIds.includes(id)) return;
+        set((s) => ({ reportedIds: [...s.reportedIds, id] }));
+        if (!isRemote()) return;
+        void pushReport(id).then((ok) => {
+          if (ok) set((s) => (s.reportSentIds.includes(id) ? s : { reportSentIds: [...s.reportSentIds, id] }));
+        });
+      },
       isHelpful: (id) => get().helpfulIds.includes(id),
       isReported: (id) => get().reportedIds.includes(id),
+      isReportSent: (id) => get().reportSentIds.includes(id),
+      adoptRemote: (eventId, remote) => {
+        const row = remote.find((r) => r.mine);
+        if (!row || get().unsynced.includes(eventId)) return;
+        set((s) => ({ mine: [row, ...s.mine.filter((r) => r.eventId !== eventId)] }));
+      },
       mineFor: (eventId) => get().mine.find((r) => r.eventId === eventId),
     }),
     {
       name: 'qab.reviews',
       merge: (persisted, current) => safeMerge(persisted, current),
       storage: createJSONStorage(() => AsyncStorage),
-      partialize: (s) => ({ mine: s.mine, helpfulIds: s.helpfulIds, reportedIds: s.reportedIds }),
+      partialize: (s) => ({
+        mine: s.mine,
+        helpfulIds: s.helpfulIds,
+        reportedIds: s.reportedIds,
+        unsynced: s.unsynced,
+        reportSentIds: s.reportSentIds,
+      }),
     },
   ),
 );
+
+/**
+ * Fire-and-forget push of the author's review. On success the local temp id becomes the server id; on any failure the
+ * event stays in `unsynced` (no retry loop: the next edit or resubmit tries again). The server decides the status.
+ */
+async function syncReview(review: Review): Promise<void> {
+  const serverId = await pushReview(review);
+  if (!serverId) return;
+  useReviews.setState((s) => {
+    // Skip when the user edited again meanwhile: that newer submit pushes (and flags) itself.
+    if (!s.mine.some((r) => r.id === review.id)) return s;
+    return {
+      unsynced: s.unsynced.filter((e) => e !== review.eventId),
+      mine: s.mine.map((r) => (r.id === review.id ? { ...r, id: serverId } : r)),
+    };
+  });
+}
