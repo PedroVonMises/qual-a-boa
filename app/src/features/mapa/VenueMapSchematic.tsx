@@ -10,7 +10,7 @@ import { NEIGHBORHOODS, project } from './projection';
 
 const PIN_W = 160;
 
-/** Web: react-native-maps is unsupported, so draw a schematic map with SVG. */
+/** Schematic SVG map: fallback when the real map cannot load (offline, style error, no native module). */
 export function VenueMapSchematic({ pins, selectedId, onSelect, userLocation }: VenueMapProps) {
   const { colors } = useTheme();
   const at = (lat: number, lng: number) => {

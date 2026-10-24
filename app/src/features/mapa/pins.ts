@@ -3,6 +3,8 @@ import type { SearchItem, Venue } from '@/domain/types';
 export interface VenuePin {
   venue: Venue;
   items: SearchItem[];
+  recommended?: boolean;
+  rank?: number;
 }
 
 /** One pin per open venue with at least one published upcoming event. Closed venues are dropped. */
