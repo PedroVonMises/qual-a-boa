@@ -5,6 +5,8 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 import { useRemoteSync } from '@/data/sync';
+import { installCrashReporter } from '@/lib/crashReport';
+import { CrashNotice, ErrorScreen } from '@/shell/CrashNotice';
 import { AppProviders } from '@/shell/AppProviders';
 import { SessionGuard } from '@/shell/SessionGuard';
 import { SplashOverlay } from '@/shell/SplashOverlay';
@@ -14,6 +16,12 @@ import { palette } from '@/theme/tokens';
 
 // Keep the native splash up until fonts load; the in-app SplashOverlay then takes over.
 SplashScreen.preventAutoHideAsync().catch(() => {});
+installCrashReporter();
+
+// Render errors in any screen land here instead of closing the app.
+export function ErrorBoundary({ error, retry }: { error: Error; retry: () => void }) {
+  return <ErrorScreen error={error} retry={retry} />;
+}
 
 export const unstable_settings = { initialRouteName: '(tabs)' };
 
@@ -38,6 +46,7 @@ export default function RootLayout() {
         </>
       ) : null}
       <SplashOverlay ready={ready} />
+      <CrashNotice />
     </AppProviders>
   );
 }

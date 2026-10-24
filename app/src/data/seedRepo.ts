@@ -19,7 +19,8 @@ import type { Repo } from './repo';
 
 /** Lowercase + strip accents, for case/accent-insensitive substring search. */
 export function normalizeText(s: string): string {
-  return s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+  // Combining-marks range instead of \p{M}: Hermes (Android) has partial Unicode property escape support.
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 }
 
 const DEFAULT_LIMIT = 20;
