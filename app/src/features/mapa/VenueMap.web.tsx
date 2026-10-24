@@ -178,7 +178,6 @@ function WebGlVenueMap({
     }
     (async () => {
       try {
-        // @ts-expect-error CSS side-effect import: Metro bundles it with the lazy chunk, there is no type for it.
         const css = import('maplibre-gl/dist/maplibre-gl.css');
         const [mod] = await Promise.all([import('maplibre-gl'), css]);
         if (cancelled || !containerRef.current) return;
