@@ -21,6 +21,7 @@ Dark theme (default):
 
 Light theme: Paper (#F7F4EF) background, White (#FFFFFF) surface, Ink (#1C1A17) text, Stone (#6B655D) secondary, Riot Pink (#D01B58, 4.8:1 on Paper, for AA on light), same roles.
 Rules: max one accent; no purple/blue neon, no gradient text, no glow shadows. Image scrims are neutral (black 0 to 60%) for legibility only.
+**Cover art palettes (exception):** the UI chrome stays Riot Pink and neutral, but the illustrated event covers (`app/src/ui/art/palettes.ts`) may be colorful: 12 duo/trio palettes (hot pink + amber, teal + coral, tangerine + deep teal, lime + plum, sky + sunset, mint + berry...) of flat shapes with at most two-stop gradients. Art still has no pure black or white, no glow, no filters, and its bottom stays calm enough for the neutral scrim and white title text.
 
 ## 3. Typography Rules
 - **Display / headings:** Outfit (600/700), tracking -1% to -2%, sentence case. Hierarchy by weight and color, not size alone.

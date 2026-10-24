@@ -8,13 +8,13 @@ const RING: [number, number][] = [
   [200, 344], [148, 330], [110, 292], [96, 240], [110, 188], [148, 150],
 ];
 
-export function GordinhoArt() {
+export function GordinhoArt({ uid }: { uid: string }) {
   return (
     <>
       <Defs>
-        <Grad id="gord-bg" stops={[[0, '#F2A65A'], [0.55, '#8A4228'], [1, '#1D1513']]} />
+        <Grad id={`${uid}-bg`} stops={[[0, '#F2A65A'], [0.55, '#8A4228'], [1, '#1D1513']]} />
       </Defs>
-      <Rect width={400} height={500} fill="url(#gord-bg)" />
+      <Rect width={400} height={500} fill={`url(#${uid}-bg)`} />
       <Circle cx={200} cy={230} r={150} fill="#FF4F81" opacity={0.7} />
       <Path d="M-10 40Q100 110 200 60T410 40" fill="none" stroke="#1A0A06" strokeWidth={3} />
       <G fill="#FFE2A8">

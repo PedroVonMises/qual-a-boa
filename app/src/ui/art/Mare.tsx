@@ -4,18 +4,18 @@ import { palette } from '@/theme/tokens';
 import { Grad } from './parts';
 
 /** Fictional venue "Casa Mare": a gradient poster (wine to burgundy) with a low amber sun and tide lines. */
-export function MareArt() {
+export function MareArt({ uid }: { uid: string }) {
   return (
     <>
       <Defs>
-        <Grad id="mare-bg" stops={[[0, palette.wine], [0.6, palette.burgundy], [1, '#241114']]} />
-        <ClipPath id="mare-clip">
+        <Grad id={`${uid}-bg`} stops={[[0, palette.wine], [0.6, palette.burgundy], [1, '#241114']]} />
+        <ClipPath id={`${uid}-clip`}>
           <Circle cx={200} cy={250} r={96} />
         </ClipPath>
       </Defs>
-      <Rect width={400} height={500} fill="url(#mare-bg)" />
+      <Rect width={400} height={500} fill={`url(#${uid}-bg)`} />
       <Circle cx={200} cy={250} r={96} fill={palette.amber} fillOpacity={0.9} />
-      <G clipPath="url(#mare-clip)" fill={palette.burgundy}>
+      <G clipPath={`url(#${uid}-clip)`} fill={palette.burgundy}>
         <Rect x={90} y={262} width={220} height={6} />
         <Rect x={90} y={286} width={220} height={9} />
         <Rect x={90} y={314} width={220} height={13} />

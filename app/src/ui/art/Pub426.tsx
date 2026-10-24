@@ -3,19 +3,19 @@ import { Circle, ClipPath, Defs, Ellipse, G, Line, Path, Rect, Text as SvgText }
 import { fonts } from '@/theme/tokens';
 import { Grad, INK } from './parts';
 
-export function Pub426Art() {
+export function Pub426Art({ uid }: { uid: string }) {
   return (
     <>
       <Defs>
-        <Grad id="pub-bg" stops={[[0, '#2A1418'], [1, '#14100F']]} />
-        <Grad id="pub-sun" stops={[[0, '#F2A65A'], [1, '#FF4F81']]} />
-        <ClipPath id="pub-clip">
+        <Grad id={`${uid}-bg`} stops={[[0, '#2A1418'], [1, '#14100F']]} />
+        <Grad id={`${uid}-sun`} stops={[[0, '#F2A65A'], [1, '#FF4F81']]} />
+        <ClipPath id={`${uid}-clip`}>
           <Circle cx={200} cy={230} r={128} />
         </ClipPath>
       </Defs>
-      <Rect width={400} height={500} fill="url(#pub-bg)" />
-      <Circle cx={200} cy={230} r={128} fill="url(#pub-sun)" />
-      <G clipPath="url(#pub-clip)" fill="#2A1418">
+      <Rect width={400} height={500} fill={`url(#${uid}-bg)`} />
+      <Circle cx={200} cy={230} r={128} fill={`url(#${uid}-sun)`} />
+      <G clipPath={`url(#${uid}-clip)`} fill="#2A1418">
         <Rect x={60} y={240} width={280} height={8} />
         <Rect x={60} y={270} width={280} height={12} />
         <Rect x={60} y={304} width={280} height={16} />

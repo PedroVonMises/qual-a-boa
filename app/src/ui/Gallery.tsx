@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { COVER_PALETTE_IDS, COVER_TEMPLATE_IDS, COVER_VARIANT_IDS } from '@/domain/cover';
 import type { CoverKey } from '@/domain/types';
 import { space } from '@/theme/tokens';
 import {
@@ -133,11 +134,22 @@ export function Gallery() {
       </Section>
 
       <Section title="Capas">
+        <Text variant="caption">Casas (identidade)</Text>
         <Row>
           {COVERS.map((k) => (
             <Cover key={k} coverKey={k} style={styles.cover} />
           ))}
         </Row>
+        {COVER_TEMPLATE_IDS.map((t) => (
+          <View key={t} style={styles.section}>
+            <Text variant="caption">{t}</Text>
+            <View style={styles.grid}>
+              {COVER_PALETTE_IDS.map((pal, i) => (
+                <Cover key={pal} coverKey={`art:${t}:${pal}:${COVER_VARIANT_IDS[i % COVER_VARIANT_IDS.length]}`} style={styles.mini} />
+              ))}
+            </View>
+          </View>
+        ))}
       </Section>
 
       <Section title="Cartões">
@@ -210,5 +222,7 @@ const styles = StyleSheet.create({
   section: { gap: space.md },
   row: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: space.md },
   cover: { width: 80, height: 100, borderRadius: 12 },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
+  mini: { width: 56, height: 70, borderRadius: 8 },
   flex: { flex: 1 },
 });

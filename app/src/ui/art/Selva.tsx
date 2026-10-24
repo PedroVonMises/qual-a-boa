@@ -2,21 +2,21 @@ import { Circle, ClipPath, Defs, Ellipse, G, Line, Path, Polygon, RadialGradient
 
 import { Grad } from './parts';
 
-export function SelvaArt() {
+export function SelvaArt({ uid }: { uid: string }) {
   return (
     <>
       <Defs>
-        <Grad id="selva-bg" stops={[[0, '#FF4F81'], [0.55, '#8E2547'], [1, '#241114']]} />
-        <RadialGradient id="selva-ball" cx="0.35" cy="0.3" r="0.8">
+        <Grad id={`${uid}-bg`} stops={[[0, '#FF4F81'], [0.55, '#8E2547'], [1, '#241114']]} />
+        <RadialGradient id={`${uid}-ball`} cx="0.35" cy="0.3" r="0.8">
           <Stop offset="0" stopColor="#FFE2A8" />
           <Stop offset="0.6" stopColor="#F2A65A" />
           <Stop offset="1" stopColor="#9B5A2A" />
         </RadialGradient>
-        <ClipPath id="selva-clip">
+        <ClipPath id={`${uid}-clip`}>
           <Circle cx={200} cy={190} r={74} />
         </ClipPath>
       </Defs>
-      <Rect width={400} height={500} fill="url(#selva-bg)" />
+      <Rect width={400} height={500} fill={`url(#${uid}-bg)`} />
       <G fill="#F4F1EC" opacity={0.12}>
         <Polygon points="200,190 -20,60 20,0 120,0" />
         <Polygon points="200,190 420,60 380,0 280,0" />
@@ -25,8 +25,8 @@ export function SelvaArt() {
         <Polygon points="200,190 150,520 250,520" />
       </G>
       <Line x1={200} y1={0} x2={200} y2={116} stroke="#1A0A06" strokeWidth={3} />
-      <Circle cx={200} cy={190} r={74} fill="url(#selva-ball)" />
-      <G clipPath="url(#selva-clip)" stroke="#5A2A1E" strokeOpacity={0.45} strokeWidth={2} fill="none">
+      <Circle cx={200} cy={190} r={74} fill={`url(#${uid}-ball)`} />
+      <G clipPath={`url(#${uid}-clip)`} stroke="#5A2A1E" strokeOpacity={0.45} strokeWidth={2} fill="none">
         <Path d="M126 190H274M134 160H266M134 220H266M150 135H250M150 245H250" />
         <Path d="M200 116V264M165 122Q150 190 165 258M235 122Q250 190 235 258M130 160Q118 190 130 220M270 160Q282 190 270 220" />
       </G>
