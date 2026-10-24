@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import type { GeoPoint, SearchParams } from '@/domain/types';
 import { getRepo } from './index';
 
@@ -25,6 +25,7 @@ export function useSearchEvents(params: SearchBase) {
     queryKey: queryKeys.search(params),
     queryFn: ({ pageParam }) => getRepo().searchEvents({ ...params, cursor: pageParam }),
     initialPageParam: null as string | null,
+    placeholderData: keepPreviousData,
     getNextPageParam: (last) => last.nextCursor,
   });
 }

@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
+
+import { safeMerge } from './safeMerge';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { AlertChannel, AlertKind, EventChange, EventFollow } from '@/domain/engage';
@@ -104,6 +106,7 @@ export const useFollows = create<FollowsStore>()(
     }),
     {
       name: 'qab.follows',
+      merge: (persisted, current) => safeMerge(persisted, current),
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (s) => ({ follows: s.follows, changes: s.changes }),
     },

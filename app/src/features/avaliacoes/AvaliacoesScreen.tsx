@@ -85,11 +85,11 @@ function ReviewCard({ review, demo }: { review: Review; demo: boolean }) {
             testID={`util-${review.id}`}
           />
           <Button
-            label={reported ? 'Denúncia enviada' : 'Denunciar'}
+            label={reported ? 'Denúncia salva' : 'Denunciar'}
             variant="ghost"
             disabled={reported}
             onPress={() => report(review.id)}
-            accessibilityHint="Avisa a moderação sobre esta avaliação"
+            accessibilityHint="Salva a denúncia neste aparelho; a moderação ainda não a recebe"
             testID={`denunciar-${review.id}`}
           />
         </View>

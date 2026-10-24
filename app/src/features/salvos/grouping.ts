@@ -24,7 +24,7 @@ export function groupSaved(items: SavedEvent[], now: NowLike): SavedGroups {
     else out.later.push(it);
   }
   const byDate = (a: SavedEvent, b: SavedEvent) =>
-    Date.parse(a.data?.event.startsAt ?? '0') - Date.parse(b.data?.event.startsAt ?? '0');
+    (a.data ? Date.parse(a.data.event.startsAt) : 0) - (b.data ? Date.parse(b.data.event.startsAt) : 0);
   out.week.sort(byDate);
   out.later.sort(byDate);
   out.past.sort((a, b) => byDate(b, a));

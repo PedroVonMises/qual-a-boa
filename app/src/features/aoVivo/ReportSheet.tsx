@@ -31,7 +31,7 @@ export function ReportSheet({ visible, onClose, onSubmit }: { visible: boolean; 
   const [draft, setDraft] = useState<Draft>({});
   const [priceText, setPriceText] = useState('');
 
-  const parsed = priceText.trim() === '' ? undefined : Number(priceText.replace(',', '.'));
+  const parsed = priceText.trim() === '' ? undefined : /^\d{1,4}([.,]\d{1,2})?$/.test(priceText.trim()) ? Number(priceText.trim().replace(',', '.')) : NaN;
   const priceBad = parsed !== undefined && !(Number.isFinite(parsed) && parsed >= 0 && parsed <= MAX_DOOR_PRICE);
   const input: Draft = { ...draft, priceAtDoor: priceBad ? undefined : parsed };
   const canSend = hasSignal(input) && !priceBad;

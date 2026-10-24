@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
+
+import { safeMerge } from './safeMerge';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { SupportMessage, SupportTicket, TicketTopic } from '@/domain/engage';
@@ -8,7 +10,7 @@ import type { SupportMessage, SupportTicket, TicketTopic } from '@/domain/engage
 export const RESPONSE_DAYS = 2;
 
 export const autoReplyText = (days: number = RESPONSE_DAYS) =>
-  `Recebemos seu chamado. Resposta em até ${days} dias úteis.`;
+  `Chamado salvo neste aparelho. O atendimento ainda não está ativo nesta versão; quando estiver, responderemos em até ${days} dias úteis.`;
 
 /** Automatic acknowledgements carry this id suffix; they are never presented as written by a person. */
 export const isAutomatic = (m: SupportMessage) => m.from === 'support' && m.id.endsWith('-auto');
@@ -93,6 +95,7 @@ export const useSupport = create<SupportStore>()(
     }),
     {
       name: 'qab.support',
+      merge: (persisted, current) => safeMerge(persisted, current),
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (s) => ({ tickets: s.tickets }),
     },

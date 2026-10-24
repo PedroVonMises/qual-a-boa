@@ -61,7 +61,7 @@ describe('AjudaScreen', () => {
   it('shows common topics, filters by search and expands an answer', async () => {
     await render(wrap(<AjudaScreen />));
     expect(screen.getByText('Assuntos comuns')).toBeTruthy();
-    expect(screen.getByText(/Resposta em até 2 dias úteis/)).toBeTruthy();
+    expect(screen.getByText(/atendimento ainda não está ativo/)).toBeTruthy();
     await fireEvent.changeText(screen.getByLabelText('Buscar na ajuda'), 'lgpd');
     expect(screen.getByText('Resultados')).toBeTruthy();
     expect(screen.queryByText('Meu ingresso não abre')).toBeNull();
@@ -120,7 +120,7 @@ describe('ConversaScreen', () => {
     mockParams = { id };
     await render(wrap(<ConversaScreen />));
     expect(screen.getAllByText('Mensagem automática').length).toBeGreaterThan(0);
-    expect(screen.getByText(/Recebemos seu chamado. Resposta em até 2 dias úteis/)).toBeTruthy();
+    expect(screen.getByText(/Chamado salvo neste aparelho/)).toBeTruthy();
     expect(screen.getByText('Nunca pedimos sua senha ou dados do cartão.')).toBeTruthy();
     expect(useSupport.getState().unreadCount(id)).toBe(0);
     expect(screen.getByLabelText('Anexar, em breve').props.accessibilityState.disabled).toBe(true);

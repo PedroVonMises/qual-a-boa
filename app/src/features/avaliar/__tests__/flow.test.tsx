@@ -117,7 +117,7 @@ describe('Avaliações', () => {
     expect(useReviews.getState().isHelpful('demo-1')).toBe(true);
     expect(screen.getByRole('button', { name: 'Útil, 13' })).toBeTruthy();
     await fireEvent.press(screen.getByTestId('denunciar-demo-1'));
-    expect(screen.getByRole('button', { name: 'Denúncia enviada' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Denúncia salva' })).toBeTruthy();
   });
 
   it('shows an honest empty state for real venues (no invented reviews)', async () => {

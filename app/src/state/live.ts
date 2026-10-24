@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
+
+import { safeMerge } from './safeMerge';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { CrowdLevel, LiveReport, MusicLevel, QueueLevel } from '@/domain/engage';
@@ -64,6 +66,7 @@ export const useLive = create<LiveStore>()(
     }),
     {
       name: 'qab.live',
+      merge: (persisted, current) => safeMerge(persisted, current),
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (s) => ({ reports: s.reports }),
     },

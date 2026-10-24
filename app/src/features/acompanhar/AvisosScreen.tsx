@@ -54,6 +54,10 @@ export function AvisosScreen({ eventId }: { eventId?: string }) {
           </Text>
         ) : null}
 
+        <Text variant="bodySm" tone="textMuted" style={styles.sub}>
+          Em breve: por enquanto suas escolhas ficam salvas neste aparelho e ainda não geram envio de notificação ou e-mail.
+        </Text>
+
         <Text variant="title" accessibilityRole="header" style={styles.h}>
           Me avise quando
         </Text>

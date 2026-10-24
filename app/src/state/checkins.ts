@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
+
+import { safeMerge } from './safeMerge';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { Checkin } from '@/domain/engage';
@@ -26,6 +28,7 @@ export const useCheckins = create<CheckinsStore>()(
     }),
     {
       name: 'qab.checkins',
+      merge: (persisted, current) => safeMerge(persisted, current),
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (s) => ({ checkins: s.checkins }),
     },

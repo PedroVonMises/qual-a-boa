@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 
 /** Only plain https URLs with a host are allowed to leave the app through the browser. */
 export function isHttpsUrl(url: string | undefined | null): url is string {
-  return typeof url === 'string' && /^https:\/\/[^\s/?#.]+\.[^\s/?#]+[^\s]*$/i.test(url.trim());
+  return typeof url === 'string' && /^https:\/\/[^\s/?#@.]+\.[^\s/?#@]+(?:[/?#]\S*)?$/i.test(url.trim());
 }
 
 export type MapsOs = 'ios' | 'android' | 'web' | string;

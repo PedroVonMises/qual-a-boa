@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 
+import { safeMerge } from './safeMerge';
+
 import { useCheckins } from '@/state/checkins';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -99,6 +101,7 @@ export const useReviews = create<ReviewsStore>()(
     }),
     {
       name: 'qab.reviews',
+      merge: (persisted, current) => safeMerge(persisted, current),
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (s) => ({ mine: s.mine, helpfulIds: s.helpfulIds, reportedIds: s.reportedIds }),
     },

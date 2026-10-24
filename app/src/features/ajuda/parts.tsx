@@ -12,7 +12,7 @@ export function ResponseTime() {
     <View style={styles.row}>
       <Icon name="clock" size={16} color="textMuted" />
       <Text variant="bodySm" tone="textMuted" style={styles.flex}>
-        Resposta em até {RESPONSE_DAYS} dias úteis.
+        O atendimento ainda não está ativo nesta versão: seu chamado fica salvo neste aparelho.
       </Text>
     </View>
   );
