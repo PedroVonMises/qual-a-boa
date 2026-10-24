@@ -2,9 +2,8 @@ import type { AlertKind, EventChange, EventFollow } from '@/domain/engage';
 import { formatBRL } from '@/domain/format';
 import type { EventItem } from '@/domain/types';
 
-/** The only venue with illustrative content. Real venues never get invented updates or live status. */
+/** The only venue with pilot demonstration content. Real venues never get invented updates or live status. */
 export const DEMO_VENUE_SLUG = 'casa-mare';
-export const DEMO_LABEL = 'exemplo ilustrativo';
 export const DEFAULT_DURATION_MS = 6 * 3600_000;
 
 export type EventPhase = 'before' | 'live' | 'after';
@@ -21,12 +20,6 @@ export interface TimelineStep {
 export const STATUS_LABEL: Record<StepStatus, string> = { done: 'feito', current: 'agora', todo: 'a seguir' };
 
 export const isDemoVenue = (slug: string | undefined) => slug === DEMO_VENUE_SLUG;
-/**
- * True when a venue's events carry invented content that must be labelled "Exemplo ilustrativo":
- * placeholder venues other than Casa Maré (which keeps its own, already-labelled demo content).
- */
-export const needsIllustrativeLabel = (venue: { slug: string; placeholder: boolean } | undefined) =>
-  !!venue && venue.placeholder === true && venue.slug !== DEMO_VENUE_SLUG;
 export const isDemoChange = (c: EventChange) => c.id.startsWith('demo-');
 
 export function eventEndMs(e: Pick<EventItem, 'startsAt' | 'endsAt'>): number {
@@ -106,7 +99,7 @@ export const CHANGE_KIND_LABEL: Record<AlertKind, string> = {
   cancelled: 'Cancelamento',
 };
 
-/** Illustrative updates, only ever created for the fictional Casa Maré. Ids start with "demo-". */
+/** Demonstration updates, only ever created for Casa Maré. Ids start with "demo-". */
 export function demoChanges(eventId: string, nowMs: number): EventChange[] {
   const mk = (n: number, kind: AlertKind, text: string, agoMin: number): EventChange => ({
     id: `demo-${eventId}-${n}`,

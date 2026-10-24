@@ -12,7 +12,7 @@ import { useLocation } from '@/state/location';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
 import { Badge, Button, Chip, PressableScale, Skeleton, Text } from '@/ui';
-import { countdownFor, buildTimeline, DEMO_LABEL, demoChanges, isDemoVenue } from './logic';
+import { countdownFor, buildTimeline, demoChanges, isDemoVenue } from './logic';
 import { Timeline } from './Timeline';
 
 
@@ -60,7 +60,6 @@ export function FollowCard({ eventId, nowMs }: { eventId: string; nowMs: number 
         </Text>
         <Text variant="bodySm" tone="textMuted">
           {venue.name}
-          {demo ? ` · ${DEMO_LABEL}` : ''}
         </Text>
         <Text variant="mono">{formatEventDate(event.startsAt, nowMs)}</Text>
       </PressableScale>

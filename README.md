@@ -2,7 +2,7 @@
 
 Nightlife discovery app for Vitória, ES (Brazil): browse clubs and parties by music style, ticket price, distance and the artists who played there. Expo (React Native, iOS + Android + web), Supabase backend. pt-BR.
 
-> Status: MVP in progress. All venue, event and artist data is placeholder demo data (see `docs/VENUES.md`); nothing here is verified with the venues.
+> Status: MVP in progress. Venue, event and artist data is demonstration data shown without UI tags (owner decision, Wave 7; the Terms disclose it during the pilot, see `docs/VENUES.md`); nothing here is verified with the venues. Legal risk: verify with each venue before launch.
 
 ## What exists
 - `app/`: Expo SDK 58 app. Screens built so far: age gate and onboarding, Explorar, Filtros, Mapa, Evento, Casa, Artista, Salvos, Perfil, UI gallery (`/dev/ui`). Tracking, reviews and support screens are stubs.

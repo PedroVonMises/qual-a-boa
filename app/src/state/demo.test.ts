@@ -17,14 +17,14 @@ const NOW = Date.parse('2026-10-24T15:00:00Z');
 const H = 3_600_000;
 const uuid = (n: number) => `00000000-0000-3000-8000-${String(n).padStart(12, '0')}`;
 const ev = (n: number, title: string, startH: number, endH: number): EventItem => ({
-  id: uuid(n), title, venueId: 'v', startsAt: new Date(NOW + startH * H).toISOString(), endsAt: new Date(NOW + endH * H).toISOString(),
+  id: uuid(n), title, venueId: 'v', ticketUrl: title.startsWith('Agora') || title.startsWith('Breve') ? `https://example.com/ingressos/casa-mare-demo-${n}` : undefined, startsAt: new Date(NOW + startH * H).toISOString(), endsAt: new Date(NOW + endH * H).toISOString(),
   priceMin: 10, priceMax: 20, isFree: false, ageMin: 18, genreSlugs: [], artistIds: [], status: 'published', coverKey: 'bolt', popularity: 1,
 });
 const ds = {
   generatedAt: new Date(NOW).toISOString(), genres: [], artists: [],
   venues: [{ id: 'v', slug: 'casa-mare' }],
   events: [
-    ev(1, 'Agora (demo)', -1, 4), ev(2, 'Breve (demo)', 2, 7), ev(3, 'Passado A', -30, -25), ev(4, 'Passado B', -60, -55),
+    ev(1, 'Agora', -1, 4), ev(2, 'Breve', 2, 7), ev(3, 'Passado A', -30, -25), ev(4, 'Passado B', -60, -55),
     ev(5, 'Futuro A', 24, 29), ev(6, 'Futuro B', 48, 53), ev(7, 'Futuro C', 72, 77),
   ],
 } as unknown as SeedDataset;

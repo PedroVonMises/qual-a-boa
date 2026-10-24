@@ -7,15 +7,14 @@ import { useFollows } from '@/state/follows';
 import { useTheme } from '@/theme/ThemeProvider';
 import { space } from '@/theme/tokens';
 import { Button, PressableScale, Text } from '@/ui';
-import { CHANGE_KIND_LABEL, DEMO_LABEL, isDemoChange } from './logic';
+import { CHANGE_KIND_LABEL } from './logic';
 
 function ChangeRow({ change, nowMs }: { change: EventChange; nowMs: number }) {
   const { colors } = useTheme();
   const markRead = useFollows((s) => s.markRead);
   const title = useEvent(change.eventId).data?.event.title;
-  const demo = isDemoChange(change);
   const when = formatRelative(change.at, nowMs);
-  const meta = [title, CHANGE_KIND_LABEL[change.kind], demo ? DEMO_LABEL : undefined].filter(Boolean).join(' · ');
+  const meta = [title, CHANGE_KIND_LABEL[change.kind]].filter(Boolean).join(' · ');
   return (
     <PressableScale
       testID={`change-${change.id}`}

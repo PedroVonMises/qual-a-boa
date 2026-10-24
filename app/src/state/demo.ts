@@ -45,8 +45,10 @@ function defaultDataset(): SeedDataset {
   return require('@/data/seed.json') as SeedDataset;
 }
 
-const isDemoEvent = (e: EventItem) => e.title.includes('(demo)');
-const ACK = 'Chamado de exemplo salvo neste aparelho. Esta é uma resposta automática ilustrativa.';
+/** Stable internal marker: the seed gives the Casa Maré demo events a ticket URL containing this token (never rely on titles). */
+export const DEMO_EVENT_MARKER = '/casa-mare-demo-';
+const isDemoEvent = (e: EventItem) => !!e.ticketUrl && e.ticketUrl.includes(DEMO_EVENT_MARKER);
+const ACK = 'Recebemos seu chamado. Respondemos por aqui assim que possível.';
 
 /** Fills the user stores. Idempotent: running it twice yields the same state. */
 export function loadDemoData(dataset: SeedDataset = defaultDataset(), nowMs: number = Date.now()): void {
@@ -83,7 +85,7 @@ export function loadDemoData(dataset: SeedDataset = defaultDataset(), nowMs: num
     };
   });
   const changes: EventChange[] = followIds[2]
-    ? [{ id: 'demo-chg-1', eventId: followIds[2], kind: 'lineup', text: 'Exemplo ilustrativo: nova atração confirmada no line-up', at: iso(nowMs - 3 * H), read: false }]
+    ? [{ id: 'demo-chg-1', eventId: followIds[2], kind: 'lineup', text: 'Nova atração confirmada no line-up', at: iso(nowMs - 3 * H), read: false }]
     : [];
   useFollows.setState({ follows, changes });
 
@@ -105,14 +107,14 @@ export function loadDemoData(dataset: SeedDataset = defaultDataset(), nowMs: num
   if (past[0]) {
     mine.push({
       id: 'demo-rv-1', eventId: past[0].id, rating: 4, topics: { musica: 5, ambiente: 4, fila: 3 }, tags: [],
-      text: 'Avaliação de exemplo: som ótimo, fila um pouco longa na entrada.', anonymous: false, attended: true,
+      text: 'Som ótimo, fila um pouco longa na entrada.', anonymous: false, attended: true,
       status: 'pending', createdAt: iso(nowMs - 2 * 24 * H), helpfulCount: 0, mine: true,
     });
   }
   if (past[1]) {
     mine.push({
       id: 'demo-rv-2', eventId: past[1].id, rating: 5, topics: { musica: 5, atendimento: 5 }, tags: [],
-      text: 'Avaliação de exemplo: noite incrível, voltaria fácil.', anonymous: true, attended: false,
+      text: 'Noite incrível, voltaria fácil.', anonymous: true, attended: false,
       status: 'published', createdAt: iso(nowMs - 9 * 24 * H), helpfulCount: 2, mine: true,
     });
   }
@@ -124,20 +126,20 @@ export function loadDemoData(dataset: SeedDataset = defaultDataset(), nowMs: num
   const tickets: SupportTicket[] = [
     {
       id: 'demo-tk-1', topic: 'ingresso', eventId: inProgress?.id,
-      description: '(Exemplo) Não recebi meu ingresso por e-mail.', status: 'open', createdAt: t1At,
+      description: 'Não recebi meu ingresso por e-mail.', status: 'open', createdAt: t1At,
       messages: [
-        { id: 'demo-tk-1-m1', ticketId: 'demo-tk-1', from: 'user', text: '(Exemplo) Não recebi meu ingresso por e-mail.', at: t1At },
+        { id: 'demo-tk-1-m1', ticketId: 'demo-tk-1', from: 'user', text: 'Não recebi meu ingresso por e-mail.', at: t1At },
         { id: 'demo-tk-1-auto', ticketId: 'demo-tk-1', from: 'support', text: ACK, at: t1At },
       ],
     },
     {
-      id: 'demo-tk-2', topic: 'conta', description: '(Exemplo) Como altero meu raio padrão de busca?', status: 'answered', createdAt: t2At,
+      id: 'demo-tk-2', topic: 'conta', description: 'Como altero meu raio padrão de busca?', status: 'answered', createdAt: t2At,
       messages: [
-        { id: 'demo-tk-2-m1', ticketId: 'demo-tk-2', from: 'user', text: '(Exemplo) Como altero meu raio padrão de busca?', at: t2At },
+        { id: 'demo-tk-2-m1', ticketId: 'demo-tk-2', from: 'user', text: 'Como altero meu raio padrão de busca?', at: t2At },
         { id: 'demo-tk-2-auto', ticketId: 'demo-tk-2', from: 'support', text: ACK, at: t2At },
-        { id: 'demo-tk-2-m2', ticketId: 'demo-tk-2', from: 'support', text: '(Exemplo) Olá! Em Perfil > Preferências você ajusta o raio padrão com os botões de mais e menos.', at: iso(nowMs - 2 * 24 * H) },
-        { id: 'demo-tk-2-m3', ticketId: 'demo-tk-2', from: 'user', text: '(Exemplo) Achei, obrigado!', at: iso(nowMs - 2 * 24 * H + 600_000) },
-        { id: 'demo-tk-2-m4', ticketId: 'demo-tk-2', from: 'support', text: '(Exemplo) Por nada! Qualquer dúvida é só chamar.', at: iso(nowMs - 2 * 24 * H + 1_200_000) },
+        { id: 'demo-tk-2-m2', ticketId: 'demo-tk-2', from: 'support', text: 'Olá! Em Perfil > Preferências você ajusta o raio padrão com os botões de mais e menos.', at: iso(nowMs - 2 * 24 * H) },
+        { id: 'demo-tk-2-m3', ticketId: 'demo-tk-2', from: 'user', text: 'Achei, obrigado!', at: iso(nowMs - 2 * 24 * H + 600_000) },
+        { id: 'demo-tk-2-m4', ticketId: 'demo-tk-2', from: 'support', text: 'Por nada! Qualquer dúvida é só chamar.', at: iso(nowMs - 2 * 24 * H + 1_200_000) },
       ],
     },
   ];

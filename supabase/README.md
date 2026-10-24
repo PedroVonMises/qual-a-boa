@@ -8,7 +8,7 @@ migrations/0001_schema.sql         tables, enums, indexes
 migrations/0002_search_events.sql  haversine_km, fold_text, search_events(...)
 migrations/0003_rls.sql            RLS policies + grants
 migrations/0004_views.sql          venue_past_artists, artist_played_at ("já passaram por aqui")
-seed/seed-data.ts                  buildSeed(now): SeedDataset (all placeholder demo data)
+seed/seed-data.ts                  buildSeed(now): SeedDataset (all demonstration data; Casa Maré demo events are identified by their `casa-mare-demo-*` ticket URL, not by title)
 seed/sql.ts                        SeedDataset -> INSERT statements
 seed/build.ts                      writes seed/seed.sql and app/src/data/seed.json (+ fixtures)
 seed/seed.sql                      generated

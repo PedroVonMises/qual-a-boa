@@ -115,9 +115,9 @@ const VENUES: VenueSpec[] = [
     hours: 'Encerrou as atividades em out/2026', coverKey: 'caipora',
   },
   {
-    // Fictional venue for demo content.
+    // Pilot demonstration venue.
     slug: 'casa-mare', name: 'Casa Maré', area: 'Praia do Canto', city: 'Vitória',
-    address: 'Endereço fictício (demo)', lat: -20.2960, lng: -40.2935,
+    address: 'Rua das Gaivotas, 120 - Praia do Canto', lat: -20.2960, lng: -40.2935,
     status: 'open', adultOnly: true,
     genreSlugs: ['eletronica-house', 'pop-hits', 'sertanejo', 'karaoke-ao-vivo'],
     hours: 'Qui a sáb, 21h–04h', coverKey: 'mare',
@@ -308,9 +308,9 @@ function pastStart(now: Date, weekday: number, weeksAgo: number, hour: number): 
  * (in progress, starting in ~2h, just ended). Included by default so seed.json and the fixed-now fixtures agree.
  */
 const DEMO_LIVE: { key: string; title: string; startH: number; endH: number; genres: string[]; artists: string[]; price: [number, number]; popularity: number }[] = [
-  { key: 'agora', title: 'Maré Cheia (demo) - rolando agora', startH: -1, endH: 4, genres: ['eletronica-house', 'pop-hits'], artists: ['DJ Maresia'], price: [35, 50], popularity: 90 },
-  { key: 'em-breve', title: 'Maré Vazante (demo) - começa em 2h', startH: 2, endH: 7, genres: ['pop-hits'], artists: ['Lia Sol'], price: [30, 40], popularity: 80 },
-  { key: 'encerrado', title: 'Maré Baixa (demo) - acabou de encerrar', startH: -8, endH: -3, genres: ['sertanejo'], artists: ['Duo Moqueca'], price: [25, 35], popularity: 70 },
+  { key: 'agora', title: 'Maré Cheia', startH: -1, endH: 4, genres: ['eletronica-house', 'pop-hits'], artists: ['DJ Maresia'], price: [35, 50], popularity: 90 },
+  { key: 'em-breve', title: 'Maré Vazante', startH: 2, endH: 7, genres: ['pop-hits'], artists: ['Lia Sol'], price: [30, 40], popularity: 80 },
+  { key: 'encerrado', title: 'Maré Baixa', startH: -8, endH: -3, genres: ['sertanejo'], artists: ['Duo Moqueca'], price: [25, 35], popularity: 70 },
 ];
 
 export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: true }): SeedDataset {

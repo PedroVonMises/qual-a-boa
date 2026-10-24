@@ -1,7 +1,6 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { formatEventDate, formatPriceLabel } from '@/domain/format';
-import { needsIllustrativeLabel } from '@/features/acompanhar/logic';
 import { useFavorites } from '@/state/favorites';
 import { useTheme } from '@/theme/ThemeProvider';
 import { hit, space } from '@/theme/tokens';
@@ -60,8 +59,7 @@ export function VenuePanel({ pins, now, onOpenEvent, onOpenVenue }: VenuePanelPr
                   distanceKm={distanceKm}
                   coverKey={event.coverKey}
                   dateLabel={formatEventDate(event.startsAt, now)}
-                  priceLabel={formatPriceLabel(event.priceMin, event.priceMax, event.isFree)}
-                  illustrative={needsIllustrativeLabel(venue)}
+                  priceLabel={formatPriceLabel(event.priceMin, event.priceMax, event.isFree)}
                   saved={eventIds.includes(event.id)}
                   onToggleSave={() => toggleEvent(event.id)}
                   onPress={() => onOpenEvent(event.id)}

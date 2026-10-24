@@ -7,7 +7,7 @@ import { ALERT_KINDS, useFollows } from '@/state/follows';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
 import { Button, EmptyState, Screen, ScreenHeader, Switch, Text } from '@/ui';
-import { ALERT_COPY, DEMO_LABEL, isDemoVenue } from './logic';
+import { ALERT_COPY } from './logic';
 
 const CHANNELS: { key: AlertChannel; label: string }[] = [
   { key: 'push', label: 'Notificação no app' },
@@ -42,7 +42,7 @@ export function AvisosScreen({ eventId }: { eventId?: string }) {
     );
   }
 
-  const subtitle = q.data ? `${q.data.event.title} · ${q.data.venue.name}${isDemoVenue(q.data.venue.slug) ? ` · ${DEMO_LABEL}` : ''}` : undefined;
+  const subtitle = q.data ? `${q.data.event.title} · ${q.data.venue.name}` : undefined;
 
   return (
     <Screen>

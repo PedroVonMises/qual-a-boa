@@ -2,7 +2,6 @@ import '../testSetup';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { Platform } from 'react-native';
 
-import { needsIllustrativeLabel } from '@/features/acompanhar/logic';
 import { EventCard, Rating } from '..';
 import { nextRadioIndex, radioGroup } from '../radioGroup';
 
@@ -62,17 +61,10 @@ describe('Rating radios', () => {
   });
 });
 
-describe('illustrative label', () => {
-  it('applies to placeholder venues other than Casa Maré', () => {
-    expect(needsIllustrativeLabel({ slug: 'bolt', placeholder: true })).toBe(true);
-    expect(needsIllustrativeLabel({ slug: 'casa-mare', placeholder: true })).toBe(false);
-    expect(needsIllustrativeLabel({ slug: 'real', placeholder: false })).toBe(false);
-    expect(needsIllustrativeLabel(undefined)).toBe(false);
-  });
-
-  it('EventCard shows the tag and "preço ilustrativo"', async () => {
-    await render(<EventCard variant="row" title="Noite" venueName="Bolt" priceLabel="R$ 40" coverKey="bolt" illustrative />);
-    expect(screen.getByText('Exemplo ilustrativo')).toBeTruthy();
-    expect(screen.getByText(/preço ilustrativo/)).toBeTruthy();
+describe('EventCard', () => {
+  it('shows the plain price with no mock tag', async () => {
+    await render(<EventCard variant="row" title="Noite" venueName="Bolt" priceLabel="R$ 40" coverKey="bolt" />);
+    expect(screen.getByText('R$ 40')).toBeTruthy();
+    expect(screen.queryByText(/ilustrativ/i)).toBeNull();
   });
 });

@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import { setRepo } from '@/data';
+import { env } from '@/lib/env';
 import { miniDataset } from '@/data/__fixtures__/mini';
 import { SeedRepo } from '@/data/seedRepo';
 import { useDemoLoaded } from '@/state/demo';
@@ -97,6 +98,20 @@ describe('Perfil', () => {
     await fireEvent.press(screen.getByRole('button', { name: 'Voltar ao início (resetar app)' }));
     expect(useSession.getState().ageConfirmed).toBe(false);
     expect(mockReplace).toHaveBeenCalledWith('/onboarding/idade');
+  });
+  it('hides the demo section when demo tools are off (production builds)', async () => {
+    const mutable = env as { demoTools: boolean };
+    const prev = mutable.demoTools;
+    mutable.demoTools = false;
+    try {
+      useSession.setState({ ageConfirmed: true, onboardingDone: true });
+      await renderPerfil();
+      expect(screen.queryByText('DADOS DE DEMONSTRAÇÃO')).toBeNull();
+      expect(screen.queryByRole('button', { name: 'Carregar dados de exemplo' })).toBeNull();
+      expect(screen.getByRole('button', { name: 'Voltar ao início (resetar app)' })).toBeTruthy();
+    } finally {
+      mutable.demoTools = prev;
+    }
   });
 });
 

@@ -1,8 +1,8 @@
 import type { Review } from '@/domain/engage';
 
 /**
- * Illustrative reviews. They exist ONLY for the fictional venue Casa Maré (slug `casa-mare`) and are always
- * labeled "exemplo ilustrativo" in the UI. Real venues never get invented reviews: they show an honest empty state.
+ * Pilot demonstration reviews. They exist ONLY for Casa Maré (slug `casa-mare`) and read as normal reviews.
+ * Other venues never get invented reviews: they show an honest empty state.
  */
 export const DEMO_VENUE_SLUG = 'casa-mare';
 
@@ -15,7 +15,7 @@ export const DEMO_REVIEWS: Review[] = [
     eventId: 'demo',
     rating: 5,
     topics: { musica: 5, ambiente: 4, seguranca: 5, fila: 4 },
-    text: 'Exemplo ilustrativo de avaliação: som alto na medida e fila rápida.',
+    text: 'Som alto na medida e fila rápida.',
     createdAt: '2026-10-22T14:00:00Z',
     helpfulCount: 12,
   },
@@ -25,7 +25,7 @@ export const DEMO_REVIEWS: Review[] = [
     eventId: 'demo',
     rating: 4,
     topics: { musica: 5, ambiente: 4, fila: 3, preco: 3 },
-    text: 'Exemplo ilustrativo de avaliação: a pista encheu cedo e a bebida estava um pouco cara.',
+    text: 'A pista encheu cedo e a bebida estava um pouco cara.',
     createdAt: '2026-10-19T14:00:00Z',
     helpfulCount: 5,
   },
@@ -35,7 +35,7 @@ export const DEMO_REVIEWS: Review[] = [
     eventId: 'demo',
     rating: 2,
     topics: { fila: 1, atendimento: 2, seguranca: 4 },
-    text: 'Exemplo ilustrativo de avaliação: a fila na entrada demorou mais de uma hora.',
+    text: 'A fila na entrada demorou mais de uma hora.',
     createdAt: '2026-10-12T14:00:00Z',
     helpfulCount: 3,
     attended: false,

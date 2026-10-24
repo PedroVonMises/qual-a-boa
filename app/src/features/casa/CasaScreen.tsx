@@ -7,12 +7,11 @@ import { Frame, StateShell, useGoBack } from '@/features/evento/Frame';
 import { Hero } from '@/features/evento/Hero';
 import { genreLabels, longDate, monthYear } from '@/features/evento/labels';
 import { openMaps } from '@/features/evento/linking';
-import { needsIllustrativeLabel } from '@/features/acompanhar/logic';
 import { useRecordView } from '@/state/useRecordView';
 import { useFavorites } from '@/state/favorites';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
-import { ArtistRow, Badge, Button, EventCard, Icon, IconButton, Tag, Text, useBreakpoint } from '@/ui';
+import { ArtistRow, Button, EventCard, Icon, IconButton, Tag, Text, useBreakpoint } from '@/ui';
 
 export function CasaScreen({ slug }: { slug?: string }) {
   const { colors } = useTheme();
@@ -62,7 +61,6 @@ export function CasaScreen({ slug }: { slug?: string }) {
         }
       />
       <View style={[styles.body, { paddingHorizontal: gutter }]}>
-        {venue.placeholder ? <Badge label="Exemplo ilustrativo" /> : null}
         <Text variant="display" accessibilityRole="header">
           {venue.name}
         </Text>
@@ -130,7 +128,6 @@ export function CasaScreen({ slug }: { slug?: string }) {
                 dateLabel={formatEventDate(e.startsAt)}
                 priceLabel={formatPriceLabel(e.priceMin, e.priceMax, e.isFree)}
                 coverKey={e.coverKey}
-                illustrative={needsIllustrativeLabel(venue)}
                 saved={eventIds.includes(e.id)}
                 divider={i < upcoming.length - 1}
                 onPress={() => go(`/evento/${e.id}`)}

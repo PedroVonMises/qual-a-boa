@@ -200,7 +200,7 @@
       "name": "Casa Maré",
       "area": "Praia do Canto",
       "city": "Vitória",
-      "address": "Endereço fictício (demo)",
+      "address": "Rua das Gaivotas, 120 - Praia do Canto",
       "lat": -20.296,
       "lng": -40.2935,
       "status": "open",
@@ -1114,7 +1114,7 @@
     },
     {
       "id": "7f894708-b0fc-3c0b-b14a-40e8f0cd8c64",
-      "title": "Maré Baixa (demo) - acabou de encerrar",
+      "title": "Maré Baixa",
       "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
       "startsAt": "2026-10-23T04:00:00.000Z",
       "endsAt": "2026-10-23T09:00:00.000Z",
@@ -1135,7 +1135,7 @@
     },
     {
       "id": "75f0ee04-617f-357c-b238-db52f29008cc",
-      "title": "Maré Cheia (demo) - rolando agora",
+      "title": "Maré Cheia",
       "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
       "startsAt": "2026-10-23T11:00:00.000Z",
       "endsAt": "2026-10-23T16:00:00.000Z",
@@ -1157,7 +1157,7 @@
     },
     {
       "id": "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
-      "title": "Maré Vazante (demo) - começa em 2h",
+      "title": "Maré Vazante",
       "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
       "startsAt": "2026-10-23T14:00:00.000Z",
       "endsAt": "2026-10-23T19:00:00.000Z",

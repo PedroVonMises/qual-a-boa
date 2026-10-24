@@ -102,7 +102,7 @@ describe('CasaScreen', () => {
     expect(screen.getAllByText('out/2026').length).toBeGreaterThan(0);
     expect(screen.getByText('Próximos eventos')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Como chegar' })).toBeTruthy();
-    expect(screen.getAllByText('Exemplo ilustrativo').length).toBeGreaterThanOrEqual(1);
+    expect(screen.queryByText(/ilustrativ/i)).toBeNull();
   });
 
   it('closed venue hides upcoming events and the CTA', async () => {
