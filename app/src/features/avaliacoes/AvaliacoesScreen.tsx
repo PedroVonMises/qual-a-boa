@@ -41,6 +41,7 @@ function ReviewCard({ review, demo }: { review: Review; demo: boolean }) {
   const { colors } = useTheme();
   const helpful = useReviews((s) => s.helpfulIds.includes(review.id));
   const reported = useReviews((s) => s.reportedIds.includes(review.id));
+  const reportSent = useReviews((s) => s.reportSentIds.includes(review.id));
   const toggleHelpful = useReviews((s) => s.toggleHelpful);
   const report = useReviews((s) => s.report);
   const name = review.mine && !review.anonymous ? 'Você' : 'Frequentador';
@@ -85,11 +86,11 @@ function ReviewCard({ review, demo }: { review: Review; demo: boolean }) {
             testID={`util-${review.id}`}
           />
           <Button
-            label={reported ? 'Denúncia salva' : 'Denunciar'}
+            label={reported ? (reportSent ? 'Denúncia enviada' : 'Denúncia salva') : 'Denunciar'}
             variant="ghost"
             disabled={reported}
             onPress={() => report(review.id)}
-            accessibilityHint="Salva a denúncia neste aparelho; a moderação ainda não a recebe"
+            accessibilityHint={reportSent ? 'A moderação recebeu sua denúncia' : 'Salva a denúncia neste aparelho; a moderação ainda não a recebe'}
             testID={`denunciar-${review.id}`}
           />
         </View>
