@@ -5,7 +5,7 @@ import { Share, StyleSheet, View } from 'react-native';
 import { formatDistance, formatEventDate, formatPriceLabel } from '@/domain/format';
 import { useEvent, useGenres } from '@/data/queries';
 import { needsIllustrativeLabel } from '@/features/acompanhar/logic';
-import { useRecordView } from '@/features/explorar/useTasteProfile';
+import { useRecordView } from '@/state/useRecordView';
 import { useFavorites } from '@/state/favorites';
 import { useLocation } from '@/state/location';
 import { useTheme } from '@/theme/ThemeProvider';

@@ -8,7 +8,7 @@ import { Hero } from '@/features/evento/Hero';
 import { genreLabels, longDate, monthYear } from '@/features/evento/labels';
 import { openMaps } from '@/features/evento/linking';
 import { needsIllustrativeLabel } from '@/features/acompanhar/logic';
-import { useRecordView } from '@/features/explorar/useTasteProfile';
+import { useRecordView } from '@/state/useRecordView';
 import { useFavorites } from '@/state/favorites';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';

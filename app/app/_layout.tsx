@@ -3,6 +3,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 
 import { useRemoteSync } from '@/data/sync';
 import { useLocationRefresh } from '@/lib/location';
@@ -17,7 +18,9 @@ import { palette } from '@/theme/tokens';
 
 // Keep the native splash up until fonts load; the in-app SplashOverlay then takes over.
 SplashScreen.preventAutoHideAsync().catch(() => {});
-installCrashReporter();
+// Native only: on web expo-router's lazy route loader throws a harmless 'Requiring unknown module' before retrying,
+// and the browser console already has everything else.
+if (Platform.OS !== 'web') installCrashReporter();
 
 // Render errors in any screen land here instead of closing the app.
 export function ErrorBoundary({ error, retry }: { error: Error; retry: () => void }) {

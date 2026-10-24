@@ -12,7 +12,7 @@ import { useFilters } from '@/state/filters';
 import { useFollows } from '@/state/follows';
 import { useReviews } from '@/state/reviews';
 import { minuteNow } from './clock';
-import { decayed, useTaste, type GenreSignal, type ViewKind, type ViewSignal } from '@/state/taste';
+import { decayed, useTaste, type GenreSignal, type ViewSignal } from '@/state/taste';
 
 export const PROFILE_CAP = 30;
 export const PROFILE_STALE_MS = 5 * 60_000;
@@ -240,12 +240,4 @@ export function explainProfile(profile: TasteProfile, genreLabels: Record<string
   }
   lines.push('A ordem também considera distância, horário e popularidade. Tudo é calculado neste aparelho.');
   return lines;
-}
-
-/** Records one implicit "viewed" taste signal per screen visit. Pass undefined until the entity has loaded. */
-export function useRecordView(kind: ViewKind, id: string | undefined): void {
-  const record = useTaste((s) => s.recordView);
-  useEffect(() => {
-    if (id) record(kind, id);
-  }, [kind, id, record]);
 }

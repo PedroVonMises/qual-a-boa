@@ -7,7 +7,7 @@ import { Frame, StateShell, useGoBack } from '@/features/evento/Frame';
 import { Hero } from '@/features/evento/Hero';
 import { genreLabels, monthYear } from '@/features/evento/labels';
 import { needsIllustrativeLabel } from '@/features/acompanhar/logic';
-import { useRecordView } from '@/features/explorar/useTasteProfile';
+import { useRecordView } from '@/state/useRecordView';
 import { useFavorites } from '@/state/favorites';
 import { useLocation } from '@/state/location';
 import { space } from '@/theme/tokens';

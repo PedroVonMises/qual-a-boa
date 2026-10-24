@@ -182,6 +182,8 @@ function WebGlVenueMap({
         const [mod] = await Promise.all([import('maplibre-gl'), css]);
         if (cancelled || !containerRef.current) return;
         const lib = ((mod as { default?: typeof import('maplibre-gl') }).default ?? mod) as typeof import('maplibre-gl');
+        // maplibre-gl v6 needs its worker script served as a file (Metro does not bundle it): app/public/maplibre-gl-worker.mjs.
+        lib.setWorkerUrl('/maplibre-gl-worker.mjs');
         libRef.current = lib;
         let loaded = false;
         created = new lib.Map({
