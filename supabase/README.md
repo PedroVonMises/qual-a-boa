@@ -12,10 +12,18 @@ seed/seed-data.ts                  buildSeed(now): SeedDataset (all placeholder 
 seed/sql.ts                        SeedDataset -> INSERT statements
 seed/build.ts                      writes seed/seed.sql and app/src/data/seed.json (+ fixtures)
 seed/seed.sql                      generated
-migrations/0005_engage.sql         event_follows, checkins, event_reports, reviews(+feed view), review_votes,
-                                   support_tickets/messages, event_live_summary(event_id); owner-only RLS,
-                                   reports need a check-in <6h, reviews attended=true needs a check-in,
-                                   SupportMessage.from is column `sender`, reviews.user_id hidden from clients
+migrations/0005_engage.sql         event_follows, checkins, event_reports, reviews(+feed view), review_votes, review_reports,
+                                   support_tickets/messages, event_live_summary(event_id); owner-only RLS.
+                                   Check-in: published event, from starts_at-2h to ends_at (or start+8h), unique per user/event.
+                                   Reports: need a check-in <6h, throttled 1 per user/event/10 min, price 0..1000, user_id not
+                                   selectable (column grants). Reviews: user_id hidden, topics/tags/text(800) validated, content
+                                   edits reset status to 'pending' (not service_role), event must be published and started
+                                   (or attended). Votes/review_reports: published reviews, not your own (can_vote_review, definer).
+                                   Tickets: user message reopens; no user DELETE. event_live_summary mirrors aoVivo/logic.ts
+                                   (2h window, mode with recency tie-break, median price). Trigger-only definer functions are
+                                   revoked from public/anon/authenticated. SupportMessage.from is column `sender`
+0003_rls.sql note                  events (and their join rows) are readable when published OR cancelled; search_events and the
+                                   history functions still filter published. https-only ticket_url / photo_url checks live in 0001
 tests/harness.ts                   PGlite + stub auth schema + roles anon/authenticated/service_role
 tests/reference.ts                 TS reading of the search spec used to cross-check the SQL
 tests/fixtures/seed-fixed.json     dataset with now = 2026-10-23T12:00:00Z

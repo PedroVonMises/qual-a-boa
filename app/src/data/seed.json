@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-23T04:05:58.602Z",
+  "generatedAt": "2026-10-24T17:50:40.819Z",
   "genres": [
     {
       "id": "18927a65-f850-38b3-a5ba-33a476a24a9b",
@@ -431,8 +431,8 @@
       "id": "f18ae78e-66ae-3123-b61e-ef6fbe5ac161",
       "title": "Maré de Verão",
       "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
-      "startsAt": "2026-05-02T01:00:00.000Z",
-      "endsAt": "2026-05-02T06:00:00.000Z",
+      "startsAt": "2026-05-09T01:00:00.000Z",
+      "endsAt": "2026-05-09T06:00:00.000Z",
       "priceMin": 30,
       "priceMax": 40,
       "isFree": false,
@@ -517,8 +517,8 @@
       "id": "07087f33-64bc-3696-91e4-8e5830faa9cf",
       "title": "Discotopia",
       "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
-      "startsAt": "2026-06-20T02:00:00.000Z",
-      "endsAt": "2026-06-20T07:00:00.000Z",
+      "startsAt": "2026-06-27T02:00:00.000Z",
+      "endsAt": "2026-06-27T07:00:00.000Z",
       "priceMin": 40,
       "priceMax": 60,
       "isFree": false,
@@ -580,8 +580,8 @@
       "id": "91a4b989-7945-3f11-898f-b83e933b24a2",
       "title": "Retrô Bolt",
       "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
-      "startsAt": "2026-07-18T02:00:00.000Z",
-      "endsAt": "2026-07-18T07:00:00.000Z",
+      "startsAt": "2026-07-25T02:00:00.000Z",
+      "endsAt": "2026-07-25T07:00:00.000Z",
       "priceMin": 35,
       "priceMax": 50,
       "isFree": false,
@@ -668,8 +668,8 @@
       "id": "8c6338f8-f9dd-352f-8b5c-5bfd121803be",
       "title": "Rap na Caipora",
       "venueId": "2e5c8fe5-e734-31b1-86f7-261ab393934b",
-      "startsAt": "2026-08-15T01:00:00.000Z",
-      "endsAt": "2026-08-15T06:00:00.000Z",
+      "startsAt": "2026-08-22T01:00:00.000Z",
+      "endsAt": "2026-08-22T06:00:00.000Z",
       "priceMin": 15,
       "priceMax": 20,
       "isFree": false,
@@ -684,27 +684,6 @@
       "coverKey": "caipora",
       "popularity": 66,
       "ticketUrl": "https://example.com/ingressos/casa-caipora-rap-na-caipora-p10"
-    },
-    {
-      "id": "2d9b2a7f-9090-3028-ba99-d459f42442df",
-      "title": "Fluente Funk",
-      "venueId": "6044b871-24cc-3115-90e1-eec363cf3450",
-      "startsAt": "2026-08-22T01:00:00.000Z",
-      "endsAt": "2026-08-22T06:00:00.000Z",
-      "priceMin": 25,
-      "priceMax": 40,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "funk"
-      ],
-      "artistIds": [
-        "8e444303-15a3-36c2-b22e-ef63b0e8cd42"
-      ],
-      "status": "published",
-      "coverKey": "fluente",
-      "popularity": 72,
-      "ticketUrl": "https://example.com/ingressos/fluente-fluente-funk-p9"
     },
     {
       "id": "349f5d0e-41b7-30f7-b7e2-6498db993f5f",
@@ -728,11 +707,32 @@
       "ticketUrl": "https://example.com/ingressos/bolt-funk-na-penha-p9"
     },
     {
+      "id": "2d9b2a7f-9090-3028-ba99-d459f42442df",
+      "title": "Fluente Funk",
+      "venueId": "6044b871-24cc-3115-90e1-eec363cf3450",
+      "startsAt": "2026-08-29T01:00:00.000Z",
+      "endsAt": "2026-08-29T06:00:00.000Z",
+      "priceMin": 25,
+      "priceMax": 40,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "funk"
+      ],
+      "artistIds": [
+        "8e444303-15a3-36c2-b22e-ef63b0e8cd42"
+      ],
+      "status": "published",
+      "coverKey": "fluente",
+      "popularity": 72,
+      "ticketUrl": "https://example.com/ingressos/fluente-fluente-funk-p9"
+    },
+    {
       "id": "4be73533-5fe4-378f-a0d0-35a25866042f",
       "title": "Hardcore na Itaparica",
       "venueId": "58a224b8-1eeb-343a-8bf0-2e015cfa81ab",
-      "startsAt": "2026-08-29T01:00:00.000Z",
-      "endsAt": "2026-08-29T06:00:00.000Z",
+      "startsAt": "2026-09-05T01:00:00.000Z",
+      "endsAt": "2026-09-05T06:00:00.000Z",
       "priceMin": 15,
       "priceMax": 25,
       "isFree": false,
@@ -752,8 +752,8 @@
       "id": "810eaaf2-7a8d-3d83-83d5-cf7a82a1ebdf",
       "title": "Discotopia",
       "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
-      "startsAt": "2026-09-05T02:00:00.000Z",
-      "endsAt": "2026-09-05T07:00:00.000Z",
+      "startsAt": "2026-09-12T02:00:00.000Z",
+      "endsAt": "2026-09-12T07:00:00.000Z",
       "priceMin": 40,
       "priceMax": 60,
       "isFree": false,
@@ -769,28 +769,6 @@
       "coverKey": "selva",
       "popularity": 88,
       "ticketUrl": "https://example.com/ingressos/a-selva-discotopia-p7"
-    },
-    {
-      "id": "c26a1b48-d1ac-3ee6-8623-45e21ab35b57",
-      "title": "Anos 80 & 90",
-      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
-      "startsAt": "2026-09-12T01:00:00.000Z",
-      "endsAt": "2026-09-12T06:00:00.000Z",
-      "priceMin": 25,
-      "priceMax": 35,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "pop-hits",
-        "rock-indie"
-      ],
-      "artistIds": [
-        "8d5c8ee8-9a40-3677-8c78-f0ba225304a0"
-      ],
-      "status": "published",
-      "coverKey": "pub426",
-      "popularity": 73,
-      "ticketUrl": "https://example.com/ingressos/pub-426-anos-80-e-90-p6"
     },
     {
       "id": "30502564-7e92-3dda-a095-9d6a299f37dd",
@@ -814,25 +792,26 @@
       "ticketUrl": "https://example.com/ingressos/casa-caipora-samba-na-caipora-p6"
     },
     {
-      "id": "b7be8a95-5f36-38f2-b87a-2b891571f0cd",
-      "title": "Lovy Bolt",
-      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
-      "startsAt": "2026-09-19T02:00:00.000Z",
-      "endsAt": "2026-09-19T07:00:00.000Z",
-      "priceMin": 30,
-      "priceMax": 40,
+      "id": "c26a1b48-d1ac-3ee6-8623-45e21ab35b57",
+      "title": "Anos 80 & 90",
+      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
+      "startsAt": "2026-09-19T01:00:00.000Z",
+      "endsAt": "2026-09-19T06:00:00.000Z",
+      "priceMin": 25,
+      "priceMax": 35,
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
-        "pop-hits"
+        "pop-hits",
+        "rock-indie"
       ],
       "artistIds": [
-        "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b"
+        "8d5c8ee8-9a40-3677-8c78-f0ba225304a0"
       ],
       "status": "published",
-      "coverKey": "bolt",
-      "popularity": 84,
-      "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-p5"
+      "coverKey": "pub426",
+      "popularity": 73,
+      "ticketUrl": "https://example.com/ingressos/pub-426-anos-80-e-90-p6"
     },
     {
       "id": "d310b4a5-20b0-3f0a-9556-9403f893d0f8",
@@ -854,6 +833,27 @@
       "coverKey": "mare",
       "popularity": 59,
       "ticketUrl": "https://example.com/ingressos/casa-mare-quinta-sertaneja-p5"
+    },
+    {
+      "id": "b7be8a95-5f36-38f2-b87a-2b891571f0cd",
+      "title": "Lovy Bolt",
+      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
+      "startsAt": "2026-09-26T02:00:00.000Z",
+      "endsAt": "2026-09-26T07:00:00.000Z",
+      "priceMin": 30,
+      "priceMax": 40,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pop-hits"
+      ],
+      "artistIds": [
+        "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b"
+      ],
+      "status": "published",
+      "coverKey": "bolt",
+      "popularity": 84,
+      "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-p5"
     },
     {
       "id": "f66b6456-fd1a-3f9f-8c2a-a58d7879c7ab",
@@ -897,30 +897,6 @@
       "popularity": 66
     },
     {
-      "id": "53fbe425-0158-336c-9130-7ae718811a67",
-      "title": "Despedida da Caipora",
-      "venueId": "2e5c8fe5-e734-31b1-86f7-261ab393934b",
-      "startsAt": "2026-10-03T00:00:00.000Z",
-      "endsAt": "2026-10-03T05:00:00.000Z",
-      "priceMin": 30,
-      "priceMax": 40,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "pagode-samba",
-        "hip-hop-rnb"
-      ],
-      "artistIds": [
-        "2cb88238-8b85-3523-93b8-23f16dbe785b",
-        "b95aaecc-c28d-3d74-93b6-fd195ada1756",
-        "d9bb9f8a-b15f-32a2-819c-025029394e2f"
-      ],
-      "status": "published",
-      "coverKey": "caipora",
-      "popularity": 95,
-      "ticketUrl": "https://example.com/ingressos/casa-caipora-despedida-da-caipora-p3"
-    },
-    {
       "id": "222f27e4-78c1-3424-b623-73673f225d20",
       "title": "Noite do Pagodão",
       "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
@@ -940,6 +916,30 @@
       "coverKey": "selva",
       "popularity": 78,
       "ticketUrl": "https://example.com/ingressos/a-selva-noite-do-pagodao-p3"
+    },
+    {
+      "id": "53fbe425-0158-336c-9130-7ae718811a67",
+      "title": "Despedida da Caipora",
+      "venueId": "2e5c8fe5-e734-31b1-86f7-261ab393934b",
+      "startsAt": "2026-10-10T00:00:00.000Z",
+      "endsAt": "2026-10-10T05:00:00.000Z",
+      "priceMin": 30,
+      "priceMax": 40,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pagode-samba",
+        "hip-hop-rnb"
+      ],
+      "artistIds": [
+        "2cb88238-8b85-3523-93b8-23f16dbe785b",
+        "b95aaecc-c28d-3d74-93b6-fd195ada1756",
+        "d9bb9f8a-b15f-32a2-819c-025029394e2f"
+      ],
+      "status": "published",
+      "coverKey": "caipora",
+      "popularity": 95,
+      "ticketUrl": "https://example.com/ingressos/casa-caipora-despedida-da-caipora-p3"
     },
     {
       "id": "9aef8c27-b44a-3527-b977-dd76eb87a9e1",
@@ -1007,71 +1007,6 @@
       "ticketUrl": "https://example.com/ingressos/bolt-bolt-indie-club-p2"
     },
     {
-      "id": "fb69d5a7-fddf-327b-a458-107151041a2f",
-      "title": "Maré Alta",
-      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
-      "startsAt": "2026-10-17T01:00:00.000Z",
-      "endsAt": "2026-10-17T06:00:00.000Z",
-      "priceMin": 35,
-      "priceMax": 50,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "eletronica-house",
-        "pop-hits"
-      ],
-      "artistIds": [
-        "afd11fda-5593-3387-a6a6-4ed34dab6143"
-      ],
-      "status": "published",
-      "coverKey": "mare",
-      "popularity": 77,
-      "ticketUrl": "https://example.com/ingressos/casa-mare-mare-alta-p1"
-    },
-    {
-      "id": "3f396a2b-c772-3d0f-b695-a82a5aa14e6e",
-      "title": "Discotopia",
-      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
-      "startsAt": "2026-10-17T02:00:00.000Z",
-      "endsAt": "2026-10-17T07:00:00.000Z",
-      "priceMin": 40,
-      "priceMax": 60,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "eletronica-house"
-      ],
-      "artistIds": [
-        "ff1b3603-3953-3e74-bc2e-3bb3ff18c274"
-      ],
-      "status": "published",
-      "coverKey": "selva",
-      "popularity": 90,
-      "ticketUrl": "https://example.com/ingressos/a-selva-discotopia-p1"
-    },
-    {
-      "id": "ef1b5e1d-2b53-35ef-8d8b-e091911334fa",
-      "title": "Lovy Bolt",
-      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
-      "startsAt": "2026-10-17T02:00:00.000Z",
-      "endsAt": "2026-10-17T07:00:00.000Z",
-      "priceMin": 30,
-      "priceMax": 40,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "pop-hits"
-      ],
-      "artistIds": [
-        "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b",
-        "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
-      ],
-      "status": "published",
-      "coverKey": "bolt",
-      "popularity": 86,
-      "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-p1"
-    },
-    {
       "id": "c7082424-fef4-3f25-8ab2-4e37505330f2",
       "title": "Pagode de Sábado",
       "venueId": "6501df07-02c0-3cad-8679-e6913649a4c0",
@@ -1113,30 +1048,7 @@
       "popularity": 53
     },
     {
-      "id": "c731778b-f2cc-35fb-b6d1-89c9440b4280",
-      "title": "Anos 80 & 90",
-      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
-      "startsAt": "2026-10-24T01:00:00.000Z",
-      "endsAt": "2026-10-24T06:00:00.000Z",
-      "priceMin": 25,
-      "priceMax": 35,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "pop-hits",
-        "rock-indie"
-      ],
-      "artistIds": [
-        "8d5c8ee8-9a40-3677-8c78-f0ba225304a0",
-        "a033a85b-4cdb-39ca-8937-a02f4deb3a81"
-      ],
-      "status": "published",
-      "coverKey": "pub426",
-      "popularity": 74,
-      "ticketUrl": "https://example.com/ingressos/pub-426-anos-80-e-90-w0"
-    },
-    {
-      "id": "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
+      "id": "fb69d5a7-fddf-327b-a458-107151041a2f",
       "title": "Maré Alta",
       "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
       "startsAt": "2026-10-24T01:00:00.000Z",
@@ -1154,11 +1066,32 @@
       ],
       "status": "published",
       "coverKey": "mare",
-      "popularity": 78,
-      "ticketUrl": "https://example.com/ingressos/casa-mare-mare-alta-w0"
+      "popularity": 77,
+      "ticketUrl": "https://example.com/ingressos/casa-mare-mare-alta-p1"
     },
     {
-      "id": "54437fb9-a804-3431-85c8-f3a3a50647d9",
+      "id": "3f396a2b-c772-3d0f-b695-a82a5aa14e6e",
+      "title": "Discotopia",
+      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
+      "startsAt": "2026-10-24T02:00:00.000Z",
+      "endsAt": "2026-10-24T07:00:00.000Z",
+      "priceMin": 40,
+      "priceMax": 60,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "eletronica-house"
+      ],
+      "artistIds": [
+        "ff1b3603-3953-3e74-bc2e-3bb3ff18c274"
+      ],
+      "status": "published",
+      "coverKey": "selva",
+      "popularity": 90,
+      "ticketUrl": "https://example.com/ingressos/a-selva-discotopia-p1"
+    },
+    {
+      "id": "ef1b5e1d-2b53-35ef-8d8b-e091911334fa",
       "title": "Lovy Bolt",
       "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
       "startsAt": "2026-10-24T02:00:00.000Z",
@@ -1176,30 +1109,8 @@
       ],
       "status": "published",
       "coverKey": "bolt",
-      "popularity": 88,
-      "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-w0"
-    },
-    {
-      "id": "59400a6d-5314-3719-8ba9-5c9ca7e3c8c6",
-      "title": "Discotopia",
-      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
-      "startsAt": "2026-10-24T02:00:00.000Z",
-      "endsAt": "2026-10-24T07:00:00.000Z",
-      "priceMin": 40,
-      "priceMax": 60,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "eletronica-house"
-      ],
-      "artistIds": [
-        "ff1b3603-3953-3e74-bc2e-3bb3ff18c274",
-        "b40790f3-93c7-3fd1-959a-4fba3f6f8d37"
-      ],
-      "status": "published",
-      "coverKey": "selva",
-      "popularity": 91,
-      "ticketUrl": "https://example.com/ingressos/a-selva-discotopia-w0"
+      "popularity": 86,
+      "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-p1"
     },
     {
       "id": "b83e0bc3-382d-307b-8467-710a99f3b967",
@@ -1375,51 +1286,53 @@
       "ticketUrl": "https://example.com/ingressos/casa-mare-quinta-sertaneja-w0"
     },
     {
-      "id": "19544ef6-5f36-3df7-b71e-4b5eba862300",
-      "title": "Hardcore na Itaparica",
-      "venueId": "58a224b8-1eeb-343a-8bf0-2e015cfa81ab",
-      "startsAt": "2026-10-31T01:00:00.000Z",
-      "endsAt": "2026-10-31T06:00:00.000Z",
-      "priceMin": 15,
-      "priceMax": 25,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "metal-punk-goth"
-      ],
-      "artistIds": [
-        "7910d733-aedc-375b-ac83-61aaee365692",
-        "72cb1b78-5c53-368f-8632-b20a8590cb59"
-      ],
-      "status": "published",
-      "coverKey": "generic",
-      "popularity": 54,
-      "ticketUrl": "https://example.com/ingressos/correria-music-bar-hardcore-na-itaparica-w1"
-    },
-    {
-      "id": "7269bb51-6b70-38ed-88f8-35d4192ee0ea",
-      "title": "Fluente Funk",
-      "venueId": "6044b871-24cc-3115-90e1-eec363cf3450",
+      "id": "c731778b-f2cc-35fb-b6d1-89c9440b4280",
+      "title": "Anos 80 & 90",
+      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
       "startsAt": "2026-10-31T01:00:00.000Z",
       "endsAt": "2026-10-31T06:00:00.000Z",
       "priceMin": 25,
-      "priceMax": 40,
+      "priceMax": 35,
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
-        "funk"
+        "pop-hits",
+        "rock-indie"
       ],
       "artistIds": [
-        "8e444303-15a3-36c2-b22e-ef63b0e8cd42"
+        "8d5c8ee8-9a40-3677-8c78-f0ba225304a0",
+        "a033a85b-4cdb-39ca-8937-a02f4deb3a81"
       ],
       "status": "published",
-      "coverKey": "fluente",
-      "popularity": 75,
-      "ticketUrl": "https://example.com/ingressos/fluente-fluente-funk-w1"
+      "coverKey": "pub426",
+      "popularity": 74,
+      "ticketUrl": "https://example.com/ingressos/pub-426-anos-80-e-90-w0"
     },
     {
-      "id": "9316c5c3-b738-3345-aa73-e9297bab0313",
-      "title": "Funk na Penha",
+      "id": "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
+      "title": "Maré Alta",
+      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
+      "startsAt": "2026-10-31T01:00:00.000Z",
+      "endsAt": "2026-10-31T06:00:00.000Z",
+      "priceMin": 35,
+      "priceMax": 50,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "eletronica-house",
+        "pop-hits"
+      ],
+      "artistIds": [
+        "afd11fda-5593-3387-a6a6-4ed34dab6143"
+      ],
+      "status": "published",
+      "coverKey": "mare",
+      "popularity": 78,
+      "ticketUrl": "https://example.com/ingressos/casa-mare-mare-alta-w0"
+    },
+    {
+      "id": "54437fb9-a804-3431-85c8-f3a3a50647d9",
+      "title": "Lovy Bolt",
       "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
       "startsAt": "2026-10-31T02:00:00.000Z",
       "endsAt": "2026-10-31T07:00:00.000Z",
@@ -1428,16 +1341,38 @@
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
-        "funk"
+        "pop-hits"
       ],
       "artistIds": [
-        "512cb209-39e2-3737-b3b2-973c39177006",
-        "5feceed4-aef2-374c-b729-91849468146a"
+        "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b",
+        "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
       ],
       "status": "published",
       "coverKey": "bolt",
-      "popularity": 82,
-      "ticketUrl": "https://example.com/ingressos/bolt-funk-na-penha-w1"
+      "popularity": 88,
+      "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-w0"
+    },
+    {
+      "id": "59400a6d-5314-3719-8ba9-5c9ca7e3c8c6",
+      "title": "Discotopia",
+      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
+      "startsAt": "2026-10-31T02:00:00.000Z",
+      "endsAt": "2026-10-31T07:00:00.000Z",
+      "priceMin": 40,
+      "priceMax": 60,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "eletronica-house"
+      ],
+      "artistIds": [
+        "ff1b3603-3953-3e74-bc2e-3bb3ff18c274",
+        "b40790f3-93c7-3fd1-959a-4fba3f6f8d37"
+      ],
+      "status": "published",
+      "coverKey": "selva",
+      "popularity": 91,
+      "ticketUrl": "https://example.com/ingressos/a-selva-discotopia-w0"
     },
     {
       "id": "04dbb15c-0529-34c5-a430-26b9f31faae8",
@@ -1610,48 +1545,69 @@
       "ticketUrl": "https://example.com/ingressos/a-selva-tecnobrega-selvagem-w1"
     },
     {
-      "id": "affc57b6-a11c-3791-9732-d86ee5de69ee",
-      "title": "New Wave Night",
-      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
+      "id": "19544ef6-5f36-3df7-b71e-4b5eba862300",
+      "title": "Hardcore na Itaparica",
+      "venueId": "58a224b8-1eeb-343a-8bf0-2e015cfa81ab",
       "startsAt": "2026-11-07T01:00:00.000Z",
       "endsAt": "2026-11-07T06:00:00.000Z",
-      "priceMin": null,
-      "priceMax": null,
+      "priceMin": 15,
+      "priceMax": 25,
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
-        "pop-hits",
-        "rock-indie"
+        "metal-punk-goth"
       ],
       "artistIds": [
-        "a033a85b-4cdb-39ca-8937-a02f4deb3a81"
+        "7910d733-aedc-375b-ac83-61aaee365692",
+        "72cb1b78-5c53-368f-8632-b20a8590cb59"
       ],
       "status": "published",
-      "coverKey": "pub426",
-      "popularity": 48,
-      "ticketUrl": "https://example.com/ingressos/pub-426-new-wave-night-w2"
+      "coverKey": "generic",
+      "popularity": 54,
+      "ticketUrl": "https://example.com/ingressos/correria-music-bar-hardcore-na-itaparica-w1"
     },
     {
-      "id": "a291bdf7-c783-30f0-bf4b-f97fe74a0f5f",
-      "title": "Discotopia",
-      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
-      "startsAt": "2026-11-07T02:00:00.000Z",
-      "endsAt": "2026-11-07T07:00:00.000Z",
-      "priceMin": 40,
-      "priceMax": 60,
+      "id": "7269bb51-6b70-38ed-88f8-35d4192ee0ea",
+      "title": "Fluente Funk",
+      "venueId": "6044b871-24cc-3115-90e1-eec363cf3450",
+      "startsAt": "2026-11-07T01:00:00.000Z",
+      "endsAt": "2026-11-07T06:00:00.000Z",
+      "priceMin": 25,
+      "priceMax": 40,
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
-        "eletronica-house"
+        "funk"
       ],
       "artistIds": [
-        "8b2d30e0-d042-3cf4-8692-b028781c7aa8",
-        "ff1b3603-3953-3e74-bc2e-3bb3ff18c274"
+        "8e444303-15a3-36c2-b22e-ef63b0e8cd42"
       ],
       "status": "published",
-      "coverKey": "selva",
-      "popularity": 89,
-      "ticketUrl": "https://example.com/ingressos/a-selva-discotopia-w2"
+      "coverKey": "fluente",
+      "popularity": 75,
+      "ticketUrl": "https://example.com/ingressos/fluente-fluente-funk-w1"
+    },
+    {
+      "id": "9316c5c3-b738-3345-aa73-e9297bab0313",
+      "title": "Funk na Penha",
+      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
+      "startsAt": "2026-11-07T02:00:00.000Z",
+      "endsAt": "2026-11-07T07:00:00.000Z",
+      "priceMin": 30,
+      "priceMax": 40,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "funk"
+      ],
+      "artistIds": [
+        "512cb209-39e2-3737-b3b2-973c39177006",
+        "5feceed4-aef2-374c-b729-91849468146a"
+      ],
+      "status": "published",
+      "coverKey": "bolt",
+      "popularity": 82,
+      "ticketUrl": "https://example.com/ingressos/bolt-funk-na-penha-w1"
     },
     {
       "id": "494a7f43-5aca-3753-9343-0f9a445670b9",
@@ -1804,91 +1760,48 @@
       "ticketUrl": "https://example.com/ingressos/casa-mare-quinta-sertaneja-w2"
     },
     {
-      "id": "50ae2bfc-9032-3097-b71f-f28bbbf3deb7",
-      "title": "Roda de Samba da Praia",
-      "venueId": "6501df07-02c0-3cad-8679-e6913649a4c0",
-      "startsAt": "2026-11-14T00:00:00.000Z",
-      "endsAt": "2026-11-14T05:00:00.000Z",
-      "priceMin": 15,
-      "priceMax": 15,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "pagode-samba"
-      ],
-      "artistIds": [
-        "2cb88238-8b85-3523-93b8-23f16dbe785b",
-        "92c5ee5f-2c70-35bf-af83-ed0b17eac919"
-      ],
-      "status": "published",
-      "coverKey": "gordinho",
-      "popularity": 70,
-      "ticketUrl": "https://example.com/ingressos/gordinho-roda-de-samba-da-praia-w3"
-    },
-    {
-      "id": "75384c43-1371-3203-90b4-ade693fb8d1e",
-      "title": "Sofrência na Penha",
-      "venueId": "6044b871-24cc-3115-90e1-eec363cf3450",
+      "id": "affc57b6-a11c-3791-9732-d86ee5de69ee",
+      "title": "New Wave Night",
+      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
       "startsAt": "2026-11-14T01:00:00.000Z",
       "endsAt": "2026-11-14T06:00:00.000Z",
-      "priceMin": 30,
-      "priceMax": 45,
+      "priceMin": null,
+      "priceMax": null,
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
-        "sertanejo"
+        "pop-hits",
+        "rock-indie"
       ],
       "artistIds": [
-        "df60c370-47a0-3ec8-bcf4-d3657964c349",
-        "6a991642-49d1-347b-9b9a-1a0a10974c58"
+        "a033a85b-4cdb-39ca-8937-a02f4deb3a81"
       ],
       "status": "published",
-      "coverKey": "fluente",
-      "popularity": 69,
-      "ticketUrl": "https://example.com/ingressos/fluente-sofrencia-na-penha-w3"
+      "coverKey": "pub426",
+      "popularity": 48,
+      "ticketUrl": "https://example.com/ingressos/pub-426-new-wave-night-w2"
     },
     {
-      "id": "f7c684b0-d462-3053-a7b1-5b4d22d63661",
-      "title": "Festa Rascunho",
-      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
-      "startsAt": "2026-11-14T01:00:00.000Z",
-      "endsAt": "2026-11-14T06:00:00.000Z",
-      "priceMin": 30,
-      "priceMax": 30,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "pop-hits"
-      ],
-      "artistIds": [
-        "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b"
-      ],
-      "status": "draft",
-      "coverKey": "mare",
-      "popularity": 40,
-      "ticketUrl": "https://example.com/ingressos/casa-mare-festa-rascunho-w3"
-    },
-    {
-      "id": "04580d93-93a2-33fb-81df-e87e4960754a",
-      "title": "Hip-hop na Penha",
-      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
+      "id": "a291bdf7-c783-30f0-bf4b-f97fe74a0f5f",
+      "title": "Discotopia",
+      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
       "startsAt": "2026-11-14T02:00:00.000Z",
       "endsAt": "2026-11-14T07:00:00.000Z",
-      "priceMin": 25,
-      "priceMax": 35,
+      "priceMin": 40,
+      "priceMax": 60,
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
-        "hip-hop-rnb"
+        "eletronica-house"
       ],
       "artistIds": [
-        "d9bb9f8a-b15f-32a2-819c-025029394e2f",
-        "b95aaecc-c28d-3d74-93b6-fd195ada1756"
+        "8b2d30e0-d042-3cf4-8692-b028781c7aa8",
+        "ff1b3603-3953-3e74-bc2e-3bb3ff18c274"
       ],
       "status": "published",
-      "coverKey": "bolt",
-      "popularity": 64,
-      "ticketUrl": "https://example.com/ingressos/bolt-hip-hop-na-penha-w3"
+      "coverKey": "selva",
+      "popularity": 89,
+      "ticketUrl": "https://example.com/ingressos/a-selva-discotopia-w2"
     },
     {
       "id": "94a65a02-a314-3374-9de2-3894395999f7",
@@ -1997,6 +1910,93 @@
       "coverKey": "selva",
       "popularity": 72,
       "ticketUrl": "https://example.com/ingressos/a-selva-noite-do-pagodao-w3"
+    },
+    {
+      "id": "50ae2bfc-9032-3097-b71f-f28bbbf3deb7",
+      "title": "Roda de Samba da Praia",
+      "venueId": "6501df07-02c0-3cad-8679-e6913649a4c0",
+      "startsAt": "2026-11-21T00:00:00.000Z",
+      "endsAt": "2026-11-21T05:00:00.000Z",
+      "priceMin": 15,
+      "priceMax": 15,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pagode-samba"
+      ],
+      "artistIds": [
+        "2cb88238-8b85-3523-93b8-23f16dbe785b",
+        "92c5ee5f-2c70-35bf-af83-ed0b17eac919"
+      ],
+      "status": "published",
+      "coverKey": "gordinho",
+      "popularity": 70,
+      "ticketUrl": "https://example.com/ingressos/gordinho-roda-de-samba-da-praia-w3"
+    },
+    {
+      "id": "75384c43-1371-3203-90b4-ade693fb8d1e",
+      "title": "Sofrência na Penha",
+      "venueId": "6044b871-24cc-3115-90e1-eec363cf3450",
+      "startsAt": "2026-11-21T01:00:00.000Z",
+      "endsAt": "2026-11-21T06:00:00.000Z",
+      "priceMin": 30,
+      "priceMax": 45,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "sertanejo"
+      ],
+      "artistIds": [
+        "df60c370-47a0-3ec8-bcf4-d3657964c349",
+        "6a991642-49d1-347b-9b9a-1a0a10974c58"
+      ],
+      "status": "published",
+      "coverKey": "fluente",
+      "popularity": 69,
+      "ticketUrl": "https://example.com/ingressos/fluente-sofrencia-na-penha-w3"
+    },
+    {
+      "id": "f7c684b0-d462-3053-a7b1-5b4d22d63661",
+      "title": "Festa Rascunho",
+      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
+      "startsAt": "2026-11-21T01:00:00.000Z",
+      "endsAt": "2026-11-21T06:00:00.000Z",
+      "priceMin": 30,
+      "priceMax": 30,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pop-hits"
+      ],
+      "artistIds": [
+        "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b"
+      ],
+      "status": "draft",
+      "coverKey": "mare",
+      "popularity": 40,
+      "ticketUrl": "https://example.com/ingressos/casa-mare-festa-rascunho-w3"
+    },
+    {
+      "id": "04580d93-93a2-33fb-81df-e87e4960754a",
+      "title": "Hip-hop na Penha",
+      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
+      "startsAt": "2026-11-21T02:00:00.000Z",
+      "endsAt": "2026-11-21T07:00:00.000Z",
+      "priceMin": 25,
+      "priceMax": 35,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "hip-hop-rnb"
+      ],
+      "artistIds": [
+        "d9bb9f8a-b15f-32a2-819c-025029394e2f",
+        "b95aaecc-c28d-3d74-93b6-fd195ada1756"
+      ],
+      "status": "published",
+      "coverKey": "bolt",
+      "popularity": 64,
+      "ticketUrl": "https://example.com/ingressos/bolt-hip-hop-na-penha-w3"
     }
   ]
 }

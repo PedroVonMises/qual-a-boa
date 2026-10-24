@@ -28,9 +28,9 @@ create table public.checkins (
   id        uuid primary key default gen_random_uuid(),
   user_id   uuid not null default auth.uid() references auth.users (id) on delete cascade,
   event_id  uuid not null references public.events (id) on delete cascade,
-  at        timestamptz not null default now()
+  at        timestamptz not null default now(),
+  constraint checkins_one_per_user_event unique (user_id, event_id)
 );
-create index checkins_user_event_idx on public.checkins (user_id, event_id, at desc);
 create index checkins_event_idx on public.checkins (event_id);
 
 create table public.event_reports (
@@ -41,20 +41,36 @@ create table public.event_reports (
   queue          public.queue_level,
   crowd          public.crowd_level,
   music          public.music_level,
-  price_at_door  numeric(10,2) check (price_at_door >= 0),
+  price_at_door  numeric(10,2) check (price_at_door between 0 and 1000),
   constraint event_reports_has_value
     check (queue is not null or crowd is not null or music is not null or price_at_door is not null)
 );
 create index event_reports_event_created_idx on public.event_reports (event_id, created_at desc);
+
+-- Validators for review payloads (immutable, invoker: usable from CHECK constraints).
+create function public.valid_review_topics(t jsonb) returns boolean
+language sql immutable parallel safe as $$
+  select jsonb_typeof(t) = 'object'
+     and not exists (
+       select 1 from jsonb_each(t) kv
+       where kv.key not in ('musica','ambiente','atendimento','seguranca','preco','fila')
+          or jsonb_typeof(kv.value) <> 'number'
+          or kv.value::text !~ '^[1-5]$')
+$$;
+create function public.valid_review_tags(t text[]) returns boolean
+language sql immutable parallel safe as $$
+  select t is not null and coalesce(cardinality(t), 0) <= 5
+     and not exists (select 1 from unnest(t) x where x is null or char_length(x) > 24)
+$$;
 
 create table public.reviews (
   id             uuid primary key default gen_random_uuid(),
   user_id        uuid not null default auth.uid() references auth.users (id) on delete cascade,
   event_id       uuid not null references public.events (id) on delete cascade,
   rating         int not null check (rating between 1 and 5),
-  topics         jsonb not null default '{}' check (jsonb_typeof(topics) = 'object'),
-  tags           text[] not null default '{}',
-  text           text check (text is null or char_length(text) <= 2000),
+  topics         jsonb not null default '{}' check (public.valid_review_topics(topics)),
+  tags           text[] not null default '{}' check (public.valid_review_tags(tags)),
+  text           text check (text is null or char_length(text) <= 800),
   anonymous      boolean not null default false,
   attended       boolean not null default false,
   status         public.review_status not null default 'pending',
@@ -70,6 +86,16 @@ create table public.review_votes (
   created_at  timestamptz not null default now(),
   primary key (review_id, user_id)
 );
+
+create table public.review_reports (
+  id         uuid primary key default gen_random_uuid(),
+  user_id    uuid not null default auth.uid() references auth.users (id) on delete cascade,
+  review_id  uuid not null references public.reviews (id) on delete cascade,
+  reason     text not null check (char_length(reason) between 1 and 500),
+  created_at timestamptz not null default now(),
+  constraint review_reports_one_per_user_review unique (user_id, review_id)
+);
+create index review_reports_review_idx on public.review_reports (review_id);
 
 create table public.support_tickets (
   id           uuid primary key default gen_random_uuid(),
@@ -96,7 +122,8 @@ create index support_messages_ticket_idx on public.support_messages (ticket_id, 
 create function public.reviews_check_attended() returns trigger
 language plpgsql security definer set search_path = public as $$
 begin
-  if new.attended and not exists (
+  -- On update only re-check when `attended` itself flips (a check-in may have been deleted since).
+  if new.attended and (tg_op = 'INSERT' or new.attended is distinct from old.attended) and not exists (
     select 1 from public.checkins c where c.user_id = new.user_id and c.event_id = new.event_id
   ) then
     raise exception 'attended review requires a check-in' using errcode = '23514';
@@ -118,7 +145,62 @@ begin
 end $$;
 create trigger review_votes_count after insert or delete on public.review_votes
   for each row execute function public.review_votes_sync();
-revoke execute on function public.reviews_check_attended(), public.review_votes_sync() from public;
+
+-- Content edits send a review back to moderation (service_role keeps its status).
+create function public.reviews_reset_status() returns trigger
+language plpgsql set search_path = public as $$
+begin
+  if current_user <> 'service_role'
+     and (new.rating is distinct from old.rating or new.text is distinct from old.text
+          or new.tags is distinct from old.tags or new.topics is distinct from old.topics) then
+    new.status := 'pending';
+  end if;
+  return new;
+end $$;
+create trigger reviews_reset_status_on_edit before update on public.reviews
+  for each row execute function public.reviews_reset_status();
+
+-- Live report throttle: one report per user/event per 10 minutes (definer: user_id is not selectable).
+create function public.event_reports_throttle() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if exists (select 1 from public.event_reports r
+             where r.user_id = new.user_id and r.event_id = new.event_id
+               and abs(extract(epoch from r.created_at - new.created_at)) < 600) then
+    raise exception 'report throttled: one per event every 10 minutes' using errcode = '23514';
+  end if;
+  return new;
+end $$;
+create trigger event_reports_throttle_ins before insert on public.event_reports
+  for each row execute function public.event_reports_throttle();
+
+-- A user message reopens the ticket.
+create function public.support_messages_reopen() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if new.sender = 'user' then
+    update public.support_tickets set status = 'open' where id = new.ticket_id and status <> 'open';
+  end if;
+  return null;
+end $$;
+create trigger support_messages_reopen_ticket after insert on public.support_messages
+  for each row execute function public.support_messages_reopen();
+
+-- Vote/report eligibility: published review, not your own. Definer because reviews.user_id is
+-- not selectable. Must stay executable by authenticated (RLS policies call it as the caller).
+create function public.can_vote_review(p_review_id uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.reviews r
+                 where r.id = p_review_id and r.status = 'published'
+                   and r.user_id is distinct from auth.uid())
+$$;
+revoke execute on function public.can_vote_review(uuid) from public, anon;
+grant execute on function public.can_vote_review(uuid) to authenticated, service_role;
+
+-- Trigger-only definer functions are not callable through the API.
+revoke execute on function public.reviews_check_attended(), public.review_votes_sync(),
+  public.event_reports_throttle(), public.support_messages_reopen()
+  from public, anon, authenticated;
 
 -- RLS ------------------------------------------------------------------------
 alter table public.event_follows    enable row level security;
@@ -126,18 +208,21 @@ alter table public.checkins         enable row level security;
 alter table public.event_reports    enable row level security;
 alter table public.reviews          enable row level security;
 alter table public.review_votes     enable row level security;
+alter table public.review_reports   enable row level security;
 alter table public.support_tickets  enable row level security;
 alter table public.support_messages enable row level security;
 
 -- Privileges (tighten Supabase defaults; column grants keep server-owned fields read-only).
 revoke all on public.event_follows, public.checkins, public.event_reports, public.reviews,
-              public.review_votes, public.support_tickets, public.support_messages
+              public.review_votes, public.review_reports, public.support_tickets, public.support_messages
   from anon, authenticated;
 
 grant select, insert, update, delete on public.event_follows to authenticated;
 grant select, delete on public.checkins to authenticated;
 grant insert (event_id, user_id) on public.checkins to authenticated;
-grant select on public.event_reports to anon, authenticated;
+-- user_id stays private: column-level select only.
+grant select (id, event_id, created_at, queue, crowd, music, price_at_door)
+  on public.event_reports to anon, authenticated;
 grant insert (event_id, user_id, queue, crowd, music, price_at_door) on public.event_reports to authenticated;
 -- reviews: user_id is not readable by clients (anonymous reviews); use reviews_feed for `mine`.
 grant select (id, event_id, rating, topics, tags, text, anonymous, attended, status, helpful_count, created_at)
@@ -146,7 +231,9 @@ grant insert (event_id, user_id, rating, topics, tags, text, anonymous, attended
 grant update (rating, topics, tags, text, anonymous) on public.reviews to authenticated;
 grant delete on public.reviews to authenticated;
 grant select, insert, delete on public.review_votes to authenticated;
-grant select, delete on public.support_tickets to authenticated;
+grant select on public.review_reports to authenticated;
+grant insert (review_id, user_id, reason) on public.review_reports to authenticated;
+grant select on public.support_tickets to authenticated;
 grant insert (user_id, topic, event_id, description) on public.support_tickets to authenticated;
 grant update (status) on public.support_tickets to authenticated;
 grant select on public.support_messages to authenticated;
@@ -165,13 +252,16 @@ create policy event_follows_owner_update on public.event_follows
 create policy event_follows_owner_delete on public.event_follows
   for delete to authenticated using (user_id = (select auth.uid()));
 
--- checkins (event must be published; `at` is server time)
+-- checkins (published event, from 2h before start until it ends; `at` is server time)
 create policy checkins_owner_select on public.checkins
   for select to authenticated using (user_id = (select auth.uid()));
 create policy checkins_owner_insert on public.checkins
   for insert to authenticated
   with check (user_id = (select auth.uid())
-              and exists (select 1 from public.events e where e.id = event_id and e.status = 'published'));
+              and exists (select 1 from public.events e
+                          where e.id = event_id and e.status = 'published'
+                            and now() between e.starts_at - interval '2 hours'
+                                          and coalesce(e.ends_at, e.starts_at + interval '8 hours')));
 create policy checkins_owner_delete on public.checkins
   for delete to authenticated using (user_id = (select auth.uid()));
 
@@ -194,20 +284,30 @@ create policy reviews_owner_insert on public.reviews
   for insert to authenticated
   with check (user_id = (select auth.uid())
               and (not attended or exists (select 1 from public.checkins c
-                                           where c.user_id = (select auth.uid()) and c.event_id = reviews.event_id)));
+                                           where c.user_id = (select auth.uid()) and c.event_id = reviews.event_id))
+              and exists (select 1 from public.events e
+                          where e.id = reviews.event_id and e.status = 'published'
+                            and (reviews.attended or e.starts_at <= now())));
 create policy reviews_owner_update on public.reviews
   for update to authenticated
   using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
 create policy reviews_owner_delete on public.reviews
   for delete to authenticated using (user_id = (select auth.uid()));
 
--- helpful votes: one per (user, review), only on reviews you can see
+-- helpful votes: one per (user, review), only on published reviews that are not yours
 create policy review_votes_owner_select on public.review_votes
   for select to authenticated using (user_id = (select auth.uid()));
 create policy review_votes_owner_insert on public.review_votes
   for insert to authenticated
   with check (user_id = (select auth.uid())
-              and exists (select 1 from public.reviews r where r.id = review_id));
+              and public.can_vote_review(review_id));
+-- review reports ("Denunciar"): owner-only, one per (user, review)
+create policy review_reports_owner_select on public.review_reports
+  for select to authenticated using (user_id = (select auth.uid()));
+create policy review_reports_owner_insert on public.review_reports
+  for insert to authenticated
+  with check (user_id = (select auth.uid()) and public.can_vote_review(review_id));
+
 create policy review_votes_owner_delete on public.review_votes
   for delete to authenticated using (user_id = (select auth.uid()));
 
@@ -220,8 +320,6 @@ create policy support_tickets_owner_update on public.support_tickets
   for update to authenticated
   using (user_id = (select auth.uid()))
   with check (user_id = (select auth.uid()) and status = 'closed');
-create policy support_tickets_owner_delete on public.support_tickets
-  for delete to authenticated using (user_id = (select auth.uid()));
 
 create policy support_messages_owner_select on public.support_messages
   for select to authenticated
@@ -250,7 +348,10 @@ create view public.reviews_feed with (security_invoker = false) as
 revoke all on public.reviews_feed from anon, authenticated;
 grant select on public.reviews_feed to anon, authenticated;
 
--- Latest value per dimension over the last 24h, sample size and age (seconds) of the newest report.
+-- Mirrors app/src/features/aoVivo/logic.ts: fresh window 2h. Per dimension the most frequent value
+-- among fresh reports wins, ties go to the most recent report among the tied values; price is the
+-- median. sample_size = fresh reports; last_report_at / age_seconds = newest report overall (visible
+-- window is 24h). No fresh reports -> dimensions are null.
 create function public.event_live_summary(p_event_id uuid, p_now timestamptz default now())
 returns table (
   event_id uuid, queue public.queue_level, crowd public.crowd_level, music public.music_level,
@@ -258,17 +359,25 @@ returns table (
 )
 language sql stable security invoker set search_path = public as $$
   with recent as (
-    select * from public.event_reports r
-    where r.event_id = p_event_id and r.created_at > p_now - interval '24 hours' and r.created_at <= p_now
+    select r.created_at, r.queue, r.crowd, r.music, r.price_at_door
+    from public.event_reports r
+    where r.event_id = p_event_id and r.created_at > p_now - interval '24 hours'
+      and r.created_at <= p_now + interval '5 minutes'
+  ), fresh as (
+    select * from recent where created_at >= p_now - interval '2 hours'
   )
   select p_event_id,
-    (select x.queue from recent x where x.queue is not null order by x.created_at desc limit 1),
-    (select x.crowd from recent x where x.crowd is not null order by x.created_at desc limit 1),
-    (select x.music from recent x where x.music is not null order by x.created_at desc limit 1),
-    (select x.price_at_door from recent x where x.price_at_door is not null order by x.created_at desc limit 1),
-    (select count(*)::int from recent),
-    (select max(x.created_at) from recent x),
-    (select extract(epoch from p_now - max(x.created_at))::int from recent x)
+    (select x.queue from (select queue, count(*) n, max(created_at) last_at from fresh
+        where queue is not null group by queue) x order by x.n desc, x.last_at desc limit 1),
+    (select x.crowd from (select crowd, count(*) n, max(created_at) last_at from fresh
+        where crowd is not null group by crowd) x order by x.n desc, x.last_at desc limit 1),
+    (select x.music from (select music, count(*) n, max(created_at) last_at from fresh
+        where music is not null group by music) x order by x.n desc, x.last_at desc limit 1),
+    (select round((percentile_cont(0.5) within group (order by price_at_door))::numeric, 2)
+       from fresh where price_at_door is not null),
+    (select count(*)::int from fresh),
+    (select max(created_at) from recent),
+    (select extract(epoch from p_now - max(created_at))::int from recent)
 $$;
 revoke execute on function public.event_live_summary(uuid, timestamptz) from public;
 grant execute on function public.event_live_summary(uuid, timestamptz) to anon, authenticated, service_role;

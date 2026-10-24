@@ -1,8 +1,8 @@
 -- 0003_rls.sql
 -- Row level security.
 --  * Catalog (genres, venues, artists, events, event_genres, event_artists):
---    anon + authenticated may SELECT (events only when published; join rows only
---    for published events). Only service_role (BYPASSRLS) writes.
+--    anon + authenticated may SELECT (events only when published or cancelled; join rows
+--    only for those events; search_events still returns published only). Only service_role (BYPASSRLS) writes.
 --  * profiles, favorites: owner-only via auth.uid().
 
 grant usage on schema public to anon, authenticated, service_role;
@@ -41,17 +41,17 @@ create policy artists_public_read on public.artists
   for select to anon, authenticated using (true);
 
 create policy events_public_read on public.events
-  for select to anon, authenticated using (status = 'published');
+  for select to anon, authenticated using (status in ('published', 'cancelled'));
 
 create policy event_genres_public_read on public.event_genres
   for select to anon, authenticated
   using (exists (select 1 from public.events e
-                 where e.id = event_genres.event_id and e.status = 'published'));
+                 where e.id = event_genres.event_id and e.status in ('published', 'cancelled')));
 
 create policy event_artists_public_read on public.event_artists
   for select to anon, authenticated
   using (exists (select 1 from public.events e
-                 where e.id = event_artists.event_id and e.status = 'published'));
+                 where e.id = event_artists.event_id and e.status in ('published', 'cancelled')));
 
 -- Owner-only tables ----------------------------------------------------------
 create policy profiles_owner_select on public.profiles

@@ -11,11 +11,29 @@ const published = ds.events.filter((e) => e.status === 'published');
 const E1 = published[0].id;
 const E2 = published[1].id;
 const draft = ds.events.find((e) => e.status === 'draft')!;
+const cancelled = ds.events.find((e) => e.status === 'cancelled')!;
+const C = '00000000-0000-4000-8000-00000000000c';
+const E_FUTURE = published[5].id;   // starts in 3 days
+const E_ENDED = published[6].id;    // ended 5h ago
+const E_SOON = published[7].id;     // starts in 90 min
+const E_FAR = published[8].id;      // starts in 3h
+const E_LONG = published[9].id;     // no ends_at, started 9h ago
+const E_NOEND = published[10].id;   // no ends_at, started 7h ago
 
 let db: DB;
 before(async () => {
   db = await createDb(ds);
-  await db.exec(`insert into auth.users (id) values ('${A}'), ('${B}')`);
+  await db.exec(`insert into auth.users (id) values ('${A}'), ('${B}'), ('${C}')`);
+  // Policies use now(); move seed events around the real clock.
+  const ids = [E1, E2, published[2].id, published[3].id, published[4].id];
+  await db.exec(`update public.events set starts_at = now() - interval '1 hour', ends_at = now() + interval '5 hours'
+    where id in (${ids.map((i) => `'${i}'`).join(',')})`);
+  await db.exec(`update public.events set starts_at = now() + interval '3 days', ends_at = now() + interval '4 days' where id = '${E_FUTURE}'`);
+  await db.exec(`update public.events set starts_at = now() - interval '10 hours', ends_at = now() - interval '5 hours' where id = '${E_ENDED}'`);
+  await db.exec(`update public.events set starts_at = now() + interval '90 minutes', ends_at = now() + interval '6 hours' where id = '${E_SOON}'`);
+  await db.exec(`update public.events set starts_at = now() + interval '3 hours', ends_at = now() + interval '8 hours' where id = '${E_FAR}'`);
+  await db.exec(`update public.events set starts_at = now() - interval '9 hours', ends_at = null where id = '${E_LONG}'`);
+  await db.exec(`update public.events set starts_at = now() - interval '7 hours', ends_at = null where id = '${E_NOEND}'`);
 });
 after(async () => { await db.close(); });
 
@@ -27,7 +45,7 @@ const denied = (p: Promise<unknown>, re = /permission denied|row-level security|
   assert.rejects(p, re);
 
 describe('anon cannot write', () => {
-  const tables = ['event_follows', 'checkins', 'event_reports', 'reviews', 'review_votes',
+  const tables = ['event_follows', 'checkins', 'event_reports', 'reviews', 'review_votes', 'review_reports',
     'support_tickets', 'support_messages'];
   for (const t of tables) {
     test(`${t}: insert denied`, async () => {
@@ -38,7 +56,7 @@ describe('anon cannot write', () => {
   }
   test('anon cannot read owner-only tables', async () => {
     await asRole(db, 'anon', null, async () => {
-      for (const t of ['event_follows', 'checkins', 'review_votes', 'support_tickets', 'support_messages']) {
+      for (const t of ['event_follows', 'checkins', 'review_votes', 'review_reports', 'support_tickets', 'support_messages']) {
         await denied(db.query(`select * from public.${t}`), /permission denied/i);
       }
     });
@@ -74,9 +92,23 @@ describe('follows / checkins owner isolation', () => {
       await denied(db.query(`insert into public.checkins (event_id) values ($1)`, [draft.id]));
       await denied(db.query(`insert into public.checkins (event_id, user_id) values ($1, $2)`, [E1, B]));
       await denied(db.query(`insert into public.checkins (event_id, at) values ($1, now() - interval '30 days')`, [E1]));
+      await denied(db.query(`insert into public.checkins (event_id) values ($1)`, [E1]), /duplicate|unique/i);
     });
     await asB(async () => {
       assert.equal(await count('select * from public.checkins'), 0);
+    });
+  });
+});
+
+describe('check-in window', () => {
+  test('allowed from 2h before start until ends_at (or start + 8h)', async () => {
+    await asA(async () => {
+      await db.query(`insert into public.checkins (event_id) values ($1)`, [E_SOON]);   // starts in 90 min
+      await db.query(`insert into public.checkins (event_id) values ($1)`, [E_NOEND]);  // started 7h ago, no ends_at
+      await denied(db.query(`insert into public.checkins (event_id) values ($1)`, [E_FAR]));    // 3h to go
+      await denied(db.query(`insert into public.checkins (event_id) values ($1)`, [E_FUTURE]));
+      await denied(db.query(`insert into public.checkins (event_id) values ($1)`, [E_ENDED]));  // ended
+      await denied(db.query(`insert into public.checkins (event_id) values ($1)`, [E_LONG]));   // > start + 8h
     });
   });
 });
@@ -91,8 +123,31 @@ describe('live reports', () => {
       await db.query(`insert into public.event_reports (event_id, queue, crowd) values ($1, 'short', 'busy')`, [E1]);
       await denied(db.query(`insert into public.event_reports (event_id, queue) values ($1, 'long')`, [E2]));
       await denied(db.query(`insert into public.event_reports (event_id, user_id, queue) values ($1, $2, 'none')`, [E1, B]));
-      await denied(db.query(`insert into public.event_reports (event_id) values ($1)`, [E1])); // no value
+      await denied(db.query(`insert into public.event_reports (event_id) values ($1)`, [E_SOON])); // no value
+      // throttle: max 1 per user/event per 10 minutes
+      await denied(db.query(`insert into public.event_reports (event_id, music) values ($1, 'good')`, [E1]), /throttled/);
     });
+  });
+
+  test('throttle does not block other users or old reports; price_at_door bounded 0..1000', async () => {
+    await db.exec(`insert into public.event_reports (event_id, user_id, queue, created_at)
+      values ('${E1}', '${A}', 'long', now() - interval '20 minutes')`);
+    await assert.rejects(db.query(`insert into public.event_reports (event_id, user_id, price_at_door) values ($1, $2, 1000.01)`, [E1, B]), /violates/);
+    await assert.rejects(db.query(`insert into public.event_reports (event_id, user_id, price_at_door) values ($1, $2, -1)`, [E1, B]), /violates/);
+    await db.exec(`insert into public.event_reports (event_id, user_id, price_at_door, created_at)
+      values ('${E1}', '${B}', 1000, now() - interval '3 hours')`);
+  });
+
+  test('user_id of reports is not readable by anon/authenticated', async () => {
+    for (const run of [(f: () => Promise<void>) => asRole(db, 'anon', null, f), asA]) {
+      await run(async () => {
+        await denied(db.query('select user_id from public.event_reports'), /permission denied/i);
+        await denied(db.query('select * from public.event_reports'), /permission denied/i);
+        const { rows } = await db.query<any>(
+          'select id, event_id, created_at, queue, crowd, music, price_at_door from public.event_reports limit 1');
+        assert.equal(rows.length, 1);
+      });
+    }
   });
 
   test('stale check-in (>6h) does not allow reports', async () => {
@@ -111,7 +166,7 @@ describe('live reports', () => {
     await db.exec(`insert into public.event_reports (event_id, user_id, queue, created_at)
       values ('${E1}', '${A}', 'none', now() - interval '25 hours')`);
     await asRole(db, 'anon', null, async () => {
-      assert.equal(await count('select * from public.event_reports where event_id = $1', [E1]), 1);
+      assert.equal(await count('select id from public.event_reports where event_id = $1', [E1]), 3);
       await denied(db.query(`update public.event_reports set queue = 'long'`));
     });
     await asA(async () => {
@@ -132,10 +187,10 @@ describe('live reports', () => {
       assert.equal(rows.length, 1);
       const r = rows[0];
       assert.equal(r.queue, 'short');
-      assert.equal(r.crowd, 'full');
+      assert.equal(r.crowd, null); // the 'full' report is 3h old: outside the 2h window
       assert.equal(r.music, null);
       assert.equal(Number(r.price_at_door), 60);
-      assert.equal(r.sample_size, 3);
+      assert.equal(r.sample_size, 2); // fresh (2h) reports only
       assert.ok(r.age_seconds >= 590 && r.age_seconds <= 700, `age ${r.age_seconds}`);
     });
     await asRole(db, 'anon', null, async () => {
@@ -143,6 +198,32 @@ describe('live reports', () => {
       assert.equal(rows[0].sample_size, 0);
       assert.equal(rows[0].queue, null);
       assert.equal(rows[0].age_seconds, null);
+    });
+  });
+});
+
+describe('event_live_summary client semantics', () => {
+  test('majority per dimension, ties -> most recent, median price, sample, newest age', async () => {
+    const ev = published[3].id;
+    await db.exec(`insert into public.event_reports (event_id, user_id, created_at, queue, crowd, price_at_door) values
+      ('${ev}', '${A}', now() - interval '50 minutes', 'long',  'busy', 10),
+      ('${ev}', '${B}', now() - interval '40 minutes', 'short', 'busy', 20),
+      ('${ev}', '${A}', now() - interval '30 minutes', 'short', 'full', 40),
+      ('${ev}', '${B}', now() - interval '5 minutes',  'long',  null,   null),
+      ('${ev}', '${A}', now() - interval '3 hours',    'none',  'empty', 999)`);
+    await asRole(db, 'anon', null, async () => {
+      const r = (await db.query<any>(`select * from public.event_live_summary($1)`, [ev])).rows[0];
+      assert.equal(r.queue, 'long');      // 2-2 tie, newest of the tied values is 'long'
+      assert.equal(r.crowd, 'busy');      // 2 vs 1
+      assert.equal(Number(r.price_at_door), 20); // median of 10, 20, 40 (stale 999 ignored)
+      assert.equal(r.sample_size, 4);
+      assert.ok(r.age_seconds >= 290 && r.age_seconds <= 400, `age ${r.age_seconds}`);
+    });
+    await db.exec(`insert into public.event_reports (event_id, user_id, created_at, price_at_door)
+      values ('${ev}', '${C}', now() - interval '1 minute', 31)`);
+    await asRole(db, 'anon', null, async () => {
+      const r = (await db.query<any>(`select price_at_door from public.event_live_summary($1)`, [ev])).rows[0];
+      assert.equal(Number(r.price_at_door), 25.5); // even count: mean of middle two (20, 31)...
     });
   });
 });
@@ -209,6 +290,7 @@ describe('reviews', () => {
       assert.equal(await count('select * from public.review_votes'), 1);
     });
     await asA(async () => {
+      await denied(db.query(`insert into public.review_votes (review_id) values ($1)`, [reviewA])); // own review
       assert.equal(await count('select * from public.review_votes'), 0); // isolation
       const { rows } = await db.query<any>('select helpful_count from public.reviews where id = $1', [reviewA]);
       assert.equal(rows[0].helpful_count, 1);
@@ -233,6 +315,119 @@ describe('reviews', () => {
   });
 });
 
+describe('review rules', () => {
+  const rev = async (id: string) =>
+    (await db.query<any>('select status, text from public.reviews where id = $1', [id])).rows[0];
+
+  test('content edit resets status to pending; non-content edit and service_role do not', async () => {
+    const id = (await db.query<any>(`select id from public.reviews where event_id = $1`, [E1])).rows[0].id;
+    await db.exec(`update public.reviews set status = 'published' where id = '${id}'`);
+    await asA(async () => {
+      await db.query(`update public.reviews set anonymous = true where id = $1`, [id]);
+    });
+    assert.equal((await rev(id)).status, 'published');
+    await asRole(db, 'service_role', null, async () => {
+      await db.query(`update public.reviews set text = 'moderado' where id = $1`, [id]);
+    });
+    assert.equal((await rev(id)).status, 'published');
+    for (const set of [`text = 'editado'`, `rating = 2`, `tags = '{nova}'`, `topics = '{"fila":2}'`]) {
+      await db.exec(`update public.reviews set status = 'published' where id = '${id}'`);
+      await asA(async () => { await db.query(`update public.reviews set ${set} where id = $1`, [id]); });
+      assert.equal((await rev(id)).status, 'pending', set);
+    }
+    await db.exec(`update public.reviews set status = 'published', rating = 4, tags = '{}', topics = '{}' where id = '${id}'`);
+  });
+
+  test('payload validation: topics, tags, text length', async () => {
+    const ev = published[2].id;
+    const bad: [string, string][] = [
+      ['topics', `'{"xyz":3}'`],
+      ['topics', `'{"fila":6}'`],
+      ['topics', `'{"fila":0}'`],
+      ['topics', `'{"fila":3.5}'`],
+      ['topics', `'{"fila":"3"}'`],
+      ['tags', `array['a','b','c','d','e','f']`],
+      ['tags', `array['${'x'.repeat(25)}']`],
+      ['text', `'${'y'.repeat(801)}'`],
+    ];
+    await asA(async () => {
+      for (const [name, val] of bad) {
+        await assert.rejects(
+          db.query(`insert into public.reviews (event_id, rating, ${name}) values ($1, 4, ${val})`, [ev]), /violates/, `${name}=${val}`);
+      }
+      await db.query(
+        `insert into public.reviews (event_id, rating, topics, tags, text) values ($1, 4, $2::jsonb, $3::text[], $4)`,
+        [ev, JSON.stringify({ musica: 5, ambiente: 1, atendimento: 3, seguranca: 4, preco: 2, fila: 5 }),
+          ['a'.repeat(24), 'b', 'c', 'd', 'e'], 'z'.repeat(800)]);
+    });
+  });
+
+  test('insert needs a published event; non-attended only after it started', async () => {
+    await asA(async () => {
+      await denied(db.query(`insert into public.reviews (event_id, rating) values ($1, 4)`, [E_FUTURE]));
+      await denied(db.query(`insert into public.reviews (event_id, rating) values ($1, 4)`, [draft.id]));
+      await denied(db.query(`insert into public.reviews (event_id, rating) values ($1, 4)`, [cancelled.id]));
+      await db.query(`insert into public.reviews (event_id, rating) values ($1, 4)`, [E_ENDED]);
+    });
+  });
+
+  test('review_reports: owner-only, unique, published and not own', async () => {
+    const id = (await db.query<any>(`select id from public.reviews where event_id = $1`, [E1])).rows[0].id;
+    await db.exec(`update public.reviews set status = 'published' where id = '${id}'`);
+    await asB(async () => {
+      await db.query(`insert into public.review_reports (review_id, reason) values ($1, 'spam')`, [id]);
+      await denied(db.query(`insert into public.review_reports (review_id, reason) values ($1, 'again')`, [id]), /duplicate|unique/i);
+      await denied(db.query(`insert into public.review_reports (review_id, user_id, reason) values ($1, $2, 'x')`, [id, A]));
+      await denied(db.query(`insert into public.review_reports (review_id, reason) values ($1, '')`, [id]));
+      assert.equal(await count('select * from public.review_reports'), 1);
+      await denied(db.query(`update public.review_reports set reason = 'y'`));
+      await denied(db.query(`delete from public.review_reports`));
+    });
+    await asA(async () => {
+      assert.equal(await count('select * from public.review_reports'), 0);
+      await denied(db.query(`insert into public.review_reports (review_id, reason) values ($1, 'self')`, [id]));
+    });
+  });
+
+  test('editing an attended review still works after the check-in is deleted', async () => {
+    await asA(async () => {
+      await db.query(`delete from public.checkins where event_id = $1`, [E1]);
+      await db.query(`update public.reviews set text = 'sem check-in agora' where event_id = $1`, [E1]);
+      await denied(db.query(`insert into public.reviews (event_id, rating, attended) values ($1, 4, true)`, [published[4].id]));
+    });
+    await db.exec(`insert into public.checkins (user_id, event_id) values ('${A}', '${E1}')`);
+  });
+});
+
+describe('definer functions are not callable by API roles', () => {
+  test('trigger helpers and can_vote_review', async () => {
+    for (const role of ['anon', 'authenticated'] as const) {
+      await asRole(db, role, role === 'anon' ? null : A, async () => {
+        for (const fn of ['reviews_check_attended()', 'review_votes_sync()', 'event_reports_throttle()', 'support_messages_reopen()']) {
+          await denied(db.query(`select public.${fn}`), /permission denied/i);
+        }
+      });
+    }
+    await asRole(db, 'anon', null, async () => {
+      await denied(db.query(`select public.can_vote_review(gen_random_uuid())`), /permission denied/i);
+    });
+  });
+});
+
+describe('url constraints', () => {
+  test('ticket_url and photo_url must be https without userinfo', async () => {
+    for (const u of ['http://x.com/t', 'javascript:alert(1)', 'https://user@evil.com/', 'https:///x', 'ftp://x.com']) {
+      await assert.rejects(db.query(`update public.events set ticket_url = $1 where id = $2`, [u, E1]), /violates/, u);
+      await assert.rejects(db.query(`update public.artists set photo_url = $1 where id = $2`, [u, ds.artists[0].id]), /violates/, u);
+    }
+    for (const u of ['https://ingressos.com', 'https://ingressos.com/e/1?x=1', 'HTTPS://Ingressos.com/a']) {
+      await db.query(`update public.events set ticket_url = $1 where id = $2`, [u, E1]);
+      await db.query(`update public.artists set photo_url = $1 where id = $2`, [u, ds.artists[0].id]);
+    }
+    await db.query(`update public.events set ticket_url = null where id = $1`, [E1]);
+  });
+});
+
 describe('support', () => {
   let ticketA: string;
 
@@ -250,7 +445,10 @@ describe('support', () => {
     await asB(async () => {
       assert.equal(await count('select * from public.support_tickets'), 0);
       assert.equal((await db.query(`update public.support_tickets set status = 'closed'`)).affectedRows, 0);
-      assert.equal((await db.query(`delete from public.support_tickets`)).affectedRows, 0);
+      await denied(db.query(`delete from public.support_tickets`), /permission denied/i);
+    });
+    await asA(async () => {
+      await denied(db.query(`delete from public.support_tickets`), /permission denied/i);
     });
   });
 
@@ -266,9 +464,22 @@ describe('support', () => {
       await denied(db.query(`insert into public.support_messages (ticket_id, sender, text) values ($1, 'user', 'intruso')`, [ticketA]));
       assert.equal(await count('select * from public.support_messages'), 0);
     });
+    // the ticket was closed above: a user message reopens it; a support message does not
+    const st = async () => (await db.query<any>('select status from public.support_tickets where id = $1', [ticketA])).rows[0].status;
+    assert.equal(await st(), 'open');
+    await db.exec(`update public.support_tickets set status = 'answered' where id = '${ticketA}'`);
     await db.exec(`insert into public.support_messages (ticket_id, sender, text) values ('${ticketA}', 'support', 'Olá')`);
+    assert.equal(await st(), 'answered');
     await asA(async () => {
-      assert.equal(await count('select * from public.support_messages'), 2);
+      await db.query(`update public.support_tickets set status = 'closed' where id = $1`, [ticketA]);
+      await db.query(`insert into public.support_messages (ticket_id, sender, text) values ($1, 'user', 'voltei')`, [ticketA]);
+    });
+    assert.equal(await st(), 'open');
+    await asA(async () => {
+      await denied(db.query(`delete from public.support_messages`), /permission denied/i);
+    });
+    await asA(async () => {
+      assert.equal(await count('select * from public.support_messages'), 3);
       await db.query(`update public.support_messages set read_at = now() where sender = 'support'`);
       await denied(db.query(`update public.support_messages set text = 'edit'`));
     });

@@ -44,7 +44,7 @@ create table public.artists (
   slug         text not null unique check (slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$'),
   name         text not null,
   genre_slugs  text[] not null default '{}',
-  photo_url    text,
+  photo_url    text constraint artists_photo_url_https check (photo_url is null or photo_url ~* '^https://[^@/]+(/|$)'),
   created_at   timestamptz not null default now()
 );
 
@@ -58,7 +58,7 @@ create table public.events (
   price_min   numeric(10,2) check (price_min >= 0),
   price_max   numeric(10,2) check (price_max >= 0),
   is_free     boolean not null default false,
-  ticket_url  text,
+  ticket_url  text constraint events_ticket_url_https check (ticket_url is null or ticket_url ~* '^https://[^@/]+(/|$)'),
   age_min     int not null default 18 check (age_min between 0 and 21),
   status      public.event_status not null default 'draft',
   cover_key   text not null default 'generic'

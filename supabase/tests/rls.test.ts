@@ -28,12 +28,19 @@ const count = async (sql: string, params: unknown[] = []) =>
   Number((await db.query<{ n: number }>(`select count(*)::int as n from (${sql}) s`, params)).rows[0].n);
 
 describe('RLS: anon', () => {
-  test('reads only published events', async () => {
+  test('reads published and cancelled events, never drafts; search_events stays published-only', async () => {
     await asRole(db, 'anon', null, async () => {
       const n = await count('select * from public.events');
-      assert.equal(n, ds.events.filter((e) => e.status === 'published').length);
+      assert.equal(n, ds.events.filter((e) => e.status !== 'draft').length);
       assert.equal(await count('select * from public.events where id = $1', [draft.id]), 0);
-      assert.equal(await count('select * from public.events where id = $1', [cancelled.id]), 0);
+      assert.equal(await count('select * from public.events where id = $1', [cancelled.id]), 1);
+      assert.ok((await count('select * from public.event_artists where event_id = $1', [cancelled.id])) > 0);
+      assert.ok((await count('select * from public.event_genres where event_id = $1', [cancelled.id])) > 0);
+      const r = await search(db, {
+        lat: DEFAULT_LOCATION.lat, lng: DEFAULT_LOCATION.lng, radiusKm: 500, sort: 'date', limit: 500, now: '2000-01-01T00:00:00Z',
+      });
+      assert.ok(r.total > 0);
+      assert.ok(!r.ids.includes(cancelled.id) && !r.ids.includes(draft.id));
     });
   });
 
