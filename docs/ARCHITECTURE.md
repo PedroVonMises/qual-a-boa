@@ -63,3 +63,13 @@ Map: OpenFreeMap tiles (no key) via `@maplibre/maplibre-react-native` (native) a
 | 6-A Location | `lib/location/**`, `state/location.ts`, `features/onboarding/**`, `features/perfil/**`, `features/explorar/{AreaSheet,Header}.tsx` |
 | 6-B Map | `features/mapa/{VenueMap*,mapTypes,mapStyle,mapConfig}.ts(x)` |
 | 6-C Recommender | `domain/{recommend,filters}.ts`, `state/taste.ts`, `features/explorar/{Shelves,useSearch,useTasteProfile}`, `features/filtros/**`, `features/mapa/{MapaScreen,pins}.ts(x)` |
+
+## Wave 7 (clean data tags, illustrated covers, real event ingestion)
+Contracts: `CoverKey` is a string (`domain/types.ts`, legacy keys in `LEGACY_COVER_KEYS`), `EventItem.imageUrl?`, `Cover imageUrl?`, `lib/env.ts` (`dataSource seed|feed|supabase`, `feedUrl`, `demoTools`, `appEnv`), `ingest/src/types.ts` (`RawEvent`, `SourceAdapter`), `docs/INGESTION.md` (tiers and legal gate).
+| Agent | Owns |
+|---|---|
+| 7-A Cleanup | mock tags in `ui/EventCard.tsx` and features (evento, casa, artista, salvos, mapa/VenuePanel, aoVivo, acompanhar, avaliacoes), `state/demo.ts`, `features/perfil` demo gating and legal text, `supabase/seed/seed-data.ts` titles/addresses, related tests and docs |
+| 7-B Covers | `ui/art/**`, `ui/Cover.tsx`, `domain/cover.ts`, `ui/Gallery.tsx`, cover assignment in `supabase/seed/seed-data.ts` (via `coverFor`) |
+| 7-C Feed + DB | `data/feedRepo.ts`, `data/index.ts`, perfil "atualizado" row, `supabase/migrations/0006_catalog_ingest.sql` and its tests |
+| 7-D Ingest core | `ingest/src/**` except `adapters/{sympla-api,crawler}.ts`, `.github/workflows/ingest.yml`, `app/public/feed/v1/**` |
+| 7-E Adapters | `ingest/src/adapters/{sympla-api,crawler}.ts` + tests, `docs/INGESTION.md` details |

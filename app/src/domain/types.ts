@@ -6,16 +6,13 @@ export type EventStatus = 'published' | 'cancelled' | 'draft';
 /** `recommended` is client-only (domain/recommend.ts): repos and SQL never receive it. */
 export type SortKey = 'distance' | 'price' | 'date' | 'popularity' | 'recommended';
 
-/** Key of a drawn cover (see ui/art). Real photos replace these later. */
-export type CoverKey =
-  | 'bolt'
-  | 'selva'
-  | 'gordinho'
-  | 'pub426'
-  | 'caipora'
-  | 'fluente'
-  | 'mare'
-  | 'generic';
+/**
+ * Key of a drawn cover (see ui/art). Either a legacy venue-identity key (LEGACY_COVER_KEYS) or a generated
+ * `art:<template>:<palette>:<variant>` key from domain/cover.ts. Unknown keys fall back to the generic art.
+ */
+export type CoverKey = string;
+
+export const LEGACY_COVER_KEYS = ['bolt', 'selva', 'gordinho', 'pub426', 'caipora', 'fluente', 'mare', 'generic'] as const;
 
 export interface Genre {
   id: string;
@@ -64,6 +61,8 @@ export interface EventItem {
   artistIds: string[]; // in billing order
   status: EventStatus;
   coverKey: CoverKey;
+  /** Organizer-supplied poster (https). Only with permission; the illustrated cover is the fallback. */
+  imageUrl?: string;
   popularity: number; // 0..100, curated for MVP
 }
 

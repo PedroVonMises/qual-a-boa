@@ -1,0 +1,18 @@
+{
+  "name": "qual-a-boa-ingest",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Event ingestion for Qual a boa? (Espirito Santo). Produces app/public/feed/v1/events.json.",
+  "scripts": {
+    "ingest": "tsx src/cli.ts run",
+    "add": "tsx src/cli.ts add",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test \"src/**/*.test.ts\""
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}

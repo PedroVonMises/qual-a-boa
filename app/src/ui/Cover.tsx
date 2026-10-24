@@ -12,7 +12,7 @@ import { MareArt } from './art/Mare';
 import { Pub426Art } from './art/Pub426';
 import { SelvaArt } from './art/Selva';
 
-const ART: Record<CoverKey, ComponentType> = {
+const ART: Record<string, ComponentType> = {
   bolt: BoltArt,
   selva: SelvaArt,
   gordinho: GordinhoArt,
@@ -25,6 +25,8 @@ const ART: Record<CoverKey, ComponentType> = {
 
 export interface CoverProps {
   coverKey: CoverKey;
+  /** Organizer poster (https); rendered by Wave 7-B. Until then the illustrated cover is always drawn. */
+  imageUrl?: string;
   style?: StyleProp<ViewStyle>;
 }
 
