@@ -17,7 +17,6 @@ jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
 );
 jest.mock('expo-router', () => ({ useRouter: () => ({ push: mockPush }) }));
-jest.mock('react-native-maps', () => ({ __esModule: true, default: 'MapView', Marker: 'Marker' }));
 jest.mock('@/ui/useBreakpoint', () => ({ useBreakpoint: () => ({ isLarge: mockLarge, gutter: 16, breakpoint: 'sm' }) }));
 jest.mock('../VenueMap', () => {
   const { Pressable, Text } = require('react-native');
