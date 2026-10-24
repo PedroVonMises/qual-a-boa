@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 
+import { pushFavorite } from '@/data/sync/favorites';
+
 import { safeMerge } from './safeMerge';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -29,9 +31,18 @@ export const useFavorites = create<FavoritesStore>()(
       eventIds: [],
       venueIds: [],
       artistSlugs: [],
-      toggleEvent: (id) => set((s) => ({ eventIds: toggle(s.eventIds, id) })),
-      toggleVenue: (slug) => set((s) => ({ venueIds: toggle(s.venueIds, slug) })),
-      toggleArtist: (slug) => set((s) => ({ artistSlugs: toggle(s.artistSlugs, slug) })),
+      toggleEvent: (id) => {
+        set((s) => ({ eventIds: toggle(s.eventIds, id) }));
+        void pushFavorite('event', id, get().eventIds.includes(id));
+      },
+      toggleVenue: (slug) => {
+        set((s) => ({ venueIds: toggle(s.venueIds, slug) }));
+        void pushFavorite('venue', slug, get().venueIds.includes(slug));
+      },
+      toggleArtist: (slug) => {
+        set((s) => ({ artistSlugs: toggle(s.artistSlugs, slug) }));
+        void pushFavorite('artist', slug, get().artistSlugs.includes(slug));
+      },
       isEventFavorite: (id) => get().eventIds.includes(id),
       isVenueFavorite: (slug) => get().venueIds.includes(slug),
       isArtistFavorite: (slug) => get().artistSlugs.includes(slug),
