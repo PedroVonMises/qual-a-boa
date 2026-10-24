@@ -46,3 +46,12 @@ Need a new dependency? Do not edit package.json. Put it in your report; the orch
 
 ## Visual spec
 `docs/design-canvas/*.dc.html` are the design mockups (static HTML, open through a local http server). Screen map: Main/Filtros/Mapa/Evento/Casa = generic; HomeReal, FiltrosReal, MapaReal, Evento{Bolt,Selva,Gordinho}, Casa{Bolt,Selva,Gordinho,Caipora} = real-venue variants (R1-R10); Idade, Local, Salvos, Perfil, Artista, Vazio, Web = N1-N7; Acompanhar, Avisos, AoVivo, Avaliar, AvaliarTexto, Avaliacoes, Ajuda, Mensagens, Suporte, NovoChamado = U1-U10; Marca/Marca2/Splash/Social/Aplicacoes = brand. Cover art SVGs: `app/assets/art/*.svg`, brand marks: `app/assets/brand/`.
+
+## Wave 3 (engagement)
+Contracts: `app/src/domain/engage.ts`. Local-first persisted zustand stores, one per feature, named `qab.<feature>`: `state/follows.ts` (+ `state/checkins.ts`), `state/live.ts`, `state/reviews.ts`, `state/support.ts`. Screens live in `src/features/<name>` and replace the `ScreenStub` bodies of the existing route files (do not rename routes).
+| Agent | Owns | Routes |
+|---|---|---|
+| I Tracking | `features/acompanhar`, `features/aoVivo`, `state/follows.ts`, `state/checkins.ts`, `state/live.ts` | `acompanhar/*`, `ao-vivo/[id]` |
+| J Feedback | `features/avaliar`, `features/avaliacoes`, `state/reviews.ts` | `avaliar/[id]/*`, `avaliacoes/[id]` |
+| K Support | `features/ajuda`, `state/support.ts` | `ajuda/*` |
+| A2 Backend | `supabase/migrations/0005_engage.sql`, `supabase/tests/engage.test.ts` | none |
