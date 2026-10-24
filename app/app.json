@@ -55,6 +55,12 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5beff1f1-6d21-47af-bd8b-95c85c79a348"
+      }
+    },
+    "owner": "pedrovonmisess-team"
   }
 }
