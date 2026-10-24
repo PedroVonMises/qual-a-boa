@@ -1,0 +1,76 @@
+name: Ingest events
+
+# Opens a review PR with the refreshed feed. Never pushes to the default branch directly.
+# One-time repo setting: Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests".
+on:
+  schedule:
+    - cron: '0 9 * * *' # daily 09:00 UTC
+  workflow_dispatch:
+  push:
+    branches: [master, main]
+    # Feed / approval commits (the merged ingest PR) must never retrigger this workflow.
+    paths-ignore:
+      - 'app/public/feed/**'
+      - 'ingest/data/approved.json'
+      - 'docs/**'
+      - '**/*.md'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ingest
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: ingest
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: ingest/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Tests (offline, synthetic fixtures)
+        run: npm test
+
+      - name: Ingest
+        env:
+          # Optional. Used by the Sympla API adapter when present; the pipeline runs fine without it.
+          SYMPLA_TOKENS_JSON: ${{ secrets.SYMPLA_TOKENS_JSON }}
+        run: npm run ingest
+
+      - name: PR title and body
+        id: pr
+        run: |
+          echo "title=$(head -n 1 out/pr-title.txt)" >> "$GITHUB_OUTPUT"
+          {
+            echo 'body<<EOF_SUMMARY'
+            cat out/summary.md
+            echo 'EOF_SUMMARY'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v7.0.8
+        with:
+          branch: ingest/auto
+          delete-branch: true
+          title: ${{ steps.pr.outputs.title }}
+          commit-message: ${{ steps.pr.outputs.title }}
+          body: ${{ steps.pr.outputs.body }}
+          # Only the published feed and the approvals file may ever change in this PR.
+          add-paths: |
+            app/public/feed/v1/**
+            ingest/data/approved.json
+          labels: ingest

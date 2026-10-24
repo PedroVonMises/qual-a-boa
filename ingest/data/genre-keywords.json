@@ -1,0 +1,13 @@
+{
+  "_doc": "Keyword -> genre slug map. Matched against the folded (lowercase, no accents) title + description as whole words (optional trailing s). Edit freely; slugs must exist in docs/VENUES.md taxonomy.",
+  "funk": ["funk", "baile", "mc", "proibidao", "baile funk", "funkeiro"],
+  "pagode-samba": ["pagode", "samba", "roda de samba", "pagodeiro", "partido alto", "samba de raiz"],
+  "sertanejo": ["sertanejo", "sertaneja", "modao", "universitario", "agro", "sofrencia sertaneja"],
+  "eletronica-house": ["house", "techno", "eletronica", "eletronico", "edm", "dj set", "trance", "disco", "tech house", "afro house", "drum and bass"],
+  "pop-hits": ["pop", "hits", "flashback", "anos 80", "anos 90", "retro", "top 40", "sofrencia", "love songs"],
+  "rock-indie": ["rock", "indie", "banda cover", "alternativo", "grunge", "new wave", "britpop"],
+  "metal-punk-goth": ["metal", "punk", "hardcore", "goth", "gotico", "thrash", "death metal", "post punk"],
+  "forro-tecnobrega": ["forro", "piseiro", "tecnobrega", "brega", "arrocha", "xote"],
+  "hip-hop-rnb": ["hip hop", "hip-hop", "rap", "trap", "r&b", "rnb", "boom bap", "freestyle", "batalha de mc"],
+  "karaoke-ao-vivo": ["karaoke", "ao vivo", "musica ao vivo", "mpb", "voz e violao", "acustico", "show ao vivo", "jazz", "blues"]
+}

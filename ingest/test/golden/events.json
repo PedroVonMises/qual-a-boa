@@ -1,0 +1,414 @@
+{
+  "generatedAt": "2026-11-01T12:00:00.000Z",
+  "genres": [
+    {
+      "id": "18927a65-f850-38b3-a5ba-33a476a24a9b",
+      "slug": "funk",
+      "label": "Funk"
+    },
+    {
+      "id": "38123c82-6427-3a01-aa9e-2c4eb5b30c63",
+      "slug": "pagode-samba",
+      "label": "Pagode/Samba"
+    },
+    {
+      "id": "6e98067a-d715-300a-bd4b-1e3364cd5273",
+      "slug": "sertanejo",
+      "label": "Sertanejo"
+    },
+    {
+      "id": "288a4c75-55c4-37c1-aafc-e673026f7538",
+      "slug": "eletronica-house",
+      "label": "Eletrônica/House"
+    },
+    {
+      "id": "8297ae78-7c5e-3880-8e0d-df62605ddfaa",
+      "slug": "pop-hits",
+      "label": "Pop/Hits"
+    },
+    {
+      "id": "30013c29-7e09-38bb-92aa-9871c6924295",
+      "slug": "rock-indie",
+      "label": "Rock/Indie"
+    },
+    {
+      "id": "05e33fb7-40ce-35f9-b527-978187308c45",
+      "slug": "metal-punk-goth",
+      "label": "Metal/Punk/Goth"
+    },
+    {
+      "id": "e7cadcd4-7f51-3a6d-92fc-6733b4f040b4",
+      "slug": "forro-tecnobrega",
+      "label": "Forró/Tecnobrega"
+    },
+    {
+      "id": "b3d7831d-dc94-359c-a0fd-1f33b73a7ad0",
+      "slug": "hip-hop-rnb",
+      "label": "Hip-hop/R&B"
+    },
+    {
+      "id": "58e82f84-eb07-3860-9317-474903572a99",
+      "slug": "karaoke-ao-vivo",
+      "label": "Karaokê/Ao vivo"
+    }
+  ],
+  "venues": [
+    {
+      "id": "ec2688d2-3215-30ad-90c0-01e46843c47b",
+      "slug": "a-selva",
+      "name": "A Selva",
+      "area": "Centro",
+      "city": "Vitória",
+      "lat": -20.3195,
+      "lng": -40.3372,
+      "status": "open",
+      "adultOnly": true,
+      "genreSlugs": [
+        "funk",
+        "pagode-samba",
+        "eletronica-house",
+        "rock-indie",
+        "forro-tecnobrega",
+        "hip-hop-rnb"
+      ],
+      "coverKey": "generic",
+      "placeholder": false,
+      "address": "R. Sete de Setembro, 493 - Centro",
+      "hours": "Qui a sáb, 22h–05h"
+    },
+    {
+      "id": "4627b1f7-a171-34ed-a493-6e33412ad704",
+      "slug": "bolt",
+      "name": "Bolt",
+      "area": "Jardim da Penha",
+      "city": "Vitória",
+      "lat": -20.2778,
+      "lng": -40.2908,
+      "status": "open",
+      "adultOnly": true,
+      "genreSlugs": [
+        "funk",
+        "pop-hits",
+        "rock-indie",
+        "hip-hop-rnb"
+      ],
+      "coverKey": "generic",
+      "placeholder": false,
+      "address": "R. Darcy Grijó, 20 - Jardim da Penha",
+      "hours": "Sex e sáb, 23h–06h"
+    },
+    {
+      "id": "6501df07-02c0-3cad-8679-e6913649a4c0",
+      "slug": "gordinho",
+      "name": "Gordinho",
+      "area": "Praia do Canto",
+      "city": "Vitória",
+      "lat": -20.2968,
+      "lng": -40.2949,
+      "status": "open",
+      "adultOnly": true,
+      "genreSlugs": [
+        "pagode-samba"
+      ],
+      "coverKey": "generic",
+      "placeholder": false,
+      "address": "R. Joaquim Lírio, 823 - Praia do Canto",
+      "hours": "Qui a sáb, a partir das 18h"
+    },
+    {
+      "id": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
+      "slug": "pub-426",
+      "name": "Pub 426",
+      "area": "Praia do Canto",
+      "city": "Vitória",
+      "lat": -20.2985,
+      "lng": -40.2966,
+      "status": "open",
+      "adultOnly": true,
+      "genreSlugs": [
+        "pop-hits",
+        "rock-indie",
+        "karaoke-ao-vivo"
+      ],
+      "coverKey": "generic",
+      "placeholder": false,
+      "address": "R. João da Cruz, 370 - Praia do Canto",
+      "hours": "Qua a sáb, 21h–03h (karaokê às quartas)"
+    },
+    {
+      "id": "c687f7b6-0c7d-3bf5-a8fa-bab644acc837",
+      "slug": "quintal-rock-bar",
+      "name": "Quintal Rock Bar",
+      "area": "Vitória",
+      "city": "Vitória",
+      "lat": -20.3155,
+      "lng": -40.3128,
+      "status": "unverified",
+      "adultOnly": true,
+      "genreSlugs": [],
+      "coverKey": "generic",
+      "placeholder": false
+    }
+  ],
+  "artists": [
+    {
+      "id": "2b910ead-886b-3e93-8915-1cfb55723c3c",
+      "slug": "dj-pedrinho",
+      "name": "DJ Pedrinho",
+      "genreSlugs": [
+        "funk",
+        "pop-hits"
+      ]
+    },
+    {
+      "id": "6a3ae664-63e6-3aba-a2ef-ef3249a01ba8",
+      "slug": "dupla-pe-de-serra",
+      "name": "Dupla Pé de Serra",
+      "genreSlugs": [
+        "sertanejo"
+      ]
+    },
+    {
+      "id": "63c2addb-58eb-3216-b02c-4f5b68398e43",
+      "slug": "grupo-raiz-do-canto",
+      "name": "Grupo Raiz do Canto",
+      "genreSlugs": [
+        "pagode-samba"
+      ]
+    },
+    {
+      "id": "3cb37b1e-938d-375e-b537-2afada5a5480",
+      "slug": "henrique-alves",
+      "name": "Henrique Alves",
+      "genreSlugs": [
+        "sertanejo"
+      ]
+    },
+    {
+      "id": "0787535f-45b1-3f8a-8194-98d79ae9a26b",
+      "slug": "lua-nova",
+      "name": "Lua Nova",
+      "genreSlugs": [
+        "rock-indie",
+        "karaoke-ao-vivo"
+      ]
+    },
+    {
+      "id": "94c20c1e-0624-3a3a-afb4-4f0c49fc308e",
+      "slug": "luana-dias",
+      "name": "Luana Dias",
+      "genreSlugs": [
+        "forro-tecnobrega"
+      ]
+    },
+    {
+      "id": "8a02437f-edb1-3058-8471-9b9aeabec35a",
+      "slug": "maria-clara",
+      "name": "Maria Clara",
+      "genreSlugs": [
+        "rock-indie",
+        "karaoke-ao-vivo"
+      ]
+    },
+    {
+      "id": "7036a79f-4d11-33b9-8e7c-eab7e2b942d2",
+      "slug": "mc-aurora",
+      "name": "MC Aurora",
+      "genreSlugs": [
+        "funk",
+        "pop-hits"
+      ]
+    },
+    {
+      "id": "8ea9b432-4c2a-395a-bd5c-b8c5b4e6ac36",
+      "slug": "os-vizinhos",
+      "name": "Os Vizinhos",
+      "genreSlugs": [
+        "rock-indie",
+        "karaoke-ao-vivo"
+      ]
+    },
+    {
+      "id": "82a136fb-a7c0-32bc-a0d9-797178f95c5e",
+      "slug": "samba-de-quintal",
+      "name": "Samba de Quintal",
+      "genreSlugs": [
+        "pagode-samba"
+      ]
+    },
+    {
+      "id": "f892f1d0-7c0f-3000-95af-606e73e841b6",
+      "slug": "trio-siriguella",
+      "name": "Trio Siriguella",
+      "genreSlugs": [
+        "forro-tecnobrega"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "55d388d7-1613-38ee-b6ab-8f5fa8a6bce4",
+      "title": "Baile do Bolt Novembro",
+      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
+      "startsAt": "2026-11-15T02:30:00.000Z",
+      "endsAt": "2026-11-15T08:30:00.000Z",
+      "priceMin": 35,
+      "priceMax": 70,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "funk",
+        "pop-hits"
+      ],
+      "artistIds": [
+        "2b910ead-886b-3e93-8915-1cfb55723c3c",
+        "7036a79f-4d11-33b9-8e7c-eab7e2b942d2"
+      ],
+      "status": "published",
+      "coverKey": "generic",
+      "popularity": 68,
+      "ticketUrl": "https://ingressos.example.com.br/evento/baile-do-bolt-novembro"
+    },
+    {
+      "id": "5258fdea-cf0f-358a-b3f6-d252ba8dd0c7",
+      "title": "Quarta de Karaokê",
+      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
+      "startsAt": "2026-11-19T00:00:00.000Z",
+      "endsAt": "2026-11-19T04:00:00.000Z",
+      "priceMin": 0,
+      "priceMax": 0,
+      "isFree": true,
+      "ageMin": 18,
+      "genreSlugs": [
+        "karaoke-ao-vivo"
+      ],
+      "artistIds": [],
+      "status": "published",
+      "coverKey": "generic",
+      "popularity": 55
+    },
+    {
+      "id": "abb71c25-1480-3b93-ad60-c75fe8f314a4",
+      "title": "Forró da Selva com Trio Siriguella e Luana Dias",
+      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
+      "startsAt": "2026-11-21T01:00:00.000Z",
+      "priceMin": 25,
+      "priceMax": 1200,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "forro-tecnobrega"
+      ],
+      "artistIds": [
+        "f892f1d0-7c0f-3000-95af-606e73e841b6",
+        "94c20c1e-0624-3a3a-afb4-4f0c49fc308e"
+      ],
+      "status": "cancelled",
+      "coverKey": "generic",
+      "popularity": 68,
+      "ticketUrl": "https://tickets.example.org/e/forro-da-selva-2026"
+    },
+    {
+      "id": "ea6d8456-f3f8-3b23-9b7f-e3bb6a28e3b9",
+      "title": "Rock no Quintal",
+      "venueId": "c687f7b6-0c7d-3bf5-a8fa-bab644acc837",
+      "startsAt": "2026-11-21T23:30:00.000Z",
+      "endsAt": "2026-11-22T03:30:00.000Z",
+      "priceMin": 0,
+      "priceMax": 0,
+      "isFree": true,
+      "ageMin": 18,
+      "genreSlugs": [
+        "rock-indie",
+        "karaoke-ao-vivo"
+      ],
+      "artistIds": [
+        "8ea9b432-4c2a-395a-bd5c-b8c5b4e6ac36",
+        "0787535f-45b1-3f8a-8194-98d79ae9a26b",
+        "8a02437f-edb1-3058-8471-9b9aeabec35a"
+      ],
+      "status": "published",
+      "coverKey": "generic",
+      "popularity": 62,
+      "ticketUrl": "https://agenda.example.net/shows/rock-no-quintal"
+    },
+    {
+      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
+      "priceMin": 20,
+      "priceMax": 20,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "funk"
+      ],
+      "artistIds": [],
+      "status": "cancelled",
+      "coverKey": "generic",
+      "popularity": 50,
+      "id": "e31c5c38-3b3d-3a17-9c7b-7b826587dcc3",
+      "title": "Evento removido da página",
+      "startsAt": "2026-11-25T01:00:00.000Z",
+      "ticketUrl": "https://ingressos.example.com.br/evento/removido"
+    },
+    {
+      "id": "2b702b47-7be1-36f6-91a3-3fcfaf6c2d4e",
+      "title": "Sexta Sertaneja com Henrique Alves e Dupla Pé de Serra",
+      "venueId": "c687f7b6-0c7d-3bf5-a8fa-bab644acc837",
+      "startsAt": "2026-11-28T01:00:00.000Z",
+      "endsAt": "2026-11-28T06:00:00.000Z",
+      "priceMin": 40,
+      "priceMax": 80,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "sertanejo"
+      ],
+      "artistIds": [
+        "3cb37b1e-938d-375e-b537-2afada5a5480",
+        "6a3ae664-63e6-3aba-a2ef-ef3249a01ba8"
+      ],
+      "status": "published",
+      "coverKey": "generic",
+      "popularity": 68,
+      "ticketUrl": "https://quintalrock.example.com/sexta-sertaneja"
+    },
+    {
+      "id": "7ff37359-7aba-3a18-a23d-4a1969a78711",
+      "title": "Roda de Samba da Penha",
+      "venueId": "6501df07-02c0-3cad-8679-e6913649a4c0",
+      "startsAt": "2026-11-28T19:30:00.000Z",
+      "endsAt": "2026-11-29T00:00:00.000Z",
+      "priceMin": 0,
+      "priceMax": 0,
+      "isFree": true,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pagode-samba"
+      ],
+      "artistIds": [
+        "63c2addb-58eb-3216-b02c-4f5b68398e43",
+        "82a136fb-a7c0-32bc-a0d9-797178f95c5e"
+      ],
+      "status": "published",
+      "coverKey": "generic",
+      "popularity": 63
+    },
+    {
+      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
+      "priceMin": 20,
+      "priceMax": 20,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "funk"
+      ],
+      "artistIds": [],
+      "status": "published",
+      "coverKey": "generic",
+      "popularity": 50,
+      "id": "9f9e3fa7-a96c-3c8b-9373-d267d1610e71",
+      "title": "Evento carregado",
+      "startsAt": "2026-12-05T01:00:00.000Z"
+    }
+  ]
+}

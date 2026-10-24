@@ -1,0 +1,2 @@
+# One public event page (https) per line. Add with: npm run add -- <url>
+# Lines starting with # are ignored. Each page is fetched politely (robots.txt, 1 req / 2 s / host) and reviewed before publishing.
