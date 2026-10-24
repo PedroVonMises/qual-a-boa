@@ -1,5 +1,8 @@
-import { ScreenStub } from '@/shell/ScreenStub';
+import { useLocalSearchParams } from 'expo-router';
+
+import { AvisosScreen } from '@/features/acompanhar/AvisosScreen';
 
 export default function Screen() {
-  return <ScreenStub title="Avisos" routeName="acompanhar/avisos" links={[{ label: 'Acompanhar', href: '/acompanhar' }]} />;
+  const { eventId } = useLocalSearchParams<{ eventId?: string }>();
+  return <AvisosScreen eventId={typeof eventId === 'string' ? eventId : undefined} />;
 }
