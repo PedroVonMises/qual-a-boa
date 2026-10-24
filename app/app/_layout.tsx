@@ -4,6 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
+import { useRemoteSync } from '@/data/sync';
 import { AppProviders } from '@/shell/AppProviders';
 import { SessionGuard } from '@/shell/SessionGuard';
 import { SplashOverlay } from '@/shell/SplashOverlay';
@@ -17,6 +18,7 @@ SplashScreen.preventAutoHideAsync().catch(() => {});
 export const unstable_settings = { initialRouteName: '(tabs)' };
 
 export default function RootLayout() {
+  useRemoteSync();
   const [fontsLoaded, fontError] = useFonts(fontMap);
   const hydrated = useSession((s) => s.hydrated);
   const ready = (fontsLoaded || !!fontError) && hydrated;
