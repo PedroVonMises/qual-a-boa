@@ -55,3 +55,11 @@ Contracts: `app/src/domain/engage.ts`. Local-first persisted zustand stores, one
 | J Feedback | `features/avaliar`, `features/avaliacoes`, `state/reviews.ts` | `avaliar/[id]/*`, `avaliacoes/[id]` |
 | K Support | `features/ajuda`, `state/support.ts` | `ajuda/*` |
 | A2 Backend | `supabase/migrations/0005_engage.sql`, `supabase/tests/engage.test.ts` | none |
+
+## Wave 6 (free map, location, recommendations)
+Map: OpenFreeMap tiles (no key) via `@maplibre/maplibre-react-native` (native) and `maplibre-gl` (web, lazy import), style in `features/mapa/mapStyle.ts`, constants in `mapConfig.ts`. Contracts: `domain/recommendTypes.ts` (recommender), `lib/location/types.ts` (location service), `features/mapa/mapTypes.ts` (`VenueMapProps`).
+| Agent | Owns |
+|---|---|
+| 6-A Location | `lib/location/**`, `state/location.ts`, `features/onboarding/**`, `features/perfil/**`, `features/explorar/{AreaSheet,Header}.tsx` |
+| 6-B Map | `features/mapa/{VenueMap*,mapTypes,mapStyle,mapConfig}.ts(x)` |
+| 6-C Recommender | `domain/{recommend,filters}.ts`, `state/taste.ts`, `features/explorar/{Shelves,useSearch,useTasteProfile}`, `features/filtros/**`, `features/mapa/{MapaScreen,pins}.ts(x)` |
