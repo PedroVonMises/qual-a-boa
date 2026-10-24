@@ -51,7 +51,16 @@
       ],
       "expo-image",
       "expo-localization",
-      "expo-font"
+      "expo-font",
+      "expo-build-properties",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraProguardRules": "# R8 removed the generated Room database used by WorkManager at startup\n-keep class androidx.work.** { *; }\n-keep class * extends androidx.room.RoomDatabase { *; }\n-dontwarn androidx.work.**\n"
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
