@@ -10,13 +10,13 @@ const icon = (name: IconName) =>
   };
 
 // Narrow screens use the design-system TabBar (3px top indicator, 64px + safe area).
-// Wide screens (>= 1024) keep the default side rail, styled with tokens below.
+// Wide screens (>= 1024) use the same TabBar as a 240px side rail with the logo mark on top.
 export default function TabLayout() {
   const { width } = useWindowDimensions();
   const wide = width >= breakpoints.lg;
   return (
     <Tabs
-      tabBar={wide ? undefined : (props) => <TabBar {...props} />}
+      tabBar={(props) => <TabBar {...props} variant={wide ? 'rail' : 'bottom'} />}
       screenOptions={{
         headerShown: false,
         tabBarPosition: wide ? 'left' : 'bottom',

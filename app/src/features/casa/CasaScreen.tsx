@@ -7,6 +7,7 @@ import { Frame, StateShell, useGoBack } from '@/features/evento/Frame';
 import { Hero } from '@/features/evento/Hero';
 import { genreLabels, longDate, monthYear } from '@/features/evento/labels';
 import { openMaps } from '@/features/evento/linking';
+import { needsIllustrativeLabel } from '@/features/acompanhar/logic';
 import { useFavorites } from '@/state/favorites';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
@@ -127,6 +128,7 @@ export function CasaScreen({ slug }: { slug?: string }) {
                 dateLabel={formatEventDate(e.startsAt)}
                 priceLabel={formatPriceLabel(e.priceMin, e.priceMax, e.isFree)}
                 coverKey={e.coverKey}
+                illustrative={needsIllustrativeLabel(venue)}
                 saved={eventIds.includes(e.id)}
                 divider={i < upcoming.length - 1}
                 onPress={() => go(`/evento/${e.id}`)}

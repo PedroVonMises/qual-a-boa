@@ -10,16 +10,18 @@ import { useSupport } from '@/state/support';
 import { useTheme } from '@/theme/ThemeProvider';
 import { fonts, hit, radius, space, type } from '@/theme/tokens';
 import { Button, Icon, PressableScale, Screen, ScreenHeader, Text } from '@/ui';
+import { radioGroup } from '@/ui/radioGroup';
 import { AttachSoon, ResponseTime } from './parts';
 import { DESCRIPTION_MAX, TOPIC_OPTIONS, validateDescription } from './tickets';
 
-function Radio({ label, checked, onPress }: { label: string; checked: boolean; onPress: () => void }) {
+function Radio({ label, checked, onPress, binding }: { label: string; checked: boolean; onPress: () => void; binding?: object }) {
   const { colors } = useTheme();
   return (
     <PressableScale
       accessibilityRole="radio"
       accessibilityLabel={label}
       accessibilityState={{ checked, selected: checked }}
+      {...binding}
       onPress={onPress}
       scaleTo={0.99}
       style={[
@@ -45,6 +47,8 @@ function EventPicker({ value, onChange }: { value?: string; onChange: (id?: stri
   const items = (q.data?.pages[0]?.items ?? []).slice(0, 8);
   const selected = items.find((i) => i.event.id === value);
   const summary = value ? (selected ? selected.event.title : 'Evento selecionado') : 'Nenhum';
+  const pickIdx = value ? items.findIndex((i) => i.event.id === value) + 1 : 0;
+  const pick = radioGroup(pickIdx > 0 || !value ? pickIdx : -1, items.length + 1, (i) => onChange(i === 0 ? undefined : items[i - 1]?.event.id));
 
   return (
     <View style={styles.group}>
@@ -64,11 +68,12 @@ function EventPicker({ value, onChange }: { value?: string; onChange: (id?: stri
         <Icon name="chevronDown" size={20} color="textMuted" />
       </PressableScale>
       {open ? (
-        <View style={styles.group} accessibilityRole="radiogroup" accessibilityLabel="Escolher evento">
-          <Radio label="Nenhum evento" checked={!value} onPress={() => { onChange(undefined); setOpen(false); }} />
-          {items.map(({ event }) => (
+        <View style={styles.group} accessibilityRole="radiogroup" accessibilityLabel="Escolher evento" {...pick.group}>
+          <Radio label="Nenhum evento" checked={!value} binding={pick.item(0)} onPress={() => { onChange(undefined); setOpen(false); }} />
+          {items.map(({ event }, idx) => (
             <Radio
               key={event.id}
+              binding={pick.item(idx + 1)}
               label={`${event.title} · ${formatEventDate(event.startsAt)}`}
               checked={value === event.id}
               onPress={() => { onChange(event.id); setOpen(false); }}
@@ -95,6 +100,8 @@ export function NovoChamadoScreen() {
 
   const check = validateDescription(text);
   const topicError = tried && !topic;
+  const topicIdx = TOPIC_OPTIONS.findIndex((o) => o.value === topic);
+  const topicRg = radioGroup(topicIdx, TOPIC_OPTIONS.length, (i) => setTopic(TOPIC_OPTIONS[i].value));
   const textError = (tried || check.length > DESCRIPTION_MAX) && !check.ok ? check.error : undefined;
 
   const submit = () => {
@@ -117,8 +124,8 @@ export function NovoChamadoScreen() {
             <Text variant="title" accessibilityRole="header">
               Assunto *
             </Text>
-            {TOPIC_OPTIONS.map((o) => (
-              <Radio key={o.value} label={o.label} checked={topic === o.value} onPress={() => setTopic(o.value)} />
+            {TOPIC_OPTIONS.map((o, i) => (
+              <Radio key={o.value} binding={topicRg.item(i)} label={o.label} checked={topic === o.value} onPress={() => setTopic(o.value)} />
             ))}
             {topicError ? (
               <Text variant="bodySm" tone="dangerText" accessibilityLiveRegion="polite">

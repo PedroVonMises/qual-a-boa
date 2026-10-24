@@ -6,6 +6,7 @@ import { useArtist, useGenres } from '@/data/queries';
 import { Frame, StateShell, useGoBack } from '@/features/evento/Frame';
 import { Hero } from '@/features/evento/Hero';
 import { genreLabels, monthYear } from '@/features/evento/labels';
+import { needsIllustrativeLabel } from '@/features/acompanhar/logic';
 import { useFavorites } from '@/state/favorites';
 import { useLocation } from '@/state/location';
 import { space } from '@/theme/tokens';
@@ -78,6 +79,7 @@ export function ArtistaScreen({ slug }: { slug?: string }) {
                 dateLabel={formatEventDate(it.event.startsAt)}
                 priceLabel={formatPriceLabel(it.event.priceMin, it.event.priceMax, it.event.isFree)}
                 coverKey={it.event.coverKey}
+                illustrative={needsIllustrativeLabel(it.venue)}
                 saved={eventIds.includes(it.event.id)}
                 divider={i < upcoming.length - 1}
                 onPress={() => go(`/evento/${it.event.id}`)}

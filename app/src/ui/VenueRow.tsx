@@ -43,7 +43,7 @@ export function VenueRow({ name, area, distanceKm, genres, statusLabel, coverKey
           {name}
         </Text>
         {sub ? (
-          <Text variant="bodySm" tone="textMuted" numberOfLines={1}>
+          <Text variant="bodySm" tone="textMuted" numberOfLines={2}>
             {sub}
           </Text>
         ) : null}

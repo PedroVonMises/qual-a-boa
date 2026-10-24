@@ -21,6 +21,12 @@ export interface TimelineStep {
 export const STATUS_LABEL: Record<StepStatus, string> = { done: 'feito', current: 'agora', todo: 'a seguir' };
 
 export const isDemoVenue = (slug: string | undefined) => slug === DEMO_VENUE_SLUG;
+/**
+ * True when a venue's events carry invented content that must be labelled "Exemplo ilustrativo":
+ * placeholder venues other than Casa Maré (which keeps its own, already-labelled demo content).
+ */
+export const needsIllustrativeLabel = (venue: { slug: string; placeholder: boolean } | undefined) =>
+  !!venue && venue.placeholder === true && venue.slug !== DEMO_VENUE_SLUG;
 export const isDemoChange = (c: EventChange) => c.id.startsWith('demo-');
 
 export function eventEndMs(e: Pick<EventItem, 'startsAt' | 'endsAt'>): number {

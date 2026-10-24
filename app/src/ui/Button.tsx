@@ -14,6 +14,8 @@ export interface ButtonProps {
   variant?: ButtonVariant;
   loading?: boolean;
   disabled?: boolean;
+  /** Looks and announces as disabled (40%, aria-disabled) but still fires onPress, e.g. to explain what is missing. */
+  softDisabled?: boolean;
   icon?: IconName;
   fullWidth?: boolean;
   accessibilityLabel?: string;
@@ -28,6 +30,7 @@ export function Button({
   variant = 'primary',
   loading = false,
   disabled = false,
+  softDisabled = false,
   icon,
   fullWidth = false,
   accessibilityLabel,
@@ -46,10 +49,11 @@ export function Button({
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel ?? label}
       accessibilityHint={accessibilityHint}
-      accessibilityState={{ disabled: inactive, busy: loading }}
+      accessibilityState={{ disabled: inactive || softDisabled, busy: loading }}
+      aria-disabled={inactive || softDisabled ? true : undefined}
       disabled={inactive}
       onPress={onPress}
-      style={[styles.base, { backgroundColor: bg }, fullWidth && styles.full, disabled && styles.disabled, style]}>
+      style={[styles.base, { backgroundColor: bg }, fullWidth && styles.full, (disabled || softDisabled) && styles.disabled, style]}>
       <View style={styles.row}>
         {loading ? <ActivityIndicator color={fg} /> : icon ? <Icon name={icon} size={20} color={fg} /> : null}
         <Text variant="body" tone={fg} style={styles.label}>

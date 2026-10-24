@@ -46,7 +46,7 @@ export function AvaliarScreen({ id }: { id?: string }) {
   };
 
   return (
-    <Shell step={1} onBack={goBack} footer={<Button label="Continuar" fullWidth onPress={next} testID="avaliar-continuar" />}>
+    <Shell step={1} onBack={goBack} footer={<Button label="Continuar" fullWidth softDisabled={!rating} onPress={next} testID="avaliar-continuar" />}>
       <View style={styles.summary}>
         <Text variant="title" numberOfLines={2}>
           {event.title}

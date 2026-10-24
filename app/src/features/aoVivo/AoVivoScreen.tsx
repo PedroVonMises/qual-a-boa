@@ -1,3 +1,4 @@
+import { useRouter, type Href } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -15,6 +16,7 @@ import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
 import { Badge, Button, Icon, IconButton, PressableScale, Text, useBreakpoint } from '@/ui';
 import { checklistFor, CROWD_LABEL, CROWD_SCORE, demoReports, MUSIC_LABEL, QUEUE_LABEL, sampleLine, summarize } from './logic';
+import { EndedPanel } from './EndedPanel';
 import { MetricCard } from './MetricCard';
 import { ReportSheet } from './ReportSheet';
 
@@ -25,6 +27,7 @@ export function AoVivoScreen({ id }: { id?: string }) {
   const { colors } = useTheme();
   const { gutter } = useBreakpoint();
   const goBack = useGoBack();
+  const router = useRouter();
   const nowMs = useNow();
   const { location } = useLocation();
   const q = useEvent(id, location);
@@ -53,6 +56,7 @@ export function AoVivoScreen({ id }: { id?: string }) {
 
   const { event, venue } = q.data;
   const phase = eventPhase(event, nowMs);
+  const ended = phase === 'after';
   const items = checklistFor(event.ageMin, hasTicket);
   const toggle = (k: string) => setDone((d) => (d.includes(k) ? d.filter((x) => x !== k) : [...d, k]));
   const rel = (iso: string) => formatRelative(iso, nowMs);
@@ -91,6 +95,10 @@ export function AoVivoScreen({ id }: { id?: string }) {
           {demo ? ` · ${DEMO_LABEL}` : ''}
         </Text>
 
+        {ended ? (
+          <EndedPanel onRate={() => router.push(`/avaliar/${id}` as Href)} />
+        ) : (
+          <>
         <View style={styles.grid}>
           <MetricCard testID="metric-queue" label="Fila" metric={summary.queue} valueText={summary.queue && QUEUE_LABEL[summary.queue.value]} nowMs={nowMs} />
           <MetricCard
@@ -127,6 +135,10 @@ export function AoVivoScreen({ id }: { id?: string }) {
           {notice}
         </Text>
 
+          </>
+        )}
+
+        {ended ? null : (
         <View style={styles.section}>
           <Text variant="title" accessibilityRole="header">
             Antes de sair
@@ -151,6 +163,7 @@ export function AoVivoScreen({ id }: { id?: string }) {
             );
           })}
         </View>
+        )}
       </View>
 
       <ReportSheet

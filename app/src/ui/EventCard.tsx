@@ -8,6 +8,7 @@ import { Cover } from './Cover';
 import { IconButton } from './IconButton';
 import { PressableScale } from './PressableScale';
 import { Scrim } from './Scrim';
+import { Tag } from './Tag';
 import { Text } from './Text';
 
 export interface EventCardProps {
@@ -21,12 +22,17 @@ export interface EventCardProps {
   saved?: boolean;
   onPress?: () => void;
   onToggleSave?: () => void;
+  /** Venue content is an illustrative example (not verified with the venue): shows a visible label and "preço ilustrativo". */
+  illustrative?: boolean;
   variant?: 'poster' | 'row';
   /** Row variant: draw a hairline divider underneath. */
   divider?: boolean;
   style?: StyleProp<ViewStyle>;
   testID?: string;
 }
+
+export const ILLUSTRATIVE_LABEL = 'Exemplo ilustrativo';
+export const ILLUSTRATIVE_PRICE = 'preço ilustrativo';
 
 export function formatDistance(km?: number): string | undefined {
   if (km === undefined) return undefined;
@@ -35,15 +41,16 @@ export function formatDistance(km?: number): string | undefined {
 }
 
 function a11yLabel(p: EventCardProps) {
-  const parts = [p.title, p.venueName + (p.area ? `, ${p.area}` : ''), p.dateLabel, p.priceLabel, formatDistance(p.distanceKm)];
+  const parts = [p.title, p.venueName + (p.area ? `, ${p.area}` : ''), p.dateLabel, p.priceLabel, p.illustrative ? ILLUSTRATIVE_PRICE : undefined, formatDistance(p.distanceKm), p.illustrative ? ILLUSTRATIVE_LABEL : undefined];
   return parts.filter(Boolean).join('. ');
 }
 
 export function EventCard(props: EventCardProps) {
   const { colors } = useTheme();
-  const { title, venueName, area, distanceKm, priceLabel, dateLabel, coverKey, saved, onPress, onToggleSave, variant = 'poster', style, testID } = props;
+  const { title, venueName, area, distanceKm, priceLabel, dateLabel, coverKey, illustrative, saved, onPress, onToggleSave, variant = 'poster', style, testID } = props;
   const venueLine = area ? `${venueName} · ${area}` : venueName;
-  const metaLine = [priceLabel, formatDistance(distanceKm)].filter(Boolean).join(' · ');
+  const priceText = priceLabel ? (illustrative ? `${priceLabel} (${ILLUSTRATIVE_PRICE})` : priceLabel) : undefined;
+  const metaLine = [priceText, formatDistance(distanceKm)].filter(Boolean).join(' · ');
   const save = onToggleSave ? (
     <IconButton
       icon={saved ? 'heartFilled' : 'heart'}
@@ -75,11 +82,17 @@ export function EventCard(props: EventCardProps) {
             <Text variant="bodySm" tone="textMuted" numberOfLines={1}>
               {venueLine}
             </Text>
-            {metaLine || dateLabel ? (
-              <Text variant="mono" numberOfLines={1}>
-                {[dateLabel, metaLine].filter(Boolean).join(' · ')}
+            {dateLabel ? (
+              <Text variant="mono" numberOfLines={2}>
+                {dateLabel}
               </Text>
             ) : null}
+            {metaLine ? (
+              <Text variant="mono" numberOfLines={2}>
+                {metaLine}
+              </Text>
+            ) : null}
+            {illustrative ? <Tag label={ILLUSTRATIVE_LABEL} style={styles.illustrative} /> : null}
           </View>
         </PressableScale>
         {save}
@@ -93,6 +106,7 @@ export function EventCard(props: EventCardProps) {
         <Cover coverKey={coverKey} style={StyleSheet.absoluteFill} />
         <Scrim />
         {dateLabel ? <Badge label={dateLabel} tone="accent" style={styles.dateBadge} /> : null}
+        {illustrative ? <Tag label={ILLUSTRATIVE_LABEL} style={[styles.illustrative, styles.illustrativeAbs, { top: dateLabel ? 56 : 14 }]} /> : null}
         <View style={styles.posterText}>
           <Text variant="title" tone={palette.bone} numberOfLines={2} style={styles.posterTitle}>
             {title}
@@ -114,6 +128,8 @@ export function EventCard(props: EventCardProps) {
 
 const styles = StyleSheet.create({
   poster: { width: 264, height: 240, borderRadius: radius.lg, overflow: 'hidden' },
+  illustrative: { marginTop: 2 },
+  illustrativeAbs: { position: 'absolute', left: 14 },
   dateBadge: { position: 'absolute', left: 14, top: 14 },
   saveAbs: { position: 'absolute', right: 6, top: 6 },
   posterText: { position: 'absolute', left: 0, right: 0, bottom: 0, padding: space.lg, gap: space.xs },

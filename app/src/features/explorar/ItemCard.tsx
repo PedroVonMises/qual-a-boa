@@ -4,8 +4,10 @@ import type { StyleProp, ViewStyle } from 'react-native';
 
 import { formatEventDate, formatPriceLabel } from '@/domain/format';
 import type { SearchItem } from '@/domain/types';
+import { needsIllustrativeLabel } from '@/features/acompanhar/logic';
 import { useFavorites } from '@/state/favorites';
 import { EventCard } from '@/ui';
+import { useHydrated } from '@/ui/useHydrated';
 import { minuteNow } from './clock';
 
 export function openEvent(id: string) {
@@ -24,6 +26,8 @@ export const ItemCard = memo(function ItemCard({ item, variant = 'poster', divid
   const { event, venue, distanceKm } = item;
   const saved = useFavorites((s) => s.eventIds.includes(event.id));
   const toggle = useFavorites((s) => s.toggleEvent);
+  // "Hoje"/"Amanhã" depend on the clock: render the absolute date until mounted so SSR and client markup match.
+  const hydrated = useHydrated();
   return (
     <EventCard
       testID={`event-${event.id}`}
@@ -35,8 +39,9 @@ export const ItemCard = memo(function ItemCard({ item, variant = 'poster', divid
       area={venue.area}
       distanceKm={distanceKm}
       priceLabel={formatPriceLabel(event.priceMin, event.priceMax, event.isFree)}
-      dateLabel={formatEventDate(event.startsAt, minuteNow())}
+      dateLabel={formatEventDate(event.startsAt, hydrated ? minuteNow() : 0)}
       coverKey={event.coverKey}
+      illustrative={needsIllustrativeLabel(venue)}
       saved={saved}
       onPress={() => openEvent(event.id)}
       onToggleSave={() => toggle(event.id)}

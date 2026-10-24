@@ -3,6 +3,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { formatEventDate, formatPriceLabel } from '@/domain/format';
+import { needsIllustrativeLabel } from '@/features/acompanhar/logic';
 import { useFavorites } from '@/state/favorites';
 import { useTheme } from '@/theme/ThemeProvider';
 import { hit, radius, space } from '@/theme/tokens';
@@ -73,6 +74,7 @@ export function SalvosScreen({ now }: { now?: string }) {
           coverKey={event.coverKey}
           dateLabel={formatEventDate(event.startsAt, nowIso)}
           priceLabel={formatPriceLabel(event.priceMin, event.priceMax, event.isFree)}
+          illustrative={needsIllustrativeLabel(venue)}
           saved
           onToggleSave={() => remove(event.id)}
           onPress={() => router.push(`/evento/${event.id}`)}
