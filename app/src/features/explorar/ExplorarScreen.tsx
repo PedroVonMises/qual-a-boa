@@ -1,5 +1,5 @@
 import { FlashList } from '@shopify/flash-list';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { countActiveFilters } from '@/domain/filters';
@@ -13,6 +13,7 @@ import { ItemCard } from './ItemCard';
 import { ResultBar } from './ResultBar';
 import { Shelves } from './Shelves';
 import { useFilteredSearch } from './useSearch';
+import { useRecordGenreFilters } from './useTasteProfile';
 
 /** True when the shelves give way to a result list. */
 export function useResultMode(): boolean {
@@ -44,9 +45,15 @@ function Body({ resultMode, isLoading, isError, refetch, empty }: {
 export function ExplorarScreen() {
   const [areaOpen, setAreaOpen] = useState(false);
   const resultMode = useResultMode();
-  const { items, total, isLoading, isError, refetch, hasNextPage, isFetchingNextPage, fetchNextPage } = useFilteredSearch();
+  useRecordGenreFilters();
+  const { items, scored, total, isLoading, isError, refetch, hasNextPage, isFetchingNextPage, fetchNextPage } = useFilteredSearch();
   const { breakpoint, gutter } = useBreakpoint();
   const columns = breakpoint === 'lg' ? 3 : breakpoint === 'md' ? 2 : 1;
+  const reasons = useMemo(() => {
+    const out: Record<string, string> = {};
+    for (const s of scored ?? []) if (s.reasons[0]) out[s.item.event.id] = s.reasons[0].text;
+    return out;
+  }, [scored]);
 
   return (
     <Screen bleed testID="explorar-screen">
@@ -56,7 +63,7 @@ export function ExplorarScreen() {
           data={resultMode ? items : []}
           numColumns={columns}
           keyExtractor={(i) => i.event.id}
-          renderItem={({ item, index }) => <ItemCard item={item} variant="row" divider={index < items.length - columns} />}
+          renderItem={({ item, index }) => <ItemCard item={item} variant="row" reason={reasons[item.event.id]} divider={index < items.length - columns} />}
           ListHeaderComponent={
             <View>
               <Header onPickArea={() => setAreaOpen(true)} />

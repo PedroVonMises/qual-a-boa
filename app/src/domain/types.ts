@@ -3,7 +3,8 @@
 
 export type VenueStatus = 'open' | 'closed' | 'unverified';
 export type EventStatus = 'published' | 'cancelled' | 'draft';
-export type SortKey = 'distance' | 'price' | 'date' | 'popularity';
+/** `recommended` is client-only (domain/recommend.ts): repos and SQL never receive it. */
+export type SortKey = 'distance' | 'price' | 'date' | 'popularity' | 'recommended';
 
 /** Key of a drawn cover (see ui/art). Real photos replace these later. */
 export type CoverKey =

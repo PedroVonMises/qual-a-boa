@@ -6,6 +6,7 @@ import { space } from '@/theme/tokens';
 import { SegmentedControl, Text, useBreakpoint } from '@/ui';
 
 const SORTS: { value: SortKey; label: string }[] = [
+  { value: 'recommended', label: 'Para você' },
   { value: 'distance', label: 'Distância' },
   { value: 'price', label: 'Preço' },
   { value: 'date', label: 'Data' },

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useGenres } from '@/data/queries';
-import { countActiveFilters } from '@/domain/filters';
+import { countActiveFilters, defaultFilters } from '@/domain/filters';
 import { OUTSIDE_PILOT_MESSAGE } from '@/lib/location/pilot';
 import { useFilters } from '@/state/filters';
 import { useLocation } from '@/state/location';
@@ -33,7 +33,7 @@ function useSearchText() {
 export function FilterButton() {
   const { colors } = useTheme();
   const filters = useFilters((s) => s.filters);
-  const count = countActiveFilters({ ...filters, query: '', sort: 'distance' });
+  const count = countActiveFilters({ ...filters, query: '', sort: defaultFilters.sort });
   return (
     <View>
       <IconButton

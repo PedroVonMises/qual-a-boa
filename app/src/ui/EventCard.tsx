@@ -24,6 +24,8 @@ export interface EventCardProps {
   onToggleSave?: () => void;
   /** Venue content is an illustrative example (not verified with the venue): shows a visible label and "preço ilustrativo". */
   illustrative?: boolean;
+  /** Short pt-BR text tag explaining why this card is shown (recommender), e.g. "Você curte Funk". */
+  reason?: string;
   variant?: 'poster' | 'row';
   /** Row variant: draw a hairline divider underneath. */
   divider?: boolean;
@@ -41,13 +43,13 @@ export function formatDistance(km?: number): string | undefined {
 }
 
 function a11yLabel(p: EventCardProps) {
-  const parts = [p.title, p.venueName + (p.area ? `, ${p.area}` : ''), p.dateLabel, p.priceLabel, p.illustrative ? ILLUSTRATIVE_PRICE : undefined, formatDistance(p.distanceKm), p.illustrative ? ILLUSTRATIVE_LABEL : undefined];
+  const parts = [p.title, p.venueName + (p.area ? `, ${p.area}` : ''), p.dateLabel, p.priceLabel, p.illustrative ? ILLUSTRATIVE_PRICE : undefined, formatDistance(p.distanceKm), p.illustrative ? ILLUSTRATIVE_LABEL : undefined, p.reason];
   return parts.filter(Boolean).join('. ');
 }
 
 export function EventCard(props: EventCardProps) {
   const { colors } = useTheme();
-  const { title, venueName, area, distanceKm, priceLabel, dateLabel, coverKey, illustrative, saved, onPress, onToggleSave, variant = 'poster', style, testID } = props;
+  const { title, venueName, area, distanceKm, priceLabel, dateLabel, coverKey, illustrative, reason, saved, onPress, onToggleSave, variant = 'poster', style, testID } = props;
   const venueLine = area ? `${venueName} · ${area}` : venueName;
   const priceText = priceLabel ? (illustrative ? `${priceLabel} (${ILLUSTRATIVE_PRICE})` : priceLabel) : undefined;
   const metaLine = [priceText, formatDistance(distanceKm)].filter(Boolean).join(' · ');
@@ -92,6 +94,7 @@ export function EventCard(props: EventCardProps) {
                 {metaLine}
               </Text>
             ) : null}
+            {reason ? <Tag label={reason} style={styles.illustrative} /> : null}
             {illustrative ? <Tag label={ILLUSTRATIVE_LABEL} style={styles.illustrative} /> : null}
           </View>
         </PressableScale>
@@ -108,6 +111,11 @@ export function EventCard(props: EventCardProps) {
         {dateLabel ? <Badge label={dateLabel} tone="accent" style={styles.dateBadge} /> : null}
         {illustrative ? <Tag label={ILLUSTRATIVE_LABEL} style={[styles.illustrative, styles.illustrativeAbs, { top: dateLabel ? 56 : 14 }]} /> : null}
         <View style={styles.posterText}>
+          {reason ? (
+            <Text variant="caption" tone={palette.bone} numberOfLines={1}>
+              {reason}
+            </Text>
+          ) : null}
           <Text variant="title" tone={palette.bone} numberOfLines={2} style={styles.posterTitle}>
             {title}
           </Text>

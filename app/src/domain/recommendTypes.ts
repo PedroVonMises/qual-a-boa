@@ -6,6 +6,10 @@ export interface TasteProfile {
   genreWeights: Record<string, number>; // slug -> 0..1
   artistSlugs: string[]; // favorited or followed artists
   venueSlugs: string[]; // favorited, checked-in or well reviewed venues
+  /** Same artists by id (events carry artist ids, not slugs); matched together with artistSlugs. */
+  artistIds?: string[];
+  /** Same venues by id; matched together with venueSlugs. */
+  venueIds?: string[];
   priceMedian: number | null; // BRL, from followed/favorited events
   /** Count of distinct signals; drives the cold-start confidence (min(1, signals / 5)). */
   signals: number;

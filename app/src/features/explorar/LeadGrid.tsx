@@ -9,7 +9,7 @@ const CARD_W = 264;
 const CARD_H = 240;
 
 /** Web layout: one lead card spanning 2 columns x 2 rows, smaller cards beside it. */
-export function LeadGrid({ title, items, onAction }: { title: string; items: SearchItem[]; onAction: () => void }) {
+export function LeadGrid({ title, items, onAction, reasons }: { title: string; items: SearchItem[]; onAction: () => void; reasons?: Record<string, string> }) {
   const [lead, ...rest] = items;
   return (
     <View testID="lead-grid" style={styles.wrap}>
@@ -24,10 +24,10 @@ export function LeadGrid({ title, items, onAction }: { title: string; items: Sea
         </PressableScale>
       </View>
       <View style={styles.row}>
-        <ItemCard item={lead} style={styles.lead} />
+        <ItemCard item={lead} reason={reasons?.[lead.event.id]} style={styles.lead} />
         <View style={styles.small}>
           {rest.slice(0, 4).map((i) => (
-            <ItemCard key={i.event.id} item={i} />
+            <ItemCard key={i.event.id} item={i} reason={reasons?.[i.event.id]} />
           ))}
         </View>
       </View>

@@ -4,6 +4,8 @@ import { StyleSheet, View } from 'react-native';
 
 import { useSearchEvents } from '@/data/queries';
 import { toSearchParams } from '@/domain/filters';
+import { rankItems } from '@/domain/recommend';
+import { useRecoContext } from '@/features/explorar/useSearch';
 import { useFilters } from '@/state/filters';
 import { useLocation } from '@/state/location';
 import { useTheme } from '@/theme/ThemeProvider';
@@ -37,7 +39,10 @@ export function MapaScreen({ now }: { now?: string }) {
   );
   const search = useSearchEvents(params);
   const items = useMemo(() => search.data?.pages.flatMap((p) => p.items) ?? [], [search.data]);
-  const pins = useMemo(() => groupByVenue(items), [items]);
+  const recommended = filters.sort === 'recommended';
+  const ctx = useRecoContext(Math.max(filters.radiusKm, MAP_RADIUS_KM));
+  const ranked = useMemo(() => (recommended ? rankItems(items, ctx, Date.parse(nowIso)) : undefined), [recommended, items, ctx, nowIso]);
+  const pins = useMemo(() => groupByVenue(items, ranked), [items, ranked]);
   const visible = selectedId ? pins.filter((p) => p.venue.id === selectedId) : pins;
 
   const header = (
