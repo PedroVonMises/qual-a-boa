@@ -23,7 +23,7 @@ describe('migrations', () => {
     assert.deepEqual(r.rows.map((x) => x.relname), [
       'artists', 'checkins', 'event_artists', 'event_follows', 'event_genres', 'event_reports', 'events',
       'favorites', 'genres', 'profiles', 'review_reports', 'review_votes', 'reviews', 'support_messages', 'support_tickets',
-      'venues',
+      'venue_aliases', 'venues',
     ]);
     for (const row of r.rows) assert.equal(row.relrowsecurity, true, `${row.relname} has RLS`);
   });
