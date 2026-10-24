@@ -12,6 +12,10 @@ seed/seed-data.ts                  buildSeed(now): SeedDataset (all placeholder 
 seed/sql.ts                        SeedDataset -> INSERT statements
 seed/build.ts                      writes seed/seed.sql and app/src/data/seed.json (+ fixtures)
 seed/seed.sql                      generated
+migrations/0005_engage.sql         event_follows, checkins, event_reports, reviews(+feed view), review_votes,
+                                   support_tickets/messages, event_live_summary(event_id); owner-only RLS,
+                                   reports need a check-in <6h, reviews attended=true needs a check-in,
+                                   SupportMessage.from is column `sender`, reviews.user_id hidden from clients
 tests/harness.ts                   PGlite + stub auth schema + roles anon/authenticated/service_role
 tests/reference.ts                 TS reading of the search spec used to cross-check the SQL
 tests/fixtures/seed-fixed.json     dataset with now = 2026-10-23T12:00:00Z
