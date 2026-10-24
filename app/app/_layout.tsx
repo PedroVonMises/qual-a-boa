@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 import { useRemoteSync } from '@/data/sync';
+import { useLocationRefresh } from '@/lib/location';
 import { installCrashReporter } from '@/lib/crashReport';
 import { CrashNotice, ErrorScreen } from '@/shell/CrashNotice';
 import { AppProviders } from '@/shell/AppProviders';
@@ -27,6 +28,7 @@ export const unstable_settings = { initialRouteName: '(tabs)' };
 
 export default function RootLayout() {
   useRemoteSync();
+  useLocationRefresh();
   const [fontsLoaded, fontError] = useFonts(fontMap);
   const hydrated = useSession((s) => s.hydrated);
   const ready = (fontsLoaded || !!fontError) && hydrated;
