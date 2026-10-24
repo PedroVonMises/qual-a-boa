@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { useEvent } from '@/data/queries';
 import { formatBRL, formatRelative } from '@/domain/format';
-import { DEMO_LABEL, eventPhase, isDemoVenue } from '@/features/acompanhar/logic';
+import { eventPhase, isDemoVenue } from '@/features/acompanhar/logic';
 import { getNow, useNow } from '@/features/acompanhar/useNow';
 import { Frame, StateShell, useGoBack } from '@/features/evento/Frame';
 import { openMaps } from '@/features/evento/linking';
@@ -92,7 +92,6 @@ export function AoVivoScreen({ id }: { id?: string }) {
         </Text>
         <Text variant="bodySm" tone="textMuted">
           {venue.name}
-          {demo ? ` · ${DEMO_LABEL}` : ''}
         </Text>
 
         {ended ? (

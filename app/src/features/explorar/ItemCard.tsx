@@ -4,7 +4,6 @@ import type { StyleProp, ViewStyle } from 'react-native';
 
 import { formatEventDate, formatPriceLabel } from '@/domain/format';
 import type { SearchItem } from '@/domain/types';
-import { needsIllustrativeLabel } from '@/features/acompanhar/logic';
 import { useFavorites } from '@/state/favorites';
 import { EventCard } from '@/ui';
 import { useHydrated } from '@/ui/useHydrated';
@@ -43,8 +42,7 @@ export const ItemCard = memo(function ItemCard({ item, variant = 'poster', divid
       distanceKm={distanceKm}
       priceLabel={formatPriceLabel(event.priceMin, event.priceMax, event.isFree)}
       dateLabel={formatEventDate(event.startsAt, hydrated ? minuteNow() : 0)}
-      coverKey={event.coverKey}
-      illustrative={needsIllustrativeLabel(venue)}
+      coverKey={event.coverKey}
       saved={saved}
       onPress={() => openEvent(event.id)}
       onToggleSave={() => toggle(event.id)}

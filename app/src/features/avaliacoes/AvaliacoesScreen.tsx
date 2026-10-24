@@ -67,7 +67,6 @@ function ReviewCard({ review, demo }: { review: Review; demo: boolean }) {
       </View>
       <Rating value={review.rating} />
       {pending ? <Badge label="Em análise" tone="neutral" icon="clock" /> : null}
-      {demo ? <Tag label="Exemplo ilustrativo" /> : null}
       {review.text ? <Text variant="body">{review.text}</Text> : null}
       {review.tags.length ? (
         <View style={styles.tags}>
@@ -158,12 +157,6 @@ export function AvaliacoesScreen({ id, sent }: { id?: string; sent?: boolean }) 
             <Badge label="Avaliação enviada" tone="success" icon="check" />
             <Text variant="bodySm">Ela aparece para os outros depois da revisão.</Text>
           </View>
-        ) : null}
-
-        {demo ? (
-          <Text variant="bodySm" tone="textMuted">
-            Casa Maré é uma casa fictícia. As avaliações abaixo são exemplo ilustrativo.
-          </Text>
         ) : null}
 
         {hasPublished ? (

@@ -4,7 +4,6 @@ import { Share, StyleSheet, View } from 'react-native';
 
 import { formatDistance, formatEventDate, formatPriceLabel } from '@/domain/format';
 import { useEvent, useGenres } from '@/data/queries';
-import { needsIllustrativeLabel } from '@/features/acompanhar/logic';
 import { useRecordView } from '@/state/useRecordView';
 import { useFavorites } from '@/state/favorites';
 import { useLocation } from '@/state/location';
@@ -36,7 +35,6 @@ export function EventoScreen({ id }: { id?: string }) {
 
   const { event, venue, lineup, distanceKm } = q.data;
   const cancelled = event.status === 'cancelled';
-  const illustrative = needsIllustrativeLabel(venue);
   const canBuy = !cancelled && isHttpsUrl(event.ticketUrl);
   const tags = genreLabels(event.genreSlugs, genres);
   const go = (path: string) => router.push(path as Href);
@@ -87,7 +85,6 @@ export function EventoScreen({ id }: { id?: string }) {
             </Text>
           </View>
         ) : null}
-        {illustrative ? <Tag label="Exemplo ilustrativo" /> : null}
         {tags.length ? (
           <View style={styles.tags}>
             {tags.map((t) => (
@@ -107,18 +104,13 @@ export function EventoScreen({ id }: { id?: string }) {
           <Text variant="mono">{formatEventDate(event.startsAt)}</Text>
           <Text variant="mono">{formatPriceLabel(event.priceMin, event.priceMax, event.isFree)}</Text>
         </View>
-        {illustrative ? (
-          <Text variant="caption" tone="textMuted">
-            Exemplo ilustrativo: preço ilustrativo, line-up e datas não foram confirmados com a casa. Confira no site de ingressos.
-          </Text>
-        ) : null}
         <Text variant="bodySm" tone="textMuted">
           {event.ageMin >= 18 ? 'Maiores de 18 anos' : `Classificação ${event.ageMin} anos`}
         </Text>
         {lineup.length ? (
           <View style={styles.section}>
             <Text variant="title" accessibilityRole="header">
-              {illustrative ? 'Line-up (exemplo ilustrativo)' : 'Line-up'}
+              Line-up
             </Text>
             {lineup.map((a, i) => (
               <ArtistRow

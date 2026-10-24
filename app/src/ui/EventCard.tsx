@@ -19,11 +19,11 @@ export interface EventCardProps {
   priceLabel?: string;
   dateLabel?: string;
   coverKey: CoverKey;
+  /** Optional remote cover image; falls back to the generated art for `coverKey`. */
+  imageUrl?: string;
   saved?: boolean;
   onPress?: () => void;
   onToggleSave?: () => void;
-  /** Venue content is an illustrative example (not verified with the venue): shows a visible label and "preço ilustrativo". */
-  illustrative?: boolean;
   /** Short pt-BR text tag explaining why this card is shown (recommender), e.g. "Você curte Funk". */
   reason?: string;
   variant?: 'poster' | 'row';
@@ -33,9 +33,6 @@ export interface EventCardProps {
   testID?: string;
 }
 
-export const ILLUSTRATIVE_LABEL = 'Exemplo ilustrativo';
-export const ILLUSTRATIVE_PRICE = 'preço ilustrativo';
-
 export function formatDistance(km?: number): string | undefined {
   if (km === undefined) return undefined;
   const v = km < 10 ? km.toFixed(1) : String(Math.round(km));
@@ -43,16 +40,15 @@ export function formatDistance(km?: number): string | undefined {
 }
 
 function a11yLabel(p: EventCardProps) {
-  const parts = [p.title, p.venueName + (p.area ? `, ${p.area}` : ''), p.dateLabel, p.priceLabel, p.illustrative ? ILLUSTRATIVE_PRICE : undefined, formatDistance(p.distanceKm), p.illustrative ? ILLUSTRATIVE_LABEL : undefined, p.reason];
+  const parts = [p.title, p.venueName + (p.area ? `, ${p.area}` : ''), p.dateLabel, p.priceLabel, formatDistance(p.distanceKm), p.reason];
   return parts.filter(Boolean).join('. ');
 }
 
 export function EventCard(props: EventCardProps) {
   const { colors } = useTheme();
-  const { title, venueName, area, distanceKm, priceLabel, dateLabel, coverKey, illustrative, reason, saved, onPress, onToggleSave, variant = 'poster', style, testID } = props;
+  const { title, venueName, area, distanceKm, priceLabel, dateLabel, coverKey, imageUrl, reason, saved, onPress, onToggleSave, variant = 'poster', style, testID } = props;
   const venueLine = area ? `${venueName} · ${area}` : venueName;
-  const priceText = priceLabel ? (illustrative ? `${priceLabel} (${ILLUSTRATIVE_PRICE})` : priceLabel) : undefined;
-  const metaLine = [priceText, formatDistance(distanceKm)].filter(Boolean).join(' · ');
+  const metaLine = [priceLabel, formatDistance(distanceKm)].filter(Boolean).join(' · ');
   const save = onToggleSave ? (
     <IconButton
       icon={saved ? 'heartFilled' : 'heart'}
@@ -76,7 +72,7 @@ export function EventCard(props: EventCardProps) {
           onPress={onPress}
           scaleTo={0.99}
           style={styles.rowMain}>
-          <Cover coverKey={coverKey} style={styles.rowCover} />
+          <Cover coverKey={coverKey} imageUrl={imageUrl} style={styles.rowCover} />
           <View style={styles.rowText}>
             <Text variant="title" numberOfLines={1} style={styles.rowTitle}>
               {title}
@@ -94,8 +90,7 @@ export function EventCard(props: EventCardProps) {
                 {metaLine}
               </Text>
             ) : null}
-            {reason ? <Tag label={reason} style={styles.illustrative} /> : null}
-            {illustrative ? <Tag label={ILLUSTRATIVE_LABEL} style={styles.illustrative} /> : null}
+            {reason ? <Tag label={reason} style={styles.reasonTag} /> : null}
           </View>
         </PressableScale>
         {save}
@@ -106,10 +101,9 @@ export function EventCard(props: EventCardProps) {
   return (
     <View testID={testID} style={[styles.poster, { backgroundColor: colors.surface }, style]}>
       <Pressable accessibilityRole="button" accessibilityLabel={a11yLabel(props)} onPress={onPress} style={StyleSheet.absoluteFill}>
-        <Cover coverKey={coverKey} style={StyleSheet.absoluteFill} />
+        <Cover coverKey={coverKey} imageUrl={imageUrl} style={StyleSheet.absoluteFill} />
         <Scrim />
         {dateLabel ? <Badge label={dateLabel} tone="accent" style={styles.dateBadge} /> : null}
-        {illustrative ? <Tag label={ILLUSTRATIVE_LABEL} style={[styles.illustrative, styles.illustrativeAbs, { top: dateLabel ? 56 : 14 }]} /> : null}
         <View style={styles.posterText}>
           {reason ? (
             <Text variant="caption" tone={palette.bone} numberOfLines={1}>
@@ -136,8 +130,7 @@ export function EventCard(props: EventCardProps) {
 
 const styles = StyleSheet.create({
   poster: { width: 264, height: 240, borderRadius: radius.lg, overflow: 'hidden' },
-  illustrative: { marginTop: 2 },
-  illustrativeAbs: { position: 'absolute', left: 14 },
+  reasonTag: { marginTop: 2 },
   dateBadge: { position: 'absolute', left: 14, top: 14 },
   saveAbs: { position: 'absolute', right: 6, top: 6 },
   posterText: { position: 'absolute', left: 0, right: 0, bottom: 0, padding: space.lg, gap: space.xs },

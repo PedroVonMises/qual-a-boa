@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { RADIUS_OPTIONS } from '@/domain/filters';
+import { env } from '@/lib/env';
 import { clearDemoData, loadDemoData, resetApp, useDemoLoaded } from '@/state/demo';
 import { OUTSIDE_PILOT_MESSAGE, openSettings, refreshDeviceLocation } from '@/lib/location';
 import { useGenres } from '@/data/queries';
@@ -142,15 +143,19 @@ export function PerfilView() {
         </Text>
         <Button label="Zerar recomendações" variant="secondary" fullWidth onPress={() => resetReco()} />
 
-        <Text variant="caption" tone="textMuted" style={styles.section}>
-          DADOS DE DEMONSTRAÇÃO
-        </Text>
-        <Text variant="bodySm" tone="textMuted" testID="demo-explainer">
-          Preenche este aparelho com dados de exemplo (salvos, acompanhando, check-in, avaliações e mensagens) para você
-          testar o app. Nada é enviado para a internet.{demoLoaded ? ' Dados de exemplo carregados.' : ''}
-        </Text>
-        <Button label="Carregar dados de exemplo" variant="secondary" fullWidth onPress={() => loadDemoData()} />
-        <Button label="Limpar dados de exemplo" variant="secondary" fullWidth onPress={() => clearDemoData()} />
+        {env.demoTools ? (
+          <>
+            <Text variant="caption" tone="textMuted" style={styles.section}>
+              DADOS DE DEMONSTRAÇÃO
+            </Text>
+            <Text variant="bodySm" tone="textMuted" testID="demo-explainer">
+              Preenche este aparelho com dados de exemplo (salvos, acompanhando, check-in, avaliações e mensagens) para
+              você testar o app. Nada é enviado para a internet.{demoLoaded ? ' Dados de exemplo carregados.' : ''}
+            </Text>
+            <Button label="Carregar dados de exemplo" variant="secondary" fullWidth onPress={() => loadDemoData()} />
+            <Button label="Limpar dados de exemplo" variant="secondary" fullWidth onPress={() => clearDemoData()} />
+          </>
+        ) : null}
         <Button
           label="Voltar ao início (resetar app)"
           variant="ghost"

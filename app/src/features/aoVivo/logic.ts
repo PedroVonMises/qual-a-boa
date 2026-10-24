@@ -84,7 +84,7 @@ export function sampleLine(s: LiveSummary, relative: (iso: string) => string): s
   return `${who}, o último ${relative(s.lastAt)}. Pode estar desatualizado.`;
 }
 
-/** Illustrative community reports, only ever used for the fictional Casa Maré. */
+/** Demonstration community reports, only ever used for Casa Maré. */
 export function demoReports(eventId: string, nowMs: number): LiveReport[] {
   const ago = [12, 18, 25, 31, 40, 47, 55, 63, 70, 74, 80, 85, 88, 92];
   const queue: QueueLevel[] = ['short', 'short', 'long', 'short', 'short', 'none', 'short', 'short', 'long', 'short', 'short', 'short', 'none', 'short'];

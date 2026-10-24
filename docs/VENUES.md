@@ -1,6 +1,6 @@
 # Vitória nightlife research (for seed data and design placeholders)
 
-Researched 2026-10-22 via web search. Venue names, neighborhoods and genre tendencies come from public listings; **events, artists, prices and distances in the design mockups are illustrative placeholders**. Everything here must be verified with each venue (Instagram, Sympla, Zig) before real seed data goes live.
+Researched 2026-10-22 via web search. Venue names, neighborhoods and genre tendencies come from public listings; **events, artists, prices and distances are demonstration data (shown without UI tags; the Terms disclose this during the pilot)**. Everything here must be verified with each venue (Instagram, Sympla, Zig) before real seed data goes live.
 
 | Venue | Area | Genres seen in sources | Confidence | Notes |
 |---|---|---|---|---|

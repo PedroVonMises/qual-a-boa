@@ -22,6 +22,7 @@ export const TERMS: LegalDoc = {
     DRAFT,
     'O Qual a boa? é um guia de festas e casas noturnas de Vitória e região, destinado a maiores de 18 anos.',
     'As informações de eventos podem mudar sem aviso. Confirme horário, preço e lotação com a casa antes de sair.',
+    'Durante o piloto, o app pode exibir conteúdo de demonstração até que as informações sejam verificadas com cada casa.',
     'Beba com moderação. Se beber, não dirija.',
   ],
 };

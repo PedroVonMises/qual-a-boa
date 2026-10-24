@@ -30,7 +30,7 @@ Method: a manual review of the markup against the `design:design-critique` and `
 | 11 | Price slider thumb is 24px | Moderate | Open: 44px hit area wrapper exists; thumb stays 24px visual |
 | 12 | Cover art is decorative `alt=""` | n/a | OK: event/venue names are always in adjacent text |
 | 13 | Switch in Perfil has role and label but no focus style drawn | Minor | Open: define focus ring (2px Riot Pink offset 2px) in the component spec |
-| 14 | Real venue names with invented events/line-ups | Legal | Open: placeholders only; replace with consented data before launch (see VENUES.md) |
+| 14 | Real venue names with invented events/line-ups | Legal | Open: catalog is demonstration data with no visible mock tags (owner decision, Wave 7, supersedes the earlier labels); legal risk remains, so replace with verified/consented data before launch (see VENUES.md); the Terms disclose demonstration content during the pilot |
 | 15 | Casa Caipora is closed; Sinner Club is an adult venue | Content | Closed state designed (R10); Sinner not designed, needs a policy |
 
 ## Open gates before any launch
@@ -52,7 +52,7 @@ Method: a manual review of the markup against the `design:design-critique` and `
 | # | Finding | Status |
 |---|---|---|
 | 22 | Logo unified on the bulb across B1-B4, Idade, Web | Done; Q? archived |
-| 23 | Review/status/chat mocks could be read as real data about real venues | Fixed: moved to fictional Casa Maré, labeled "exemplo ilustrativo" |
+| 23 | Review/status/chat mocks could be read as real data about real venues | Fixed: demo reviews/status/chat live only on Casa Maré; the "exemplo ilustrativo" labels were removed by owner decision (Wave 7), and the Terms disclose demonstration content during the pilot |
 | 24 | Text area in Avaliar 2/2 and Novo chamado is a styled div, not a real `<textarea>` with `<label for>` | Open: use real inputs in the build |
 | 25 | Status chips (Respondido, Em análise) are color + text | OK |
 | 26 | Star rating is a radiogroup of 52px targets; topic dots are 28px visual (44px row hit area needed) | Open for the build |

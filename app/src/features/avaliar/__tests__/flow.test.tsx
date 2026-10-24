@@ -106,10 +106,10 @@ describe('Avaliar step 2 and submit', () => {
 });
 
 describe('Avaliações', () => {
-  it('shows labeled demo reviews for Casa Maré with stats, helpful and report', async () => {
+  it('shows untagged demo reviews for Casa Maré with stats, helpful and report', async () => {
     await renderWith(<AvaliacoesScreen id={demoEvent.id} />);
-    expect(await screen.findAllByText('Exemplo ilustrativo')).toHaveLength(3);
-    expect(screen.getByText('3 avaliações')).toBeTruthy();
+    expect(await screen.findByText('3 avaliações')).toBeTruthy();
+    expect(screen.queryByText(/ilustrativ|fictíci/i)).toBeNull();
     expect(screen.getAllByText('Foi ao evento').length).toBe(2);
     expect(screen.getByRole('progressbar', { name: /Som, 5 de 5/ })).toBeTruthy();
 
@@ -123,7 +123,7 @@ describe('Avaliações', () => {
   it('shows an honest empty state for real venues (no invented reviews)', async () => {
     await renderWith(<AvaliacoesScreen id={realEvent.id} />);
     expect(await screen.findByText('Ainda sem avaliações')).toBeTruthy();
-    expect(screen.queryByText('Exemplo ilustrativo')).toBeNull();
+    expect(screen.queryByText(/ilustrativ/i)).toBeNull();
   });
 
   it('shows the author review as Em análise plus the sent notice', async () => {

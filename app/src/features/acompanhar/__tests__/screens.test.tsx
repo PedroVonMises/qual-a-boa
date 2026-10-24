@@ -74,11 +74,11 @@ describe('Acompanhar', () => {
     expect(useFollows.getState().changes).toHaveLength(0);
   });
 
-  it('seeds labeled illustrative changes only for Casa Maré and marks them read on tap', async () => {
+  it('seeds untagged demo changes only for Casa Maré and marks them read on tap', async () => {
     useFollows.getState().follow('e01', MINI_NOW);
     await renderWith(<AcompanharScreen />);
     expect(await screen.findByText('Atração nova: Taís Mar')).toBeTruthy();
-    expect(screen.getAllByText(/exemplo ilustrativo/).length).toBeGreaterThan(0);
+    expect(screen.queryByText(/ilustrativ/i)).toBeNull();
     expect(screen.getAllByText('Nova')).toHaveLength(3);
     expect(screen.getByText('3 não lidas')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('change-demo-e01-2'));
@@ -115,7 +115,7 @@ describe('Ao vivo', () => {
     expect(await screen.findByText('Rock na Praia')).toBeTruthy();
     expect(screen.getAllByText('Ainda sem relatos')).toHaveLength(4);
     expect(screen.getByText(/Ainda sem relatos para este evento/)).toBeTruthy();
-    expect(screen.queryByText(/exemplo ilustrativo/)).toBeNull();
+    expect(screen.queryByText(/ilustrativ/i)).toBeNull();
     expect(screen.getByLabelText('Relatar agora').props.accessibilityState.disabled).toBe(true);
     expect(screen.getByLabelText('Documento com foto (18+)')).toBeTruthy();
   });
@@ -136,10 +136,11 @@ describe('Ao vivo', () => {
     expect(screen.getByText(/^R\$\s*35/)).toBeTruthy();
   });
 
-  it('Casa Maré shows labeled example reports with sample size and age', async () => {
+  it('Casa Maré shows example reports without any tag with sample size and age', async () => {
     await renderWith(<AoVivoScreen id="e01" />);
     expect(await screen.findByText(/Relatos de 14 pessoas, o último há 12 min/)).toBeTruthy();
-    expect(screen.getByText(/Casa Maré · exemplo ilustrativo/)).toBeTruthy();
+    expect(screen.getByText('Casa Maré')).toBeTruthy();
+    expect(screen.queryByText(/ilustrativ/i)).toBeNull();
     expect(screen.getByText('Cheia')).toBeTruthy();
     expect(screen.getByText('5 de 5')).toBeTruthy();
   });

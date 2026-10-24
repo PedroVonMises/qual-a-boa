@@ -37,7 +37,7 @@ Need a new dependency? Do not edit package.json. Put it in your report; the orch
 ## Rules for every agent
 1. Read `app/AGENTS.md`. Before using any Expo/RN API, fetch the SDK 58 docs (`https://docs.expo.dev/versions/v58.0.0/`, `https://docs.expo.dev/llms.txt`, append `.md` for markdown). Do not rely on memory.
 2. Use `@/theme/tokens` for every color, size and font. Text on Riot Pink is always `riotInk`, never bone. Touch targets >= 44. Status never by color alone. Respect Reduce Motion.
-3. No emojis as icons. No invented reviews or live status for real venues; fictional demo content uses Casa Maré.
+3. No emojis as icons. No invented reviews or live status for real venues; demonstration content uses Casa Maré only and shows no mock/illustrative tags (owner decision, Wave 7; the Terms disclose demonstration content during the pilot). `Venue.placeholder` stays in types/DB but no UI reads it.
 4. Done means: `npm run typecheck`, `npm run lint`, `npm test` pass (and `npm run test:sql` for backend). Report `FAILED:` with output if not.
 5. Report: <= 200 words, changed files, requested dependencies, open issues.
 
