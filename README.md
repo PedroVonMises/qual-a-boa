@@ -5,8 +5,9 @@ Nightlife discovery app for Vitória, ES (Brazil): browse clubs and parties by m
 > Status: MVP in progress. Venue, event and artist data is demonstration data shown without UI tags (owner decision, Wave 7; the Terms disclose it during the pilot, see `docs/VENUES.md`); nothing here is verified with the venues. Legal risk: verify with each venue before launch.
 
 ## What exists
-- `app/`: Expo SDK 58 app. Screens built so far: age gate and onboarding, Explorar, Filtros, Mapa, Evento, Casa, Artista, Salvos, Perfil, UI gallery (`/dev/ui`). Tracking, reviews and support screens are stubs.
-- `supabase/`: migrations (schema, `search_events`, RLS, history views), seed generator and local SQL tests (PGlite). No remote project is attached.
+- `app/`: Expo SDK 58 app. Screens built so far: age gate and onboarding, Explorar, Filtros, Mapa, Evento, Casa, Artista, Salvos, Perfil, Acompanhar, Ao vivo, Avaliar/Avaliações, Ajuda, UI gallery (`/dev/ui`). Still missing: login (auth is anonymous-only) and photo uploads.
+- `supabase/`: migrations 0001–0006 (schema, `search_events`, RLS, history views, engagement tables, catalog ingest), seed generator and local SQL tests (PGlite). No remote project is attached.
+- `ingest/`: event ingestion CLI that produces the static feed in `app/public/feed/v1`.
 - `docs/`: design system (`DESIGN.md`), venue research, design audit, architecture and file ownership, and the HTML design mockups (`design-canvas/`).
 
 ## Run
@@ -21,6 +22,6 @@ npm run seed         # regenerate seed data (dates are relative to today)
 Data source defaults to the built-in seed. Copy `app/.env.example` to `app/.env` to point at a Supabase project later.
 
 ## Notes
-- Android maps need a Google Maps API key (`react-native-maps` plugin option in `app.json`); not included.
-- iOS and Android builds have not been run yet; web is the verified target.
+- The map uses MapLibre with OpenFreeMap tiles, so no map API key is needed.
+- Web is the verified target. Android has been built (R8 startup fix landed); iOS has not been run yet.
 - See `docs/ARCHITECTURE.md` for folder layout and conventions.
