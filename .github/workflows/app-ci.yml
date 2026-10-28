@@ -1,0 +1,52 @@
+name: App CI
+
+# Gates the Expo app. The web export is the step that catches static-render (SSR) errors,
+# which jest never exercises and which fail the Vercel build.
+on:
+  pull_request:
+    paths:
+      - 'app/**'
+      - 'supabase/**'
+      - '.github/workflows/app-ci.yml'
+  push:
+    branches: [master, main]
+    paths:
+      - 'app/**'
+      - 'supabase/**'
+      - '.github/workflows/app-ci.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: app-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npm run lint
+
+      - run: npm test -- --ci
+
+      - run: npm run test:sql
+
+      - name: Web export (static render)
+        run: npx expo export --platform web
