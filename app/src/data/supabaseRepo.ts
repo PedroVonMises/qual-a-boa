@@ -176,7 +176,9 @@ export class SupabaseRepo implements Repo {
         p_sort: params.sort,
         p_limit: limit,
         p_offset: offset,
-        p_now: params.now ?? null,
+        // Only send p_now when set: an explicit null defeats the SQL default (now()) and `starts_at >= coalesce(
+        // p_date_from, p_now)` then matches nothing.
+        ...(params.now ? { p_now: params.now } : {}),
       }),
     );
     // Flat columns per row: event fields, venue_* fields, distance_km, total_count.

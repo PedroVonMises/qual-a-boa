@@ -62,6 +62,7 @@
     "lint": "expo lint",
     "test": "jest",
     "test:sql": "node --import tsx --test \"../supabase/tests/**/*.test.ts\"",
+    "test:remote": "node --import tsx --test ../supabase/tests/remote.smoke.ts",
     "seed": "tsx ../supabase/seed/build.ts"
   },
   "private": true,

@@ -1,0 +1,37 @@
+name: Remote smoke
+
+# Exercises SupabaseRepo against the live project. The anon/publishable key is public by design (RLS is the
+# security boundary), so these are repository *variables*, not secrets:
+#   gh variable set EXPO_PUBLIC_SUPABASE_URL --body https://<ref>.supabase.co
+#   gh variable set EXPO_PUBLIC_SUPABASE_ANON_KEY --body <publishable key>
+# Without them the test skips itself and the job still passes.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 8 * * *' # daily 08:30 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: app
+    env:
+      EXPO_PUBLIC_SUPABASE_URL: ${{ vars.EXPO_PUBLIC_SUPABASE_URL }}
+      EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - run: npm ci
+
+      - run: npm run test:remote

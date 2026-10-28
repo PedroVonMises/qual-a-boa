@@ -72,6 +72,16 @@ describe('SupabaseRepo.searchEvents', () => {
     expect(page.nextCursor).toBe('1');
   });
 
+  it('omits p_now unless the caller sets it (a null would defeat the SQL default and match nothing)', async () => {
+    const client = fakeClient([row]);
+    const repo = new SupabaseRepo('', '', client);
+    await repo.searchEvents({ lat: -20.3, lng: -40.29, radiusKm: 5, sort: 'date' });
+    const sent = (client.rpc as jest.Mock).mock.calls[0][1] as Record<string, unknown>;
+    expect(sent).not.toHaveProperty('p_now');
+    await repo.searchEvents({ lat: -20.3, lng: -40.29, radiusKm: 5, sort: 'date', now: '2026-10-28T12:00:00.000Z' });
+    expect((client.rpc as jest.Mock).mock.calls[1][1]).toMatchObject({ p_now: '2026-10-28T12:00:00.000Z' });
+  });
+
   it('re-queries the total when a page past the end is empty', async () => {
     const rpc = jest
       .fn()
