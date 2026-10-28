@@ -75,7 +75,11 @@ Returns event columns plus `genre_slugs` (taxonomy order), `artist_ids` (billing
 10. `total_count` = matches before pagination. A page past the end returns no rows (so no total);
     the test harness then re-queries with offset 0 to get it.
 
-## Attaching a remote Supabase project later (instructions only, not yet done)
+## Remote Supabase project
+
+Project `qualaboa` (ref `kcwtbmznclayplexoxhc`, us-west-2, Postgres 17) has migrations 0001–0006 applied (2026-10-28).
+The catalog tables are empty: the seed is not loaded. Anonymous sign-ins must be enabled in Authentication > Sign In / Providers.
+The generic steps below apply to attaching any other project.
 
 Prereqs: Supabase CLI installed and logged in (`supabase login`), a project created in the dashboard.
 
