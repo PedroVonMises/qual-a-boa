@@ -4,5 +4,6 @@
   "installCommand": "npm ci",
   "buildCommand": "npx expo export --platform web",
   "outputDirectory": "dist",
+  "build": { "env": { "EXPO_PUBLIC_APP_ENV": "production" } },
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
