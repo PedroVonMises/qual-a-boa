@@ -25,7 +25,13 @@ function feedRepo(): FeedRepo | null {
 
 export function useFeedStatus(): UseFeedStatus {
   const feed = feedRepo();
-  const snap = useSyncExternalStore(feed ? feed.subscribe : noopSubscribe, feed ? feed.getStatus : offSnapshot);
+  // The third argument is the server snapshot: the static web export renders every route at build time and React
+  // throws without it. The server never has a feed, so it always sees OFF.
+  const snap = useSyncExternalStore(
+    feed ? feed.subscribe : noopSubscribe,
+    feed ? feed.getStatus : offSnapshot,
+    offSnapshot,
+  );
   const refresh = useCallback(() => (feed ? feed.refresh({ force: true }) : Promise.resolve(false)), [feed]);
   return { enabled: !!feed, updatedAt: snap.updatedAt, source: snap.source, refreshing: snap.refreshing, refresh };
 }
