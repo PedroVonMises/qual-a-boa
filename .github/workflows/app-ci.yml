@@ -34,7 +34,7 @@ jobs:
 
       - uses: actions/setup-node@v4.4.0
         with:
-          node-version: 20
+          node-version: 22 # test:sql uses `node --test "glob"`, which needs Node 21+
           cache: npm
           cache-dependency-path: app/package-lock.json
 

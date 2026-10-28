@@ -35,7 +35,7 @@ jobs:
 
       - uses: actions/setup-node@v4.4.0
         with:
-          node-version: 20
+          node-version: 22 # `node --test "glob"` needs Node 21+ (Node 20 cannot expand the pattern)
           cache: npm
           cache-dependency-path: ingest/package-lock.json
 
