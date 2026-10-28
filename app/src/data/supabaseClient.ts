@@ -6,8 +6,12 @@ import { env } from '@/lib/env';
 /** True when the app is configured for the Supabase backend (EXPO_PUBLIC_DATA_SOURCE=supabase). */
 export const isRemote = () => env.dataSource === 'supabase' && !!env.supabaseUrl && !!env.supabaseAnonKey;
 
+/** After a failed anonymous sign-in (provider disabled, offline), stay local-only this long before retrying. */
+export const SIGN_IN_COOLDOWN_MS = 60_000;
+
 let client: SupabaseClient | null = null;
 let pending: Promise<string | null> | null = null;
+let retryAfter = 0;
 
 /** Shared client with the session persisted in AsyncStorage. Null when running on seed data. */
 export function getSupabase(): SupabaseClient | null {
@@ -24,6 +28,7 @@ export function getSupabase(): SupabaseClient | null {
 export function setSupabase(next: SupabaseClient | null): void {
   client = next;
   pending = null;
+  retryAfter = 0;
 }
 
 /**
@@ -37,9 +42,13 @@ export function ensureUserId(): Promise<string | null> {
     try {
       const { data } = await sb.auth.getSession();
       if (data.session) return data.session.user.id;
+      if (Date.now() < retryAfter) return null;
       const res = await sb.auth.signInAnonymously();
-      return res.data.user?.id ?? null;
+      const id = res.data.user?.id ?? null;
+      if (!id) retryAfter = Date.now() + SIGN_IN_COOLDOWN_MS;
+      return id;
     } catch {
+      retryAfter = Date.now() + SIGN_IN_COOLDOWN_MS;
       return null;
     } finally {
       pending = null;
