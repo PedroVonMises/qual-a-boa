@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
+import { authAvailable, signOut, useAccountEmail } from '@/data/auth';
 import { RADIUS_OPTIONS } from '@/domain/filters';
 import { env } from '@/lib/env';
 import { clearDemoData, loadDemoData, resetApp, useDemoLoaded } from '@/state/demo';
@@ -31,6 +32,8 @@ export function PerfilView() {
   const setFilters = useFilters((s) => s.set);
   const resetSession = useSession((s) => s.reset);
   const demoLoaded = useDemoLoaded((s) => s.loaded);
+  const accountEmail = useAccountEmail();
+  const loginAvailable = authAvailable();
   const [alerts, setAlerts] = useState(true);
   const [genresOpen, setGenresOpen] = useState(false);
   const [legal, setLegal] = useState<LegalDoc | null>(null);
@@ -71,13 +74,24 @@ export function PerfilView() {
             <Icon name="user" size={32} color="textMuted" />
           </View>
           <View style={styles.flex}>
-            <Text variant="title">Visitante</Text>
-            <Text variant="bodySm" tone="textMuted">
-              Login chega em breve
+            <Text variant="title">{accountEmail ? 'Conta' : 'Visitante'}</Text>
+            <Text variant="bodySm" tone="textMuted" numberOfLines={1}>
+              {accountEmail ?? (loginAvailable ? 'Entre para guardar seus dados' : 'Login chega em breve')}
             </Text>
           </View>
         </View>
-        <Button label="Entrar para sincronizar" variant="secondary" fullWidth disabled />
+        {accountEmail ? (
+          <Button label="Sair" variant="secondary" fullWidth onPress={() => void signOut()} testID="perfil-sair" />
+        ) : (
+          <Button
+            label="Entrar para sincronizar"
+            variant="secondary"
+            fullWidth
+            disabled={!loginAvailable}
+            onPress={() => router.push('/entrar')}
+            testID="perfil-entrar"
+          />
+        )}
 
         <Text variant="caption" tone="textMuted" style={styles.section}>
           PREFERÊNCIAS

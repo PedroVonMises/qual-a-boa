@@ -1,0 +1,1 @@
+export { EntrarScreen } from './EntrarScreen';
