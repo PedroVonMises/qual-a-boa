@@ -1,17 +1,21 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { useAreas, useGenres } from '@/data/queries';
+import { rangeLabel } from '@/domain/calendar';
 import { RADIUS_OPTIONS, type DateRange } from '@/domain/filters';
+import { QuandoSheet } from '@/features/quando';
 import { useFilters } from '@/state/filters';
 import { space } from '@/theme/tokens';
 import { Chip, Text } from '@/ui';
 import { ArtistPicker } from './ArtistPicker';
 import { PriceStepper } from './PriceStepper';
 
-const DATES: { value: DateRange; label: string }[] = [
+const DATES: { value: Exclude<DateRange, 'datas'>; label: string }[] = [
   { value: 'hoje', label: 'Hoje' },
+  { value: 'amanha', label: 'Amanhã' },
   { value: 'fim-de-semana', label: 'Fim de semana' },
+  { value: 'proxima-semana', label: 'Próxima semana' },
   { value: 'qualquer', label: 'Qualquer' },
 ];
 
@@ -32,6 +36,8 @@ export function Sections() {
   const toggleGenre = useFilters((s) => s.toggleGenre);
   const { data: genres } = useGenres();
   const { data: areas } = useAreas();
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const pickedDays = filters.dateRange === 'datas';
   return (
     <View style={styles.wrap}>
       <Section title="Gênero">
@@ -61,9 +67,16 @@ export function Sections() {
       <Section title="Data">
         <View style={styles.chips}>
           {DATES.map((d) => (
-            <Chip key={d.value} label={d.label} selected={filters.dateRange === d.value} onPress={() => set({ dateRange: d.value })} />
+            <Chip key={d.value} label={d.label} selected={filters.dateRange === d.value} onPress={() => set({ dateRange: d.value, days: null })} />
           ))}
+          <Chip
+            label={pickedDays ? rangeLabel(filters.days) : 'Escolher datas'}
+            selected={pickedDays}
+            onPress={() => setCalendarOpen(true)}
+            testID="filtros-datas"
+          />
         </View>
+        <QuandoSheet visible={calendarOpen} onClose={() => setCalendarOpen(false)} />
       </Section>
       <Section title="Artista">
         <ArtistPicker />
