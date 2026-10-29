@@ -13,6 +13,8 @@ export interface SearchBarProps {
   label?: string;
   onSubmit?: () => void;
   onClear?: () => void;
+  /** Focus the field on mount (dedicated search screen). */
+  autoFocus?: boolean;
   style?: StyleProp<ViewStyle>;
   testID?: string;
 }
@@ -25,6 +27,7 @@ export function SearchBar({
   label = 'Buscar',
   onSubmit,
   onClear,
+  autoFocus,
   style,
   testID,
 }: SearchBarProps) {
@@ -40,6 +43,7 @@ export function SearchBar({
         placeholder={placeholder}
         placeholderTextColor={colors.textMuted}
         returnKeyType="search"
+        autoFocus={autoFocus}
         onSubmitEditing={onSubmit}
         style={[styles.input, { color: colors.text }]}
       />

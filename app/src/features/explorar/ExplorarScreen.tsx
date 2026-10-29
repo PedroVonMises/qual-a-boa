@@ -1,11 +1,14 @@
 import { FlashList } from '@shopify/flash-list';
+import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { countActiveFilters } from '@/domain/filters';
+import { QuandoSheet } from '@/features/quando';
 import { useFilters } from '@/state/filters';
+import { useSearchHistory } from '@/state/searchHistory';
 import { maxContentWidth, space } from '@/theme/tokens';
-import { ErrorState, EventCardSkeleton, Screen, TAB_BAR_HEIGHT, useBreakpoint } from '@/ui';
+import { ErrorState, EventCardSkeleton, ListRow, Screen, TAB_BAR_HEIGHT, useBreakpoint } from '@/ui';
 import { AreaSheet } from './AreaSheet';
 import { EmptyResults } from './EmptyResults';
 import { Header } from './Header';
@@ -42,8 +45,30 @@ function Body({ resultMode, isLoading, isError, refetch, empty }: {
   return empty ? <EmptyResults /> : null;
 }
 
+/** Opens the full search (events, venues and artists) for `text`. */
+export function openBusca(text: string) {
+  const q = text.trim();
+  if (q) useSearchHistory.getState().add(q);
+  router.push({ pathname: '/busca', params: q ? { q } : {} });
+}
+
+function SearchAllRow() {
+  const query = useFilters((s) => s.filters.query.trim());
+  if (!query) return null;
+  return (
+    <ListRow
+      title={`Buscar "${query}" em casas e artistas`}
+      icon="search"
+      chevron
+      onPress={() => openBusca(query)}
+      testID="search-all"
+    />
+  );
+}
+
 export function ExplorarScreen() {
   const [areaOpen, setAreaOpen] = useState(false);
+  const [dateOpen, setDateOpen] = useState(false);
   const resultMode = useResultMode();
   useRecordGenreFilters();
   const { items, scored, total, isLoading, isError, refetch, hasNextPage, isFetchingNextPage, fetchNextPage } = useFilteredSearch();
@@ -66,7 +91,8 @@ export function ExplorarScreen() {
           renderItem={({ item, index }) => <ItemCard item={item} variant="row" reason={reasons[item.event.id]} divider={index < items.length - columns} />}
           ListHeaderComponent={
             <View>
-              <Header onPickArea={() => setAreaOpen(true)} />
+              <Header onPickArea={() => setAreaOpen(true)} onPickDate={() => setDateOpen(true)} onSubmitSearch={openBusca} />
+              {resultMode ? <SearchAllRow /> : null}
               {resultMode ? <ResultBar total={total} /> : null}
             </View>
           }
@@ -93,6 +119,7 @@ export function ExplorarScreen() {
         />
       </View>
       <AreaSheet visible={areaOpen} onClose={() => setAreaOpen(false)} />
+      <QuandoSheet visible={dateOpen} onClose={() => setDateOpen(false)} />
     </Screen>
   );
 }

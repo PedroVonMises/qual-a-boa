@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useGenres } from '@/data/queries';
+import { dateFilterLabel } from '@/domain/calendar';
 import { countActiveFilters, defaultFilters } from '@/domain/filters';
 import { OUTSIDE_PILOT_MESSAGE } from '@/lib/location/pilot';
 import { useFilters } from '@/state/filters';
@@ -74,7 +75,40 @@ function GenreChips() {
   );
 }
 
-export function Header({ onPickArea }: { onPickArea: () => void }) {
+/** Opens the Quando sheet; shows the active date filter. */
+function DatePill({ onPress }: { onPress: () => void }) {
+  const { colors } = useTheme();
+  const range = useFilters((s) => s.filters.dateRange);
+  const days = useFilters((s) => s.filters.days);
+  const label = dateFilterLabel(range, days);
+  const active = range !== defaultFilters.dateRange;
+  return (
+    <PressableScale
+      accessibilityRole="button"
+      accessibilityLabel={`Quando: ${label}. Alterar`}
+      accessibilityState={{ selected: active }}
+      onPress={onPress}
+      style={[styles.location, { backgroundColor: active ? colors.accent : colors.surfaceAlt }]}
+      testID="date-chip">
+      <Icon name="clock" size={18} color={active ? colors.onAccent : 'accent'} />
+      <Text variant="bodySm" tone={active ? colors.onAccent : 'text'} numberOfLines={1} style={styles.locText}>
+        {label}
+      </Text>
+      <Icon name="chevronDown" size={16} color={active ? colors.onAccent : 'textMuted'} />
+    </PressableScale>
+  );
+}
+
+export function Header({
+  onPickArea,
+  onPickDate,
+  onSubmitSearch,
+}: {
+  onPickArea: () => void;
+  onPickDate?: () => void;
+  /** Search key on the keyboard: opens the full search (events, venues, artists). */
+  onSubmitSearch?: (text: string) => void;
+}) {
   const location = useLocation((s) => s.location);
   const outsidePilot = useLocation((s) => s.outsidePilot);
   const accuracyM = useLocation((s) => s.accuracyM);
@@ -90,6 +124,7 @@ export function Header({ onPickArea }: { onPickArea: () => void }) {
   const { colors } = useTheme();
   return (
     <View style={[styles.wrap, { paddingHorizontal: gutter }]}>
+      <View style={styles.pills}>
       <PressableScale
         accessibilityRole="button"
         accessibilityLabel={`Local: ${chipLabel}, raio de ${radiusKm} km. Alterar`}
@@ -105,6 +140,8 @@ export function Header({ onPickArea }: { onPickArea: () => void }) {
         </Text>
         <Icon name="chevronDown" size={16} color="textMuted" />
       </PressableScale>
+      {onPickDate ? <DatePill onPress={onPickDate} /> : null}
+      </View>
       <Text variant="display" accessibilityRole="header">
         Qual a boa <Text variant="display" tone={colors.accent}>hoje?</Text>
       </Text>
@@ -115,6 +152,7 @@ export function Header({ onPickArea }: { onPickArea: () => void }) {
           onChangeText={setText}
           placeholder="Evento, casa ou artista"
           label="Buscar eventos, casas ou artistas"
+          onSubmit={onSubmitSearch ? () => onSubmitSearch(text) : undefined}
           testID="search-input"
         />
         <FilterButton />
@@ -137,6 +175,7 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
   },
   locText: { flexShrink: 1 },
+  pills: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
   searchRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   search: { flex: 1 },
   chips: { gap: space.sm },
