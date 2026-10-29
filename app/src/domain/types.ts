@@ -1,6 +1,8 @@
 // Domain types shared by seed data, the Supabase repo, the UI and tests.
 // Money is in BRL reais (not cents). Dates are ISO 8601 strings in UTC.
 
+import type { AccessTag } from './accessTags';
+
 export type VenueStatus = 'open' | 'closed' | 'unverified';
 export type EventStatus = 'published' | 'cancelled' | 'draft';
 /** `recommended` is client-only (domain/recommend.ts): repos and SQL never receive it. */
@@ -40,6 +42,8 @@ export interface Venue {
   status: VenueStatus;
   adultOnly: boolean;
   genreSlugs: string[];
+  /** Vibe & access tags the venue declares (demonstration data until verified). */
+  accessTags?: AccessTag[];
   hours?: string; // free text for MVP, e.g. 'Sex e sáb, 23h–06h'
   coverKey: CoverKey;
   /** True while data is a design placeholder, not verified with the venue. */
@@ -58,6 +62,8 @@ export interface EventItem {
   ticketUrl?: string; // external; opened with expo-web-browser
   ageMin: number; // 18 for MVP
   genreSlugs: string[];
+  /** Extra tags for this night (themed events). Rows from search_events carry the effective set. */
+  accessTags?: AccessTag[];
   artistIds: string[]; // in billing order
   status: EventStatus;
   coverKey: CoverKey;
@@ -71,6 +77,7 @@ export interface SearchParams {
   lng: number;
   radiusKm: number;
   genreSlugs?: string[];
+  tags?: string[]; // every tag must match (AND) against the venue's plus the event's tags
   priceMax?: number; // 0 means only free
   dateFrom?: string;
   dateTo?: string;
