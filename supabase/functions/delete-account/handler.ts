@@ -4,12 +4,18 @@
 // (profiles, favorites, follows, check-ins, reports, reviews + votes/reports/photos, tickets + messages +
 // attachments), so deleting the user removes the rows, but Storage objects are NOT covered by those cascades.
 // If the file cleanup fails we stop BEFORE deleting the user, so the caller can simply retry.
+//
+// The reverse order would leave private photos orphaned forever when the second step fails (the owner is gone, so
+// nobody could ever retry), which is worse for LGPD than the order used here. The remaining window is: files gone,
+// user deletion fails. That state is safe to retry (the cleanup is idempotent) and only removes data the user asked
+// to erase, so we shrink it with a few quick retries and tell the caller (`files_removed`) so the UI can say so.
 
 /** Buckets whose objects live under `<user_id>/`. */
 export const BUCKETS = ['review-photos', 'support-attachments'] as const;
 
 const LIST_PAGE = 1000;
 const MAX_PAGES = 20;
+const DELETE_ATTEMPTS = 3;
 
 export interface Deps {
   /** The user id behind a verified access token, or null when the token is invalid or has no user (e.g. the anon key). */
@@ -56,9 +62,16 @@ export async function deleteAccount(req: Request, deps: Deps): Promise<Response>
         }
       }
     }
-    if (!(await deps.deleteUser(user.id))) return json(500, { error: 'delete_failed' });
   } catch {
-    return json(500, { error: 'delete_failed' });
+    return json(500, { error: 'storage_cleanup_failed' });
   }
-  return json(200, { ok: true });
+
+  for (let attempt = 0; attempt < DELETE_ATTEMPTS; attempt++) {
+    try {
+      if (await deps.deleteUser(user.id)) return json(200, { ok: true });
+    } catch {
+      // Treated like a false result: try again, then report.
+    }
+  }
+  return json(500, { error: 'delete_failed', files_removed: true });
 }

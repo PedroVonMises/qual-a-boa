@@ -7,7 +7,7 @@ export const DISPLAY_NAME_MAX = 40;
 
 const NO_BACKEND = 'A conta ainda não está disponível neste app.';
 const SAVE_FAILED = 'Não foi possível salvar agora. Tente de novo em instantes.';
-const DELETE_FAILED = 'Não foi possível apagar a conta agora. Nada foi alterado: tente de novo em instantes.';
+const DELETE_FAILED = 'Não foi possível apagar a conta agora. Tente de novo em instantes: a exclusão continua de onde parou.';
 
 export const displayNameKey = ['remote', 'profile', 'display-name'] as const;
 

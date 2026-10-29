@@ -142,7 +142,24 @@ describe('failures never leave a half-deleted account that cannot be retried', (
     const { deps } = fake({ deleteUser: async () => false });
     const res = await deleteAccount(post(), deps);
     assert.equal(res.status, 500);
-    assert.deepEqual(await body(res), { error: 'delete_failed' });
+    assert.deepEqual(await body(res), { error: 'delete_failed', files_removed: true });
+  });
+
+  test('a transient user-deletion failure is retried and then succeeds', async () => {
+    let calls = 0;
+    const { deps } = fake({ deleteUser: async () => ++calls >= 3 });
+    const res = await deleteAccount(post(), deps);
+    assert.equal(res.status, 200);
+    assert.equal(calls, 3);
+  });
+
+  test('a throwing user deletion is retried too, but stops after three attempts', async () => {
+    let calls = 0;
+    const { deps } = fake({ deleteUser: async () => { calls++; throw new Error('boom'); } });
+    const res = await deleteAccount(post(), deps);
+    assert.equal(res.status, 500);
+    assert.equal(calls, 3);
+    assert.deepEqual(await body(res), { error: 'delete_failed', files_removed: true });
   });
 
   test('a thrown dependency error becomes a 500 and never leaks its message', async () => {

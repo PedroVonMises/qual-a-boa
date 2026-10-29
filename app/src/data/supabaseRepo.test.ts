@@ -95,3 +95,14 @@ describe('SupabaseRepo.searchEvents', () => {
     expect(rpc).toHaveBeenCalledTimes(2);
   });
 });
+
+describe('SupabaseRepo.searchArtists', () => {
+  it('searches through the accent-folding RPC and skips blank queries', async () => {
+    const rpc = jest.fn().mockResolvedValue({ data: [{ id: 'a1', slug: 'mare', name: 'Maré', genre_slugs: [] }], error: null });
+    const repo = new SupabaseRepo('', '', { rpc } as unknown as SupabaseClient);
+    expect((await repo.searchArtists('  mare ', 5)).map((a) => a.name)).toEqual(['Maré']);
+    expect(rpc).toHaveBeenCalledWith('search_artists', { p_query: 'mare', p_limit: 5 });
+    expect(await repo.searchArtists('   ')).toEqual([]);
+    expect(rpc).toHaveBeenCalledTimes(1);
+  });
+});

@@ -141,7 +141,7 @@ describe('erasing the account', () => {
     install({ invokeError: { message: 'FunctionsHttpError' } });
     await openConfirm();
     await fireEvent.press(await screen.findByTestId('conta-confirmar-apagar'));
-    expect(await screen.findByText(/Nada foi alterado/)).toBeTruthy();
+    expect(await screen.findByText(/continua de onde parou/)).toBeTruthy();
     expect(useFavorites.getState().eventIds).toEqual(['e1']);
     expect(mockReplace).not.toHaveBeenCalled();
     expect(calls.find((c) => c[0] === 'signOut')).toBeUndefined();

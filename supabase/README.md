@@ -29,6 +29,8 @@ migrations/0006_catalog_ingest.sql events.source/source_id/source_url/fetched_at
                                    writes service_role only); cover_key CHECK relaxed to ^[a-z0-9:_-]{1,48}$ on venues and events;
                                    search_events returns image_url after cover_key (function dropped, recreated, grants re-applied).
                                    Tests: tests/catalog_ingest.test.ts. Used by ingest/ and the static feed (docs/INGESTION.md)
+migrations/0008_search_artists.sql  search_artists(p_query, p_limit): accent-insensitive artist search via fold_text; pins
+                                   search_path on haversine_km, fold_text, valid_review_topics/tags. Tests: tests/search.test.ts
 tests/harness.ts                   PGlite + stub auth schema + roles anon/authenticated/service_role
 tests/reference.ts                 TS reading of the search spec used to cross-check the SQL
 tests/fixtures/seed-fixed.json     dataset with now = 2026-10-23T12:00:00Z
@@ -77,7 +79,7 @@ Returns event columns plus `genre_slugs` (taxonomy order), `artist_ids` (billing
 
 ## Remote Supabase project
 
-Project `qualaboa` (ref `kcwtbmznclayplexoxhc`, us-west-2, Postgres 17) has migrations 0001–0006 applied (2026-10-28).
+Project `qualaboa` (ref `kcwtbmznclayplexoxhc`, us-west-2, Postgres 17) has migrations 0001–0008 applied (2026-10-29).
 The catalog tables are empty: the seed is not loaded. Anonymous sign-ins must be enabled in Authentication > Sign In / Providers.
 The generic steps below apply to attaching any other project.
 

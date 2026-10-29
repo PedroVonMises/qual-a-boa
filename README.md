@@ -6,7 +6,7 @@ Nightlife discovery app for Vitória, ES (Brazil): browse clubs and parties by m
 
 ## What exists
 - `app/`: Expo SDK 58 app. Screens: age gate and onboarding, Explorar, Filtros, Mapa, Evento, Casa, Artista, Salvos, Perfil, Acompanhar, Ao vivo, Avaliar/Avaliações, Ajuda, Entrar (e-mail code), Minha conta (name, export, erase), Meus eventos, UI gallery (`/dev/ui`). Still missing: photo uploads in the UI (backend ready).
-- `supabase/`: migrations 0001–0007 (schema, `search_events`, RLS, history views, engagement, catalog ingest, photo-upload buckets), the `delete-account` Edge Function (`supabase/functions`), seed generator and local SQL tests (PGlite). A remote project is attached; see `supabase/README.md`.
+- `supabase/`: migrations 0001–0008 (schema, `search_events`, RLS, history views, engagement, catalog ingest, photo-upload buckets, `search_artists`), the `delete-account` Edge Function (`supabase/functions`), seed generator and local SQL tests (PGlite). A remote project is attached; see `supabase/README.md`.
 - `ingest/`: event ingestion CLI that produces the static feed in `app/public/feed/v1`.
 - `docs/`: design system (`DESIGN.md`), venue research, design audit, architecture and file ownership, and the HTML design mockups (`design-canvas/`).
 

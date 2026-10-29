@@ -298,11 +298,10 @@ export class SupabaseRepo implements Repo {
   }
 
   async searchArtists(query: string, limit = 10): Promise<Artist[]> {
-    const q = query.trim().replace(/[%,()]/g, ' ');
+    const q = query.trim();
     if (!q) return [];
-    const rows = await this.wrap<Row[]>('artistas', () =>
-      this.client.from('artists').select('*').ilike('name', `%${q.replace(/[\\%_]/g, '\\$&')}%`).order('name').limit(limit),
-    );
+    // Server-side fold_text, so "mare" finds "Maré" exactly like SeedRepo.
+    const rows = await this.wrap<Row[]>('artistas', () => this.client.rpc('search_artists', { p_query: q, p_limit: limit }));
     return rows.map(mapArtist);
   }
 }

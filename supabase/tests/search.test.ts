@@ -249,3 +249,26 @@ describe('SQL vs reference implementation, randomized', () => {
     }
   });
 });
+
+describe('search_artists', () => {
+  const names = async (q: string | null, limit?: number) =>
+    (await db.query<{ name: string }>(`select name from public.search_artists($1, $2)`, [q, limit ?? 10])).rows.map((r) => r.name);
+
+  test('matches like the JS reference: accent- and case-insensitive substring, name order', async () => {
+    for (const q of ['dj', 'mare', 'MARÉ', 'a', 'zzz-no-match']) {
+      const expected = ds.artists
+        .filter((a) => fold(a.name).includes(fold(q)))
+        .map((a) => a.name)
+        .sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
+        .slice(0, 10);
+      assert.deepEqual((await names(q)).slice().sort(), expected.slice().sort(), q);
+    }
+  });
+
+  test('blank or null query returns nothing; limit is honored and capped', async () => {
+    assert.deepEqual(await names('   '), []);
+    assert.deepEqual(await names(null), []);
+    assert.equal((await names('a', 2)).length, 2);
+    assert.ok((await names('a', 10_000)).length <= 50);
+  });
+});
