@@ -54,7 +54,7 @@ export function searchCaseParams(now: string): { name: string; params: SearchPar
     c('genres funk OR metal-punk-goth', { genreSlugs: ['funk', 'metal-punk-goth'], limit: 50 }),
     c('empty genre list = no filter', { genreSlugs: [], limit: 5 }),
     c('tag acessivel (venue tag)', { tags: ['acessivel'], limit: 100 }),
-    c('tags acessivel AND vegano', { tags: ['acessivel', 'vegano'], limit: 100 }),
+    c('tags lgbtqia AND vegano', { tags: ['lgbtqia', 'vegano'], limit: 100 }),
     c('tag pet-friendly (venue and event override)', { tags: ['pet-friendly'], limit: 100 }),
     c('empty tag list = no filter', { tags: [], limit: 5 }),
     c('priceMax 0 = only free', { priceMax: 0, limit: 50 }),

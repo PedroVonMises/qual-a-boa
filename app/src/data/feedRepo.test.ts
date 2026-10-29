@@ -243,3 +243,16 @@ describe('FeedRepo / SeedRepo contract', () => {
     expect(await feed.searchArtists('dj')).toEqual(await seedRepo.searchArtists('dj'));
   });
 });
+
+describe('validateFeed tags', () => {
+  it('keeps known tags and drops unknown ones without rejecting the row', () => {
+    const feed = {
+      ...miniDataset,
+      venues: miniDataset.venues.map((v) => (v.id === 'v1' ? { ...v, accessTags: ['vegano', 'nope'] } : v)),
+    };
+    const out = validateFeed(feed);
+    expect(out).not.toBeNull();
+    expect(out!.venues.find((v) => v.id === 'v1')!.accessTags).toEqual(['vegano']);
+    expect(out!.venues.find((v) => v.id === 'v2')!.accessTags).toBeUndefined();
+  });
+});

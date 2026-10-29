@@ -15,6 +15,7 @@ import {
   type Venue,
   type VenueDetail,
 } from '@/domain/types';
+import { cleanTags } from '@/domain/accessTags';
 import { haversineKm } from '@/domain/geo';
 import type { Repo } from './repo';
 
@@ -59,6 +60,7 @@ export function mapVenue(r: Row): Venue {
     status: r.status,
     adultOnly: pick<boolean>(r, 'adult_only', 'adultOnly') ?? false,
     genreSlugs: pick<string[] | null>(r, 'genre_slugs', 'genreSlugs') ?? [],
+    accessTags: cleanTags(pick<string[] | null>(r, 'access_tags', 'accessTags')),
     hours: r.hours ?? undefined,
     coverKey: (pick<string | null>(r, 'cover_key', 'coverKey') ?? 'generic') as CoverKey,
     placeholder: r.placeholder ?? false,
@@ -89,6 +91,7 @@ export function mapEvent(r: Row): EventItem {
     imageUrl: pick<string | null>(r, 'image_url', 'imageUrl') ?? undefined,
     ageMin: pick<number | null>(r, 'age_min', 'ageMin') ?? 18,
     genreSlugs,
+    accessTags: cleanTags(pick<string[] | null>(r, 'access_tags', 'accessTags')),
     artistIds,
     status: r.status,
     coverKey: (pick<string | null>(r, 'cover_key', 'coverKey') ?? 'generic') as CoverKey,
@@ -179,6 +182,8 @@ export class SupabaseRepo implements Repo {
         // Only send p_now when set: an explicit null defeats the SQL default (now()) and `starts_at >= coalesce(
         // p_date_from, p_now)` then matches nothing.
         ...(params.now ? { p_now: params.now } : {}),
+        // Only send p_tags when set, so unfiltered searches also work against a database that has not run 0009 yet.
+        ...(params.tags?.length ? { p_tags: params.tags } : {}),
       }),
     );
     // Flat columns per row: event fields, venue_* fields, distance_km, total_count.

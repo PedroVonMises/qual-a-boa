@@ -1,3 +1,4 @@
+import { effectiveTags, matchesTags } from '@/domain/accessTags';
 import { haversineKm } from '@/domain/geo';
 import {
   DEFAULT_LOCATION,
@@ -126,6 +127,7 @@ export class SeedRepo implements Repo {
       const distanceKm = haversineKm(params.lat, params.lng, venue.lat, venue.lng);
       if (distanceKm > params.radiusKm) continue;
       if (genres && !event.genreSlugs.some((g) => genres.has(g))) continue;
+      if (params.tags?.length && !matchesTags(effectiveTags(venue, event), params.tags)) continue;
       if (params.priceMax != null) {
         if (params.priceMax === 0) {
           if (!event.isFree) continue;

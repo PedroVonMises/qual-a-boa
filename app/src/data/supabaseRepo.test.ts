@@ -106,3 +106,20 @@ describe('SupabaseRepo.searchArtists', () => {
     expect(rpc).toHaveBeenCalledTimes(1);
   });
 });
+
+describe('SupabaseRepo tags', () => {
+  it('sends p_tags only when tags are set', async () => {
+    const client = fakeClient([row]);
+    const repo = new SupabaseRepo('', '', client);
+    await repo.searchEvents({ lat: -20.3, lng: -40.29, radiusKm: 5, sort: 'date', tags: ['acessivel'] });
+    expect((client.rpc as jest.Mock).mock.calls[0][1]).toMatchObject({ p_tags: ['acessivel'] });
+    await repo.searchEvents({ lat: -20.3, lng: -40.29, radiusKm: 5, sort: 'date' });
+    const sent = (client.rpc as jest.Mock).mock.calls[1][1] as Record<string, unknown>;
+    expect('p_tags' in sent).toBe(false);
+  });
+
+  it('maps access_tags on the RPC row to event.accessTags', () => {
+    const item = mapSearchRow({ ...row, access_tags: ['acessivel', 'vegano'] });
+    expect(item.event.accessTags).toEqual(['acessivel', 'vegano']);
+  });
+});

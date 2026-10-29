@@ -130,3 +130,23 @@ describe('SeedRepo details', () => {
     expect(await repo.listAreas()).toEqual(['Jardim da Penha', 'Praia do Canto', 'Vila Velha']);
   });
 });
+
+describe('SeedRepo tags', () => {
+  const ds = {
+    ...miniDataset,
+    venues: miniDataset.venues.map((v) => (v.id === 'v1' ? { ...v, accessTags: ['acessivel' as const] } : v)),
+    events: miniDataset.events.map((e) => (e.id === 'e02' ? { ...e, accessTags: ['vegano' as const] } : e)),
+  };
+  const tagRepo = new SeedRepo(ds, () => Date.parse(MINI_NOW));
+  const tagBase: SearchParams = { ...base, radiusKm: 50, limit: 100 };
+
+  it('matches venue tags and event tags, ANDed', async () => {
+    const venueTag = await tagRepo.searchEvents({ ...tagBase, tags: ['acessivel'] });
+    expect(venueTag.items.length).toBeGreaterThan(0);
+    expect(venueTag.items.every((i) => i.venue.id === 'v1')).toBe(true);
+    const eventTag = await tagRepo.searchEvents({ ...tagBase, tags: ['vegano'] });
+    expect(eventTag.items.map((i) => i.event.id)).toEqual(['e02']);
+    const both = await tagRepo.searchEvents({ ...tagBase, tags: ['acessivel', 'vegano'] });
+    expect(both.items).toEqual([]);
+  });
+});
