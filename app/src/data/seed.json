@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T23:42:53.321Z",
+  "generatedAt": "2026-10-24T23:16:07.037Z",
   "genres": [
     {
       "id": "18927a65-f850-38b3-a5ba-33a476a24a9b",
@@ -476,8 +476,8 @@
       "id": "38be43b7-a041-38df-9b94-59364ba070e7",
       "title": "Carnaval na Selva",
       "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
-      "startsAt": "2026-05-16T23:00:00.000Z",
-      "endsAt": "2026-05-17T04:00:00.000Z",
+      "startsAt": "2026-05-09T23:00:00.000Z",
+      "endsAt": "2026-05-10T04:00:00.000Z",
       "priceMin": 30,
       "priceMax": 60,
       "isFree": false,
@@ -499,8 +499,8 @@
       "id": "818cd6bc-847b-37be-ba8b-dc169b28cc2a",
       "title": "Samba na Caipora",
       "venueId": "2e5c8fe5-e734-31b1-86f7-261ab393934b",
-      "startsAt": "2026-05-30T22:00:00.000Z",
-      "endsAt": "2026-05-31T03:00:00.000Z",
+      "startsAt": "2026-05-23T22:00:00.000Z",
+      "endsAt": "2026-05-24T03:00:00.000Z",
       "priceMin": 0,
       "priceMax": 0,
       "isFree": true,
@@ -519,8 +519,8 @@
       "id": "34166989-db89-3a67-95d7-e6139ecd270c",
       "title": "Metal Capixaba Fest",
       "venueId": "58a224b8-1eeb-343a-8bf0-2e015cfa81ab",
-      "startsAt": "2026-06-14T01:00:00.000Z",
-      "endsAt": "2026-06-14T06:00:00.000Z",
+      "startsAt": "2026-06-07T01:00:00.000Z",
+      "endsAt": "2026-06-07T06:00:00.000Z",
       "priceMin": 40,
       "priceMax": 60,
       "isFree": false,
@@ -562,8 +562,8 @@
       "id": "eb7b48ed-ba35-31d0-ae69-61b6aaf4d40d",
       "title": "Rock no Pub",
       "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
-      "startsAt": "2026-07-12T01:00:00.000Z",
-      "endsAt": "2026-07-12T06:00:00.000Z",
+      "startsAt": "2026-07-05T01:00:00.000Z",
+      "endsAt": "2026-07-05T06:00:00.000Z",
       "priceMin": 20,
       "priceMax": 30,
       "isFree": false,
@@ -583,8 +583,8 @@
       "id": "9c808286-ac2e-3202-86ee-fac1be106529",
       "title": "Caipora Eletrônica",
       "venueId": "2e5c8fe5-e734-31b1-86f7-261ab393934b",
-      "startsAt": "2026-07-19T02:00:00.000Z",
-      "endsAt": "2026-07-19T07:00:00.000Z",
+      "startsAt": "2026-07-12T02:00:00.000Z",
+      "endsAt": "2026-07-12T07:00:00.000Z",
       "priceMin": 25,
       "priceMax": 35,
       "isFree": false,
@@ -626,8 +626,8 @@
       "id": "451522e8-37d0-32a4-9527-0f53758d7b2b",
       "title": "Maré Alta",
       "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
-      "startsAt": "2026-08-02T01:00:00.000Z",
-      "endsAt": "2026-08-02T06:00:00.000Z",
+      "startsAt": "2026-07-26T01:00:00.000Z",
+      "endsAt": "2026-07-26T06:00:00.000Z",
       "priceMin": 35,
       "priceMax": 50,
       "isFree": false,
@@ -648,8 +648,8 @@
       "id": "77635165-57a3-3f53-9d0f-83f39eec71ed",
       "title": "Baile da Selva",
       "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
-      "startsAt": "2026-08-09T02:00:00.000Z",
-      "endsAt": "2026-08-09T07:00:00.000Z",
+      "startsAt": "2026-08-02T02:00:00.000Z",
+      "endsAt": "2026-08-02T07:00:00.000Z",
       "priceMin": 30,
       "priceMax": 50,
       "isFree": false,
@@ -670,8 +670,8 @@
       "id": "1c985313-c79b-3ec2-a4e1-b5c41b5ae25d",
       "title": "Pagode de Sábado",
       "venueId": "6501df07-02c0-3cad-8679-e6913649a4c0",
-      "startsAt": "2026-08-15T21:00:00.000Z",
-      "endsAt": "2026-08-16T02:00:00.000Z",
+      "startsAt": "2026-08-08T21:00:00.000Z",
+      "endsAt": "2026-08-09T02:00:00.000Z",
       "priceMin": 20,
       "priceMax": 30,
       "isFree": false,
@@ -710,6 +710,27 @@
       "ticketUrl": "https://example.com/ingressos/casa-caipora-rap-na-caipora-p10"
     },
     {
+      "id": "349f5d0e-41b7-30f7-b7e2-6498db993f5f",
+      "title": "Funk na Penha",
+      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
+      "startsAt": "2026-08-23T02:00:00.000Z",
+      "endsAt": "2026-08-23T07:00:00.000Z",
+      "priceMin": 30,
+      "priceMax": 40,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "funk"
+      ],
+      "artistIds": [
+        "512cb209-39e2-3737-b3b2-973c39177006"
+      ],
+      "status": "published",
+      "coverKey": "art:galera:violeta-ciano:b",
+      "popularity": 80,
+      "ticketUrl": "https://example.com/ingressos/bolt-funk-na-penha-p9"
+    },
+    {
       "id": "2d9b2a7f-9090-3028-ba99-d459f42442df",
       "title": "Fluente Funk",
       "venueId": "6044b871-24cc-3115-90e1-eec363cf3450",
@@ -729,27 +750,6 @@
       "coverKey": "art:neon:sol-vinho:d",
       "popularity": 72,
       "ticketUrl": "https://example.com/ingressos/fluente-fluente-funk-p9"
-    },
-    {
-      "id": "349f5d0e-41b7-30f7-b7e2-6498db993f5f",
-      "title": "Funk na Penha",
-      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
-      "startsAt": "2026-08-30T02:00:00.000Z",
-      "endsAt": "2026-08-30T07:00:00.000Z",
-      "priceMin": 30,
-      "priceMax": 40,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "funk"
-      ],
-      "artistIds": [
-        "512cb209-39e2-3737-b3b2-973c39177006"
-      ],
-      "status": "published",
-      "coverKey": "art:galera:violeta-ciano:b",
-      "popularity": 80,
-      "ticketUrl": "https://example.com/ingressos/bolt-funk-na-penha-p9"
     },
     {
       "id": "4be73533-5fe4-378f-a0d0-35a25866042f",
@@ -795,6 +795,27 @@
       "ticketUrl": "https://example.com/ingressos/a-selva-discotopia-p7"
     },
     {
+      "id": "30502564-7e92-3dda-a095-9d6a299f37dd",
+      "title": "Samba na Caipora",
+      "venueId": "2e5c8fe5-e734-31b1-86f7-261ab393934b",
+      "startsAt": "2026-09-12T22:00:00.000Z",
+      "endsAt": "2026-09-13T03:00:00.000Z",
+      "priceMin": 20,
+      "priceMax": 20,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pagode-samba"
+      ],
+      "artistIds": [
+        "92c5ee5f-2c70-35bf-af83-ed0b17eac919"
+      ],
+      "status": "published",
+      "coverKey": "art:palmas:coral-marinho:b",
+      "popularity": 74,
+      "ticketUrl": "https://example.com/ingressos/casa-caipora-samba-na-caipora-p6"
+    },
+    {
       "id": "c26a1b48-d1ac-3ee6-8623-45e21ab35b57",
       "title": "Anos 80 & 90",
       "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
@@ -815,27 +836,6 @@
       "coverKey": "art:vinil:ceu-poente:a",
       "popularity": 73,
       "ticketUrl": "https://example.com/ingressos/pub-426-anos-80-e-90-p6"
-    },
-    {
-      "id": "30502564-7e92-3dda-a095-9d6a299f37dd",
-      "title": "Samba na Caipora",
-      "venueId": "2e5c8fe5-e734-31b1-86f7-261ab393934b",
-      "startsAt": "2026-09-19T22:00:00.000Z",
-      "endsAt": "2026-09-20T03:00:00.000Z",
-      "priceMin": 20,
-      "priceMax": 20,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "pagode-samba"
-      ],
-      "artistIds": [
-        "92c5ee5f-2c70-35bf-af83-ed0b17eac919"
-      ],
-      "status": "published",
-      "coverKey": "art:palmas:coral-marinho:b",
-      "popularity": 74,
-      "ticketUrl": "https://example.com/ingressos/casa-caipora-samba-na-caipora-p6"
     },
     {
       "id": "d310b4a5-20b0-3f0a-9556-9403f893d0f8",
@@ -880,6 +880,27 @@
       "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-p5"
     },
     {
+      "id": "f66b6456-fd1a-3f9f-8c2a-a58d7879c7ab",
+      "title": "Show Cancelado",
+      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
+      "startsAt": "2026-09-27T02:00:00.000Z",
+      "endsAt": "2026-09-27T07:00:00.000Z",
+      "priceMin": 30,
+      "priceMax": 30,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "metal-punk-goth"
+      ],
+      "artistIds": [
+        "7910d733-aedc-375b-ac83-61aaee365692"
+      ],
+      "status": "cancelled",
+      "coverKey": "art:raio:coral-marinho:d",
+      "popularity": 20,
+      "ticketUrl": "https://example.com/ingressos/bolt-show-cancelado-p4"
+    },
+    {
       "id": "00e48332-dc40-359d-9d3b-2caf931ca65b",
       "title": "Quinta do Samba",
       "venueId": "6501df07-02c0-3cad-8679-e6913649a4c0",
@@ -900,25 +921,25 @@
       "popularity": 66
     },
     {
-      "id": "f66b6456-fd1a-3f9f-8c2a-a58d7879c7ab",
-      "title": "Show Cancelado",
-      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
-      "startsAt": "2026-10-04T02:00:00.000Z",
-      "endsAt": "2026-10-04T07:00:00.000Z",
-      "priceMin": 30,
+      "id": "222f27e4-78c1-3424-b623-73673f225d20",
+      "title": "Noite do Pagodão",
+      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
+      "startsAt": "2026-10-04T01:00:00.000Z",
+      "endsAt": "2026-10-04T06:00:00.000Z",
+      "priceMin": 20,
       "priceMax": 30,
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
-        "metal-punk-goth"
+        "pagode-samba"
       ],
       "artistIds": [
-        "7910d733-aedc-375b-ac83-61aaee365692"
+        "92c5ee5f-2c70-35bf-af83-ed0b17eac919"
       ],
-      "status": "cancelled",
-      "coverKey": "art:raio:coral-marinho:d",
-      "popularity": 20,
-      "ticketUrl": "https://example.com/ingressos/bolt-show-cancelado-p4"
+      "status": "published",
+      "coverKey": "art:ondas:menta-amora:c",
+      "popularity": 78,
+      "ticketUrl": "https://example.com/ingressos/a-selva-noite-do-pagodao-p3"
     },
     {
       "id": "53fbe425-0158-336c-9130-7ae718811a67",
@@ -945,32 +966,11 @@
       "ticketUrl": "https://example.com/ingressos/casa-caipora-despedida-da-caipora-p3"
     },
     {
-      "id": "222f27e4-78c1-3424-b623-73673f225d20",
-      "title": "Noite do Pagodão",
-      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
-      "startsAt": "2026-10-11T01:00:00.000Z",
-      "endsAt": "2026-10-11T06:00:00.000Z",
-      "priceMin": 20,
-      "priceMax": 30,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "pagode-samba"
-      ],
-      "artistIds": [
-        "92c5ee5f-2c70-35bf-af83-ed0b17eac919"
-      ],
-      "status": "published",
-      "coverKey": "art:ondas:menta-amora:c",
-      "popularity": 78,
-      "ticketUrl": "https://example.com/ingressos/a-selva-noite-do-pagodao-p3"
-    },
-    {
       "id": "9aef8c27-b44a-3527-b977-dd76eb87a9e1",
       "title": "Match",
       "venueId": "6044b871-24cc-3115-90e1-eec363cf3450",
-      "startsAt": "2026-10-18T01:00:00.000Z",
-      "endsAt": "2026-10-18T06:00:00.000Z",
+      "startsAt": "2026-10-11T01:00:00.000Z",
+      "endsAt": "2026-10-11T06:00:00.000Z",
       "priceMin": 30,
       "priceMax": 50,
       "isFree": false,
@@ -992,8 +992,8 @@
       "id": "aa8eab3f-bec1-3053-b868-c6dbf4eaa659",
       "title": "Noite Gótica",
       "venueId": "58a224b8-1eeb-343a-8bf0-2e015cfa81ab",
-      "startsAt": "2026-10-18T01:00:00.000Z",
-      "endsAt": "2026-10-18T06:00:00.000Z",
+      "startsAt": "2026-10-11T01:00:00.000Z",
+      "endsAt": "2026-10-11T06:00:00.000Z",
       "priceMin": 20,
       "priceMax": 30,
       "isFree": false,
@@ -1013,8 +1013,8 @@
       "id": "71d313c7-1b51-36b0-b7e5-e623b5eea1ae",
       "title": "Bolt Indie Club",
       "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
-      "startsAt": "2026-10-18T02:00:00.000Z",
-      "endsAt": "2026-10-18T07:00:00.000Z",
+      "startsAt": "2026-10-11T02:00:00.000Z",
+      "endsAt": "2026-10-11T07:00:00.000Z",
       "priceMin": 35,
       "priceMax": 45,
       "isFree": false,
@@ -1029,6 +1029,47 @@
       "coverKey": "art:guitarra:lima-ameixa:b",
       "popularity": 72,
       "ticketUrl": "https://example.com/ingressos/bolt-bolt-indie-club-p2"
+    },
+    {
+      "id": "c7082424-fef4-3f25-8ab2-4e37505330f2",
+      "title": "Pagode de Sábado",
+      "venueId": "6501df07-02c0-3cad-8679-e6913649a4c0",
+      "startsAt": "2026-10-17T21:00:00.000Z",
+      "endsAt": "2026-10-18T02:00:00.000Z",
+      "priceMin": 20,
+      "priceMax": 30,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pagode-samba"
+      ],
+      "artistIds": [
+        "6855ae57-afdb-3854-a20e-e9613cdd8063"
+      ],
+      "status": "published",
+      "coverKey": "art:galera:esmeralda-pessego:a",
+      "popularity": 79,
+      "ticketUrl": "https://example.com/ingressos/gordinho-pagode-de-sabado-p1"
+    },
+    {
+      "id": "a5ddb53e-970c-3303-b135-efa417d240fb",
+      "title": "Karaokê de Quarta",
+      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
+      "startsAt": "2026-10-22T00:00:00.000Z",
+      "endsAt": "2026-10-22T05:00:00.000Z",
+      "priceMin": 0,
+      "priceMax": 0,
+      "isFree": true,
+      "ageMin": 18,
+      "genreSlugs": [
+        "karaoke-ao-vivo"
+      ],
+      "artistIds": [
+        "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
+      ],
+      "status": "published",
+      "coverKey": "art:neon:esmeralda-pessego:b",
+      "popularity": 53
     },
     {
       "id": "fb69d5a7-fddf-327b-a458-107151041a2f",
@@ -1096,52 +1137,11 @@
       "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-p1"
     },
     {
-      "id": "c7082424-fef4-3f25-8ab2-4e37505330f2",
-      "title": "Pagode de Sábado",
-      "venueId": "6501df07-02c0-3cad-8679-e6913649a4c0",
-      "startsAt": "2026-10-24T21:00:00.000Z",
-      "endsAt": "2026-10-25T02:00:00.000Z",
-      "priceMin": 20,
-      "priceMax": 30,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "pagode-samba"
-      ],
-      "artistIds": [
-        "6855ae57-afdb-3854-a20e-e9613cdd8063"
-      ],
-      "status": "published",
-      "coverKey": "art:galera:esmeralda-pessego:a",
-      "popularity": 79,
-      "ticketUrl": "https://example.com/ingressos/gordinho-pagode-de-sabado-p1"
-    },
-    {
-      "id": "a5ddb53e-970c-3303-b135-efa417d240fb",
-      "title": "Karaokê de Quarta",
-      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
-      "startsAt": "2026-10-29T00:00:00.000Z",
-      "endsAt": "2026-10-29T05:00:00.000Z",
-      "priceMin": 0,
-      "priceMax": 0,
-      "isFree": true,
-      "ageMin": 18,
-      "genreSlugs": [
-        "karaoke-ao-vivo"
-      ],
-      "artistIds": [
-        "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
-      ],
-      "status": "published",
-      "coverKey": "art:neon:esmeralda-pessego:b",
-      "popularity": 53
-    },
-    {
       "id": "7f894708-b0fc-3c0b-b14a-40e8f0cd8c64",
       "title": "Maré Baixa",
       "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
-      "startsAt": "2026-10-29T15:42:53.321Z",
-      "endsAt": "2026-10-29T20:42:53.321Z",
+      "startsAt": "2026-10-24T15:16:07.037Z",
+      "endsAt": "2026-10-24T20:16:07.037Z",
       "priceMin": 25,
       "priceMax": 35,
       "isFree": false,
@@ -1162,8 +1162,8 @@
       "id": "75f0ee04-617f-357c-b238-db52f29008cc",
       "title": "Maré Cheia",
       "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
-      "startsAt": "2026-10-29T22:42:53.321Z",
-      "endsAt": "2026-10-30T03:42:53.321Z",
+      "startsAt": "2026-10-24T22:16:07.037Z",
+      "endsAt": "2026-10-25T03:16:07.037Z",
       "priceMin": 35,
       "priceMax": 50,
       "isFree": false,
@@ -1180,6 +1180,160 @@
       "popularity": 90,
       "accessTags": [],
       "ticketUrl": "https://example.com/ingressos/casa-mare-demo-agora"
+    },
+    {
+      "id": "3617fd16-9f81-399d-bef1-881a9988aa76",
+      "title": "Match",
+      "venueId": "6044b871-24cc-3115-90e1-eec363cf3450",
+      "startsAt": "2026-10-25T01:00:00.000Z",
+      "endsAt": "2026-10-25T06:00:00.000Z",
+      "priceMin": 30,
+      "priceMax": 50,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "funk",
+        "sertanejo",
+        "pop-hits"
+      ],
+      "artistIds": [
+        "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b",
+        "512cb209-39e2-3737-b3b2-973c39177006"
+      ],
+      "status": "published",
+      "coverKey": "art:galera:lima-ameixa:d",
+      "popularity": 83,
+      "ticketUrl": "https://example.com/ingressos/fluente-match-w0"
+    },
+    {
+      "id": "e07499e8-9f13-37ef-95f2-40d7fdf05490",
+      "title": "Noite do Pagodão",
+      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
+      "startsAt": "2026-10-25T01:00:00.000Z",
+      "endsAt": "2026-10-25T06:00:00.000Z",
+      "priceMin": 20,
+      "priceMax": 30,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pagode-samba"
+      ],
+      "artistIds": [
+        "92c5ee5f-2c70-35bf-af83-ed0b17eac919",
+        "2cb88238-8b85-3523-93b8-23f16dbe785b"
+      ],
+      "status": "published",
+      "coverKey": "art:galera:violeta-ciano:b",
+      "popularity": 79,
+      "ticketUrl": "https://example.com/ingressos/a-selva-noite-do-pagodao-w0"
+    },
+    {
+      "id": "f24b7bab-518f-36a3-878d-38d2e38095cb",
+      "title": "Noite Gótica",
+      "venueId": "58a224b8-1eeb-343a-8bf0-2e015cfa81ab",
+      "startsAt": "2026-10-25T01:00:00.000Z",
+      "endsAt": "2026-10-25T06:00:00.000Z",
+      "priceMin": 20,
+      "priceMax": 30,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "metal-punk-goth"
+      ],
+      "artistIds": [
+        "72cb1b78-5c53-368f-8632-b20a8590cb59"
+      ],
+      "status": "published",
+      "coverKey": "art:penha:coral-marinho:b",
+      "popularity": 57,
+      "ticketUrl": "https://example.com/ingressos/correria-music-bar-noite-gotica-w0"
+    },
+    {
+      "id": "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
+      "title": "Maré Vazante",
+      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
+      "startsAt": "2026-10-25T01:16:07.037Z",
+      "endsAt": "2026-10-25T06:16:07.037Z",
+      "priceMin": 30,
+      "priceMax": 40,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pop-hits"
+      ],
+      "artistIds": [
+        "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
+      ],
+      "status": "published",
+      "coverKey": "art:disco:anil-ouro:a",
+      "popularity": 80,
+      "accessTags": [
+        "pet-friendly"
+      ],
+      "ticketUrl": "https://example.com/ingressos/casa-mare-demo-em-breve"
+    },
+    {
+      "id": "39fddc4f-3496-3d5e-90d3-7ad7853923bd",
+      "title": "Bolt Indie Club",
+      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
+      "startsAt": "2026-10-25T02:00:00.000Z",
+      "endsAt": "2026-10-25T07:00:00.000Z",
+      "priceMin": 35,
+      "priceMax": 45,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pop-hits",
+        "rock-indie"
+      ],
+      "artistIds": [
+        "627a8486-6de8-3f6e-95dd-5189add7041c",
+        "b5765942-93ba-3552-bff9-e08d8e14c207"
+      ],
+      "status": "published",
+      "coverKey": "art:skyline:menta-amora:c",
+      "popularity": 76,
+      "ticketUrl": "https://example.com/ingressos/bolt-bolt-indie-club-w0"
+    },
+    {
+      "id": "91eaecd1-4fb7-3a25-83ec-b3a7e87a0ac7",
+      "title": "Karaokê de Quarta",
+      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
+      "startsAt": "2026-10-29T00:00:00.000Z",
+      "endsAt": "2026-10-29T05:00:00.000Z",
+      "priceMin": 0,
+      "priceMax": 0,
+      "isFree": true,
+      "ageMin": 18,
+      "genreSlugs": [
+        "karaoke-ao-vivo"
+      ],
+      "artistIds": [
+        "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
+      ],
+      "status": "published",
+      "coverKey": "art:guitarra:tangerina-petroleo:c",
+      "popularity": 55
+    },
+    {
+      "id": "31705c72-a71b-3a9f-b38b-341394f8b15a",
+      "title": "Quinta do Samba",
+      "venueId": "6501df07-02c0-3cad-8679-e6913649a4c0",
+      "startsAt": "2026-10-29T23:00:00.000Z",
+      "endsAt": "2026-10-30T04:00:00.000Z",
+      "priceMin": 0,
+      "priceMax": 0,
+      "isFree": true,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pagode-samba"
+      ],
+      "artistIds": [
+        "2cb88238-8b85-3523-93b8-23f16dbe785b"
+      ],
+      "status": "published",
+      "coverKey": "art:ondas:rosa-ambar:d",
+      "popularity": 68
     },
     {
       "id": "4a3e47a3-c12f-39b7-905c-0dd8b2e9f575",
@@ -1201,30 +1355,6 @@
       "coverKey": "art:penha:coral-marinho:d",
       "popularity": 60,
       "ticketUrl": "https://example.com/ingressos/casa-mare-quinta-sertaneja-w0"
-    },
-    {
-      "id": "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
-      "title": "Maré Vazante",
-      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
-      "startsAt": "2026-10-30T01:42:53.321Z",
-      "endsAt": "2026-10-30T06:42:53.321Z",
-      "priceMin": 30,
-      "priceMax": 40,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "pop-hits"
-      ],
-      "artistIds": [
-        "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
-      ],
-      "status": "published",
-      "coverKey": "art:disco:anil-ouro:a",
-      "popularity": 80,
-      "accessTags": [
-        "pet-friendly"
-      ],
-      "ticketUrl": "https://example.com/ingressos/casa-mare-demo-em-breve"
     },
     {
       "id": "c731778b-f2cc-35fb-b6d1-89c9440b4280",
@@ -1338,80 +1468,80 @@
       "ticketUrl": "https://example.com/ingressos/gordinho-pagode-de-sabado-w0"
     },
     {
-      "id": "3617fd16-9f81-399d-bef1-881a9988aa76",
-      "title": "Match",
-      "venueId": "6044b871-24cc-3115-90e1-eec363cf3450",
+      "id": "04dbb15c-0529-34c5-a430-26b9f31faae8",
+      "title": "Rock no Pub",
+      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
       "startsAt": "2026-11-01T01:00:00.000Z",
       "endsAt": "2026-11-01T06:00:00.000Z",
+      "priceMin": 20,
+      "priceMax": 30,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "rock-indie"
+      ],
+      "artistIds": [
+        "b5765942-93ba-3552-bff9-e08d8e14c207"
+      ],
+      "status": "published",
+      "coverKey": "art:raio:violeta-ciano:d",
+      "popularity": 63,
+      "ticketUrl": "https://example.com/ingressos/pub-426-rock-no-pub-w1"
+    },
+    {
+      "id": "6e542966-331e-38e2-82be-b385bbc00cca",
+      "title": "Maré Alta",
+      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
+      "startsAt": "2026-11-01T01:00:00.000Z",
+      "endsAt": "2026-11-01T06:00:00.000Z",
+      "priceMin": 35,
+      "priceMax": 50,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "eletronica-house"
+      ],
+      "artistIds": [
+        "afd11fda-5593-3387-a6a6-4ed34dab6143",
+        "8b2d30e0-d042-3cf4-8692-b028781c7aa8"
+      ],
+      "status": "published",
+      "coverKey": "art:equalizador:esmeralda-pessego:b",
+      "popularity": 84,
+      "ticketUrl": "https://example.com/ingressos/casa-mare-mare-alta-w1"
+    },
+    {
+      "id": "63d81cfb-de92-3871-ae18-1ba1444b709b",
+      "title": "Baile da Selva",
+      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
+      "startsAt": "2026-11-01T02:00:00.000Z",
+      "endsAt": "2026-11-01T07:00:00.000Z",
       "priceMin": 30,
       "priceMax": 50,
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
         "funk",
-        "sertanejo",
-        "pop-hits"
+        "hip-hop-rnb"
       ],
       "artistIds": [
-        "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b",
-        "512cb209-39e2-3737-b3b2-973c39177006"
+        "8e444303-15a3-36c2-b22e-ef63b0e8cd42",
+        "5feceed4-aef2-374c-b729-91849468146a",
+        "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
       ],
       "status": "published",
-      "coverKey": "art:galera:lima-ameixa:d",
-      "popularity": 83,
-      "ticketUrl": "https://example.com/ingressos/fluente-match-w0"
+      "coverKey": "art:skyline:anil-ouro:a",
+      "popularity": 87,
+      "ticketUrl": "https://example.com/ingressos/a-selva-baile-da-selva-w1"
     },
     {
-      "id": "e07499e8-9f13-37ef-95f2-40d7fdf05490",
-      "title": "Noite do Pagodão",
-      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
-      "startsAt": "2026-11-01T01:00:00.000Z",
-      "endsAt": "2026-11-01T06:00:00.000Z",
-      "priceMin": 20,
-      "priceMax": 30,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "pagode-samba"
-      ],
-      "artistIds": [
-        "92c5ee5f-2c70-35bf-af83-ed0b17eac919",
-        "2cb88238-8b85-3523-93b8-23f16dbe785b"
-      ],
-      "status": "published",
-      "coverKey": "art:galera:violeta-ciano:b",
-      "popularity": 79,
-      "ticketUrl": "https://example.com/ingressos/a-selva-noite-do-pagodao-w0"
-    },
-    {
-      "id": "f24b7bab-518f-36a3-878d-38d2e38095cb",
-      "title": "Noite Gótica",
-      "venueId": "58a224b8-1eeb-343a-8bf0-2e015cfa81ab",
-      "startsAt": "2026-11-01T01:00:00.000Z",
-      "endsAt": "2026-11-01T06:00:00.000Z",
-      "priceMin": 20,
-      "priceMax": 30,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "metal-punk-goth"
-      ],
-      "artistIds": [
-        "72cb1b78-5c53-368f-8632-b20a8590cb59"
-      ],
-      "status": "published",
-      "coverKey": "art:penha:coral-marinho:b",
-      "popularity": 57,
-      "ticketUrl": "https://example.com/ingressos/correria-music-bar-noite-gotica-w0"
-    },
-    {
-      "id": "39fddc4f-3496-3d5e-90d3-7ad7853923bd",
-      "title": "Bolt Indie Club",
+      "id": "a92e1527-09a0-38b2-9f42-5782431aca47",
+      "title": "Retrô Bolt",
       "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
       "startsAt": "2026-11-01T02:00:00.000Z",
       "endsAt": "2026-11-01T07:00:00.000Z",
       "priceMin": 35,
-      "priceMax": 45,
+      "priceMax": 50,
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
@@ -1419,16 +1549,15 @@
         "rock-indie"
       ],
       "artistIds": [
-        "627a8486-6de8-3f6e-95dd-5189add7041c",
-        "b5765942-93ba-3552-bff9-e08d8e14c207"
+        "8d5c8ee8-9a40-3677-8c78-f0ba225304a0"
       ],
       "status": "published",
-      "coverKey": "art:skyline:menta-amora:c",
-      "popularity": 76,
-      "ticketUrl": "https://example.com/ingressos/bolt-bolt-indie-club-w0"
+      "coverKey": "art:skyline:rosa-oceano:b",
+      "popularity": 70,
+      "ticketUrl": "https://example.com/ingressos/bolt-retro-bolt-w1"
     },
     {
-      "id": "91eaecd1-4fb7-3a25-83ec-b3a7e87a0ac7",
+      "id": "256d60b1-db0b-39fd-b714-afb7e07e33fa",
       "title": "Karaokê de Quarta",
       "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
       "startsAt": "2026-11-05T00:00:00.000Z",
@@ -1444,11 +1573,31 @@
         "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
       ],
       "status": "published",
-      "coverKey": "art:guitarra:tangerina-petroleo:c",
-      "popularity": 55
+      "coverKey": "art:galera:coral-marinho:d",
+      "popularity": 52
     },
     {
-      "id": "31705c72-a71b-3a9f-b38b-341394f8b15a",
+      "id": "c367b07a-fcdc-386c-9d3e-86c9c5599b2c",
+      "title": "Voz e Violão na Maré",
+      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
+      "startsAt": "2026-11-05T23:00:00.000Z",
+      "endsAt": "2026-11-06T04:00:00.000Z",
+      "priceMin": 0,
+      "priceMax": 0,
+      "isFree": true,
+      "ageMin": 18,
+      "genreSlugs": [
+        "karaoke-ao-vivo"
+      ],
+      "artistIds": [
+        "6a991642-49d1-347b-9b9a-1a0a10974c58"
+      ],
+      "status": "published",
+      "coverKey": "art:vinil:violeta-ciano:b",
+      "popularity": 46
+    },
+    {
+      "id": "feb8405b-e761-3b76-a853-a9eb62d8e971",
       "title": "Quinta do Samba",
       "venueId": "6501df07-02c0-3cad-8679-e6913649a4c0",
       "startsAt": "2026-11-05T23:00:00.000Z",
@@ -1461,11 +1610,11 @@
         "pagode-samba"
       ],
       "artistIds": [
-        "2cb88238-8b85-3523-93b8-23f16dbe785b"
+        "92c5ee5f-2c70-35bf-af83-ed0b17eac919"
       ],
       "status": "published",
-      "coverKey": "art:ondas:rosa-ambar:d",
-      "popularity": 68
+      "coverKey": "art:galera:violeta-ciano:c",
+      "popularity": 65
     },
     {
       "id": "406d7573-6cf9-3e3f-bb88-3504fd176de7",
@@ -1554,96 +1703,94 @@
       "ticketUrl": "https://example.com/ingressos/bolt-funk-na-penha-w1"
     },
     {
-      "id": "04dbb15c-0529-34c5-a430-26b9f31faae8",
-      "title": "Rock no Pub",
-      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
-      "startsAt": "2026-11-08T01:00:00.000Z",
-      "endsAt": "2026-11-08T06:00:00.000Z",
-      "priceMin": 20,
-      "priceMax": 30,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "rock-indie"
-      ],
-      "artistIds": [
-        "b5765942-93ba-3552-bff9-e08d8e14c207"
-      ],
-      "status": "published",
-      "coverKey": "art:raio:violeta-ciano:d",
-      "popularity": 63,
-      "ticketUrl": "https://example.com/ingressos/pub-426-rock-no-pub-w1"
-    },
-    {
-      "id": "6e542966-331e-38e2-82be-b385bbc00cca",
-      "title": "Maré Alta",
-      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
-      "startsAt": "2026-11-08T01:00:00.000Z",
-      "endsAt": "2026-11-08T06:00:00.000Z",
-      "priceMin": 35,
-      "priceMax": 50,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "eletronica-house"
-      ],
-      "artistIds": [
-        "afd11fda-5593-3387-a6a6-4ed34dab6143",
-        "8b2d30e0-d042-3cf4-8692-b028781c7aa8"
-      ],
-      "status": "published",
-      "coverKey": "art:equalizador:esmeralda-pessego:b",
-      "popularity": 84,
-      "ticketUrl": "https://example.com/ingressos/casa-mare-mare-alta-w1"
-    },
-    {
-      "id": "63d81cfb-de92-3871-ae18-1ba1444b709b",
-      "title": "Baile da Selva",
+      "id": "9fa31382-8eed-3720-88bf-7afb0be1df23",
+      "title": "Forró de Rua",
       "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
-      "startsAt": "2026-11-08T02:00:00.000Z",
-      "endsAt": "2026-11-08T07:00:00.000Z",
+      "startsAt": "2026-11-08T00:00:00.000Z",
+      "endsAt": "2026-11-08T05:00:00.000Z",
+      "priceMin": 0,
+      "priceMax": 0,
+      "isFree": true,
+      "ageMin": 18,
+      "genreSlugs": [
+        "forro-tecnobrega"
+      ],
+      "artistIds": [
+        "00aa5331-32b6-315d-b0e9-bb527f756d33"
+      ],
+      "status": "published",
+      "coverKey": "art:ondas:esmeralda-pessego:b",
+      "popularity": 61
+    },
+    {
+      "id": "2f7b77c2-9ee0-3e7f-94ac-41920cdc7192",
+      "title": "Match",
+      "venueId": "6044b871-24cc-3115-90e1-eec363cf3450",
+      "startsAt": "2026-11-08T01:00:00.000Z",
+      "endsAt": "2026-11-08T06:00:00.000Z",
       "priceMin": 30,
       "priceMax": 50,
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
         "funk",
-        "hip-hop-rnb"
+        "sertanejo",
+        "pop-hits"
       ],
       "artistIds": [
-        "8e444303-15a3-36c2-b22e-ef63b0e8cd42",
-        "5feceed4-aef2-374c-b729-91849468146a",
-        "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
+        "5feceed4-aef2-374c-b729-91849468146a"
       ],
       "status": "published",
-      "coverKey": "art:skyline:anil-ouro:a",
-      "popularity": 87,
-      "ticketUrl": "https://example.com/ingressos/a-selva-baile-da-selva-w1"
+      "coverKey": "art:ponte:ceu-poente:b",
+      "popularity": 81,
+      "ticketUrl": "https://example.com/ingressos/fluente-match-w2"
     },
     {
-      "id": "a92e1527-09a0-38b2-9f42-5782431aca47",
-      "title": "Retrô Bolt",
-      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
-      "startsAt": "2026-11-08T02:00:00.000Z",
-      "endsAt": "2026-11-08T07:00:00.000Z",
-      "priceMin": 35,
-      "priceMax": 50,
+      "id": "cdc0f000-487a-3db6-89ea-d672e27a35c4",
+      "title": "Metal Capixaba Fest",
+      "venueId": "58a224b8-1eeb-343a-8bf0-2e015cfa81ab",
+      "startsAt": "2026-11-08T01:00:00.000Z",
+      "endsAt": "2026-11-08T06:00:00.000Z",
+      "priceMin": 40,
+      "priceMax": 60,
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
-        "pop-hits",
-        "rock-indie"
+        "rock-indie",
+        "metal-punk-goth"
       ],
       "artistIds": [
-        "8d5c8ee8-9a40-3677-8c78-f0ba225304a0"
+        "7910d733-aedc-375b-ac83-61aaee365692",
+        "b5765942-93ba-3552-bff9-e08d8e14c207"
       ],
       "status": "published",
-      "coverKey": "art:skyline:rosa-oceano:b",
-      "popularity": 70,
-      "ticketUrl": "https://example.com/ingressos/bolt-retro-bolt-w1"
+      "coverKey": "art:skyline:anil-ouro:a",
+      "popularity": 67,
+      "ticketUrl": "https://example.com/ingressos/correria-music-bar-metal-capixaba-fest-w2"
     },
     {
-      "id": "256d60b1-db0b-39fd-b714-afb7e07e33fa",
+      "id": "b8cbd8a9-4d3d-3448-9669-e2a0203d2edd",
+      "title": "Lovy Bolt",
+      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
+      "startsAt": "2026-11-08T02:00:00.000Z",
+      "endsAt": "2026-11-08T07:00:00.000Z",
+      "priceMin": 30,
+      "priceMax": 40,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "pop-hits"
+      ],
+      "artistIds": [
+        "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b"
+      ],
+      "status": "published",
+      "coverKey": "art:neon:turquesa-coral:c",
+      "popularity": 85,
+      "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-w2"
+    },
+    {
+      "id": "32bba6ee-0698-3001-8505-e1f36b67b261",
       "title": "Karaokê de Quarta",
       "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
       "startsAt": "2026-11-12T00:00:00.000Z",
@@ -1659,48 +1806,8 @@
         "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
       ],
       "status": "published",
-      "coverKey": "art:galera:coral-marinho:d",
-      "popularity": 52
-    },
-    {
-      "id": "c367b07a-fcdc-386c-9d3e-86c9c5599b2c",
-      "title": "Voz e Violão na Maré",
-      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
-      "startsAt": "2026-11-12T23:00:00.000Z",
-      "endsAt": "2026-11-13T04:00:00.000Z",
-      "priceMin": 0,
-      "priceMax": 0,
-      "isFree": true,
-      "ageMin": 18,
-      "genreSlugs": [
-        "karaoke-ao-vivo"
-      ],
-      "artistIds": [
-        "6a991642-49d1-347b-9b9a-1a0a10974c58"
-      ],
-      "status": "published",
-      "coverKey": "art:vinil:violeta-ciano:b",
-      "popularity": 46
-    },
-    {
-      "id": "feb8405b-e761-3b76-a853-a9eb62d8e971",
-      "title": "Quinta do Samba",
-      "venueId": "6501df07-02c0-3cad-8679-e6913649a4c0",
-      "startsAt": "2026-11-12T23:00:00.000Z",
-      "endsAt": "2026-11-13T04:00:00.000Z",
-      "priceMin": 0,
-      "priceMax": 0,
-      "isFree": true,
-      "ageMin": 18,
-      "genreSlugs": [
-        "pagode-samba"
-      ],
-      "artistIds": [
-        "92c5ee5f-2c70-35bf-af83-ed0b17eac919"
-      ],
-      "status": "published",
-      "coverKey": "art:galera:violeta-ciano:c",
-      "popularity": 65
+      "coverKey": "art:guitarra:lima-ameixa:b",
+      "popularity": 50
     },
     {
       "id": "c2121608-13fa-33d1-8e17-0e3492c1a1d5",
@@ -1790,56 +1897,13 @@
       "ticketUrl": "https://example.com/ingressos/gordinho-pagode-de-sabado-w2"
     },
     {
-      "id": "9fa31382-8eed-3720-88bf-7afb0be1df23",
-      "title": "Forró de Rua",
-      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
-      "startsAt": "2026-11-15T00:00:00.000Z",
-      "endsAt": "2026-11-15T05:00:00.000Z",
-      "priceMin": 0,
-      "priceMax": 0,
-      "isFree": true,
-      "ageMin": 18,
-      "genreSlugs": [
-        "forro-tecnobrega"
-      ],
-      "artistIds": [
-        "00aa5331-32b6-315d-b0e9-bb527f756d33"
-      ],
-      "status": "published",
-      "coverKey": "art:ondas:esmeralda-pessego:b",
-      "popularity": 61
-    },
-    {
-      "id": "2f7b77c2-9ee0-3e7f-94ac-41920cdc7192",
-      "title": "Match",
-      "venueId": "6044b871-24cc-3115-90e1-eec363cf3450",
-      "startsAt": "2026-11-15T01:00:00.000Z",
-      "endsAt": "2026-11-15T06:00:00.000Z",
-      "priceMin": 30,
-      "priceMax": 50,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "funk",
-        "sertanejo",
-        "pop-hits"
-      ],
-      "artistIds": [
-        "5feceed4-aef2-374c-b729-91849468146a"
-      ],
-      "status": "published",
-      "coverKey": "art:ponte:ceu-poente:b",
-      "popularity": 81,
-      "ticketUrl": "https://example.com/ingressos/fluente-match-w2"
-    },
-    {
-      "id": "cdc0f000-487a-3db6-89ea-d672e27a35c4",
-      "title": "Metal Capixaba Fest",
+      "id": "94a65a02-a314-3374-9de2-3894395999f7",
+      "title": "Pós-punk 80",
       "venueId": "58a224b8-1eeb-343a-8bf0-2e015cfa81ab",
       "startsAt": "2026-11-15T01:00:00.000Z",
       "endsAt": "2026-11-15T06:00:00.000Z",
-      "priceMin": 40,
-      "priceMax": 60,
+      "priceMin": 20,
+      "priceMax": 20,
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
@@ -1847,37 +1911,60 @@
         "metal-punk-goth"
       ],
       "artistIds": [
-        "7910d733-aedc-375b-ac83-61aaee365692",
-        "b5765942-93ba-3552-bff9-e08d8e14c207"
+        "72cb1b78-5c53-368f-8632-b20a8590cb59"
       ],
       "status": "published",
-      "coverKey": "art:skyline:anil-ouro:a",
-      "popularity": 67,
-      "ticketUrl": "https://example.com/ingressos/correria-music-bar-metal-capixaba-fest-w2"
+      "coverKey": "art:raio:esmeralda-pessego:c",
+      "popularity": 53,
+      "ticketUrl": "https://example.com/ingressos/correria-music-bar-pos-punk-80-w3"
     },
     {
-      "id": "b8cbd8a9-4d3d-3448-9669-e2a0203d2edd",
-      "title": "Lovy Bolt",
-      "venueId": "4627b1f7-a171-34ed-a493-6e33412ad704",
+      "id": "c1ae43af-9926-37cc-9bc1-cc8d02d1b595",
+      "title": "Maré de Neon",
+      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
+      "startsAt": "2026-11-15T01:00:00.000Z",
+      "endsAt": "2026-11-15T06:00:00.000Z",
+      "priceMin": 40,
+      "priceMax": 60,
+      "isFree": false,
+      "ageMin": 18,
+      "genreSlugs": [
+        "eletronica-house",
+        "pop-hits"
+      ],
+      "artistIds": [
+        "afd11fda-5593-3387-a6a6-4ed34dab6143",
+        "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
+      ],
+      "status": "published",
+      "coverKey": "art:vinil:lima-ameixa:d",
+      "popularity": 86,
+      "ticketUrl": "https://example.com/ingressos/casa-mare-mare-de-neon-w3"
+    },
+    {
+      "id": "881fa839-291d-36f5-a3f2-1879c051c36f",
+      "title": "Selva Indie",
+      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
       "startsAt": "2026-11-15T02:00:00.000Z",
       "endsAt": "2026-11-15T07:00:00.000Z",
-      "priceMin": 30,
+      "priceMin": 25,
       "priceMax": 40,
       "isFree": false,
       "ageMin": 18,
       "genreSlugs": [
-        "pop-hits"
+        "rock-indie"
       ],
       "artistIds": [
-        "d6dc2071-d1a6-382e-8aff-abb8a3cc3f4b"
+        "627a8486-6de8-3f6e-95dd-5189add7041c",
+        "8d5c8ee8-9a40-3677-8c78-f0ba225304a0"
       ],
       "status": "published",
-      "coverKey": "art:neon:turquesa-coral:c",
-      "popularity": 85,
-      "ticketUrl": "https://example.com/ingressos/bolt-lovy-bolt-w2"
+      "coverKey": "art:guitarra:turquesa-coral:d",
+      "popularity": 66,
+      "ticketUrl": "https://example.com/ingressos/a-selva-selva-indie-w3"
     },
     {
-      "id": "32bba6ee-0698-3001-8505-e1f36b67b261",
+      "id": "a44cdcb6-32c3-354f-8b4c-aa4399d4848f",
       "title": "Karaokê de Quarta",
       "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
       "startsAt": "2026-11-19T00:00:00.000Z",
@@ -1892,9 +1979,9 @@
       "artistIds": [
         "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
       ],
-      "status": "published",
-      "coverKey": "art:guitarra:lima-ameixa:b",
-      "popularity": 50
+      "status": "cancelled",
+      "coverKey": "art:neon:lima-ameixa:c",
+      "popularity": 51
     },
     {
       "id": "60499e33-f9d1-30f2-b6cb-1cd21fc61017",
@@ -2003,93 +2090,6 @@
       "coverKey": "art:skyline:violeta-ciano:d",
       "popularity": 64,
       "ticketUrl": "https://example.com/ingressos/bolt-hip-hop-na-penha-w3"
-    },
-    {
-      "id": "94a65a02-a314-3374-9de2-3894395999f7",
-      "title": "Pós-punk 80",
-      "venueId": "58a224b8-1eeb-343a-8bf0-2e015cfa81ab",
-      "startsAt": "2026-11-22T01:00:00.000Z",
-      "endsAt": "2026-11-22T06:00:00.000Z",
-      "priceMin": 20,
-      "priceMax": 20,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "rock-indie",
-        "metal-punk-goth"
-      ],
-      "artistIds": [
-        "72cb1b78-5c53-368f-8632-b20a8590cb59"
-      ],
-      "status": "published",
-      "coverKey": "art:raio:esmeralda-pessego:c",
-      "popularity": 53,
-      "ticketUrl": "https://example.com/ingressos/correria-music-bar-pos-punk-80-w3"
-    },
-    {
-      "id": "c1ae43af-9926-37cc-9bc1-cc8d02d1b595",
-      "title": "Maré de Neon",
-      "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
-      "startsAt": "2026-11-22T01:00:00.000Z",
-      "endsAt": "2026-11-22T06:00:00.000Z",
-      "priceMin": 40,
-      "priceMax": 60,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "eletronica-house",
-        "pop-hits"
-      ],
-      "artistIds": [
-        "afd11fda-5593-3387-a6a6-4ed34dab6143",
-        "ce76906f-17ae-3966-9b90-7cbd30b7e8ca"
-      ],
-      "status": "published",
-      "coverKey": "art:vinil:lima-ameixa:d",
-      "popularity": 86,
-      "ticketUrl": "https://example.com/ingressos/casa-mare-mare-de-neon-w3"
-    },
-    {
-      "id": "881fa839-291d-36f5-a3f2-1879c051c36f",
-      "title": "Selva Indie",
-      "venueId": "ec2688d2-3215-30ad-90c0-01e46843c47b",
-      "startsAt": "2026-11-22T02:00:00.000Z",
-      "endsAt": "2026-11-22T07:00:00.000Z",
-      "priceMin": 25,
-      "priceMax": 40,
-      "isFree": false,
-      "ageMin": 18,
-      "genreSlugs": [
-        "rock-indie"
-      ],
-      "artistIds": [
-        "627a8486-6de8-3f6e-95dd-5189add7041c",
-        "8d5c8ee8-9a40-3677-8c78-f0ba225304a0"
-      ],
-      "status": "published",
-      "coverKey": "art:guitarra:turquesa-coral:d",
-      "popularity": 66,
-      "ticketUrl": "https://example.com/ingressos/a-selva-selva-indie-w3"
-    },
-    {
-      "id": "a44cdcb6-32c3-354f-8b4c-aa4399d4848f",
-      "title": "Karaokê de Quarta",
-      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
-      "startsAt": "2026-11-26T00:00:00.000Z",
-      "endsAt": "2026-11-26T05:00:00.000Z",
-      "priceMin": 0,
-      "priceMax": 0,
-      "isFree": true,
-      "ageMin": 18,
-      "genreSlugs": [
-        "karaoke-ao-vivo"
-      ],
-      "artistIds": [
-        "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
-      ],
-      "status": "cancelled",
-      "coverKey": "art:neon:lima-ameixa:c",
-      "popularity": 51
     }
   ]
 }
