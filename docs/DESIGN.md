@@ -38,6 +38,7 @@ Rules: max one accent; no purple/blue neon, no gradient text, no glow shadows. I
 - **Event card (list):** horizontal, 112px square cover left, text right, divider below instead of nested card.
 - **Artist chip:** 40px circular photo + name; "já tocou aqui" variant adds date in mono.
 - **Filter sheet:** bottom sheet (native) / right drawer (web >=1024). Sections: Gênero (multi chips), Preço (range slider + "Grátis" toggle), Distância (1/3/5/10/25 km stops), Data, Artista (searchable). Sticky footer: "Limpar" + "Ver N eventos" (Riot Pink).
+- **Vibe & acesso:** Filtros section of four text chips (Acessível, LGBTQIA+ friendly, Pet friendly, Opção vegana); Evento and Casa show the same labels as text Tags below the genres. Match is AND. Tags on demo venues are demonstration data.
 - **Search bar:** 48px, Raised Ash, radius 16, label via placeholder AND accessible label.
 - **Skeletons:** shimmer blocks matching exact card dimensions; no spinners.
 - **Empty states:** a composed poster-style illustration and a specific next action ("Aumente o raio para 10 km").

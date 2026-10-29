@@ -30,10 +30,10 @@ Out of scope: user-submitted tags, tag verification workflow, per-tag detail tex
 - `supabase/README.md` documents the new parameter and column.
 
 ## Domain and repos (`app/src`)
-- `domain/types.ts`: `AccessTag` union, `ACCESS_TAGS` list with labels; `Venue.accessTags`, `Event.accessTags` (effective set), `SearchParams.tags?`.
+- `domain/types.ts`: `AccessTag` union, `ACCESS_TAGS` list with labels; `Venue.accessTags?`, `EventItem.accessTags?` (own tags; the RPC returns the effective set) and `effectiveTags()`, `SearchParams.tags?`.
 - `domain/filters.ts`: `FilterState.tags: string[]` (default `[]`); included in `toSearchParams`, `countActiveFilters`, `filtersToUrlParams` (`tags=acessivel,vegano`) and `urlParamsToFilters` (unknown slugs dropped).
 - `data/seedRepo.ts`, `data/feedRepo.ts`, `data/supabaseRepo.ts` apply the same AND match over effective tags; `data/parity.test.ts` proves they agree.
-- `supabase/seed/build.ts` assigns demo tags to venues and a few events; `ingest/` feed schema accepts optional `accessTags` and ignores unknown slugs.
+- `supabase/seed/seed-data.ts` assigns demo tags to venues and one event; the ingest feed already passes optional fields through and the app's `validateFeed` drops unknown slugs, so `ingest/` is unchanged.
 
 ## UI
 - `features/filtros/Sections.tsx`: new section "Vibe & acesso", multi-select chips in the existing chip style (40px, Riot Pink when active). No emojis as icons (DESIGN.md section 9).
