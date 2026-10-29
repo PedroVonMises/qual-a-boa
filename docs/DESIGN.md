@@ -109,3 +109,12 @@ Casual, short, local. Examples: "Qual a boa hoje?", "Perto de você", "Até R$ 4
 - **Feedback and reviews:** Avaliar in two steps (rating + topics + tags, then text + photo + anonymous option), Avaliações do evento (distribution, topic scores, "Foi ao evento" verified badge, helpful/report actions).
 - **Support messaging:** Ajuda (search, common topics, open ticket, expected response time), Mensagens (ticket inbox with text status chips), Conversa com o suporte (event context card, quick replies, read receipts, typing, attach, security reminder), Novo chamado (topic radio list, related event, validated description, optional screenshot).
 - **UX rules used:** status never by color alone (text chips, icons, check marks); every tappable 44px+; honest data labels ("Relatos de 14 pessoas, o último há 12 min"); response-time expectations stated before contact; inline field errors with the fix; demonstration content (reviews, live status, updates) exists only for Casa Maré and carries no mock tags in the UI (owner decision, Wave 7); the Terms say the pilot may show demonstration content until listings are verified with each venue. Never invent reviews or status for other venues.
+
+## 15. UX gaps closed (2026-10-29)
+- **Busca:** dedicated screen opened by the search key or "Buscar em casas e artistas"; results grouped Casas / Eventos / Artistas with count chips, widest radius, recent searches kept only on the device.
+- **Quando:** sheet with quick ranges (Hoje, Amanhã, Fim de semana, Próxima semana, Qualquer dia) and a calendar; nights run 06:00 to 05:59 like "Hoje". Opened from the date pill in Explorar and from Filtros > Data.
+- **Ingressos:** a step before the external ticket site: published price, quantity estimate, meia-entrada rule, and the exact host where the purchase ends. The app never sells tickets.
+- **Chamar a galera:** editable invite sent via WhatsApp (wa.me), copy (web) or the system share sheet.
+- **Offline:** floating banner above the tab bar; cached results stay on screen. Native needs a connectivity source wired into TanStack `onlineManager`.
+- **Privacidade e dados:** permissions, what stays on the device, clear searches, reset recommendations, export/erase (account) or wipe (visitor), legal drafts.
+- Not built on purpose (needs contracts or setup): ticket tiers/lotes data, Google/Apple sign-in, Instagram Stories share, the "Vai ou não vai?" poll, a time-of-night filter.

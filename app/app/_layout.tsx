@@ -10,6 +10,7 @@ import { useLocationRefresh } from '@/lib/location';
 import { installCrashReporter } from '@/lib/crashReport';
 import { CrashNotice, ErrorScreen } from '@/shell/CrashNotice';
 import { AppProviders } from '@/shell/AppProviders';
+import { OfflineBanner } from '@/shell/OfflineBanner';
 import { SessionGuard } from '@/shell/SessionGuard';
 import { SplashOverlay } from '@/shell/SplashOverlay';
 import { useSession } from '@/state/session';
@@ -48,6 +49,7 @@ export default function RootLayout() {
             <Stack.Screen name="filtros" options={{ presentation: 'modal' }} />
           </Stack>
           <SessionGuard />
+          <OfflineBanner />
         </>
       ) : null}
       <SplashOverlay ready={ready} />

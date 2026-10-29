@@ -1,6 +1,6 @@
 import { useRouter, type Href } from 'expo-router';
-import * as WebBrowser from 'expo-web-browser';
-import { Share, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import { formatDistance, formatEventDate, formatPriceLabel } from '@/domain/format';
 import { useEvent, useGenres } from '@/data/queries';
@@ -12,8 +12,9 @@ import { radius, space } from '@/theme/tokens';
 import { ArtistRow, Badge, Button, IconButton, PressableScale, Tag, Text, useBreakpoint } from '@/ui';
 import { Frame, StateShell, useGoBack } from './Frame';
 import { Hero } from './Hero';
-import { deepLink, isHttpsUrl, openMaps } from './linking';
+import { isHttpsUrl, openMaps } from './linking';
 import { genreLabels } from './labels';
+import { ShareSheet } from './ShareSheet';
 
 export function EventoScreen({ id }: { id?: string }) {
   const { colors } = useTheme();
@@ -26,6 +27,7 @@ export function EventoScreen({ id }: { id?: string }) {
   const genres = useGenres().data;
   const saved = useFavorites((s) => s.eventIds.includes(id ?? ''));
   const toggleEvent = useFavorites((s) => s.toggleEvent);
+  const [shareOpen, setShareOpen] = useState(false);
 
   if (q.isPending && q.fetchStatus !== 'idle') return <StateShell state="loading" />;
   if (q.isError) return <StateShell state="error" onRetry={() => q.refetch()} />;
@@ -39,10 +41,9 @@ export function EventoScreen({ id }: { id?: string }) {
   const tags = genreLabels(event.genreSlugs, genres);
   const go = (path: string) => router.push(path as Href);
 
-  const share = () =>
-    Share.share({ title: event.title, message: `${event.title} em ${venue.name}`, url: deepLink(`/evento/${event.id}`) }).catch(() => undefined);
+  // Tickets go through the Ingressos step, which says where the purchase ends before leaving the app.
   const buy = () => {
-    if (canBuy) WebBrowser.openBrowserAsync(event.ticketUrl!.trim()).catch(() => undefined);
+    if (canBuy) router.push({ pathname: '/ingressos/[id]', params: { id: event.id } });
   };
 
   return (
@@ -54,7 +55,7 @@ export function EventoScreen({ id }: { id?: string }) {
             label={canBuy ? 'Ver ingressos' : 'Ingressos indisponíveis'}
             disabled={!canBuy}
             onPress={buy}
-            accessibilityHint={canBuy ? 'Abre o site de ingressos no navegador' : undefined}
+            accessibilityHint={canBuy ? 'Mostra preço, meia-entrada e o site onde a compra termina' : undefined}
             style={styles.flex}
           />
         </>
@@ -64,7 +65,7 @@ export function EventoScreen({ id }: { id?: string }) {
         onBack={goBack}
         actions={
           <>
-            <IconButton icon="share" label="Compartilhar evento" variant="filled" onPress={share} />
+            <IconButton icon="share" label="Compartilhar evento" variant="filled" onPress={() => setShareOpen(true)} />
             <IconButton
               icon={saved ? 'heartFilled' : 'heart'}
               label={saved ? 'Remover dos salvos' : 'Salvar evento'}
@@ -130,6 +131,7 @@ export function EventoScreen({ id }: { id?: string }) {
           </Text>
         </PressableScale>
       </View>
+      <ShareSheet visible={shareOpen} onClose={() => setShareOpen(false)} event={event} venue={venue} />
     </Frame>
   );
 }

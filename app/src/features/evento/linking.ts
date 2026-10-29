@@ -37,3 +37,15 @@ export async function openMaps(name: string, lat: number, lng: number): Promise<
 export function deepLink(path: string): string {
   return Linking.createURL(path);
 }
+
+/** Host shown before handing the user to an external ticket site ("www." dropped), or null for unsafe URLs. */
+export function ticketHost(url: string | undefined | null): string | null {
+  if (!isHttpsUrl(url)) return null;
+  const m = /^https:\/\/([^/?#:]+)/i.exec(url.trim());
+  return m ? m[1].toLowerCase().replace(/^www\./, '') : null;
+}
+
+/** wa.me share link (opens WhatsApp on phones, WhatsApp Web on desktop). */
+export function whatsappUrl(text: string): string {
+  return `https://wa.me/?text=${encodeURIComponent(text)}`;
+}

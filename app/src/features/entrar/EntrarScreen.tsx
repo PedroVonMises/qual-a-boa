@@ -13,7 +13,13 @@ import {
 import { syncAll } from '@/data/sync';
 import { useTheme } from '@/theme/ThemeProvider';
 import { fonts, hit, radius, space, type } from '@/theme/tokens';
-import { Button, Screen, ScreenHeader, Text } from '@/ui';
+import { Button, Icon, Screen, ScreenHeader, Text, type IconName } from '@/ui';
+
+const BENEFITS: { icon: IconName; text: string }[] = [
+  { icon: 'heart', text: 'Salvos e eventos acompanhados em qualquer aparelho' },
+  { icon: 'clock', text: 'Avisos de lote, horário e atração' },
+  { icon: 'star', text: 'Avaliar as noites em que você foi' },
+];
 
 /** Entrar: email, then the one-time code. Keeps favorites, follows and reviews when upgrading a visitor. */
 export function EntrarScreen() {
@@ -61,8 +67,21 @@ export function EntrarScreen() {
         <ScrollView contentContainerStyle={styles.column} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
           {mode === null ? (
             <>
+              <Text variant="headline" accessibilityRole="header">
+                Seus rolês em <Text variant="headline" tone="accent">qualquer aparelho</Text>
+              </Text>
+              <View style={styles.benefits} testID="entrar-benefits">
+                {BENEFITS.map((b) => (
+                  <View key={b.text} style={styles.benefit}>
+                    <Icon name={b.icon} size={22} color="accent" />
+                    <Text variant="body" style={styles.flex}>
+                      {b.text}
+                    </Text>
+                  </View>
+                ))}
+              </View>
               <Text variant="bodySm" tone="textMuted">
-                Entre para guardar seus salvos, avisos e avaliações e usá-los em outro aparelho. Enviamos um código para o seu e-mail.
+                Sem senha: enviamos um código de 6 dígitos para o seu e-mail. Serve para entrar e para criar conta. O que você já salvou neste aparelho vai junto.
               </Text>
               <View style={styles.group}>
                 <Text variant="title">E-mail</Text>
@@ -92,6 +111,11 @@ export function EntrarScreen() {
                 ) : null}
               </View>
               <Button label="Enviar código" fullWidth loading={busy} onPress={sendCode} testID="entrar-enviar" />
+              <Button label="Agora não" variant="ghost" fullWidth disabled={busy} onPress={() => router.back()} testID="entrar-agora-nao" />
+              <Text variant="caption" tone="textMuted" style={styles.center}>
+                Ao continuar, você aceita os Termos de uso e a Política de privacidade.
+              </Text>
+              <Button label="Ver privacidade e dados" variant="ghost" fullWidth onPress={() => router.push('/privacidade')} testID="entrar-privacidade" />
             </>
           ) : (
             <>
@@ -147,6 +171,9 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   column: { gap: space.xl, paddingBottom: space.xxxl },
   group: { gap: space.sm },
+  benefits: { gap: space.md },
+  benefit: { flexDirection: 'row', alignItems: 'center', gap: space.md },
+  center: { textAlign: 'center' },
   input: {
     minHeight: hit.min + 4,
     borderRadius: radius.md,

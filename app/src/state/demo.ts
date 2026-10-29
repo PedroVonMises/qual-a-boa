@@ -10,6 +10,7 @@ import { useLive } from './live';
 import { useLocation } from './location';
 import { safeMerge } from './safeMerge';
 import { useReviews } from './reviews';
+import { useSearchHistory } from './searchHistory';
 import { useSession } from './session';
 import { useSupport } from './support';
 
@@ -163,6 +164,7 @@ export function clearDemoData(): void {
 export function resetApp(): void {
   clearDemoData();
   useFilters.getState().reset();
+  useSearchHistory.getState().clear();
   useLocation.getState().resetLocation();
   useSession.getState().reset();
 }

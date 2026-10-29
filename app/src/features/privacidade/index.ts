@@ -1,0 +1,1 @@
+export { PrivacidadeScreen } from './PrivacidadeScreen';
