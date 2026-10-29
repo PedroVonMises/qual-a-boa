@@ -23,7 +23,7 @@ const ds: SeedDataset = {
     { id: '00000000-0000-4000-8000-0000000000c1', title: 'Só venue acessível', venueId: '00000000-0000-4000-8000-0000000000b1', startsAt: '2026-10-24T02:00:00.000Z',
       priceMin: 10, priceMax: 10, isFree: false, ageMin: 18, genreSlugs: ['funk'], artistIds: [], status: 'published', coverKey: 'generic', popularity: 10 },
     { id: '00000000-0000-4000-8000-0000000000c2', title: 'Venue acessível + evento vegano', venueId: '00000000-0000-4000-8000-0000000000b1', startsAt: '2026-10-24T03:00:00.000Z',
-      priceMin: 10, priceMax: 10, isFree: false, ageMin: 18, genreSlugs: ['funk'], artistIds: [], status: 'published', coverKey: 'generic', popularity: 10, accessTags: ['vegano'] },
+      priceMin: 10, priceMax: 10, isFree: false, ageMin: 18, genreSlugs: ['funk'], artistIds: [], status: 'published', coverKey: 'generic', popularity: 10, accessTags: ['acessivel', 'vegano'] },
     { id: '00000000-0000-4000-8000-0000000000c3', title: 'Noite pet no venue sem tags', venueId: '00000000-0000-4000-8000-0000000000b2', startsAt: '2026-10-24T04:00:00.000Z',
       priceMin: 10, priceMax: 10, isFree: false, ageMin: 18, genreSlugs: ['funk'], artistIds: [], status: 'published', coverKey: 'generic', popularity: 10, accessTags: ['pet-friendly'] },
   ],
