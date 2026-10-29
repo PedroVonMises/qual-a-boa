@@ -253,6 +253,6 @@ describe('validateFeed tags', () => {
     const out = validateFeed(feed);
     expect(out).not.toBeNull();
     expect(out!.venues.find((v) => v.id === 'v1')!.accessTags).toEqual(['vegano']);
-    expect(out!.venues.find((v) => v.id === 'v2')!.accessTags).toBeUndefined();
+    expect(out!.venues.find((v) => v.id === 'v3')!.accessTags).toBeUndefined();
   });
 });

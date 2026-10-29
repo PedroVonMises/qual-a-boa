@@ -1,5 +1,5 @@
 import '@/ui/testSetup';
-import { fireEvent, screen } from '@testing-library/react-native';
+import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { useLocalSearchParams } from 'expo-router';
 
 import { filtersToUrlParams, urlParamsToFilters } from '@/domain/filters';
@@ -66,5 +66,19 @@ describe('Filtros', () => {
     await renderWithData(<FiltrosScreen />);
     expect(useFilters.getState().filters).toEqual(want);
     expect(await screen.findByRole('button', { name: 'Rock' })).toBeOnTheScreen();
+  });
+  it('"Vibe & acesso" chips toggle tags and narrow the live count', async () => {
+    await renderWithData(<FiltrosScreen />);
+    expect(screen.getByText('Vibe & acesso')).toBeOnTheScreen();
+    const all = await screen.findByText(/^Ver \d+ eventos$/);
+    const total = Number(all.props.children.toString().match(/\d+/)![0]);
+    await fireEvent.press(screen.getByRole('button', { name: 'Acessível' }));
+    expect(useFilters.getState().filters.tags).toEqual(['acessivel']);
+    await waitFor(() => {
+      const narrowed = screen.getByText(/^Ver \d+ eventos?$/);
+      expect(Number(narrowed.props.children.toString().match(/\d+/)![0])).toBeLessThan(total);
+    });
+    await fireEvent.press(screen.getByRole('button', { name: 'Acessível' }));
+    expect(useFilters.getState().filters.tags).toEqual([]);
   });
 });

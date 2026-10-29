@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { ACCESS_TAGS } from '@/domain/accessTags';
 import { useAreas, useGenres } from '@/data/queries';
 import { rangeLabel } from '@/domain/calendar';
 import { RADIUS_OPTIONS, type DateRange } from '@/domain/filters';
@@ -34,6 +35,7 @@ export function Sections() {
   const filters = useFilters((s) => s.filters);
   const set = useFilters((s) => s.set);
   const toggleGenre = useFilters((s) => s.toggleGenre);
+  const toggleTag = useFilters((s) => s.toggleTag);
   const { data: genres } = useGenres();
   const { data: areas } = useAreas();
   const [calendarOpen, setCalendarOpen] = useState(false);
@@ -44,6 +46,13 @@ export function Sections() {
         <View style={styles.chips}>
           {(genres ?? []).map((g) => (
             <Chip key={g.slug} label={g.label} selected={filters.genreSlugs.includes(g.slug)} onPress={() => toggleGenre(g.slug)} />
+          ))}
+        </View>
+      </Section>
+      <Section title="Vibe & acesso">
+        <View style={styles.chips}>
+          {ACCESS_TAGS.map((t) => (
+            <Chip key={t.slug} label={t.label} selected={filters.tags.includes(t.slug)} onPress={() => toggleTag(t.slug)} />
           ))}
         </View>
       </Section>

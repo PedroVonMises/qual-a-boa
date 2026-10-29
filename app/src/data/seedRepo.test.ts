@@ -134,7 +134,7 @@ describe('SeedRepo details', () => {
 describe('SeedRepo tags', () => {
   const ds = {
     ...miniDataset,
-    venues: miniDataset.venues.map((v) => (v.id === 'v1' ? { ...v, accessTags: ['acessivel' as const] } : v)),
+    venues: miniDataset.venues.map((v) => (v.id === 'v1' ? { ...v, accessTags: ['acessivel' as const] } : { ...v, accessTags: undefined })),
     events: miniDataset.events.map((e) => (e.id === 'e02' ? { ...e, accessTags: ['vegano' as const] } : e)),
   };
   const tagRepo = new SeedRepo(ds, () => Date.parse(MINI_NOW));
