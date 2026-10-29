@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
+import { useDisplayName } from '@/data/account';
 import { authAvailable, signOut, useAccountEmail } from '@/data/auth';
 import { RADIUS_OPTIONS } from '@/domain/filters';
 import { env } from '@/lib/env';
@@ -33,6 +34,7 @@ export function PerfilView() {
   const resetSession = useSession((s) => s.reset);
   const demoLoaded = useDemoLoaded((s) => s.loaded);
   const accountEmail = useAccountEmail();
+  const displayName = useDisplayName().data;
   const loginAvailable = authAvailable();
   const [alerts, setAlerts] = useState(true);
   const [genresOpen, setGenresOpen] = useState(false);
@@ -74,7 +76,7 @@ export function PerfilView() {
             <Icon name="user" size={32} color="textMuted" />
           </View>
           <View style={styles.flex}>
-            <Text variant="title">{accountEmail ? 'Conta' : 'Visitante'}</Text>
+            <Text variant="title">{accountEmail ? (displayName ?? 'Conta') : 'Visitante'}</Text>
             <Text variant="bodySm" tone="textMuted" numberOfLines={1}>
               {accountEmail ?? (loginAvailable ? 'Entre para guardar seus dados' : 'Login chega em breve')}
             </Text>
@@ -93,6 +95,9 @@ export function PerfilView() {
           />
         )}
 
+        {loginAvailable ? (
+          <ListRow title="Minha conta" subtitle="Nome, exportar e apagar seus dados" icon="user" chevron divider onPress={() => router.push('/conta')} testID="perfil-conta" />
+        ) : null}
         <ListRow title="Meus eventos" subtitle="Avaliações, check-ins e eventos que você acompanha" icon="bookmark" chevron divider onPress={() => router.push('/meus-eventos')} testID="perfil-meus-eventos" />
 
         <Text variant="caption" tone="textMuted" style={styles.section}>

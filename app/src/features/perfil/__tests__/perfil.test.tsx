@@ -39,6 +39,8 @@ describe('Perfil', () => {
     expect(screen.getByText('Visitante')).toBeTruthy();
     expect(screen.getByText('Login chega em breve')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Entrar para sincronizar' })).toBeDisabled();
+    // No backend on a seed-data build, so there is no account to manage.
+    expect(screen.queryByTestId('perfil-conta')).toBeNull();
   });
 
   it('radius stepper updates the filters store within bounds', async () => {

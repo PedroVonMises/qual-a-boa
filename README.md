@@ -5,8 +5,8 @@ Nightlife discovery app for Vitória, ES (Brazil): browse clubs and parties by m
 > Status: MVP in progress. Venue, event and artist data is demonstration data shown without UI tags (owner decision, Wave 7; the Terms disclose it during the pilot, see `docs/VENUES.md`); nothing here is verified with the venues. Legal risk: verify with each venue before launch.
 
 ## What exists
-- `app/`: Expo SDK 58 app. Screens built so far: age gate and onboarding, Explorar, Filtros, Mapa, Evento, Casa, Artista, Salvos, Perfil, Acompanhar, Ao vivo, Avaliar/Avaliações, Ajuda, UI gallery (`/dev/ui`). Still missing: login (auth is anonymous-only) and photo uploads.
-- `supabase/`: migrations 0001–0006 (schema, `search_events`, RLS, history views, engagement tables, catalog ingest), seed generator and local SQL tests (PGlite). A remote project is attached (migrations applied, catalog empty); see `supabase/README.md`.
+- `app/`: Expo SDK 58 app. Screens: age gate and onboarding, Explorar, Filtros, Mapa, Evento, Casa, Artista, Salvos, Perfil, Acompanhar, Ao vivo, Avaliar/Avaliações, Ajuda, Entrar (e-mail code), Minha conta (name, export, erase), Meus eventos, UI gallery (`/dev/ui`). Still missing: photo uploads in the UI (backend ready).
+- `supabase/`: migrations 0001–0007 (schema, `search_events`, RLS, history views, engagement, catalog ingest, photo-upload buckets), the `delete-account` Edge Function (`supabase/functions`), seed generator and local SQL tests (PGlite). A remote project is attached; see `supabase/README.md`.
 - `ingest/`: event ingestion CLI that produces the static feed in `app/public/feed/v1`.
 - `docs/`: design system (`DESIGN.md`), venue research, design audit, architecture and file ownership, and the HTML design mockups (`design-canvas/`).
 

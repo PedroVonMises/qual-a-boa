@@ -1,0 +1,1 @@
+export { ContaScreen } from './ContaScreen';
