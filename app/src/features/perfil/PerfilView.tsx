@@ -93,6 +93,8 @@ export function PerfilView() {
           />
         )}
 
+        <ListRow title="Meus eventos" subtitle="Avaliações, check-ins e eventos que você acompanha" icon="bookmark" chevron divider onPress={() => router.push('/meus-eventos')} testID="perfil-meus-eventos" />
+
         <Text variant="caption" tone="textMuted" style={styles.section}>
           PREFERÊNCIAS
         </Text>
