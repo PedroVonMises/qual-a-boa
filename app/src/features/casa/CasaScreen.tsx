@@ -1,8 +1,10 @@
 import { useRouter, type Href } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
+import { effectiveTags } from '@/domain/accessTags';
 import { formatEventDate, formatPriceLabel } from '@/domain/format';
 import { useGenres, useVenue } from '@/data/queries';
+import { AccessBadges } from '@/features/evento/AccessBadges';
 import { Frame, StateShell, useGoBack } from '@/features/evento/Frame';
 import { Hero } from '@/features/evento/Hero';
 import { genreLabels, longDate, monthYear } from '@/features/evento/labels';
@@ -80,6 +82,7 @@ export function CasaScreen({ slug }: { slug?: string }) {
             <Tag key={t} label={t} />
           ))}
         </View>
+        <AccessBadges tags={effectiveTags(venue, {})} />
         {venue.status === 'unverified' ? (
           <View accessibilityRole="alert" style={styles.notice}>
             <Icon name="clock" size={16} color="textMuted" />

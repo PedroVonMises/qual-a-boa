@@ -104,6 +104,13 @@ describe('EventoScreen', () => {
     expect(useFavorites.getState().eventIds).toEqual(['e01']);
   });
 
+  it('shows the venue and event access tags as text badges', async () => {
+    await renderWith(<EventoScreen id="e01" />);
+    expect(await screen.findByText('Acessível')).toBeTruthy();
+    expect(screen.getByText('Opção vegana')).toBeTruthy();
+    expect(screen.queryByText('Pet friendly')).toBeNull();
+  });
+
   it('shows not-found for unknown events', async () => {
     await renderWith(<EventoScreen id="nope" />);
     expect(await screen.findByText('Evento não encontrado')).toBeTruthy();
@@ -152,6 +159,12 @@ describe('CasaScreen', () => {
     expect(screen.getByText('Próximos eventos')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Como chegar' })).toBeTruthy();
     expect(screen.queryByText(/ilustrativ/i)).toBeNull();
+  });
+
+  it('shows the venue access tags', async () => {
+    await renderWith(<CasaScreen slug="bolt" />);
+    expect(await screen.findByText('Acessível')).toBeTruthy();
+    expect(screen.getByText('Opção vegana')).toBeTruthy();
   });
 
   it('closed venue hides upcoming events and the CTA', async () => {

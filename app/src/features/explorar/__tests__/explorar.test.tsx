@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 
 import { useFavorites } from '@/state/favorites';
 import { useFilters } from '@/state/filters';
+import { EmptyResults } from '../EmptyResults';
 import { ExplorarScreen } from '../ExplorarScreen';
 import { setupFeatureTest } from '../testUtils';
 
@@ -69,6 +70,12 @@ describe('Explorar', () => {
     await fireEvent.press(await screen.findByRole('button', { name: 'Limpar filtros' }));
     expect(useFilters.getState().filters.query).toBe('');
     expect(await screen.findByText('Hoje à noite')).toBeOnTheScreen();
+  });
+
+  it('empty results name an active tag in the explanation', async () => {
+    useFilters.getState().set({ tags: ['pet-friendly'] });
+    await renderWithData(<EmptyResults />);
+    expect(screen.getByText(/Pet friendly/)).toBeOnTheScreen();
   });
 
   it('filter button shows the active count and opens /filtros', async () => {
