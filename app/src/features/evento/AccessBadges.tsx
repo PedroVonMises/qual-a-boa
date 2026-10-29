@@ -8,7 +8,7 @@ import { Tag } from '@/ui';
 export function AccessBadges({ tags }: { tags: AccessTag[] }) {
   if (!tags.length) return null;
   return (
-    <View style={styles.row} accessibilityLabel="Vibe e acesso">
+    <View style={styles.row}>
       {tags.map((t) => (
         <Tag key={t} label={tagLabel(t)} />
       ))}

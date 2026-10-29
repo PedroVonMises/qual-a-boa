@@ -78,6 +78,12 @@ describe('Explorar', () => {
     expect(screen.getByText(/Pet friendly/)).toBeOnTheScreen();
   });
 
+  it('empty results list several tags as "A, B e C"', async () => {
+    useFilters.getState().set({ tags: ['acessivel', 'vegano', 'pet-friendly'] });
+    await renderWithData(<EmptyResults />);
+    expect(screen.getByText(/com Acessível, Opção vegana e Pet friendly/)).toBeOnTheScreen();
+  });
+
   it('filter button shows the active count and opens /filtros', async () => {
     useFilters.getState().set({ priceMax: 40, genreSlugs: ['funk'] });
     await renderWithData(<ExplorarScreen />);

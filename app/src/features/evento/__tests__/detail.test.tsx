@@ -36,8 +36,8 @@ const data: SeedDataset = {
   ),
 };
 
-async function renderWith(ui: React.ReactElement) {
-  setRepo(new SeedRepo(data, () => Date.parse(MINI_NOW)));
+async function renderWith(ui: React.ReactElement, dataset: SeedDataset = data) {
+  setRepo(new SeedRepo(dataset, () => Date.parse(MINI_NOW)));
   const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   await render(<QueryClientProvider client={client}>{ui}</QueryClientProvider>);
 }
@@ -109,6 +109,16 @@ describe('EventoScreen', () => {
     expect(await screen.findByText('Acessível')).toBeTruthy();
     expect(screen.getByText('Opção vegana')).toBeTruthy();
     expect(screen.queryByText('Pet friendly')).toBeNull();
+  });
+
+  it('shows an event-level tag at an untagged venue', async () => {
+    const tagged: SeedDataset = {
+      ...data,
+      events: data.events.map((e) => (e.id === 'e03' ? { ...e, accessTags: ['pet-friendly' as const] } : e)),
+    };
+    await renderWith(<EventoScreen id="e03" />, tagged);
+    expect(await screen.findByText('Pet friendly')).toBeTruthy();
+    expect(screen.queryByText('Acessível')).toBeNull();
   });
 
   it('shows not-found for unknown events', async () => {
