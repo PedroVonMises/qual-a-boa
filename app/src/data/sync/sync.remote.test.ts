@@ -293,6 +293,6 @@ describe('syncAll', () => {
     const { client, calls } = fakeSupabase();
     setSupabase(client);
     await syncAll();
-    expect(calls.filter((c) => c.op === 'select').map((c) => c.table).sort()).toEqual(['checkins', 'event_follows', 'favorites']);
+    expect(calls.filter((c) => c.op === 'select').map((c) => c.table).sort()).toEqual(['checkins', 'event_follows', 'favorites', 'support_tickets']);
   });
 });

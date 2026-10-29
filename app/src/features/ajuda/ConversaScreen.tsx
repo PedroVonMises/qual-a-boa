@@ -4,6 +4,7 @@ import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View
 import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 
 import { useEvent } from '@/data/queries';
+import { useRemoteTickets } from '@/data/sync/support';
 import type { SupportMessage } from '@/domain/engage';
 import { formatEventDate } from '@/domain/format';
 import { isAutomatic, useSupport } from '@/state/support';
@@ -85,6 +86,7 @@ export function ConversaScreen({ typing = false }: { typing?: boolean }) {
   const { colors } = useTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
   const ticket = useSupport((s) => s.tickets.find((t) => t.id === id));
+  useRemoteTickets();
   const sendMessage = useSupport((s) => s.sendMessage);
   const markRead = useSupport((s) => s.markRead);
   const closeTicket = useSupport((s) => s.closeTicket);

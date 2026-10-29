@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import type { SupportTicket } from '@/domain/engage';
 import { formatRelative } from '@/domain/format';
+import { useRemoteTickets } from '@/data/sync/support';
 import { isAutomatic, useSupport } from '@/state/support';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
@@ -61,6 +62,7 @@ function TicketRow({ ticket, onPress }: { ticket: SupportTicket; onPress: () => 
 export function MensagensScreen() {
   const router = useRouter();
   const tickets = useSupport((s) => s.tickets);
+  useRemoteTickets();
   const [tab, setTab] = useState<Tab>('open');
   const open = tickets.filter((t) => t.status !== 'closed');
   const closed = tickets.filter((t) => t.status === 'closed');

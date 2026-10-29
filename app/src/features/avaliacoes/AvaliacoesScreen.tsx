@@ -3,6 +3,8 @@ import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { useEvent } from '@/data/queries';
+import { useRemoteReviews } from '@/data/sync/reviews';
+import { isRemote } from '@/data/supabaseClient';
 import type { Review } from '@/domain/engage';
 import { formatRelative } from '@/domain/format';
 import { TOPICS } from '@/features/avaliar/content';
@@ -46,6 +48,7 @@ function ReviewCard({ review, demo }: { review: Review; demo: boolean }) {
   const report = useReviews((s) => s.report);
   const name = review.mine && !review.anonymous ? 'Você' : 'Frequentador';
   const pending = review.status === 'pending';
+  const hidden = review.status === 'hidden';
   return (
     <View accessible={false} style={[styles.card, { borderTopColor: colors.border }]}>
       <View style={styles.cardHead}>
@@ -67,6 +70,7 @@ function ReviewCard({ review, demo }: { review: Review; demo: boolean }) {
       </View>
       <Rating value={review.rating} />
       {pending ? <Badge label="Em análise" tone="neutral" icon="clock" /> : null}
+      {hidden ? <Badge label="Removida pela moderação" tone="danger" /> : null}
       {review.text ? <Text variant="body">{review.text}</Text> : null}
       {review.tags.length ? (
         <View style={styles.tags}>
@@ -108,17 +112,25 @@ export function AvaliacoesScreen({ id, sent }: { id?: string; sent?: boolean }) 
   const helpfulIds = useReviews((s) => s.helpfulIds);
   const [sort, setSort] = useState<ReviewSort>('recent');
 
+  const remote = useRemoteReviews(id);
+  const live = isRemote();
+
   const venueSlug = q.data?.venue.slug;
   const mineHere = mine.find((r) => r.eventId === id);
   const demo = venueSlug === DEMO_VENUE_SLUG;
 
-  const stats = useMemo(() => computeStats(demo ? DEMO_REVIEWS : []), [demo]);
+  // Backend on: other people's published reviews from `reviews_feed` (the author's own sit on top via `mineHere`).
+  // Backend off: the demo set for the one demo venue.
+  const others = useMemo(
+    () => (live ? (remote.data ?? []).filter((r) => !r.mine && r.status === 'published') : demo ? DEMO_REVIEWS : []),
+    [live, remote.data, demo],
+  );
+  const stats = useMemo(() => computeStats(others), [others]);
   const list = useMemo(() => {
-    const others = demo ? DEMO_REVIEWS : [];
     const sorted = sortReviews(others, sort, (r) => r.helpfulCount + (helpfulIds.includes(r.id) ? 1 : 0));
     // The author's own review always sits on top, so "Em análise" is visible right after sending.
     return mineHere && (sort !== 'critical' || mineHere.rating <= 2) ? [mineHere, ...sorted] : sorted;
-  }, [demo, sort, mineHere, helpfulIds]);
+  }, [others, sort, mineHere, helpfulIds]);
 
   if (q.isPending && q.fetchStatus !== 'idle') return <StateShell state="loading" />;
   if (q.isError) return <StateShell state="error" onRetry={() => q.refetch()} />;
@@ -156,6 +168,13 @@ export function AvaliacoesScreen({ id, sent }: { id?: string; sent?: boolean }) 
             style={[styles.notice, { backgroundColor: colors.surface, borderColor: colors.success }]}>
             <Badge label="Avaliação enviada" tone="success" icon="check" />
             <Text variant="bodySm">Ela aparece para os outros depois da revisão.</Text>
+          </View>
+        ) : null}
+
+        {live && remote.isError ? (
+          <View accessibilityRole="alert" style={[styles.notice, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+            <Text variant="bodySm">Não foi possível carregar as avaliações de outras pessoas agora.</Text>
+            <Button label="Tentar de novo" variant="secondary" onPress={() => remote.refetch()} testID="avaliacoes-retry" />
           </View>
         ) : null}
 

@@ -156,6 +156,7 @@ export function useRemoteTickets() {
   return useQuery({
     queryKey: ['remote', 'tickets'],
     enabled: isRemote(),
+    refetchInterval: 30_000, // support replies arrive server-side; poll while a support screen is open
     queryFn: async () => {
       const list = await pullTickets();
       useSupport.getState().mergeRemote(list);
