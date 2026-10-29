@@ -72,6 +72,12 @@ describe('Perfil', () => {
     expect(screen.getByRole('switch', { name: 'Avisos de eventos salvos' })).not.toBeChecked();
   });
 
+  it('privacy row opens the Privacidade screen', async () => {
+    await renderPerfil();
+    await fireEvent.press(screen.getByRole('button', { name: 'Privacidade e dados (LGPD)' }));
+    expect(mockPush).toHaveBeenCalledWith('/privacidade');
+  });
+
   it('legal rows open placeholder drafts', async () => {
     await renderPerfil();
     await fireEvent.press(screen.getByRole('button', { name: 'Termos de uso' }));
@@ -136,4 +142,4 @@ describe('Perfil localização', () => {
     expect(screen.getByText('Abrir configurações')).toBeTruthy();
     useLocation.getState().setPermission('undetermined');
   });
-});
+});

@@ -22,7 +22,7 @@ import { AreaSheet } from '../explorar/AreaSheet';
 import { FeedStatusRow } from './FeedStatusRow';
 import { GenresSheet } from './GenresSheet';
 import { LegalSheet } from './LegalSheet';
-import { PRIVACY, TERMS, type LegalDoc } from './legalText';
+import { TERMS, type LegalDoc } from './legalText';
 
 /** Perfil tab: visitor header, preferences, about. */
 export function PerfilView() {
@@ -192,7 +192,7 @@ export function PerfilView() {
         <Text variant="caption" tone="textMuted" style={styles.section}>
           SOBRE
         </Text>
-        <ListRow title="Privacidade e dados (LGPD)" chevron divider onPress={() => setLegal(PRIVACY)} />
+        <ListRow title="Privacidade e dados (LGPD)" chevron divider onPress={() => router.push('/privacidade')} testID="perfil-privacidade" />
         <ListRow title="Termos de uso" chevron divider onPress={() => setLegal(TERMS)} />
         <ListRow title="Ajuda e suporte" chevron divider onPress={() => router.push('/ajuda')} />
         <FeedStatusRow />
@@ -224,4 +224,4 @@ const styles = StyleSheet.create({
   stepper: { minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: space.sm, borderBottomWidth: 1 },
   radius: { minWidth: 56, textAlign: 'center' },
   switchRow: { minHeight: 56 },
-});
+});
