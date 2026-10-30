@@ -2,6 +2,7 @@ import { useRouter, type Href } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { effectiveTags } from '@/domain/accessTags';
 import { formatDistance, formatEventDate, formatPriceLabel } from '@/domain/format';
 import { useEvent, useGenres } from '@/data/queries';
 import { useRecordView } from '@/state/useRecordView';
@@ -10,6 +11,7 @@ import { useLocation } from '@/state/location';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
 import { ArtistRow, Badge, Button, IconButton, PressableScale, Tag, Text, useBreakpoint } from '@/ui';
+import { AccessBadges } from './AccessBadges';
 import { Frame, StateShell, useGoBack } from './Frame';
 import { Hero } from './Hero';
 import { isHttpsUrl, openMaps } from './linking';
@@ -93,6 +95,7 @@ export function EventoScreen({ id }: { id?: string }) {
             ))}
           </View>
         ) : null}
+        <AccessBadges tags={effectiveTags(venue, event)} />
         <Text variant="display" accessibilityRole="header">
           {event.title}
         </Text>

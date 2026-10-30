@@ -19,26 +19,28 @@ export function datasetToSql(ds: SeedDataset): string {
   out.push('insert into public.genres (id, slug, label, sort_order) values');
   out.push(ds.genres.map((g, i) => `  (${q(g.id)}, ${q(g.slug)}, ${q(g.label)}, ${i})`).join(',\n') + ';');
 
-  out.push('insert into public.venues (id, slug, name, area, city, address, lat, lng, status, adult_only, genre_slugs, hours, cover_key, placeholder) values');
+  out.push('insert into public.venues (id, slug, name, area, city, address, lat, lng, status, adult_only, genre_slugs, hours, cover_key, placeholder, access_tags) values');
   out.push(
     ds.venues
       .map((v) =>
-        `  (${q(v.id)}, ${q(v.slug)}, ${q(v.name)}, ${q(v.area)}, ${q(v.city)}, ${q(v.address)}, ${n(v.lat)}, ${n(v.lng)}, ${q(v.status)}, ${b(v.adultOnly)}, ${arr(v.genreSlugs)}, ${q(v.hours)}, ${q(v.coverKey)}, ${b(v.placeholder)})`)
+        `  (${q(v.id)}, ${q(v.slug)}, ${q(v.name)}, ${q(v.area)}, ${q(v.city)}, ${q(v.address)}, ${n(v.lat)}, ${n(v.lng)}, ${q(v.status)}, ${b(v.adultOnly)}, ${arr(v.genreSlugs)}, ${q(v.hours)}, ${q(v.coverKey)}, ${b(v.placeholder)}, ${arr(v.accessTags ?? [])})`)
       .join(',\n') + ';',
   );
 
-  out.push('insert into public.artists (id, slug, name, genre_slugs, photo_url) values');
-  out.push(
-    ds.artists
-      .map((a) => `  (${q(a.id)}, ${q(a.slug)}, ${q(a.name)}, ${arr(a.genreSlugs)}, ${q(a.photoUrl)})`)
-      .join(',\n') + ';',
-  );
+  if (ds.artists.length) {
+    out.push('insert into public.artists (id, slug, name, genre_slugs, photo_url) values');
+    out.push(
+      ds.artists
+        .map((a) => `  (${q(a.id)}, ${q(a.slug)}, ${q(a.name)}, ${arr(a.genreSlugs)}, ${q(a.photoUrl)})`)
+        .join(',\n') + ';',
+    );
+  }
 
-  out.push('insert into public.events (id, venue_id, title, starts_at, ends_at, price_min, price_max, is_free, ticket_url, age_min, status, cover_key, popularity) values');
+  out.push('insert into public.events (id, venue_id, title, starts_at, ends_at, price_min, price_max, is_free, ticket_url, age_min, status, cover_key, popularity, access_tags) values');
   out.push(
     ds.events
       .map((e) =>
-        `  (${q(e.id)}, ${q(e.venueId)}, ${q(e.title)}, ${q(e.startsAt)}, ${q(e.endsAt)}, ${n(e.priceMin)}, ${n(e.priceMax)}, ${b(e.isFree)}, ${q(e.ticketUrl)}, ${n(e.ageMin)}, ${q(e.status)}, ${q(e.coverKey)}, ${n(e.popularity)})`)
+        `  (${q(e.id)}, ${q(e.venueId)}, ${q(e.title)}, ${q(e.startsAt)}, ${q(e.endsAt)}, ${n(e.priceMin)}, ${n(e.priceMax)}, ${b(e.isFree)}, ${q(e.ticketUrl)}, ${n(e.ageMin)}, ${q(e.status)}, ${q(e.coverKey)}, ${n(e.popularity)}, ${arr(e.accessTags ?? [])})`)
       .join(',\n') + ';',
   );
 
@@ -47,8 +49,10 @@ export function datasetToSql(ds: SeedDataset): string {
   out.push(eg.join(',\n') + ';');
 
   const ea = ds.events.flatMap((e) => e.artistIds.map((a, i) => `  (${q(e.id)}, ${q(a)}, ${i})`));
-  out.push('insert into public.event_artists (event_id, artist_id, billing_order) values');
-  out.push(ea.join(',\n') + ';');
+  if (ea.length) {
+    out.push('insert into public.event_artists (event_id, artist_id, billing_order) values');
+    out.push(ea.join(',\n') + ';');
+  }
 
   out.push('commit;');
   return out.join('\n') + '\n';

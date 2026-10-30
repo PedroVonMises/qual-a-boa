@@ -69,6 +69,9 @@
         "rock-indie",
         "hip-hop-rnb"
       ],
+      "accessTags": [
+        "lgbtqia"
+      ],
       "hours": "Sex e sáb, 23h–06h",
       "coverKey": "bolt",
       "id": "4627b1f7-a171-34ed-a493-6e33412ad704",
@@ -92,6 +95,10 @@
         "forro-tecnobrega",
         "hip-hop-rnb"
       ],
+      "accessTags": [
+        "lgbtqia",
+        "vegano"
+      ],
       "hours": "Qui a sáb, 22h–05h",
       "coverKey": "selva",
       "id": "ec2688d2-3215-30ad-90c0-01e46843c47b",
@@ -109,6 +116,9 @@
       "adultOnly": true,
       "genreSlugs": [
         "pagode-samba"
+      ],
+      "accessTags": [
+        "pet-friendly"
       ],
       "hours": "Qui a sáb, a partir das 18h",
       "coverKey": "gordinho",
@@ -129,6 +139,10 @@
         "pop-hits",
         "rock-indie",
         "karaoke-ao-vivo"
+      ],
+      "accessTags": [
+        "acessivel",
+        "vegano"
       ],
       "hours": "Qua a sáb, 21h–03h (karaokê às quartas)",
       "coverKey": "pub426",
@@ -153,6 +167,7 @@
       "hours": "Sex e sáb, 22h–04h",
       "coverKey": "fluente",
       "id": "6044b871-24cc-3115-90e1-eec363cf3450",
+      "accessTags": [],
       "placeholder": true
     },
     {
@@ -168,6 +183,9 @@
       "genreSlugs": [
         "rock-indie",
         "metal-punk-goth"
+      ],
+      "accessTags": [
+        "pet-friendly"
       ],
       "hours": "Sex e sáb, 22h–04h",
       "coverKey": "generic",
@@ -193,6 +211,7 @@
       "hours": "Encerrou as atividades em out/2026",
       "coverKey": "caipora",
       "id": "2e5c8fe5-e734-31b1-86f7-261ab393934b",
+      "accessTags": [],
       "placeholder": true
     },
     {
@@ -210,6 +229,11 @@
         "eletronica-house",
         "pop-hits",
         "karaoke-ao-vivo"
+      ],
+      "accessTags": [
+        "acessivel",
+        "lgbtqia",
+        "vegano"
       ],
       "hours": "Qui a sáb, 21h–04h",
       "coverKey": "mare",
@@ -1131,6 +1155,7 @@
       "status": "published",
       "coverKey": "art:sol-mare:coral-marinho:d",
       "popularity": 70,
+      "accessTags": [],
       "ticketUrl": "https://example.com/ingressos/casa-mare-demo-encerrado"
     },
     {
@@ -1153,6 +1178,7 @@
       "status": "published",
       "coverKey": "art:disco:ceu-poente:b",
       "popularity": 90,
+      "accessTags": [],
       "ticketUrl": "https://example.com/ingressos/casa-mare-demo-agora"
     },
     {
@@ -1174,6 +1200,9 @@
       "status": "published",
       "coverKey": "art:disco:anil-ouro:a",
       "popularity": 80,
+      "accessTags": [
+        "pet-friendly"
+      ],
       "ticketUrl": "https://example.com/ingressos/casa-mare-demo-em-breve"
     },
     {

@@ -54,10 +54,11 @@ IDs are deterministic UUIDs: `md5("<kind>:<slug>")` in UUID v3 layout
 ## search_events contract (mirror this in SeedRepo)
 
 Signature: `search_events(p_lat, p_lng, p_radius_km, p_genre_slugs, p_price_max, p_date_from,
-p_date_to, p_artist_id, p_area, p_query, p_sort = 'date', p_limit = 20, p_offset = 0, p_now = now())`.
+p_date_to, p_artist_id, p_area, p_query, p_sort = 'date', p_limit = 20, p_offset = 0, p_now = now(), p_tags = null)`
+(`p_tags text[]` added in migration `0009_access_tags.sql`).
 `SearchParams.cursor` maps to `p_offset` (`Number(cursor)`), `now` to `p_now`.
 Returns event columns plus `genre_slugs` (taxonomy order), `artist_ids` (billing order),
-`venue_*` columns (full venue), `distance_km` and `total_count`.
+`venue_*` columns (full venue), `access_tags` (effective set: venue tags plus event tags), `distance_km` and `total_count`.
 
 1. `status = 'published'`, `starts_at >= coalesce(p_date_from, p_now)` (a past `dateFrom` *does* return
    past events), venue `status <> 'closed'` (unverified venues are included).
@@ -74,12 +75,14 @@ Returns event columns plus `genre_slugs` (taxonomy order), `artist_ids` (billing
 9. Sort: `distance` asc on the **rounded** `distance_km`; `price` asc on `is_free ? 0 : price_min`, nulls last;
    `date`; `popularity` desc. Unknown sort = `date`. Always tie-break `starts_at` asc, then `id` asc
    (lower-case UUID string order = Postgres uuid order).
-10. `total_count` = matches before pagination. A page past the end returns no rows (so no total);
+10. Tags (`p_tags text[]`): AND. Every requested tag must be in `venues.access_tags || events.access_tags`. `null` or `[]` = no filter.
+    `supabaseRepo` omits `p_tags` when no tag is selected, so unfiltered searches work before 0009 is applied.
+11. `total_count` = matches before pagination. A page past the end returns no rows (so no total);
     the test harness then re-queries with offset 0 to get it.
 
 ## Remote Supabase project
 
-Project `qualaboa` (ref `kcwtbmznclayplexoxhc`, us-west-2, Postgres 17) has migrations 0001–0008 applied (2026-10-29).
+Project `qualaboa` (ref `kcwtbmznclayplexoxhc`, us-west-2, Postgres 17) has migrations 0001–0008 applied (2026-10-29). `0009_access_tags.sql` is NOT applied yet: apply it before shipping an app build whose users can pick a vibe & acesso tag, and before loading the current `seed.sql` (it inserts `access_tags`).
 The catalog tables are empty: the seed is not loaded. Anonymous sign-ins must be enabled in Authentication > Sign In / Providers.
 The generic steps below apply to attaching any other project.
 

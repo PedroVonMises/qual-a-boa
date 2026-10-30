@@ -11,6 +11,7 @@ import type {
   Venue,
   VenueDetail,
 } from '@/domain/types';
+import { cleanTags } from '@/domain/accessTags';
 import type { Repo } from './repo';
 import { SeedRepo } from './seedRepo';
 
@@ -118,7 +119,15 @@ export function validateFeed(raw: unknown): SeedDataset | null {
   const good = goodGenres.length + goodVenues.length + goodArtists.length + goodEvents.length;
   if ((total - good) / total > FEED_MAX_BAD_RATIO) return null;
   if (goodEvents.length === 0 || goodVenues.length === 0) return null;
-  return { generatedAt: raw.generatedAt, genres: goodGenres, venues: goodVenues, artists: goodArtists, events: goodEvents };
+  const withTags = <T extends { accessTags?: unknown }>(row: T) =>
+    row.accessTags === undefined ? row : { ...row, accessTags: cleanTags(row.accessTags) };
+  return {
+    generatedAt: raw.generatedAt,
+    genres: goodGenres,
+    venues: goodVenues.map(withTags),
+    artists: goodArtists,
+    events: goodEvents.map(withTags),
+  };
 }
 
 // ---------------------------------------------------------------------- repo

@@ -103,6 +103,7 @@ export interface SearchRow {
   is_free: boolean;
   popularity: number;
   genre_slugs: string[];
+  access_tags: string[];
   artist_ids: string[];
   venue_name: string;
   venue_area: string;
@@ -134,6 +135,7 @@ export function searchArgs(p: SearchParams): unknown[] {
     p.limit ?? 20,
     p.cursor ? Number(p.cursor) : 0,
     p.now ?? new Date().toISOString(),
+    p.tags ?? null,
   ];
 }
 
@@ -141,7 +143,7 @@ export const SEARCH_SQL = `select * from public.search_events(
   p_lat => $1, p_lng => $2, p_radius_km => $3, p_genre_slugs => $4::text[],
   p_price_max => $5::numeric, p_date_from => $6::timestamptz, p_date_to => $7::timestamptz,
   p_artist_id => $8::uuid, p_area => $9, p_query => $10, p_sort => $11,
-  p_limit => $12, p_offset => $13, p_now => $14::timestamptz)`;
+  p_limit => $12, p_offset => $13, p_now => $14::timestamptz, p_tags => $15::text[])`;
 
 export async function search(db: DB, p: SearchParams): Promise<SearchResult> {
   const res = await db.query<SearchRow>(SEARCH_SQL, searchArgs(p));

@@ -1,6 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 
 import { useGenres } from '@/data/queries';
+import { tagLabel } from '@/domain/accessTags';
 import { RADIUS_OPTIONS, type FilterState } from '@/domain/filters';
 import { useFilters } from '@/state/filters';
 import { Button, EmptyState } from '@/ui';
@@ -9,9 +10,14 @@ export function nextRadius(current: number): number | null {
   return RADIUS_OPTIONS.find((r) => r > current && r >= 10) ?? null;
 }
 
+function joinList(items: string[]): string {
+  return items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} e ${items[items.length - 1]}`;
+}
+
 function describe(f: FilterState, genreLabels: string[]): string {
   const parts: string[] = [];
   if (genreLabels.length) parts.push(`de ${genreLabels.join(', ')}`);
+  if (f.tags.length) parts.push(`com ${joinList(f.tags.map(tagLabel))}`);
   if (f.priceMax === 0) parts.push('grátis');
   else if (f.priceMax != null) parts.push(`até R$ ${f.priceMax}`);
   if (f.query.trim()) parts.push(`para "${f.query.trim()}"`);

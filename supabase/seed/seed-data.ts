@@ -17,6 +17,8 @@ import type {
   Venue,
 } from '../../app/src/domain/types';
 import { coverFor } from '../../app/src/domain/cover';
+import { cleanTags } from '../../app/src/domain/accessTags';
+import type { AccessTag } from '../../app/src/domain/accessTags';
 
 /** Deterministic UUID (md5, RFC 4122 v3 layout) derived from a namespaced slug. */
 export function uuidFromSlug(key: string): string {
@@ -71,6 +73,7 @@ const VENUES: VenueSpec[] = [
     address: 'R. Darcy Grijó, 20 - Jardim da Penha', lat: -20.2778, lng: -40.2908,
     status: 'open', adultOnly: true,
     genreSlugs: ['rock-indie', 'pop-hits', 'funk', 'hip-hop-rnb'],
+    accessTags: ['lgbtqia'],
     hours: 'Sex e sáb, 23h–06h', coverKey: 'bolt',
   },
   {
@@ -78,6 +81,7 @@ const VENUES: VenueSpec[] = [
     address: 'R. Sete de Setembro, 493 - Centro', lat: -20.3195, lng: -40.3372,
     status: 'open', adultOnly: true,
     genreSlugs: ['eletronica-house', 'funk', 'hip-hop-rnb', 'forro-tecnobrega', 'rock-indie', 'pagode-samba'],
+    accessTags: ['lgbtqia', 'vegano'],
     hours: 'Qui a sáb, 22h–05h', coverKey: 'selva',
   },
   {
@@ -85,6 +89,7 @@ const VENUES: VenueSpec[] = [
     address: 'R. Joaquim Lírio, 823 - Praia do Canto', lat: -20.2968, lng: -40.2949,
     status: 'open', adultOnly: true,
     genreSlugs: ['pagode-samba'],
+    accessTags: ['pet-friendly'],
     hours: 'Qui a sáb, a partir das 18h', coverKey: 'gordinho',
   },
   {
@@ -92,6 +97,7 @@ const VENUES: VenueSpec[] = [
     address: 'R. João da Cruz, 370 - Praia do Canto', lat: -20.2985, lng: -40.2966,
     status: 'open', adultOnly: true,
     genreSlugs: ['rock-indie', 'pop-hits', 'karaoke-ao-vivo'],
+    accessTags: ['acessivel', 'vegano'],
     hours: 'Qua a sáb, 21h–03h (karaokê às quartas)', coverKey: 'pub426',
   },
   {
@@ -106,6 +112,7 @@ const VENUES: VenueSpec[] = [
     address: 'Av. Est. José Júlio de Souza, 740 - Praia de Itaparica', lat: -20.3625, lng: -40.2838,
     status: 'open', adultOnly: true,
     genreSlugs: ['metal-punk-goth', 'rock-indie'],
+    accessTags: ['pet-friendly'],
     hours: 'Sex e sáb, 22h–04h', coverKey: 'generic',
   },
   {
@@ -121,6 +128,7 @@ const VENUES: VenueSpec[] = [
     address: 'Rua das Gaivotas, 120 - Praia do Canto', lat: -20.2960, lng: -40.2935,
     status: 'open', adultOnly: true,
     genreSlugs: ['eletronica-house', 'pop-hits', 'sertanejo', 'karaoke-ao-vivo'],
+    accessTags: ['acessivel', 'lgbtqia', 'vegano'],
     hours: 'Qui a sáb, 21h–04h', coverKey: 'mare',
   },
 ];
@@ -308,9 +316,9 @@ function pastStart(now: Date, weekday: number, weeksAgo: number, hour: number): 
  * Casa Maré demo events relative to `now`, so Ao vivo / Avaliar can always be exercised
  * (in progress, starting in ~2h, just ended). Included by default so seed.json and the fixed-now fixtures agree.
  */
-const DEMO_LIVE: { key: string; title: string; startH: number; endH: number; genres: string[]; artists: string[]; price: [number, number]; popularity: number }[] = [
+const DEMO_LIVE: { key: string; title: string; startH: number; endH: number; genres: string[]; artists: string[]; price: [number, number]; popularity: number; accessTags?: AccessTag[] }[] = [
   { key: 'agora', title: 'Maré Cheia', startH: -1, endH: 4, genres: ['eletronica-house', 'pop-hits'], artists: ['DJ Maresia'], price: [35, 50], popularity: 90 },
-  { key: 'em-breve', title: 'Maré Vazante', startH: 2, endH: 7, genres: ['pop-hits'], artists: ['Lia Sol'], price: [30, 40], popularity: 80 },
+  { key: 'em-breve', title: 'Maré Vazante', startH: 2, endH: 7, genres: ['pop-hits'], artists: ['Lia Sol'], price: [30, 40], popularity: 80, accessTags: ['pet-friendly'] },
   { key: 'encerrado', title: 'Maré Baixa', startH: -8, endH: -3, genres: ['sertanejo'], artists: ['Duo Moqueca'], price: [25, 35], popularity: 70 },
 ];
 
@@ -321,6 +329,7 @@ export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: 
     ...v,
     id: venueId(v.slug),
     genreSlugs: sortGenres(v.genreSlugs),
+    accessTags: cleanTags(v.accessTags),
     placeholder: true,
   }));
   const venueBySlug = new Map(venues.map((v) => [v.slug, v]));
@@ -391,6 +400,7 @@ export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: 
           status: 'published' as const,
           coverKey: coverFor({ genreSlugs: d.genres, venueSlug: venue.slug, eventId: eventId(`casa-mare-demo-${d.key}`) }),
           popularity: d.popularity,
+          accessTags: cleanTags(d.accessTags),
           ticketUrl: `https://example.com/ingressos/casa-mare-demo-${d.key}`,
         };
       })

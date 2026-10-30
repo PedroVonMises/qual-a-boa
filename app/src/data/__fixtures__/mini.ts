@@ -27,12 +27,12 @@ export const miniDataset: SeedDataset = {
   venues: [
     {
       id: 'v1', slug: 'bolt', name: 'Bolt Club', area: 'Praia do Canto', city: 'Vitória',
-      lat: -20.299, lng: -40.295, status: 'open', adultOnly: true, genreSlugs: ['funk', 'eletronica'],
+      lat: -20.299, lng: -40.295, status: 'open', adultOnly: true, genreSlugs: ['funk', 'eletronica'], accessTags: ['acessivel', 'vegano'],
       coverKey: 'bolt', placeholder: true,
     },
     {
       id: 'v2', slug: 'selva', name: 'Selva Bar', area: 'Jardim da Penha', city: 'Vitória',
-      lat: -20.279, lng: -40.288, status: 'open', adultOnly: true, genreSlugs: ['pagode-samba'],
+      lat: -20.279, lng: -40.288, status: 'open', adultOnly: true, genreSlugs: ['pagode-samba'], accessTags: ['vegano'],
       coverKey: 'selva', placeholder: true,
     },
     {

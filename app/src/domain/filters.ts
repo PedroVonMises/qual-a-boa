@@ -1,3 +1,4 @@
+import { cleanTags, type AccessTag } from './accessTags';
 import { spParts, toMs, type NowLike } from './format';
 import type { GeoPoint, SearchParams, SortKey } from './types';
 
@@ -14,6 +15,7 @@ export interface DayRange {
 
 export interface FilterState {
   genreSlugs: string[];
+  tags: AccessTag[];
   priceMax: number | null;
   radiusKm: RadiusKm;
   dateRange: DateRange;
@@ -27,6 +29,7 @@ export interface FilterState {
 
 export const defaultFilters: FilterState = {
   genreSlugs: [],
+  tags: [],
   priceMax: null,
   radiusKm: 10,
   dateRange: 'qualquer',
@@ -137,6 +140,7 @@ export function toSearchParams(
   };
   if (filters.sort === 'recommended') params.limit = RECOMMENDED_CANDIDATES;
   if (filters.genreSlugs.length) params.genreSlugs = filters.genreSlugs;
+  if (filters.tags.length) params.tags = filters.tags;
   if (filters.priceMax != null) params.priceMax = filters.priceMax;
   if (filters.artistId) params.artistId = filters.artistId;
   if (filters.area) params.area = filters.area;
@@ -147,6 +151,7 @@ export function toSearchParams(
 export function countActiveFilters(f: FilterState): number {
   let n = 0;
   if (f.genreSlugs.length) n++;
+  if (f.tags.length) n++;
   if (f.priceMax != null) n++;
   if (f.radiusKm !== defaultFilters.radiusKm) n++;
   if (f.dateRange !== defaultFilters.dateRange) n++;
@@ -163,6 +168,7 @@ export type RawUrlParams = Record<string, string | string[] | undefined>;
 export function filtersToUrlParams(f: FilterState): UrlParams {
   const out: UrlParams = {};
   if (f.genreSlugs.length) out.genres = f.genreSlugs.join(',');
+  if (f.tags.length) out.tags = f.tags.join(',');
   if (f.priceMax != null) out.priceMax = String(f.priceMax);
   if (f.radiusKm !== defaultFilters.radiusKm) out.radius = String(f.radiusKm);
   if (f.dateRange !== defaultFilters.dateRange) out.date = f.dateRange;
@@ -181,9 +187,11 @@ export function filtersToUrlParams(f: FilterState): UrlParams {
 const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
 
 export function urlParamsToFilters(raw: RawUrlParams): FilterState {
-  const f: FilterState = { ...defaultFilters, genreSlugs: [] };
+  const f: FilterState = { ...defaultFilters, genreSlugs: [], tags: [] };
   const genres = first(raw.genres);
   if (genres) f.genreSlugs = genres.split(',').map((s) => s.trim()).filter(Boolean);
+  const tags = first(raw.tags);
+  if (tags) f.tags = cleanTags(tags.split(',').map((s) => s.trim()));
   const price = first(raw.priceMax);
   if (price != null && price !== '' && Number.isFinite(Number(price)) && Number(price) >= 0) f.priceMax = Number(price);
   const radius = Number(first(raw.radius));

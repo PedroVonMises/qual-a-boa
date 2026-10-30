@@ -2,6 +2,7 @@
  * Independent TypeScript reading of the search spec, used only to cross-check
  * the SQL implementation. (The app's SeedRepo is a separate implementation.)
  */
+import { effectiveTags, matchesTags } from '../../app/src/domain/accessTags';
 import type { EventItem, SearchParams, SeedDataset, Venue } from '../../app/src/domain/types';
 
 export function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
@@ -32,6 +33,7 @@ export function referenceSearch(ds: SeedDataset, p: SearchParams): { ids: string
     const dist = haversineKm(p.lat, p.lng, v.lat, v.lng);
     if (dist > p.radiusKm) continue;
     if (genres && !e.genreSlugs.some((g) => genres.includes(g))) continue;
+    if (!matchesTags(effectiveTags(v, e), p.tags)) continue;
     if (p.priceMax !== undefined && p.priceMax !== null) {
       const ok = e.isFree || (p.priceMax > 0 && e.priceMin !== null && e.priceMin <= p.priceMax);
       if (!ok) continue;

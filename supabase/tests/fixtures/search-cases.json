@@ -364,6 +364,116 @@
     "expectedTotal": 40
   },
   {
+    "name": "tag acessivel (venue tag)",
+    "params": {
+      "lat": -20.2976,
+      "lng": -40.2958,
+      "radiusKm": 30,
+      "now": "2026-10-23T12:00:00.000Z",
+      "sort": "date",
+      "tags": [
+        "acessivel"
+      ],
+      "limit": 100
+    },
+    "expectedEventIds": [
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
+      "c731778b-f2cc-35fb-b6d1-89c9440b4280",
+      "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
+      "91eaecd1-4fb7-3a25-83ec-b3a7e87a0ac7",
+      "4a3e47a3-c12f-39b7-905c-0dd8b2e9f575",
+      "04dbb15c-0529-34c5-a430-26b9f31faae8",
+      "6e542966-331e-38e2-82be-b385bbc00cca",
+      "256d60b1-db0b-39fd-b714-afb7e07e33fa",
+      "c367b07a-fcdc-386c-9d3e-86c9c5599b2c",
+      "affc57b6-a11c-3791-9732-d86ee5de69ee",
+      "32bba6ee-0698-3001-8505-e1f36b67b261",
+      "c2121608-13fa-33d1-8e17-0e3492c1a1d5",
+      "c1ae43af-9926-37cc-9bc1-cc8d02d1b595"
+    ],
+    "expectedTotal": 13
+  },
+  {
+    "name": "tags lgbtqia AND vegano",
+    "params": {
+      "lat": -20.2976,
+      "lng": -40.2958,
+      "radiusKm": 30,
+      "now": "2026-10-23T12:00:00.000Z",
+      "sort": "date",
+      "tags": [
+        "lgbtqia",
+        "vegano"
+      ],
+      "limit": 100
+    },
+    "expectedEventIds": [
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
+      "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
+      "59400a6d-5314-3719-8ba9-5c9ca7e3c8c6",
+      "e07499e8-9f13-37ef-95f2-40d7fdf05490",
+      "4a3e47a3-c12f-39b7-905c-0dd8b2e9f575",
+      "6e542966-331e-38e2-82be-b385bbc00cca",
+      "63d81cfb-de92-3871-ae18-1ba1444b709b",
+      "c367b07a-fcdc-386c-9d3e-86c9c5599b2c",
+      "406d7573-6cf9-3e3f-bb88-3504fd176de7",
+      "a291bdf7-c783-30f0-bf4b-f97fe74a0f5f",
+      "9fa31382-8eed-3720-88bf-7afb0be1df23",
+      "c2121608-13fa-33d1-8e17-0e3492c1a1d5",
+      "c1ae43af-9926-37cc-9bc1-cc8d02d1b595",
+      "881fa839-291d-36f5-a3f2-1879c051c36f",
+      "60499e33-f9d1-30f2-b6cb-1cd21fc61017"
+    ],
+    "expectedTotal": 15
+  },
+  {
+    "name": "tag pet-friendly (venue and event override)",
+    "params": {
+      "lat": -20.2976,
+      "lng": -40.2958,
+      "radiusKm": 30,
+      "now": "2026-10-23T12:00:00.000Z",
+      "sort": "date",
+      "tags": [
+        "pet-friendly"
+      ],
+      "limit": 100
+    },
+    "expectedEventIds": [
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
+      "b83e0bc3-382d-307b-8467-710a99f3b967",
+      "f24b7bab-518f-36a3-878d-38d2e38095cb",
+      "31705c72-a71b-3a9f-b38b-341394f8b15a",
+      "19544ef6-5f36-3df7-b71e-4b5eba862300",
+      "feb8405b-e761-3b76-a853-a9eb62d8e971",
+      "494a7f43-5aca-3753-9343-0f9a445670b9",
+      "cdc0f000-487a-3db6-89ea-d672e27a35c4",
+      "50ae2bfc-9032-3097-b71f-f28bbbf3deb7",
+      "94a65a02-a314-3374-9de2-3894395999f7"
+    ],
+    "expectedTotal": 10
+  },
+  {
+    "name": "empty tag list = no filter",
+    "params": {
+      "lat": -20.2976,
+      "lng": -40.2958,
+      "radiusKm": 30,
+      "now": "2026-10-23T12:00:00.000Z",
+      "sort": "date",
+      "tags": [],
+      "limit": 5
+    },
+    "expectedEventIds": [
+      "c7c9bbc8-f6f6-3ab6-bb8f-e243ffa48c3f",
+      "c731778b-f2cc-35fb-b6d1-89c9440b4280",
+      "ce66673b-c9ef-3ab8-b2ca-0a634eccd0a5",
+      "54437fb9-a804-3431-85c8-f3a3a50647d9",
+      "59400a6d-5314-3719-8ba9-5c9ca7e3c8c6"
+    ],
+    "expectedTotal": 40
+  },
+  {
     "name": "priceMax 0 = only free",
     "params": {
       "lat": -20.2976,

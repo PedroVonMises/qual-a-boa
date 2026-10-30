@@ -1,4 +1,5 @@
 import { MINI_NOW } from '@/data/__fixtures__/mini';
+import type { AccessTag } from './accessTags';
 import {
   countActiveFilters,
   dateRangeBounds,
@@ -104,5 +105,17 @@ describe('filters', () => {
     expect(filtersToUrlParams({ ...defaultFilters, sort: 'recommended' })).toEqual({});
     expect(countActiveFilters({ ...defaultFilters, sort: 'recommended' })).toBe(0);
     expect(urlParamsToFilters(filtersToUrlParams({ ...defaultFilters, sort: 'distance' })).sort).toBe('distance');
+  });
+
+  it('tags: count, search params and URL codec', () => {
+    const f = { ...defaultFilters, tags: ['acessivel', 'vegano'] as AccessTag[] };
+    expect(countActiveFilters(f)).toBe(1);
+    expect(toSearchParams(f, { lat: 1, lng: 2 }, NOW).tags).toEqual(['acessivel', 'vegano']);
+    expect(toSearchParams(defaultFilters, { lat: 1, lng: 2 }, NOW).tags).toBeUndefined();
+    expect(filtersToUrlParams(f)).toEqual({ tags: 'acessivel,vegano' });
+    expect(urlParamsToFilters({ tags: 'acessivel,vegano' }).tags).toEqual(['acessivel', 'vegano']);
+    expect(urlParamsToFilters({ tags: 'vegano,nope,vegano' }).tags).toEqual(['vegano']);
+    expect(urlParamsToFilters({ tags: ['pet-friendly'] }).tags).toEqual(['pet-friendly']);
+    expect(urlParamsToFilters({}).tags).toEqual([]);
   });
 });
