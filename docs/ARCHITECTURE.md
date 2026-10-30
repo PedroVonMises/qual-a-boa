@@ -13,7 +13,7 @@ app/src/state   zustand stores
 app/src/features/<name>   screen-level components per feature
 app/src/lib     env.ts, analytics.ts, a11y helpers
 supabase/       migrations/, seed/, tests/  (own: backend agent)
-docs/           DESIGN.md (design system), VENUES.md, design-audit.md, this file
+docs/           DESIGN.md (design system), SCREENS.md + screens/ (screen inventory), VENUES.md, design-audit.md, this file
 ```
 Path alias: `@/` maps to `app/src/`. Routes live in `app/app/` (scaffold convention; AGENTS.md mentions `src/app`, we deliberately keep routes outside `src`).
 
@@ -45,7 +45,9 @@ Need a new dependency? Do not edit package.json. Put it in your report; the orch
 `npm run typecheck` · `npm run lint` · `npm test` · `npm run test:sql` · `npm run seed` · `npx expo export --platform web` · `npx expo start --web`
 
 ## Visual spec
-`docs/design-canvas/*.dc.html` are the design mockups (static HTML, open through a local http server). Screen map: Main/Filtros/Mapa/Evento/Casa = generic; HomeReal, FiltrosReal, MapaReal, Evento{Bolt,Selva,Gordinho}, Casa{Bolt,Selva,Gordinho,Caipora} = real-venue variants (R1-R10); Idade, Local, Salvos, Perfil, Artista, Vazio, Web = N1-N7; Acompanhar, Avisos, AoVivo, Avaliar, AvaliarTexto, Avaliacoes, Ajuda, Mensagens, Suporte, NovoChamado = U1-U10; Marca/Marca2/Splash/Social/Aplicacoes = brand; Busca, Quando, Ingressos, Compartilhar, Entrar, SemConexao, Privacidade = G1-G7 (routes `/busca`, Quando sheet in Explorar and Filtros, `/ingressos/[id]`, share sheet in Evento, `/entrar`, root `OfflineBanner`, `/privacidade`). Cover art SVGs: `app/assets/art/*.svg`, brand marks: `app/assets/brand/`.
+`docs/SCREENS.md` is the visual reference: screenshots of every implemented screen in UX-flow order, regenerated with `node app/scripts/capture-screens.mjs` (see the script header). `docs/DESIGN.md` documents the tokens and components as built.
+
+History: `docs/design-canvas/*.dc.html` are the earlier design mockups (static HTML, open through a local http server). Screen map: Main/Filtros/Mapa/Evento/Casa = generic; HomeReal, FiltrosReal, MapaReal, Evento{Bolt,Selva,Gordinho}, Casa{Bolt,Selva,Gordinho,Caipora} = real-venue variants (R1-R10); Idade, Local, Salvos, Perfil, Artista, Vazio, Web = N1-N7; Acompanhar, Avisos, AoVivo, Avaliar, AvaliarTexto, Avaliacoes, Ajuda, Mensagens, Suporte, NovoChamado = U1-U10; Marca/Marca2/Splash/Social/Aplicacoes = brand; Busca, Quando, Ingressos, Compartilhar, Entrar, SemConexao, Privacidade = G1-G7 (routes `/busca`, Quando sheet in Explorar and Filtros, `/ingressos/[id]`, share sheet in Evento, `/entrar`, root `OfflineBanner`, `/privacidade`). Cover art SVGs: `app/assets/art/*.svg`, brand marks: `app/assets/brand/`.
 
 ## Wave 3 (engagement)
 Contracts: `app/src/domain/engage.ts`. Local-first persisted zustand stores, one per feature, named `qab.<feature>`: `state/follows.ts` (+ `state/checkins.ts`), `state/live.ts`, `state/reviews.ts`, `state/support.ts`. Screens live in `src/features/<name>` and replace the `ScreenStub` bodies of the existing route files (do not rename routes).
