@@ -82,7 +82,7 @@ Returns event columns plus `genre_slugs` (taxonomy order), `artist_ids` (billing
 
 ## Remote Supabase project
 
-Project `qualaboa` (ref `kcwtbmznclayplexoxhc`, us-west-2, Postgres 17) has migrations 0001–0008 applied (2026-10-29).
+Project `qualaboa` (ref `kcwtbmznclayplexoxhc`, us-west-2, Postgres 17) has migrations 0001–0008 applied (2026-10-29). `0009_access_tags.sql` is NOT applied yet: apply it before shipping an app build whose users can pick a vibe & acesso tag, and before loading the current `seed.sql` (it inserts `access_tags`).
 The catalog tables are empty: the seed is not loaded. Anonymous sign-ins must be enabled in Authentication > Sign In / Providers.
 The generic steps below apply to attaching any other project.
 
