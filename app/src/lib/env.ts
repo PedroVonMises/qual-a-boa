@@ -17,4 +17,9 @@ export const env = {
   appEnv,
   /** Demo tools (Perfil "Dados de demonstração") are hidden only in store/production builds. */
   demoTools: appEnv !== 'production',
+  /** Dev only: extra synthetic threads in seed mode (EXPO_PUBLIC_DEMO_THREADS=60) to exercise feed paging. Never in production. */
+  demoThreads:
+    appEnv === 'production'
+      ? 0
+      : Math.min(Math.max(Number.parseInt(process.env.EXPO_PUBLIC_DEMO_THREADS ?? '0', 10) || 0, 0), 500),
 } as const;

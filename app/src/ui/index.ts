@@ -28,7 +28,7 @@ export { SearchBar, type SearchBarProps } from './SearchBar';
 export { SegmentedControl, type SegmentedControlProps, type SegmentOption } from './SegmentedControl';
 export { Sheet, type SheetProps } from './Sheet';
 export { Shelf, type ShelfProps } from './Shelf';
-export { EventCardSkeleton, Skeleton, type SkeletonProps } from './Skeleton';
+export { EventCardSkeleton, Skeleton, ThreadCardSkeleton, type SkeletonProps } from './Skeleton';
 export { Switch, type SwitchProps } from './Switch';
 
 export { TAB_BAR_HEIGHT, TabBar, type TabBarProps } from './TabBar';

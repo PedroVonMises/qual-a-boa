@@ -27,7 +27,7 @@ Discovery-only app. Users still can't get honest, current answers to three quest
 
 Handle setup is a sheet shown on first post/comment. Out of scope: public profiles, DMs, media, downvotes.
 
-## Data (migration 0010, written and tested locally; not applied to the remote)
+## Data (migrations 0010-0012, applied to the remote on 2026-10-31)
 - `profiles.handle` (unique, `^[a-z0-9_.]{3,20}$`) and `avatar_hue`; shown only through the feed views.
 - `threads` (event xor venue, kind, title <= 120, body <= 800), `comments` (body <= 500, depth <= 1 by trigger), `comment_votes` (one per user and comment, count kept by trigger), `community_reports` (one target, one per user and target).
 - Votes apply to comments only: the UI has no thread vote, and this keeps real foreign keys.
@@ -42,7 +42,12 @@ Handle setup is a sheet shown on first post/comment. Out of scope: public profil
 ## Open items
 - Confirm the auto-hide threshold (implemented as 3 distinct reports).
 - Not yet exercised against the live project: the sync layer is tested against a fake client only.
-- No moderation UI for the author of a hidden post, and no pagination beyond the newest 100 threads in the global feed (an event's hub and a single thread are fetched on their own).
+- No moderation UI for the author of a hidden post. Comments inside a thread are not paged (decided); revisit when a real thread nears ~200.
+- "Hoje à noite" skips archived `agora` threads while scanning; fine while recent ended ones are few, add a partial index if it shows in the plans.
 - Abuse: users are anonymous auth accounts, so 3 throwaway accounts can auto-hide any post, and thread/comment/report inserts are not throttled. Needs a decision (account age, per-user rate limits, or a higher threshold) before launch.
-- `0011_community_hidden_parents.sql` is not applied to the remote yet.
-- 0009 is not applied to the remote; confirm ordering before applying 0010.
+- The performance advisor lists the foreign keys on `threads.user_id`, `comments.user_id`, `comment_votes.user_id` and `community_reports.thread_id/comment_id` as unindexed (INFO). Harmless while the tables are empty; account deletion and report lookups will scan them at scale, so index them before real traffic.
+
+## Feed sizing and comfort
+Page size is **20** for the feed and the event page (`COMMUNITY_PAGE_SIZE`). Not measured (no analytics): a card is ~110-180px, so 20 rows is ~3-4 screens; the next page is requested at 60% of the list so scrolling never stops; same size as Explorar. Change the constant, nothing else.
+Comfort rules: nothing is inserted above what the user is looking at (refresh only after their own push, on pull-to-refresh and on mount); a filter change keeps the old list until the new one arrives; first load shows skeletons, a failure shows an error with retry (never "no conversations"); a failed next page keeps the list with an inline retry; the end of the feed says "Você viu tudo por aqui." with a button to start a conversation.
+Measured on 8,000 synthetic threads (PGlite): feed page 1-2 ~0.5-1.3 ms (reads ~31 rows), event page ~0.5 ms, helpful sort ~1.6 ms, versus ~100 ms and a full scan before the indexes.

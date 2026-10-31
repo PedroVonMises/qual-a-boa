@@ -33,6 +33,23 @@ export function Frame({ children, footer }: { children: ReactNode; footer?: Reac
   );
 }
 
+/** Like Frame for screens whose body is a virtualized list: the list scrolls itself, the footer stays put. */
+export function ListFrame({ children, footer }: { children: ReactNode; footer?: ReactNode }) {
+  const { colors } = useTheme();
+  const { gutter } = useBreakpoint();
+  const insets = useInsets();
+  return (
+    <View style={[styles.root, { backgroundColor: colors.background }]}>
+      <View style={[styles.col, styles.listCol]}>{children}</View>
+      {footer ? (
+        <View style={[styles.footer, { backgroundColor: colors.surface, borderTopColor: colors.border, paddingBottom: insets.bottom + space.md }]}>
+          <View style={[styles.col, styles.footerRow, { paddingHorizontal: gutter }]}>{footer}</View>
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
 export type StateKind = 'loading' | 'error' | 'missing';
 
 /** Loading / error / not-found shell with a back button. */
@@ -76,6 +93,7 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   scroll: { flexGrow: 1, paddingBottom: space.xxxl },
   col: { width: '100%', maxWidth: DETAIL_MAX_WIDTH, alignSelf: 'center' },
+  listCol: { flex: 1 },
   footer: { borderTopWidth: 1, paddingTop: space.md },
   footerRow: { flexDirection: 'row', gap: space.md },
   backRow: { flexDirection: 'row' },

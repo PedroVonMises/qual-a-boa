@@ -1,4 +1,4 @@
-import type { Comment, Thread } from '@/domain/community';
+import { THREAD_KINDS, type Comment, type Thread } from '@/domain/community';
 
 /**
  * Pilot demonstration threads. Like the demo reviews, they exist ONLY for Casa Maré (slug `casa-mare`, a fictional
@@ -105,3 +105,33 @@ export const DEMO_COMMENTS: Comment[] = [
     helpfulCount: 1,
   },
 ];
+
+const SYN_TITLES = [
+  'A fila anda rápido?',
+  'Vale a pena chegar cedo?',
+  'Alguém para dividir mesa?',
+  'Como está o som hoje?',
+  'Tem estacionamento perto?',
+  'Dá para ir de ônibus na volta?',
+];
+
+/**
+ * Dev-only filler (`EXPO_PUBLIC_DEMO_THREADS`): `count` threads spaced 17 minutes apart, newest first, with ids that are
+ * not uuids so nothing here can reach the server. Lets feed paging be exercised without a backend.
+ */
+export function syntheticThreads(count: number, now: number = Date.parse('2026-10-31T03:00:00Z')): Thread[] {
+  return Array.from({ length: count }, (_, i) => ({
+    id: `demo-syn-${String(i + 1).padStart(3, '0')}`,
+    venueSlug: DEMO_VENUE_SLUG,
+    eventName: 'Casa Maré',
+    kind: THREAD_KINDS[i % THREAD_KINDS.length],
+    title: `${SYN_TITLES[i % SYN_TITLES.length]} (${i + 1})`,
+    author:
+      i % 4 === 0
+        ? { anonymous: true as const }
+        : { anonymous: false as const, handle: `demo_${(i % 7) + 1}`, avatarHue: (i * 47) % 360 },
+    createdAt: new Date(now - i * 17 * 60_000).toISOString(),
+    commentCount: i % 5,
+    helpfulCount: 0,
+  }));
+}

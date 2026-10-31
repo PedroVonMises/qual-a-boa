@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen } from '@testing-library/react-native';
-import { Text } from 'react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
+import { Pressable, Text } from 'react-native';
 
 import { fakeClient, flush, type Handler } from './fakeClient';
 import {
@@ -8,15 +8,18 @@ import {
   mapThreadRow,
   pullComments,
   pullThread,
-  pullThreads,
+  pullThreadsPage,
+  refreshFirstPage,
   pushCommentVote,
   pushCommunityReport,
   pushHandle,
-  useRemoteThreads,
+  threadsQueryKey,
+  useThreadsInfinite,
   type CommentFeedRow,
   type ThreadFeedRow,
 } from './community';
 
+import { COMMUNITY_PAGE_SIZE, encodeKeyset, type ThreadQuery } from '@/domain/community';
 import { flushCommunity, useCommunity } from '@/state/community';
 
 jest.mock('@react-native-async-storage/async-storage', () =>
@@ -141,12 +144,102 @@ describe('community mapping', () => {
   });
 });
 
+/** Row `i` of a fixed newest-first sequence: strictly decreasing created_at, unique ids. */
+const rowAt = (i: number): ThreadFeedRow => ({
+  ...threadRow,
+  id: `00000000-0000-4000-8000-${String(i + 1000).padStart(12, '0')}`,
+  title: `T${i}`,
+  created_at: new Date(Date.parse('2026-10-30T20:00:00Z') - i * 60_000).toISOString(),
+  top_comment_id: null,
+  top_comment_body: null,
+  top_comment_votes: null,
+});
+const rows = (from: number, count: number) => Array.from({ length: count }, (_, k) => rowAt(from + k));
+const FEED: ThreadQuery = { scope: 'all', sort: 'recent' };
+const N = COMMUNITY_PAGE_SIZE;
+
 describe('community pull', () => {
-  it('reads threads_feed newest first', async () => {
+  it('asks for one extra row, newest first with an id tiebreak, and hides archived threads from the feed', async () => {
     const calls = use(() => ({ data: [threadRow] }));
-    const list = await pullThreads();
-    expect(list.map((t) => t.id)).toEqual([TH]);
-    expect(calls[0]).toMatchObject({ table: 'threads_feed', op: 'select' });
+    const page = await pullThreadsPage(FEED);
+    expect(page.items.map((t) => t.id)).toEqual([TH]);
+    expect(calls[0]).toMatchObject({ table: 'threads_feed', op: 'select', limit: N + 1 });
+    expect(calls[0].orders).toEqual([
+      ['created_at', { ascending: false }],
+      ['id', { ascending: false }],
+    ]);
+    expect(calls[0].filters).toContainEqual(['archived', 'eq', false]);
+  });
+
+  it('returns a full page plus a keyset cursor when a further row exists', async () => {
+    use(() => ({ data: rows(0, N + 1) }));
+    const page = await pullThreadsPage(FEED);
+    expect(page.items).toHaveLength(N);
+    expect(page.nextCursor).toBe(encodeKeyset({ createdAt: rowAt(N - 1).created_at, id: rowAt(N - 1).id }));
+  });
+
+  it('has no cursor on the last page (exactly a page, or less)', async () => {
+    use(() => ({ data: rows(0, N) }));
+    expect((await pullThreadsPage(FEED)).nextCursor).toBeNull();
+    use(() => ({ data: rows(0, 3) }));
+    expect((await pullThreadsPage(FEED)).nextCursor).toBeNull();
+    use(() => ({ data: [] }));
+    expect(await pullThreadsPage(FEED)).toEqual({ items: [], nextCursor: null });
+  });
+
+  it('turns the cursor into a keyset filter, so rows posted meanwhile cannot duplicate or skip', async () => {
+    const calls = use(() => ({ data: rows(N, 5) }));
+    const cursor = encodeKeyset({ createdAt: '2026-10-30T19:40:00.000Z', id: 'abc' });
+    await pullThreadsPage(FEED, cursor);
+    expect(calls[0].filters).toContainEqual(['', 'or', 'created_at.lt.2026-10-30T19:40:00.000Z,and(created_at.eq.2026-10-30T19:40:00.000Z,id.lt.abc)']);
+  });
+
+  it('applies the filters on the server', async () => {
+    const calls = use(() => ({ data: [] }));
+    await pullThreadsPage({ ...FEED, kind: 'grupo', eventId: EV, includeArchived: true });
+    expect(calls[0].filters).toEqual(
+      expect.arrayContaining([
+        ['kind', 'eq', 'grupo'],
+        ['event_id', 'eq', EV],
+      ]),
+    );
+    expect(calls[0].filters).not.toContainEqual(['archived', 'eq', false]);
+
+    await pullThreadsPage({ ...FEED, scope: 'tonight' });
+    expect(calls[1].filters).toContainEqual(['kind', 'eq', 'agora']);
+
+    await pullThreadsPage({ ...FEED, scope: 'following', followedEventIds: [EV, 'seed-id'] });
+    expect(calls[2].filters).toContainEqual(['event_id', 'in', [EV]]);
+  });
+
+  it('makes no request for "Seguindo" without follows, or for an event that is not a server id', async () => {
+    const calls = use(() => ({ data: [threadRow] }));
+    expect(await pullThreadsPage({ ...FEED, scope: 'following', followedEventIds: [] })).toEqual({ items: [], nextCursor: null });
+    expect(await pullThreadsPage({ ...FEED, scope: 'following', followedEventIds: ['seed-id'] })).toEqual({ items: [], nextCursor: null });
+    expect(await pullThreadsPage({ ...FEED, eventId: 'evt-001' })).toEqual({ items: [], nextCursor: null });
+    expect(calls).toHaveLength(0);
+  });
+
+  it('pages the helpful sort by offset over the pinned reply votes', async () => {
+    const calls = use(() => ({ data: rows(0, N + 1) }));
+    const q: ThreadQuery = { ...FEED, sort: 'helpful', eventId: EV, kind: 'vale_a_pena', includeArchived: true };
+    const first = await pullThreadsPage(q);
+    expect(first.nextCursor).toBe(String(N));
+    expect(calls[0].orders.map((o) => o[0])).toEqual(['top_comment_votes', 'created_at', 'id']);
+    expect(calls[0].orders[0][1]).toEqual({ ascending: false, nullsFirst: false });
+    expect(calls[0].range).toEqual([0, N]);
+
+    await pullThreadsPage(q, first.nextCursor);
+    expect(calls[1].range).toEqual([N, 2 * N]);
+  });
+
+  it('reads one thread by id, and nothing for a local id', async () => {
+    const calls = use(() => ({ data: [threadRow] }));
+    expect((await pullThread(TH))?.id).toBe(TH);
+    expect(calls[0].filters).toContainEqual(['id', 'eq', TH]);
+    use(() => ({ data: [] }));
+    await expect(pullThread(TH)).resolves.toBeNull();
+    expect(await pullThread('th-local')).toBeNull();
   });
 
   it('reads comments_feed for one thread, and nothing for a local id', async () => {
@@ -157,21 +250,9 @@ describe('community pull', () => {
     expect(calls).toHaveLength(1);
   });
 
-  it("can read one event's threads, or one thread by id, so old events are not cut off by the feed window", async () => {
-    const calls = use(() => ({ data: [threadRow] }));
-    await pullThreads(EV);
-    expect(calls[0].filters).toContainEqual(['event_id', 'eq', EV]);
-    expect((await pullThread(TH))?.id).toBe(TH);
-    expect(calls[1].filters).toContainEqual(['id', 'eq', TH]);
-    use(() => ({ data: [] }));
-    await expect(pullThread(TH)).resolves.toBeNull();
-    expect(await pullThreads('evt-local')).toEqual([]);
-    expect(await pullThread('th-local')).toBeNull();
-  });
-
-  it('propagates server errors so the query shows its error state', async () => {
+  it('propagates server errors so the screen can show its error state', async () => {
     use(() => ({ error: { code: '42501', message: 'rls' } }));
-    await expect(pullThreads()).rejects.toMatchObject({ code: '42501' });
+    await expect(pullThreadsPage(FEED)).rejects.toMatchObject({ code: '42501' });
   });
 });
 
@@ -418,34 +499,92 @@ describe('remote queries', () => {
   // One client per test (a new one per render would drop the cache); gcTime 0 so no timer outlives the test.
   const makeClient = () => new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 } } });
 
-  function Probe({ version, eventId }: { version: number; eventId?: string }) {
-    const q = useRemoteThreads(version, eventId);
-    return <Text>{(q.data ?? []).map((t) => t.title).join(',') || 'vazio'}</Text>;
+  function Probe({ q }: { q: ThreadQuery }) {
+    const inf = useThreadsInfinite(q);
+    const titles = (inf.data?.pages ?? []).flatMap((p) => p.items.map((t) => t.title));
+    return (
+      <>
+        <Text testID="titles">{titles.join(',') || 'vazio'}</Text>
+        <Text testID="pages">{`pages:${inf.data?.pages.length ?? 0} next:${String(inf.hasNextPage)}`}</Text>
+        <Pressable accessibilityRole="button" accessibilityLabel="mais" onPress={() => void inf.fetchNextPage()}>
+          <Text>mais</Text>
+        </Pressable>
+      </>
+    );
   }
-  const tree = (client: QueryClient, version: number, eventId?: string) => (
+  const tree = (client: QueryClient, q: ThreadQuery) => (
     <QueryClientProvider client={client}>
-      <Probe version={version} eventId={eventId} />
+      <Probe q={q} />
     </QueryClientProvider>
   );
 
-  it('refetches after a push without blanking the list in between', async () => {
-    let n = 0;
-    const calls = use(() => ({ data: [{ ...threadRow, title: `v${++n}` }] }));
-    const client = makeClient();
-    const view = await render(tree(client, 0));
-    await screen.findByText('v1');
-
-    await view.rerender(tree(client, 1));
-    // Same cache entry: the old rows stay on screen while the refetch runs.
-    expect(screen.queryByText('vazio')).toBeNull();
-    await screen.findByText('v2');
-    expect(calls.filter((c) => c.table === 'threads_feed')).toHaveLength(2);
+  it('loads the next page from the cursor and stops when there is none', async () => {
+    const calls = use((c) => (c.filters.some((f) => f[1] === 'or') ? { data: rows(N, 5) } : { data: rows(0, N + 1) }));
+    await render(tree(makeClient(), FEED));
+    await screen.findByText(`pages:1 next:true`);
+    await fireEvent.press(screen.getByRole('button', { name: 'mais' }));
+    await screen.findByText(`pages:2 next:false`);
+    expect(calls).toHaveLength(2);
+    expect(screen.getByTestId('titles').props.children.split(',')).toHaveLength(N + 5);
   });
 
-  it("keys one event's threads separately from the feed", async () => {
-    const calls = use(() => ({ data: [threadRow] }));
-    await render(tree(makeClient(), 0, EV));
-    await screen.findByText('Vale pagar o camarote?');
-    expect(calls[0].filters).toContainEqual(['event_id', 'eq', EV]);
+  it('keeps the previous list on screen while a filter change loads', async () => {
+    let release: () => void = () => undefined;
+    const gate = new Promise<void>((r) => (release = r));
+    use(async (c) => {
+      if (c.filters.some((f) => f[0] === 'kind' && f[2] === 'grupo')) {
+        await gate;
+        return { data: [{ ...rowAt(50), title: 'grupo-1' }] };
+      }
+      return { data: [{ ...rowAt(1), title: 'tudo-1' }] };
+    });
+    const client = makeClient();
+    const view = await render(tree(client, FEED));
+    await screen.findByText('tudo-1');
+
+    await view.rerender(tree(client, { ...FEED, kind: 'grupo' }));
+    expect(screen.getByTestId('titles').props.children).toBe('tudo-1'); // not blank while the new filter loads
+    release();
+    await screen.findByText('grupo-1');
+  });
+
+  describe('refreshFirstPage', () => {
+    const prime = async (q: ThreadQuery, client: QueryClient) => {
+      const p0 = { items: rows(0, N).map(mapThreadRow), nextCursor: encodeKeyset({ createdAt: rowAt(N - 1).created_at, id: rowAt(N - 1).id }) };
+      const p1 = { items: rows(N, 5).map(mapThreadRow), nextCursor: null };
+      client.setQueryData(threadsQueryKey(q), { pages: [p0, p1], pageParams: [null, p0.nextCursor] });
+    };
+
+    it('replaces page 1 and keeps later pages when its boundary did not move', async () => {
+      const client = makeClient();
+      await prime(FEED, client);
+      use(() => ({ data: [{ ...rowAt(0), title: 'T0-novo' }, ...rows(1, N)] }));
+      await refreshFirstPage(client, FEED);
+      const data = client.getQueryData<{ pages: { items: { title: string }[] }[] }>(threadsQueryKey(FEED))!;
+      expect(data.pages).toHaveLength(2);
+      expect(data.pages[0].items[0].title).toBe('T0-novo');
+    });
+
+    it('falls back to page 1 when new threads moved the boundary (a kept page 2 would leave a gap)', async () => {
+      const client = makeClient();
+      await prime(FEED, client);
+      use(() => ({ data: rows(-1, N + 1) })); // one newer thread above everything
+      await refreshFirstPage(client, FEED);
+      const data = client.getQueryData<{ pages: unknown[]; pageParams: unknown[] }>(threadsQueryKey(FEED))!;
+      expect(data.pages).toHaveLength(1);
+      expect(data.pageParams).toEqual([null]);
+    });
+
+    it('reset (pull-to-refresh) always goes back to page 1; an unloaded query is left alone', async () => {
+      const client = makeClient();
+      await prime(FEED, client);
+      use(() => ({ data: rows(0, N + 1) }));
+      await refreshFirstPage(client, FEED, { reset: true });
+      expect(client.getQueryData<{ pages: unknown[] }>(threadsQueryKey(FEED))!.pages).toHaveLength(1);
+
+      const calls = use(() => ({ data: [] }));
+      await refreshFirstPage(client, { ...FEED, kind: 'agora' });
+      expect(calls).toHaveLength(0);
+    });
   });
 });

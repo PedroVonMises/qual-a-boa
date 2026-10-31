@@ -1,7 +1,26 @@
-import { useQuery } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+  type InfiniteData,
+  type QueryClient,
+} from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 
-import type { Comment, Thread, ThreadKind } from '@/domain/community';
+import {
+  COMMUNITY_PAGE_SIZE,
+  MAX_FOLLOWED_IN_QUERY,
+  decodeKeyset,
+  decodeOffset,
+  encodeKeyset,
+  threadQueryKey,
+  type Comment,
+  type Thread,
+  type ThreadKind,
+  type ThreadPage,
+  type ThreadQuery,
+} from '@/domain/community';
 
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -106,15 +125,53 @@ export function mapCommentRow(r: CommentFeedRow): RemoteComment {
 
 export const isServerId = (id: string | undefined): id is string => !!id && UUID_RE.test(id);
 
-/** Published threads + the caller's own, newest first (newest 100; optionally one event's). Throws on network/RLS errors. */
-export async function pullThreads(eventId?: string): Promise<RemoteThread[]> {
+const EMPTY_PAGE: ThreadPage<RemoteThread> = { items: [], nextCursor: null };
+
+/**
+ * One page of `threads_feed` (published threads + the caller's own). Fetches PAGE_SIZE + 1 rows so "is there a next
+ * page" needs no count query. Recency pages with a keyset cursor (`created_at|id`): a thread posted meanwhile cannot
+ * duplicate or skip a row. The helpful sort (event page) uses an offset cursor over the pinned reply's votes.
+ * Filters run on the server, so every page is full. Throws on network/RLS errors.
+ */
+export async function pullThreadsPage(q: ThreadQuery, cursor: string | null = null): Promise<ThreadPage<RemoteThread>> {
   const sb = getSupabase();
-  if (!sb || (eventId !== undefined && !isServerId(eventId))) return [];
-  let q = sb.from('threads_feed').select('*');
-  if (eventId) q = q.eq('event_id', eventId);
-  const { data, error } = await q.order('created_at', { ascending: false }).limit(100);
+  if (!sb) return EMPTY_PAGE;
+  if (q.eventId !== undefined && !isServerId(q.eventId)) return EMPTY_PAGE;
+  const followed = (q.followedEventIds ?? []).filter(isServerId).slice(0, MAX_FOLLOWED_IN_QUERY);
+  if (q.scope === 'following' && followed.length === 0) return EMPTY_PAGE;
+
+  const n = COMMUNITY_PAGE_SIZE;
+  let f = sb.from('threads_feed').select('*');
+  if (q.eventId) f = f.eq('event_id', q.eventId);
+  if (q.kind) f = f.eq('kind', q.kind);
+  if (q.scope === 'tonight') f = f.eq('kind', 'agora');
+  if (q.scope === 'following') f = f.in('event_id', followed);
+  if (!q.includeArchived) f = f.eq('archived', false);
+
+  const helpful = q.sort === 'helpful';
+  const offset = helpful ? decodeOffset(cursor) : 0;
+  if (!helpful) {
+    const k = decodeKeyset(cursor);
+    if (k) f = f.or(`created_at.lt.${k.createdAt},and(created_at.eq.${k.createdAt},id.lt.${k.id})`);
+  }
+  const ordered = helpful
+    ? f
+        .order('top_comment_votes', { ascending: false, nullsFirst: false })
+        .order('created_at', { ascending: false })
+        .order('id', { ascending: false })
+        .range(offset, offset + n)
+    : f.order('created_at', { ascending: false }).order('id', { ascending: false }).limit(n + 1);
+
+  const { data, error } = await ordered;
   if (error) throw error;
-  return ((data ?? []) as ThreadFeedRow[]).map(mapThreadRow);
+  const rows = (data ?? []) as ThreadFeedRow[];
+  const page = rows.slice(0, n);
+  const last = page[page.length - 1];
+  const more = rows.length > n && !!last;
+  return {
+    items: page.map(mapThreadRow),
+    nextCursor: more ? (helpful ? String(offset + n) : encodeKeyset({ createdAt: last.created_at, id: last.id })) : null,
+  };
 }
 
 /** One thread by id (deep links and threads older than the feed window). Null when missing or hidden from the caller. */
@@ -294,15 +351,49 @@ function useRefetchOnChange(version: number, refetch: () => unknown) {
   }, [version, refetch]);
 }
 
-/** Remote threads (all, or one event's). `version` bumps after each accepted push: the list refetches in place. */
-export function useRemoteThreads(version: number, eventId?: string) {
-  const q = useQuery({
-    queryKey: ['remote', 'community', 'threads', eventId ?? 'all'],
-    enabled: isRemote() && (eventId === undefined || isServerId(eventId)),
-    queryFn: () => pullThreads(eventId),
+export const threadsQueryKey = (q: ThreadQuery) => ['remote', 'community', 'threads', ...threadQueryKey(q)];
+
+/** Remote feed pages for a query. Keeps the previous list on screen while a filter change loads (no blank flash). */
+export function useThreadsInfinite(q: ThreadQuery) {
+  return useInfiniteQuery({
+    queryKey: threadsQueryKey(q),
+    enabled: isRemote() && (q.eventId === undefined || isServerId(q.eventId)),
+    queryFn: ({ pageParam }) => pullThreadsPage(q, pageParam),
+    initialPageParam: null as string | null,
+    getNextPageParam: (last) => last.nextCursor,
+    placeholderData: keepPreviousData,
   });
-  useRefetchOnChange(version, q.refetch);
-  return q;
+}
+
+/**
+ * Re-reads page 1 only. If its boundary is unchanged the later pages stay (they are still contiguous); if new threads
+ * pushed the boundary, the later pages would leave a gap, so the list falls back to page 1 (as a pull-to-refresh does).
+ * `reset` forces that fallback. No-op when the query was never loaded.
+ */
+export async function refreshFirstPage(client: QueryClient, q: ThreadQuery, opts: { reset?: boolean } = {}): Promise<void> {
+  const key = threadsQueryKey(q);
+  if (!client.getQueryData(key)) return;
+  const fresh = await pullThreadsPage(q, null);
+  client.setQueryData<InfiniteData<ThreadPage<RemoteThread>, string | null>>(key, (cur) => {
+    if (!cur) return cur;
+    const keepRest = !opts.reset && cur.pages[0] !== undefined && cur.pages[0].nextCursor === fresh.nextCursor;
+    return keepRest ? { pages: [fresh, ...cur.pages.slice(1)], pageParams: cur.pageParams } : { pages: [fresh], pageParams: [null] };
+  });
+}
+
+/** Refreshes page 1 when `version` (the store's push counter) changes after the first render. */
+export function useRefreshOnPush(q: ThreadQuery, version: number): void {
+  const client = useQueryClient();
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    if (isRemote()) void refreshFirstPage(client, q).catch((e) => warn('community refresh', e));
+    // `q` is rebuilt each render; the version bump is the only trigger.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [version, client]);
 }
 
 /** One remote thread by id. */

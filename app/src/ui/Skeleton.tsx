@@ -52,7 +52,20 @@ export function EventCardSkeleton({ variant = 'poster' }: { variant?: 'poster' |
   );
 }
 
+/** Skeleton matching a ThreadCard: event line, two title lines, footer line. */
+export function ThreadCardSkeleton() {
+  return (
+    <View style={styles.thread} accessibilityLabel="Carregando" accessibilityRole="progressbar">
+      <Skeleton width="40%" height={14} />
+      <Skeleton width="90%" height={20} />
+      <Skeleton width="65%" height={20} />
+      <Skeleton width="30%" height={14} />
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
+  thread: { minHeight: 112, paddingVertical: space.lg, gap: space.sm },
   row: { minHeight: 88, flexDirection: 'row', alignItems: 'center', gap: space.md, paddingVertical: space.sm },
   lines: { flex: 1, gap: space.sm },
 });
