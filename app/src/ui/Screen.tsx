@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View, type StyleProp, type ViewStyle } from 're
 
 import { useTheme } from '@/theme/ThemeProvider';
 import { maxContentWidth } from '@/theme/tokens';
+import { ScreenFade } from './Reveal';
 import { useBreakpoint } from './useBreakpoint';
 import { useInsets } from './useInsets';
 
@@ -31,13 +32,15 @@ export function Screen({ children, scroll, edges = ['top'], bleed, style, conten
   const inner = [styles.inner, { paddingHorizontal: bleed ? 0 : gutter }, contentStyle];
   return (
     <View testID={testID} style={[styles.root, { backgroundColor: colors.background }, pad, style]}>
-      {scroll ? (
-        <ScrollView contentContainerStyle={inner} showsVerticalScrollIndicator={false}>
-          {children}
-        </ScrollView>
-      ) : (
-        <View style={[styles.flex, inner]}>{children}</View>
-      )}
+      <ScreenFade>
+        {scroll ? (
+          <ScrollView contentContainerStyle={inner} showsVerticalScrollIndicator={false}>
+            {children}
+          </ScrollView>
+        ) : (
+          <View style={[styles.flex, inner]}>{children}</View>
+        )}
+      </ScreenFade>
     </View>
   );
 }

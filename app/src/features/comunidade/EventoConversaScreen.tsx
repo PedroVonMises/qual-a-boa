@@ -15,7 +15,7 @@ import {
 import { formatRelative } from '@/domain/format';
 import { ListFrame, StateShell, useGoBack } from '@/features/evento/Frame';
 import { space } from '@/theme/tokens';
-import { Button, Chip, IconButton, SegmentedControl, Text, ThreadCard, useBreakpoint } from '@/ui';
+import { Button, Chip, IconButton, Reveal, REVEAL_MAX_ITEMS, SegmentedControl, Text, ThreadCard, useBreakpoint, useRevealScope } from '@/ui';
 import { useThreads } from './hooks';
 import { FeedEmpty, FeedFooter } from './ListParts';
 
@@ -45,6 +45,7 @@ export function EventoConversaScreen({ id }: { id?: string }) {
     [kind, sort, id, venueSlug],
   );
   const feed = useThreads(query);
+  const reveal = useRevealScope();
 
   if (q.isPending && q.fetchStatus !== 'idle') return <StateShell state="loading" />;
   if (q.isError) return <StateShell state="error" onRetry={() => q.refetch()} />;
@@ -59,16 +60,18 @@ export function EventoConversaScreen({ id }: { id?: string }) {
       <FlashList
         data={feed.items}
         keyExtractor={(t) => t.id}
-        renderItem={({ item: t }) => (
-          <ThreadCard
-            eventName={t.eventName}
-            kind={t.kind}
-            title={t.title}
-            topComment={t.top}
-            replies={t.replies}
-            ago={formatRelative(t.createdAt)}
-            onPress={() => router.push(`/comunidade/t/${t.id}` as Href)}
-          />
+        renderItem={({ item: t, index }) => (
+          <Reveal index={index} scope={reveal} id={t.id} disabled={index >= REVEAL_MAX_ITEMS}>
+            <ThreadCard
+              eventName={t.eventName}
+              kind={t.kind}
+              title={t.title}
+              topComment={t.top}
+              replies={t.replies}
+              ago={formatRelative(t.createdAt)}
+              onPress={() => router.push(`/comunidade/t/${t.id}` as Href)}
+            />
+          </Reveal>
         )}
         ListHeaderComponent={
           <View style={styles.header}>

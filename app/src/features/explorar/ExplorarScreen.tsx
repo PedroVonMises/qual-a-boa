@@ -8,7 +8,7 @@ import { QuandoSheet } from '@/features/quando';
 import { useFilters } from '@/state/filters';
 import { useSearchHistory } from '@/state/searchHistory';
 import { maxContentWidth, space } from '@/theme/tokens';
-import { ErrorState, EventCardSkeleton, ListRow, Screen, TAB_BAR_HEIGHT, useBreakpoint } from '@/ui';
+import { ErrorState, EventCardSkeleton, ListRow, Reveal, REVEAL_MAX_ITEMS, Screen, TAB_BAR_HEIGHT, useBreakpoint, useRevealScope } from '@/ui';
 import { AreaSheet } from './AreaSheet';
 import { EmptyResults } from './EmptyResults';
 import { Header } from './Header';
@@ -73,6 +73,7 @@ export function ExplorarScreen() {
   useRecordGenreFilters();
   const { items, scored, total, isLoading, isError, refetch, hasNextPage, isFetchingNextPage, fetchNextPage } = useFilteredSearch();
   const { breakpoint, gutter } = useBreakpoint();
+  const reveal = useRevealScope();
   const columns = breakpoint === 'lg' ? 3 : breakpoint === 'md' ? 2 : 1;
   const reasons = useMemo(() => {
     const out: Record<string, string> = {};
@@ -88,7 +89,11 @@ export function ExplorarScreen() {
           data={resultMode ? items : []}
           numColumns={columns}
           keyExtractor={(i) => i.event.id}
-          renderItem={({ item, index }) => <ItemCard item={item} variant="row" reason={reasons[item.event.id]} divider={index < items.length - columns} />}
+          renderItem={({ item, index }) => (
+            <Reveal index={index} scope={reveal} id={item.event.id} disabled={index >= REVEAL_MAX_ITEMS}>
+              <ItemCard item={item} variant="row" reason={reasons[item.event.id]} divider={index < items.length - columns} />
+            </Reveal>
+          )}
           ListHeaderComponent={
             <View>
               <Header onPickArea={() => setAreaOpen(true)} onPickDate={() => setDateOpen(true)} onSubmitSearch={openBusca} />

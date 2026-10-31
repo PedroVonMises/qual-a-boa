@@ -19,6 +19,8 @@ export default function TabLayout() {
       tabBar={(props) => <TabBar {...props} variant={wide ? 'rail' : 'bottom'} />}
       screenOptions={{
         headerShown: false,
+        // Cross-fade between tabs (opacity only; Reduce Motion is handled by the OS on native and by the browser on web).
+        animation: 'fade',
         tabBarPosition: wide ? 'left' : 'bottom',
         tabBarActiveTintColor: palette.riotPink,
         tabBarInactiveTintColor: palette.dusk,

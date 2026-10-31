@@ -25,7 +25,13 @@ jest.mock('react-native-reanimated', () => {
           this.value = n;
         },
       }).current,
-    useAnimatedStyle: (fn: () => unknown) => fn(),
+    // Live view of the style: each property re-runs `fn`, so a shared value set after render (a mount animation
+    // finishing in an effect) is visible to tests without needing a re-render.
+    useAnimatedStyle: (fn: () => Record<string, unknown>) => {
+      const live: Record<string, unknown> = {};
+      for (const key of Object.keys(fn())) Object.defineProperty(live, key, { enumerable: true, get: () => fn()[key] });
+      return live;
+    },
     useAnimatedProps: (fn: () => unknown) => fn(),
     useReducedMotion: () => false,
     withSpring: id,
