@@ -41,16 +41,21 @@
     "Ajuda.dc.html": { "x": 0, "y": 9084, "w": 390, "h": 844, "title": "U7 · Ajuda" },
     "Mensagens.dc.html": { "x": 470, "y": 9084, "w": 390, "h": 844, "title": "U8 · Mensagens" },
     "Suporte.dc.html": { "x": 940, "y": 9084, "w": 390, "h": 844, "title": "U9 · Conversa com o suporte" },
-    "NovoChamado.dc.html": { "x": 1410, "y": 9084, "w": 390, "h": 844, "title": "U10 · Novo chamado" }
+    "NovoChamado.dc.html": { "x": 1410, "y": 9084, "w": 390, "h": 844, "title": "U10 · Novo chamado" },
+    "ComunidadeFeed.dc.html": { "x": 0, "y": 10128, "w": 390, "h": 844, "title": "C1 · Comunidade (feed)" },
+    "ComunidadeEvento.dc.html": { "x": 470, "y": 10128, "w": 390, "h": 844, "title": "C2 · Conversa do evento" },
+    "ComunidadeThread.dc.html": { "x": 940, "y": 10128, "w": 390, "h": 844, "title": "C3 · Conversa + Mais útil" },
+    "ComunidadeNovo.dc.html": { "x": 1410, "y": 10128, "w": 390, "h": 844, "title": "C4 · Nova conversa" }
   },
-  "order": ["Main.dc.html", "Filtros.dc.html", "Mapa.dc.html", "Evento.dc.html", "Casa.dc.html", "HomeReal.dc.html", "FiltrosReal.dc.html", "MapaReal.dc.html", "EventoBolt.dc.html", "EventoSelva.dc.html", "EventoGordinho.dc.html", "CasaBolt.dc.html", "CasaSelva.dc.html", "CasaGordinho.dc.html", "CasaCaipora.dc.html", "Marca.dc.html", "Idade.dc.html", "Local.dc.html", "Salvos.dc.html", "Perfil.dc.html", "Artista.dc.html", "Vazio.dc.html", "Web.dc.html", "Marca2.dc.html", "Splash.dc.html", "Social.dc.html", "Aplicacoes.dc.html", "Acompanhar.dc.html", "Avisos.dc.html", "AoVivo.dc.html", "Avaliar.dc.html", "AvaliarTexto.dc.html", "Avaliacoes.dc.html", "Ajuda.dc.html", "Mensagens.dc.html", "Suporte.dc.html", "NovoChamado.dc.html"],
+  "order": ["Main.dc.html", "Filtros.dc.html", "Mapa.dc.html", "Evento.dc.html", "Casa.dc.html", "HomeReal.dc.html", "FiltrosReal.dc.html", "MapaReal.dc.html", "EventoBolt.dc.html", "EventoSelva.dc.html", "EventoGordinho.dc.html", "CasaBolt.dc.html", "CasaSelva.dc.html", "CasaGordinho.dc.html", "CasaCaipora.dc.html", "Marca.dc.html", "Idade.dc.html", "Local.dc.html", "Salvos.dc.html", "Perfil.dc.html", "Artista.dc.html", "Vazio.dc.html", "Web.dc.html", "Marca2.dc.html", "Splash.dc.html", "Social.dc.html", "Aplicacoes.dc.html", "Acompanhar.dc.html", "Avisos.dc.html", "AoVivo.dc.html", "Avaliar.dc.html", "AvaliarTexto.dc.html", "Avaliacoes.dc.html", "Ajuda.dc.html", "Mensagens.dc.html", "Suporte.dc.html", "NovoChamado.dc.html", "ComunidadeFeed.dc.html", "ComunidadeEvento.dc.html", "ComunidadeThread.dc.html", "ComunidadeNovo.dc.html"],
   "notes": {
     "t1": { "x": 0, "y": -300, "text": "Qual a boa? — conceito original (casas fictícias)", "kind": "title1", "maxW": 2270 },
     "t2": { "x": 0, "y": 890, "text": "Variações com casas reais de Vitória/ES", "kind": "title1", "maxW": 2270 },
     "n1": { "x": 2350, "y": 1190, "w": 300, "text": "Dados ilustrativos: nomes de casas, bairros e gêneros vêm de pesquisa pública (docs/VENUES.md). Eventos, atrações, preços e distâncias são placeholders. Casa Caipora anunciou encerramento (último evento em 2 out 2026).", "fill": "orange" },
     "n2": { "x": 1380, "y": 3118, "w": 320, "text": "Marca nova: a lâmpada girada 45° vira o Q. Abaixo dela, telas novas (N1–N7): onboarding, Salvos, Perfil, Artista, estado vazio e layout web. Refinos aplicados nas telas R: alvos de toque de 44 px, check nos filtros ativos, indicador na aba ativa.", "fill": "teal" },
     "n3": { "x": 2400, "y": 6086, "w": 320, "text": "Logo único: a lâmpada. Os materiais B1–B4 usam a lâmpada, com variações neon (letreiro, ícone, selo, pulseira). Tela de idade e web voltaram a usar a lâmpada.", "fill": "pink" },
-    "n4": { "x": 2400, "y": 9084, "w": 330, "text": "Telas de UX U1–U10: acompanhar evento, avisos, ao vivo, avaliar (2 passos), avaliações do evento, ajuda, mensagens, chat de suporte e novo chamado. Casa Maré e Noite do Pagodão são exemplos fictícios: nenhuma avaliação ou status é de casa real.", "fill": "orange" }
+    "n4": { "x": 2400, "y": 9084, "w": 330, "text": "Telas de UX U1–U10: acompanhar evento, avisos, ao vivo, avaliar (2 passos), avaliações do evento, ajuda, mensagens, chat de suporte e novo chamado. Casa Maré e Noite do Pagodão são exemplos fictícios: nenhuma avaliação ou status é de casa real.", "fill": "orange" },
+    "n5": { "x": 2400, "y": 10128, "w": 330, "text": "Telas de comunidade C1–C4: feed, conversa do evento, conversa com o comentário Mais útil e nova conversa. Mais útil aparece a partir de 3 votos. Conteúdo ilustrativo: nenhum post é de pessoa ou casa real.", "fill": "pink" }
   },
   "designSystems": []
 }

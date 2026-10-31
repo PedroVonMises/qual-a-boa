@@ -43,7 +43,7 @@ Rules: max one accent; no purple/blue neon, no gradient text, no glow shadows. I
 - **Skeletons:** shimmer blocks matching exact card dimensions; no spinners.
 - **Empty states:** a composed poster-style illustration and a specific next action ("Aumente o raio para 10 km").
 - **Errors:** inline with retry; offline banner keeps cached results visible.
-- **Tab bar:** Explorar, Mapa, Salvos, Perfil; 64px + safe area; active = Riot Pink icon + label.
+- **Tab bar:** Explorar, Mapa, Comunidade, Salvos, Perfil; 64px + safe area; active = Riot Pink icon + label.
 
 ## 5. Layout Principles
 - Grid: 4pt base; screen gutters 16 (sm), 24 (md), 32 (lg). Content max-width 1280 on web.
