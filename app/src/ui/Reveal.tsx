@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { type StyleProp, type ViewStyle } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated';
 
@@ -27,10 +27,12 @@ export interface RevealScope {
 }
 
 export function useRevealScope(): RevealScope {
-  const seen = useRef<Set<string> | null>(null);
-  seen.current ??= new Set();
-  const set = seen.current;
-  return useRef<RevealScope>({ has: (id) => set.has(id), add: (id) => void set.add(id) }).current;
+  // Lazy initial state: one stable object for the component's lifetime, without reading a ref during render.
+  const [scope] = useState<RevealScope>(() => {
+    const seen = new Set<string>();
+    return { has: (id) => seen.has(id), add: (id) => void seen.add(id) };
+  });
+  return scope;
 }
 
 export interface RevealProps {
