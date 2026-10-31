@@ -3,16 +3,41 @@ import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useGenres } from '@/data/queries';
-import { dateFilterLabel } from '@/domain/calendar';
+import { dateFilterLabel, dateHeadline } from '@/domain/calendar';
 import { countActiveFilters, defaultFilters } from '@/domain/filters';
 import { OUTSIDE_PILOT_MESSAGE } from '@/lib/location/pilot';
 import { useFilters } from '@/state/filters';
 import { useLocation } from '@/state/location';
 import { radius, space } from '@/theme/tokens';
 import { useTheme } from '@/theme/ThemeProvider';
-import { Chip, Icon, IconButton, PressableScale, SearchBar, Text, useBreakpoint } from '@/ui';
+import { Chip, Icon, IconButton, PressableScale, SearchBar, Swap, Text, useBreakpoint } from '@/ui';
+import { useHydrated } from '@/ui/useHydrated';
+import { minuteNow } from './clock';
 
 const DEBOUNCE_MS = 300;
+
+/**
+ * "Qual a boa hoje?" that follows the selected date: "amanhã?", "na sexta?", "no fim de semana?"...
+ * No live region on purpose: the result count already announces a change of date.
+ */
+export function Headline() {
+  const { colors } = useTheme();
+  const range = useFilters((s) => s.filters.dateRange);
+  const days = useFilters((s) => s.filters.days);
+  const hydrated = useHydrated();
+  // The words depend on the clock; until hydrated show the default so server and client markup agree (as ItemCard does).
+  const phrase = hydrated ? dateHeadline(range, days, minuteNow()) : 'hoje';
+  return (
+    <Swap swapKey={phrase} testID="headline">
+      <Text variant="display" accessibilityRole="header">
+        Qual a boa{' '}
+        <Text variant="display" tone={colors.accent}>
+          {`${phrase}?`}
+        </Text>
+      </Text>
+    </Swap>
+  );
+}
 
 /** Debounced mirror of `filters.query`; external changes (reset) flow back into the field. */
 function useSearchText() {
@@ -142,9 +167,7 @@ export function Header({
       </PressableScale>
       {onPickDate ? <DatePill onPress={onPickDate} /> : null}
       </View>
-      <Text variant="display" accessibilityRole="header">
-        Qual a boa <Text variant="display" tone={colors.accent}>hoje?</Text>
-      </Text>
+      <Headline />
       <View style={styles.searchRow}>
         <SearchBar
           style={styles.search}

@@ -432,6 +432,76 @@ describe('feed paging (keyset)', () => {
   });
 });
 
+describe('state scope (uf)', () => {
+  // A venue that stays in ES, and one moved to SP for these tests (restored afterwards).
+  const venueSp = ds.venues[2].id;
+  const E_PAGE_ID = published[4].id;
+  const evSp = published.find((e) => e.venueId === venueSp)!;
+  const evEs = published.find((e) => e.venueId !== venueSp && e.id !== E_PAGE_ID)!;
+
+  before(async () => {
+    await db.exec(`update public.venues set uf = 'SP' where id = '${venueSp}'`);
+  });
+  after(async () => {
+    await db.exec(`update public.venues set uf = 'ES' where id = '${venueSp}'`);
+  });
+
+  const ufOf = async (id: string) =>
+    asAnon(async () => (await db.query<{ uf: string }>(`select uf from public.threads_feed where id = $1`, [id])).rows[0]?.uf);
+
+  test('every venue defaults to ES, so the pilot data needs no change', async () => {
+    const r = await db.query<{ n: number }>(`select count(*)::int n from public.venues where uf <> 'ES' and id <> '${venueSp}'`);
+    assert.equal(r.rows[0].n, 0);
+  });
+
+  test('a thread takes the state of its event\'s venue, or of its own venue', async () => {
+    assert.ok(evSp, 'fixture: an event at the SP venue');
+    const onEvent = (await db.query<{ id: string }>(
+      `insert into public.threads (user_id, event_id, kind, title, anonymous) values ('${A}', '${evSp.id}', 'grupo', 'No evento SP', true) returning id`)).rows[0].id;
+    const onVenue = (await db.query<{ id: string }>(
+      `insert into public.threads (user_id, venue_id, kind, title, anonymous) values ('${A}', '${venueSp}', 'grupo', 'Na casa SP', true) returning id`)).rows[0].id;
+    const inEs = (await db.query<{ id: string }>(
+      `insert into public.threads (user_id, event_id, kind, title, anonymous) values ('${A}', '${evEs.id}', 'grupo', 'No evento ES', true) returning id`)).rows[0].id;
+    assert.equal(await ufOf(onEvent), 'SP');
+    assert.equal(await ufOf(onVenue), 'SP');
+    assert.equal(await ufOf(inEs), 'ES');
+  });
+
+  test('the server decides: a state written into the insert is overridden', async () => {
+    const id = (await db.query<{ id: string }>(
+      `insert into public.threads (user_id, event_id, kind, title, anonymous, uf) values ('${A}', '${evSp.id}', 'grupo', 'Tentou RJ', true, 'RJ') returning id`)).rows[0].id;
+    assert.equal(await ufOf(id), 'SP');
+  });
+
+  test('a client cannot insert a state at all', async () => {
+    await asA(() =>
+      denied(db.query(`insert into public.threads (event_id, kind, title, anonymous, uf) values ($1, 'grupo', 'x', true, 'RJ')`, [evEs.id]), /permission denied/i),
+    );
+  });
+
+  test('the feed filters by state, and each state sees only its own threads', async () => {
+    const titles = (uf: string) =>
+      asAnon(async () =>
+        (await db.query<{ title: string }>(
+          `select title from public.threads_feed where uf = $1 and title in ('No evento SP', 'Na casa SP', 'No evento ES', 'Tentou RJ') order by title`, [uf])).rows.map((r) => r.title));
+    assert.deepEqual(await titles('SP'), ['Na casa SP', 'No evento SP', 'Tentou RJ']);
+    assert.deepEqual(await titles('ES'), ['No evento ES']);
+    assert.deepEqual(await titles('RJ'), []);
+  });
+
+  test('state codes are two capital letters', async () => {
+    await denied(db.query(`update public.venues set uf = 'es' where id = '${evEs.venueId}'`), /violates check|too long/i);
+    await denied(db.query(`update public.venues set uf = 'ESP' where id = '${evEs.venueId}'`), /too long|violates check/i);
+    await denied(db.query(`update public.venues set uf = null where id = '${evEs.venueId}'`), /null value|not-null/i);
+  });
+
+  test('the feed index leads with the state, then newest first', async () => {
+    const r = await db.query<{ indexdef: string }>(`select indexdef from pg_indexes where indexname = 'threads_feed_uf_idx'`);
+    assert.equal(r.rows.length, 1);
+    assert.match(r.rows[0].indexdef, /\(uf, created_at DESC, id DESC\)/);
+  });
+});
+
 describe('account deletion', () => {
   test('deleting the auth user removes their threads, comments and votes', async () => {
     const t = await newThread(asD);

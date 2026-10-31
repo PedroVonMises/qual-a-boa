@@ -1,5 +1,5 @@
 // Calendar math for the Quando sheet. Pure and deterministic: SP days are numbered like spParts().dayNumber.
-import { dayNumberOf, dayString, normalizeDays, type DateRange, type DayRange } from './filters';
+import { dayNumberOf, dayString, nightDayNumber, normalizeDays, type DateRange, type DayRange } from './filters';
 
 const DAY = 86_400_000;
 export const WEEKDAY_INITIALS = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'] as const;
@@ -101,6 +101,57 @@ const RANGE_LABELS: Record<Exclude<DateRange, 'datas'>, string> = {
 /** Label of the active date filter for the Explorar pill. */
 export function dateFilterLabel(range: DateRange, days: DayRange | null): string {
   return range === 'datas' ? rangeLabel(days) : RANGE_LABELS[range];
+}
+
+const WEEKDAY_WITH_PREPOSITION = ['no domingo', 'na segunda', 'na terça', 'na quarta', 'na quinta', 'na sexta', 'no sábado'];
+
+/** "dia 14 de novembro": the form for a day too far away to name by weekday. */
+function dayAndMonth(dayNumber: number): string {
+  const f = fields(dayNumber);
+  return `dia ${f.day} de ${MONTHS_LONG[f.month]}`;
+}
+
+/**
+ * The phrase after "Qual a boa" in the Explorar header for the selected date: "hoje", "amanhã", "depois de amanhã",
+ * "na sexta", "no fim de semana"... Days are SP nights (before 06:00 it is still yesterday's night), so the words are
+ * relative to `nightDayNumber(nowMs)`. A weekday is only used up to 6 days ahead; further out it would be ambiguous
+ * ("sábado" this week or next?), so the date is spelled out. The default "any day" reads as "hoje", as it always did.
+ */
+export function dateHeadline(range: DateRange, days: DayRange | null, nowMs: number): string {
+  switch (range) {
+    case 'hoje':
+    case 'qualquer':
+      return 'hoje';
+    case 'amanha':
+      return 'amanhã';
+    case 'fim-de-semana':
+      return 'no fim de semana';
+    case 'proxima-semana':
+      return 'na semana que vem';
+    default:
+      break;
+  }
+  const d = normalizeDays(days);
+  const from = d ? dayNumberOf(d.from) : null;
+  const to = d ? dayNumberOf(d.to) : null;
+  if (from === null || to === null) return 'hoje';
+
+  const today = nightDayNumber(nowMs);
+  const within = (n: number) => n - today >= 0 && n - today <= 6;
+
+  if (from === to) {
+    const offset = from - today;
+    if (offset === 0) return 'hoje';
+    if (offset === 1) return 'amanhã';
+    if (offset === 2) return 'depois de amanhã';
+    return within(from) ? WEEKDAY_WITH_PREPOSITION[fields(from).weekday] : dayAndMonth(from);
+  }
+  if (within(from) && within(to)) return `de ${WEEKDAYS_LONG[fields(from).weekday]} a ${WEEKDAYS_LONG[fields(to).weekday]}`;
+  const f = fields(from);
+  const t = fields(to);
+  return f.month === t.month
+    ? `de ${f.day} a ${t.day} de ${MONTHS_LONG[t.month]}`
+    : `de ${f.day} de ${MONTHS_LONG[f.month]} a ${t.day} de ${MONTHS_LONG[t.month]}`;
 }
 
 /** Quick picks shown at the top of the sheet, in order. */

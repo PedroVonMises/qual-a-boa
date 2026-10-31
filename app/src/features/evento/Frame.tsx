@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useTheme } from '@/theme/ThemeProvider';
 import { space } from '@/theme/tokens';
-import { EmptyState, ErrorState, IconButton, Skeleton, useBreakpoint } from '@/ui';
+import { EmptyState, ErrorState, IconButton, ScreenFade, Skeleton, useBreakpoint } from '@/ui';
 import { useInsets } from '@/ui/useInsets';
 
 export const DETAIL_MAX_WIDTH = 960;
@@ -21,9 +21,11 @@ export function Frame({ children, footer }: { children: ReactNode; footer?: Reac
   const insets = useInsets();
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
-      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        <View style={styles.col}>{children}</View>
-      </ScrollView>
+      <ScreenFade>
+        <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+          <View style={styles.col}>{children}</View>
+        </ScrollView>
+      </ScreenFade>
       {footer ? (
         <View style={[styles.footer, { backgroundColor: colors.surface, borderTopColor: colors.border, paddingBottom: insets.bottom + space.md }]}>
           <View style={[styles.col, styles.footerRow, { paddingHorizontal: gutter }]}>{footer}</View>
@@ -40,7 +42,9 @@ export function ListFrame({ children, footer }: { children: ReactNode; footer?: 
   const insets = useInsets();
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
-      <View style={[styles.col, styles.listCol]}>{children}</View>
+      <ScreenFade>
+        <View style={[styles.col, styles.listCol]}>{children}</View>
+      </ScreenFade>
       {footer ? (
         <View style={[styles.footer, { backgroundColor: colors.surface, borderTopColor: colors.border, paddingBottom: insets.bottom + space.md }]}>
           <View style={[styles.col, styles.footerRow, { paddingHorizontal: gutter }]}>{footer}</View>

@@ -20,6 +20,7 @@ export { ListRow, type ListRowProps } from './ListRow';
 export { Logo, type LogoProps, type LogoVariant } from './Logo';
 export { PressableScale, type PressableScaleProps } from './PressableScale';
 export { Rating, type RatingProps } from './Rating';
+export { Reveal, REVEAL_MAX_ITEMS, REVEAL_MAX_STAGGER, revealDelay, ScreenFade, Swap, useRevealScope, type RevealProps, type RevealScope, type SwapProps } from './Reveal';
 export { Screen, type ScreenProps } from './Screen';
 export { ScreenHeader, type ScreenHeaderProps } from './ScreenHeader';
 export { Scrim } from './Scrim';

@@ -48,6 +48,16 @@ describe('createThread', () => {
   });
 });
 
+describe('thread state', () => {
+  it("takes the state of the event's venue, defaulting to ES", () => {
+    useCommunity.getState().createThread({ ...input, anonymous: true });
+    useCommunity.getState().createThread({ ...input, anonymous: true, uf: 'SP' });
+    const [sp, es] = useCommunity.getState().threads; // newest first
+    expect(sp.uf).toBe('SP');
+    expect(es.uf).toBe('ES');
+  });
+});
+
 describe('addComment', () => {
   it('rejects empty text and stores a trimmed reply', () => {
     expect(useCommunity.getState().addComment({ threadId: 't', body: '  ', anonymous: true })).toMatch(/sua resposta/);

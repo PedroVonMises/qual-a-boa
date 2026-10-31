@@ -40,6 +40,7 @@ export function NovaScreen() {
       eventId,
       eventName: known?.event.title ?? 'Evento',
       venueSlug: known?.venue.slug,
+      uf: known?.venue.uf,
       kind,
       title,
       body: details,

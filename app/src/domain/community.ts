@@ -2,6 +2,8 @@
 // src/state/community.ts); Supabase migration 0010 mirrors these shapes.
 // Dates are ISO 8601 UTC. eventId references EventItem.id, venueSlug references Venue.slug.
 
+import { DEFAULT_UF, type Uf } from './region';
+
 export type ThreadKind = 'vale_a_pena' | 'grupo' | 'agora';
 
 export const THREAD_KINDS: readonly ThreadKind[] = ['vale_a_pena', 'grupo', 'agora'];
@@ -45,6 +47,8 @@ export interface Thread {
   venueSlug?: string;
   /** Denormalised event or venue name for feed cards. */
   eventName: string;
+  /** State (UF) of the venue. Absent on old local data and demo content, which read as the default state. */
+  uf?: Uf;
   /** Mine = written on this device. */
   mine?: boolean;
   kind: ThreadKind;
@@ -140,6 +144,8 @@ export interface ThreadQuery {
   scope: ThreadScope;
   sort: CommunitySort;
   kind?: ThreadKind;
+  /** Only conversations of this state (the Comunidade feed). Not used by an event's own page. */
+  uf?: string;
   /** Only this event's threads (event page). */
   eventId?: string;
   /** Local/demo mode only: also match threads pinned to this venue. */
@@ -179,6 +185,7 @@ export function decodeOffset(cursor: string | null | undefined): number {
 /** Stable cache key for a query (cursor excluded), so equal queries share one cache entry. */
 export function threadQueryKey(q: ThreadQuery): (string | number)[] {
   return [
+    q.uf ?? '',
     q.eventId ?? 'all',
     q.kind ?? '',
     q.scope,
@@ -189,6 +196,7 @@ export function threadQueryKey(q: ThreadQuery): (string | number)[] {
 }
 
 interface Filterable {
+  uf?: string;
   eventId?: string;
   venueSlug?: string;
   kind: ThreadKind;
@@ -197,6 +205,7 @@ interface Filterable {
 
 /** Same filters the server applies in `pullThreadsPage`, for local/demo mode. */
 export function threadMatchesQuery(t: Filterable, q: ThreadQuery): boolean {
+  if (q.uf && (t.uf ?? DEFAULT_UF) !== q.uf) return false;
   if (!q.includeArchived && t.archived) return false;
   if (q.kind && t.kind !== q.kind) return false;
   if (q.scope === 'tonight' && t.kind !== 'agora') return false;

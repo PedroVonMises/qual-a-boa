@@ -3,6 +3,7 @@ import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { useTheme } from '@/theme/ThemeProvider';
 import { fonts, type } from '@/theme/tokens';
 import { Icon, type IconName } from './Icon';
+import { Reveal } from './Reveal';
 import { Logo } from './Logo';
 import { lightHaptic } from './haptics';
 import { Text } from './Text';
@@ -82,7 +83,14 @@ export function TabBar({ state, descriptors, navigation, emitter, navigateToTab,
             onPress={onPress}
             style={rail ? [styles.railTab, focused && { backgroundColor: colors.surfaceAlt }] : styles.tab}
             {...webProps}>
-            {focused ? <View testID="tab-indicator" style={[rail ? styles.railIndicator : styles.indicator, { backgroundColor: colors.accent }]} /> : null}
+            {focused ? (
+              <Reveal
+                rise={false}
+                testID="tab-indicator"
+                style={[rail ? styles.railIndicator : styles.indicator, { backgroundColor: colors.accent }]}>
+                {null}
+              </Reveal>
+            ) : null}
             <Icon name={map[route.name] ?? 'compass'} size={24} color={color} />
             <Text
               variant="caption"

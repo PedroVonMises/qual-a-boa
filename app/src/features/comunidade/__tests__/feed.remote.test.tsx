@@ -45,6 +45,7 @@ const rowAt = (i: number): ThreadFeedRow => ({
   top_comment_id: null,
   top_comment_body: null,
   top_comment_votes: null,
+  uf: 'ES',
 });
 const rows = (from: number, count: number) => Array.from({ length: count }, (_, k) => rowAt(from + k));
 const isNextPage = (c: Call) => c.filters.some((f) => f[1] === 'or');
@@ -110,6 +111,15 @@ describe('FeedScreen (backend on)', () => {
     failNext = false;
     await fireEvent.press(screen.getByRole('button', { name: 'Tentar de novo' }));
     await screen.findByTestId('comunidade-end');
+  });
+
+  it('asks the server only for the chosen state', async () => {
+    const calls = use(() => ({ data: rows(0, 2) }));
+    await render(wrap());
+    await screen.findByRole('button', { name: /^Pergunta 0\./ });
+    const feedCalls = calls.filter((c) => c.table === 'threads_feed');
+    expect(feedCalls.length).toBeGreaterThan(0);
+    for (const c of feedCalls) expect(c.filters).toContainEqual(['uf', 'eq', 'ES']);
   });
 
   it('does not ask for a next page while on the last one', async () => {
