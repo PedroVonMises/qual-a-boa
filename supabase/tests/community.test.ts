@@ -321,6 +321,117 @@ describe('replies follow their parent', () => {
   });
 });
 
+describe('feed paging (keyset)', () => {
+  const E_PAGE = published[4].id;
+  const PAGE = 20;
+
+  /** Same predicate pullThreadsPage sends through PostgREST: (created_at, id) < cursor, newest first, n + 1 rows. */
+  const fetchPage = (cursor: { createdAt: string; id: string } | null, eventId = E_PAGE) =>
+    asAnon(async () => {
+      const r = await db.query<{ id: string; created_at: string }>(
+        `select id, created_at::text as created_at from public.threads_feed
+          where event_id = $1
+            and ($2::timestamptz is null or created_at < $2::timestamptz or (created_at = $2::timestamptz and id < $3::uuid))
+          order by created_at desc, id desc limit $4`,
+        [eventId, cursor?.createdAt ?? null, cursor?.id ?? null, PAGE + 1],
+      );
+      return r.rows;
+    });
+
+  const walk = async (onPage?: (n: number) => Promise<void>) => {
+    const seen: string[] = [];
+    let cursor: { createdAt: string; id: string } | null = null;
+    for (let n = 0; ; n++) {
+      const rows = await fetchPage(cursor);
+      const page = rows.slice(0, PAGE);
+      seen.push(...page.map((r) => r.id));
+      if (rows.length <= PAGE) return seen;
+      const last = page[page.length - 1];
+      cursor = { createdAt: last.created_at, id: last.id };
+      await onPage?.(n);
+    }
+  };
+
+  const fullOrder = async () =>
+    (await db.query<{ id: string }>(`select id from public.threads_feed where event_id = $1 order by created_at desc, id desc`, [E_PAGE])).rows.map((r) => r.id);
+
+  before(async () => {
+    // 47 threads, groups of 5 sharing one created_at (ties), plus two rows 1 microsecond apart.
+    await db.exec(`
+      insert into public.threads (user_id, event_id, kind, title, anonymous, created_at)
+      select '${A}', '${E_PAGE}', 'vale_a_pena', 'Paginada ' || g, true,
+             timestamptz '2026-10-30 12:00:00+00' - ((g / 5) || ' minutes')::interval
+        from generate_series(1, 47) g`);
+    await db.exec(`
+      insert into public.threads (user_id, event_id, kind, title, anonymous, created_at) values
+        ('${A}', '${E_PAGE}', 'vale_a_pena', 'Micro 1', true, timestamptz '2026-10-29 12:00:00.000001+00'),
+        ('${A}', '${E_PAGE}', 'vale_a_pena', 'Micro 2', true, timestamptz '2026-10-29 12:00:00.000002+00')`);
+  });
+
+  test('walking the pages returns every thread exactly once, in order, across ties and microsecond gaps', async () => {
+    const seen = await walk();
+    const all = await fullOrder();
+    assert.equal(all.length, 49);
+    assert.equal(new Set(seen).size, seen.length, 'no duplicates');
+    assert.deepEqual(seen, all, 'same rows, same order as one big query');
+  });
+
+  test('a thread posted while scrolling causes no duplicate and no skipped row', async () => {
+    const before = await fullOrder();
+    let injected = '';
+    const seen = await walk(async (n) => {
+      if (n !== 0) return;
+      // After page 1: one newer thread (above the cursor) and one older thread (below it).
+      const r = await db.query<{ id: string }>(
+        `insert into public.threads (user_id, event_id, kind, title, anonymous, created_at) values
+           ('${A}', '${E_PAGE}', 'vale_a_pena', 'Nova no topo', true, timestamptz '2026-10-31 00:00:00+00'),
+           ('${A}', '${E_PAGE}', 'vale_a_pena', 'Antiga tardia', true, timestamptz '2026-10-28 00:00:00+00')
+         returning id, title`,
+      );
+      injected = r.rows.find((x) => (x as unknown as { title: string }).title === 'Nova no topo')!.id;
+    });
+    assert.equal(new Set(seen).size, seen.length, 'no duplicates');
+    for (const id of before) assert.ok(seen.includes(id), `skipped ${id}`);
+    assert.ok(!seen.includes(injected), 'the newer thread belongs above the cursor, not in later pages');
+    assert.equal(seen.length, before.length + 1, 'only the older late thread joined the pages after it');
+    await db.exec(`delete from public.threads where title in ('Nova no topo', 'Antiga tardia')`);
+  });
+
+  test('a short last page ends the walk (n + 1 trick): exactly one page of rows has no next page', async () => {
+    const rows = await fetchPage(null, published[5].id); // an event with no paging threads
+    assert.equal(rows.length, 0);
+    const exact = await asAnon(async () =>
+      (await db.query(`select 1 from public.threads_feed where event_id = $1 limit $2`, [E_PAGE, PAGE + 1])).rows.length,
+    );
+    assert.equal(exact, PAGE + 1);
+  });
+
+  test('helpful sort: the thread with a pinned reply comes first, the rest by recency', async () => {
+    const E_HELP = published[6].id;
+    const mk = async (title: string, at: string) =>
+      (await db.query<{ id: string }>(
+        `insert into public.threads (user_id, event_id, kind, title, anonymous, created_at)
+         values ('${A}', '${E_HELP}', 'vale_a_pena', $1, true, $2::timestamptz) returning id`, [title, at])).rows[0].id;
+    const newer = await mk('Mais nova, sem resposta', '2026-10-30 12:00:00+00');
+    const older = await mk('Mais antiga, com Mais útil', '2026-10-29 12:00:00+00');
+    const c = (await db.query<{ id: string }>(`insert into public.comments (thread_id, user_id, body, anonymous) values ($1, '${B}', 'Vale sim', true) returning id`, [older])).rows[0].id;
+    for (const u of [C, D, A]) await db.query(`insert into public.comment_votes (comment_id, user_id) values ($1, $2)`, [c, u]);
+
+    const order = await asAnon(async () =>
+      (await db.query<{ id: string }>(
+        `select id from public.threads_feed where event_id = $1 and kind = 'vale_a_pena'
+          order by top_comment_votes desc nulls last, created_at desc, id desc`, [E_HELP])).rows.map((r) => r.id));
+    assert.deepEqual(order, [older, newer]);
+  });
+
+  test('the indexes the feed needs exist, and the old redundant one is gone', async () => {
+    const names = (await db.query<{ indexname: string }>(`select indexname from pg_indexes where tablename = 'threads'`)).rows.map((r) => r.indexname);
+    assert.ok(names.includes('threads_feed_idx'));
+    assert.ok(names.includes('threads_feed_event_kind_idx'));
+    assert.ok(!names.includes('threads_created_idx'));
+  });
+});
+
 describe('account deletion', () => {
   test('deleting the auth user removes their threads, comments and votes', async () => {
     const t = await newThread(asD);
