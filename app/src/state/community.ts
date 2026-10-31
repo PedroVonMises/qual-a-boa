@@ -5,6 +5,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { safeMerge } from './safeMerge';
 
 import { isRemote } from '@/data/supabaseClient';
+import { DEFAULT_UF, type Uf } from '@/domain/region';
 import { isServerId, pushComment, pushCommentVote, pushCommunityReport, pushHandle, pushThread } from '@/data/sync/community';
 
 import {
@@ -23,6 +24,8 @@ import {
 // become server uuids once accepted; a rejected post stays on this device. Nothing is retried in a loop.
 
 export interface ThreadInput {
+  /** State of the event's venue; defaults to the default state. */
+  uf?: Uf;
   eventId: string;
   eventName: string;
   venueSlug?: string;
@@ -109,6 +112,7 @@ export const useCommunity = create<CommunityStore>()(
         if (err) return err;
         const thread: Thread = {
           id: newId('th'),
+          uf: input.uf ?? DEFAULT_UF,
           eventId: input.eventId,
           eventName: input.eventName,
           venueSlug: input.venueSlug,

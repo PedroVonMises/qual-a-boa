@@ -43,7 +43,7 @@ Rules: max one accent; no purple/blue neon, no gradient text, no glow shadows. I
 - **Skeletons:** shimmer blocks matching exact card dimensions; no spinners.
 - **Empty states:** a composed poster-style illustration and a specific next action ("Aumente o raio para 10 km").
 - **Errors:** inline with retry; offline banner keeps cached results visible.
-- **Tab bar:** Explorar, Mapa, Comunidade, Salvos, Perfil; 64px + safe area; active = Riot Pink icon + label.
+- **Tab bar:** Explorar, Mapa, Comunidade, Salvos, Perfil; 64px + safe area; active = Riot Pink icon + label. Comunidade is about the user's **state**: a one-line explainer under the title and a state pill (pin + name + chevron, same shape as the Explorar pills) that opens "Seu estado", a sheet of all 27 states where only the pilot states (Espírito Santo) are selectable and the rest read "Em breve".
 
 ## 5. Layout Principles
 - Grid: 4pt base; screen gutters 16 (sm), 24 (md), 32 (lg). Content max-width 1280 on web.
@@ -55,7 +55,8 @@ Rules: max one accent; no purple/blue neon, no gradient text, no glow shadows. I
 
 ## 6. Motion & Interaction
 - Springs by default (Reanimated: stiffness 140, damping 18); no linear easing.
-- Shelves and lists mount with staggered fade+translateY (40ms steps, max 8 items).
+- Shelves and lists mount with staggered fade+translateY (40ms steps, max 8 items). Implemented by `Reveal` (`ui/Reveal.tsx`) with a per-list `useRevealScope`, so a row never replays its entrance when recycled or revisited; later pages append quietly.
+- Content that replaces a skeleton, and whole screens on mount, fade in (`ScreenFade`, opacity only). Text that changes in place, like the Explorar headline, settles in with `Swap`. Tabs cross-fade (`animation: 'fade'`); the native stack keeps its platform push animation (its `animation` option is iOS/Android only), so on web the screen fade is the transition.
 - Shared-element transition from card cover to event hero on supported platforms.
 - Perpetual micro-motion limited to: skeleton shimmer, a soft pulse on the "Agora" live badge.
 - Animate transform/opacity only. Respect Reduce Motion: replace springs with 120ms fades.
@@ -66,7 +67,7 @@ Rules: max one accent; no purple/blue neon, no gradient text, no glow shadows. I
 - Seed imagery uses picsum.photos or generated SVG; real venue photos replace them in P4.
 
 ## 8. Copy Voice (pt-BR)
-Casual, short, local. Examples: "Qual a boa hoje?", "Perto de você", "Até R$ 40", "Já passaram por aqui", "Ver ingressos". Gírias capixabas only where they read naturally. No marketing clichés. Mandatory 18+ and "beba com moderação" notices in onboarding and footer.
+Casual, short, local. Examples: "Qual a boa hoje?" (the last word follows the chosen day: "amanhã", "depois de amanhã", "na sexta", "no fim de semana", "dia 14 de novembro"), "Perto de você", "Até R$ 40", "Já passaram por aqui", "Ver ingressos". Gírias capixabas only where they read naturally. No marketing clichés. Mandatory 18+ and "beba com moderação" notices in onboarding and footer.
 
 ## 9. Anti-Patterns (Banned)
 - Emojis as UI icons, Inter, pure black/white backgrounds, neon glows, purple/blue AI gradients.

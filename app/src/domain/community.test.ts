@@ -102,6 +102,28 @@ describe('paging cursors', () => {
   });
 });
 
+describe('state scope', () => {
+  const t = (uf?: string) => ({ eventId: 'e1', kind: 'vale_a_pena' as const, uf });
+  const feed = { scope: 'all' as const, sort: 'recent' as const };
+
+  it('the feed only shows its own state; content without a state reads as the default one (ES)', () => {
+    expect(threadMatchesQuery(t('ES'), { ...feed, uf: 'ES' })).toBe(true);
+    expect(threadMatchesQuery(t(undefined), { ...feed, uf: 'ES' })).toBe(true);
+    expect(threadMatchesQuery(t('SP'), { ...feed, uf: 'ES' })).toBe(false);
+    expect(threadMatchesQuery(t(undefined), { ...feed, uf: 'SP' })).toBe(false);
+  });
+
+  it("an event's own page and an unfiltered query ignore the state", () => {
+    expect(threadMatchesQuery(t('SP'), feed)).toBe(true);
+    expect(threadMatchesQuery(t('SP'), { ...feed, eventId: 'e1' })).toBe(true);
+  });
+
+  it('each state has its own cache entry', () => {
+    expect(threadQueryKey({ ...feed, uf: 'ES' })).not.toEqual(threadQueryKey({ ...feed, uf: 'SP' }));
+    expect(threadQueryKey({ ...feed, uf: 'ES' })).not.toEqual(threadQueryKey(feed));
+  });
+});
+
 describe('threadMatchesQuery (mirrors the server filters)', () => {
   const t = (over: Partial<{ eventId: string; venueSlug: string; kind: 'vale_a_pena' | 'grupo' | 'agora'; archived: boolean }> = {}) => ({
     eventId: 'e1',

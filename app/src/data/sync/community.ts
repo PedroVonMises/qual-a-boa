@@ -21,6 +21,7 @@ import {
   type ThreadPage,
   type ThreadQuery,
 } from '@/domain/community';
+import type { Uf } from '@/domain/region';
 
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -49,6 +50,7 @@ export interface ThreadFeedRow {
   top_comment_id: string | null;
   top_comment_body: string | null;
   top_comment_votes: number | null;
+  uf: string;
 }
 
 /** Row of the `comments_feed` view. */
@@ -94,6 +96,7 @@ export function mapThreadRow(r: ThreadFeedRow): RemoteThread {
     kind: r.kind,
     title: r.title,
     body: r.body ?? undefined,
+    uf: r.uf as Uf,
     author: author(r),
     createdAt: r.created_at,
     commentCount: r.comment_count,
@@ -143,6 +146,7 @@ export async function pullThreadsPage(q: ThreadQuery, cursor: string | null = nu
   const n = COMMUNITY_PAGE_SIZE;
   let f = sb.from('threads_feed').select('*');
   if (q.eventId) f = f.eq('event_id', q.eventId);
+  if (q.uf) f = f.eq('uf', q.uf);
   if (q.kind) f = f.eq('kind', q.kind);
   if (q.scope === 'tonight') f = f.eq('kind', 'agora');
   if (q.scope === 'following') f = f.in('event_id', followed);

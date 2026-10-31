@@ -12,11 +12,15 @@ import {
   type ThreadScope,
 } from '@/domain/community';
 import { formatRelative } from '@/domain/format';
+import { ufName } from '@/domain/region';
 import { useFollows } from '@/state/follows';
+import { useRegion } from '@/state/region';
 import { maxContentWidth, space } from '@/theme/tokens';
-import { Chip, IconButton, Screen, SegmentedControl, TAB_BAR_HEIGHT, Text, ThreadCard, useBreakpoint } from '@/ui';
+import { Chip, IconButton, Reveal, REVEAL_MAX_ITEMS, Screen, SegmentedControl, TAB_BAR_HEIGHT, Text, ThreadCard, useBreakpoint, useRevealScope } from '@/ui';
 import { useThreads } from './hooks';
 import { FeedEmpty, FeedFooter } from './ListParts';
+import { StatePill } from './StatePill';
+import { StateSheet } from './StateSheet';
 
 const SCOPES: { value: ThreadScope; label: string }[] = [
   { value: 'all', label: 'Para você' },
@@ -24,11 +28,11 @@ const SCOPES: { value: ThreadScope; label: string }[] = [
   { value: 'following', label: 'Seguindo' },
 ];
 
-const EMPTY: Record<ThreadScope, { title: string; message: string }> = {
-  all: { title: 'Nada por aqui ainda', message: 'Seja o primeiro a perguntar sobre um evento.' },
-  tonight: { title: 'Nada acontecendo agora', message: 'Conversas "Agora" aparecem aqui durante a noite.' },
+const emptyCopy = (state: string): Record<ThreadScope, { title: string; message: string }> => ({
+  all: { title: 'Nada por aqui ainda', message: `Seja o primeiro a puxar assunto em ${state}.` },
+  tonight: { title: 'Nada acontecendo agora', message: `Conversas "Agora" de ${state} aparecem aqui durante a noite.` },
   following: { title: 'Nenhuma conversa seguida', message: 'Siga um evento para ver as conversas dele aqui.' },
-};
+});
 
 /**
  * Comunidade tab: event-scoped threads, newest first, each previewing its "Mais útil" reply. Loads a page at a time
@@ -41,6 +45,10 @@ export function FeedScreen() {
   const [scope, setScope] = useState<ThreadScope>('all');
   const [kind, setKind] = useState<ThreadKind | undefined>();
   const [refreshing, setRefreshing] = useState(false);
+  const [stateOpen, setStateOpen] = useState(false);
+  const uf = useRegion((s) => s.uf);
+  const stateName = ufName(uf);
+  const empty = emptyCopy(stateName)[scope];
 
   // Oldest follows first, so the cap in the request drops the newest rather than reshuffling on every follow.
   const followedEventIds = useMemo(
@@ -52,10 +60,11 @@ export function FeedScreen() {
     [follows],
   );
   const query = useMemo<ThreadQuery>(
-    () => ({ scope, kind, sort: 'recent', followedEventIds: scope === 'following' ? followedEventIds : undefined }),
-    [scope, kind, followedEventIds],
+    () => ({ scope, kind, uf, sort: 'recent', followedEventIds: scope === 'following' ? followedEventIds : undefined }),
+    [scope, kind, uf, followedEventIds],
   );
   const feed = useThreads(query);
+  const reveal = useRevealScope();
   const goNew = () => router.push('/comunidade/nova' as Href);
 
   return (
@@ -65,25 +74,33 @@ export function FeedScreen() {
           testID="comunidade-list"
           data={feed.items}
           keyExtractor={(t) => t.id}
-          renderItem={({ item: t }) => (
-            <ThreadCard
-              eventName={t.eventName}
-              kind={t.kind}
-              title={t.title}
-              topComment={t.top}
-              replies={t.replies}
-              ago={formatRelative(t.createdAt)}
-              onPress={() => router.push(`/comunidade/t/${t.id}` as Href)}
-            />
+          renderItem={({ item: t, index }) => (
+            <Reveal index={index} scope={reveal} id={t.id} disabled={index >= REVEAL_MAX_ITEMS}>
+              <ThreadCard
+                eventName={t.eventName}
+                kind={t.kind}
+                title={t.title}
+                topComment={t.top}
+                replies={t.replies}
+                ago={formatRelative(t.createdAt)}
+                onPress={() => router.push(`/comunidade/t/${t.id}` as Href)}
+              />
+            </Reveal>
           )}
           ListHeaderComponent={
             <View style={styles.header}>
               <View style={styles.head}>
-                <Text variant="display" accessibilityRole="header">
-                  Comunidade
-                </Text>
+                <View style={styles.titles}>
+                  <Text variant="display" accessibilityRole="header">
+                    Comunidade
+                  </Text>
+                  <Text variant="bodySm" tone="textMuted">
+                    Conversas de quem está no seu estado.
+                  </Text>
+                </View>
                 <IconButton icon="plus" label="Nova conversa" variant="filled" onPress={goNew} />
               </View>
+              <StatePill onPress={() => setStateOpen(true)} />
               <SegmentedControl label="Mostrar" options={SCOPES} value={scope} onChange={setScope} />
               <View accessibilityRole="radiogroup" accessibilityLabel="Tipo de conversa" style={styles.chips}>
                 <Chip label="Tudo" selected={!kind} onPress={() => setKind(undefined)} />
@@ -96,8 +113,8 @@ export function FeedScreen() {
           ListEmptyComponent={
             <FeedEmpty
               feed={feed}
-              title={EMPTY[scope].title}
-              message={EMPTY[scope].message}
+              title={empty.title}
+              message={empty.message}
               actionLabel="Nova conversa"
               onAction={goNew}
             />
@@ -115,6 +132,7 @@ export function FeedScreen() {
           contentContainerStyle={{ paddingHorizontal: gutter, paddingBottom: TAB_BAR_HEIGHT + space.xxxl }}
         />
       </View>
+      <StateSheet visible={stateOpen} onClose={() => setStateOpen(false)} />
     </Screen>
   );
 }
@@ -122,6 +140,7 @@ export function FeedScreen() {
 const styles = StyleSheet.create({
   inner: { flex: 1, width: '100%', maxWidth: maxContentWidth, alignSelf: 'center' },
   header: { gap: space.lg, paddingTop: space.sm, paddingBottom: space.sm },
-  head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.md },
+  titles: { flex: 1, gap: space.xs },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
 });

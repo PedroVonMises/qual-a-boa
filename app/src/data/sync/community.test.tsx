@@ -59,6 +59,7 @@ const threadRow: ThreadFeedRow = {
   top_comment_id: CM,
   top_comment_body: 'A pista resolve.',
   top_comment_votes: 18,
+  uf: 'ES',
 };
 
 const commentRow: CommentFeedRow = {
@@ -133,6 +134,11 @@ describe('community mapping', () => {
     expect(t.top).toBeUndefined();
   });
 
+  it("carries the thread's state", () => {
+    expect(mapThreadRow(threadRow).uf).toBe('ES');
+    expect(mapThreadRow({ ...threadRow, uf: 'SP' }).uf).toBe('SP');
+  });
+
   it('treats a missing handle as anonymous even if the flag says otherwise', () => {
     expect(mapThreadRow({ ...threadRow, handle: null }).author).toEqual({ anonymous: true });
   });
@@ -185,6 +191,15 @@ describe('community pull', () => {
     expect((await pullThreadsPage(FEED)).nextCursor).toBeNull();
     use(() => ({ data: [] }));
     expect(await pullThreadsPage(FEED)).toEqual({ items: [], nextCursor: null });
+  });
+
+  it("filters the feed by state on the server, but not an event's own page", async () => {
+    const calls = use(() => ({ data: [] }));
+    await pullThreadsPage({ ...FEED, uf: 'ES' });
+    expect(calls[0].filters).toContainEqual(['uf', 'eq', 'ES']);
+
+    await pullThreadsPage({ ...FEED, eventId: EV, includeArchived: true });
+    expect(calls[1].filters.some((f) => f[0] === 'uf')).toBe(false);
   });
 
   it('turns the cursor into a keyset filter, so rows posted meanwhile cannot duplicate or skip', async () => {

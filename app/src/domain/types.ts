@@ -2,6 +2,7 @@
 // Money is in BRL reais (not cents). Dates are ISO 8601 strings in UTC.
 
 import type { AccessTag } from './accessTags';
+import type { Uf } from './region';
 
 export type VenueStatus = 'open' | 'closed' | 'unverified';
 export type EventStatus = 'published' | 'cancelled' | 'draft';
@@ -36,6 +37,8 @@ export interface Venue {
   name: string;
   area: string; // 'Praia do Canto', 'Jardim da Penha', 'Centro', 'Camburi', 'Vila Velha'
   city: string;
+  /** State (UF). Optional: the static event feed does not carry it; the database default is 'ES'. Read with `venueUf`. */
+  uf?: Uf;
   address?: string;
   lat: number;
   lng: number;
