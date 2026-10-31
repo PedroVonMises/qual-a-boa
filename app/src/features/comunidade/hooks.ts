@@ -96,8 +96,9 @@ export function useThreads(q: ThreadQuery): ThreadFeed {
 
   // Local mode pages client-side; it restarts from page 1 whenever the query changes.
   const keyText = threadQueryKey(q).join('/');
-  const [visible, setVisible] = useState(COMMUNITY_PAGE_SIZE);
-  useEffect(() => setVisible(COMMUNITY_PAGE_SIZE), [keyText]);
+  // The count belongs to the query it was grown for: a different query reads as page 1 (derived, so no effect needed).
+  const [paging, setPaging] = useState({ key: keyText, visible: COMMUNITY_PAGE_SIZE });
+  const visible = paging.key === keyText ? paging.visible : COMMUNITY_PAGE_SIZE;
 
   const remoteItems = useMemo<ThreadView[]>(() => {
     if (!remote) return [];
@@ -141,8 +142,8 @@ export function useThreads(q: ThreadQuery): ThreadFeed {
       hasNextPage: visible < localAll.length,
       isFetchingNextPage: false,
       isFetchNextPageError: false,
-      fetchNextPage: () => setVisible((v) => v + COMMUNITY_PAGE_SIZE),
-      refresh: async () => setVisible(COMMUNITY_PAGE_SIZE),
+      fetchNextPage: () => setPaging({ key: keyText, visible: visible + COMMUNITY_PAGE_SIZE }),
+      refresh: async () => setPaging({ key: keyText, visible: COMMUNITY_PAGE_SIZE }),
     };
   }
 
