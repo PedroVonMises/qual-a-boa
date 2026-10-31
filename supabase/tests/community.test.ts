@@ -290,6 +290,37 @@ describe('reports and auto-hide', () => {
   });
 });
 
+describe('replies follow their parent', () => {
+  test('a hidden parent takes its replies out of the feed and the reply count', async () => {
+    const t = await newThread(asA);
+    const parent = await newComment(asB, t);
+    const reply = await newComment(asC, t, parent);
+    const sibling = await newComment(asD, t);
+    assert.equal((await feedThread(asAnon, t)).comment_count, 3);
+
+    for (const w of [asC, asD, asA]) {
+      await w(() => db.query(`insert into public.community_reports (comment_id, reason) values ($1, 'ofensivo')`, [parent]));
+    }
+    const ids = (who: typeof asA | typeof asAnon) =>
+      who(async () => (await db.query<{ id: string }>(`select id from public.comments_feed where thread_id = $1 order by created_at`, [t])).rows.map((r) => r.id));
+
+    assert.deepEqual(await ids(asAnon), [sibling], 'parent and its reply are gone for others');
+    assert.equal((await feedThread(asAnon, t)).comment_count, 1);
+    // The reply's own author still sees their reply; the hidden parent's author still sees theirs.
+    assert.deepEqual(await ids(asC), [reply, sibling]);
+    assert.deepEqual(await ids(asB), [parent, sibling]);
+  });
+
+  test('a published parent keeps its replies visible', async () => {
+    const t = await newThread(asA);
+    const parent = await newComment(asB, t);
+    const reply = await newComment(asC, t, parent);
+    const seen = await asAnon(async () => (await db.query<{ id: string }>(`select id from public.comments_feed where thread_id = $1`, [t])).rows.map((r) => r.id));
+    assert.deepEqual(seen.sort(), [parent, reply].sort());
+    assert.equal((await feedThread(asAnon, t)).comment_count, 2);
+  });
+});
+
 describe('account deletion', () => {
   test('deleting the auth user removes their threads, comments and votes', async () => {
     const t = await newThread(asD);
