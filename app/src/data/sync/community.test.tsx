@@ -1,12 +1,18 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render, screen } from '@testing-library/react-native';
+import { Text } from 'react-native';
+
 import { fakeClient, flush, type Handler } from './fakeClient';
 import {
   mapCommentRow,
   mapThreadRow,
   pullComments,
+  pullThread,
   pullThreads,
   pushCommentVote,
   pushCommunityReport,
   pushHandle,
+  useRemoteThreads,
   type CommentFeedRow,
   type ThreadFeedRow,
 } from './community';
@@ -92,6 +98,8 @@ const reset = () =>
     votedIds: [],
     reportedIds: [],
     reportSentIds: [],
+    aliases: {},
+    handleTaken: false,
     tick: 0,
   });
 
@@ -147,6 +155,18 @@ describe('community pull', () => {
     expect(calls[0]).toMatchObject({ table: 'comments_feed', filters: [['thread_id', 'eq', TH]] });
     expect(await pullComments('th-local')).toEqual([]);
     expect(calls).toHaveLength(1);
+  });
+
+  it("can read one event's threads, or one thread by id, so old events are not cut off by the feed window", async () => {
+    const calls = use(() => ({ data: [threadRow] }));
+    await pullThreads(EV);
+    expect(calls[0].filters).toContainEqual(['event_id', 'eq', EV]);
+    expect((await pullThread(TH))?.id).toBe(TH);
+    expect(calls[1].filters).toContainEqual(['id', 'eq', TH]);
+    use(() => ({ data: [] }));
+    await expect(pullThread(TH)).resolves.toBeNull();
+    expect(await pullThreads('evt-local')).toEqual([]);
+    expect(await pullThread('th-local')).toBeNull();
   });
 
   it('propagates server errors so the query shows its error state', async () => {
@@ -268,6 +288,67 @@ describe('community push (flush)', () => {
     expect(useCommunity.getState().tick).toBe(0);
   });
 
+  it('claims the handle once per run, however many named posts are waiting', async () => {
+    const calls = use(accept);
+    useCommunity.getState().setHandle('marina_vix');
+    const t = useCommunity.getState().createThread({ eventId: EV, eventName: 'X', kind: 'grupo', title: 'Mesa?', anonymous: false });
+    if (typeof t === 'string') throw new Error(t);
+    useCommunity.getState().addComment({ threadId: t.id, body: 'Um', anonymous: false });
+    useCommunity.getState().addComment({ threadId: t.id, body: 'Dois', anonymous: false });
+    await settle();
+    expect(calls.filter((c) => c.table === 'profiles')).toHaveLength(1);
+    expect(calls.filter((c) => c.op === 'insert').map((c) => c.table)).toEqual(['threads', 'comments', 'comments']);
+  });
+
+  it('a handle chosen offline that turns out to be taken is dropped; anonymous posts still go out', async () => {
+    const calls = use((c) =>
+      c.table === 'profiles' ? { error: { code: '23505', message: 'profiles_handle_key' } } : accept(c),
+    );
+    useCommunity.getState().setHandle('maria');
+    useCommunity.getState().createThread({ eventId: EV, eventName: 'X', kind: 'grupo', title: 'Nomeado', anonymous: false });
+    useCommunity.getState().createThread({ eventId: EV, eventName: 'X', kind: 'grupo', title: 'Anonimo', anonymous: true });
+    await settle();
+    const st = useCommunity.getState();
+    expect(st.handle).toBeUndefined();
+    expect(st.handleTaken).toBe(true);
+    expect(calls.filter((c) => c.table === 'threads').map((c) => (c.payload as { title: string }).title)).toEqual(['Anonimo']);
+    expect(st.threads.find((t) => t.title === 'Nomeado')!.id).not.toBe(TH);
+
+    // Picking a new handle clears the warning.
+    expect(st.setHandle('maria_vix')).toBeUndefined();
+    expect(useCommunity.getState().handleTaken).toBe(false);
+  });
+
+  it('a named post without any handle stays local and never reaches the server', async () => {
+    const calls = use(accept);
+    useCommunity.setState({
+      threads: [
+        {
+          id: 'th-old',
+          eventId: EV,
+          eventName: 'X',
+          kind: 'grupo',
+          title: 'Mesa?',
+          author: { anonymous: false, handle: 'x_y' },
+          createdAt: '2026-10-30T10:00:00Z',
+          commentCount: 0,
+          helpfulCount: 0,
+          mine: true,
+        },
+      ],
+    });
+    await flushCommunity();
+    expect(calls).toHaveLength(0);
+  });
+
+  it('records an alias from the local thread id to the server id', async () => {
+    use(accept);
+    const t = useCommunity.getState().createThread({ eventId: EV, eventName: 'X', kind: 'grupo', title: 'Mesa?', anonymous: true });
+    if (typeof t === 'string') throw new Error(t);
+    await settle();
+    expect(useCommunity.getState().aliases[t.id]).toBe(TH);
+  });
+
   it('seed-data event ids never reach the server', async () => {
     const calls = use(accept);
     useCommunity.getState().createThread({ eventId: 'evt-001', eventName: 'X', kind: 'grupo', title: 'Mesa?', anonymous: true });
@@ -330,5 +411,41 @@ describe('votes and reports', () => {
     await pushCommunityReport({ commentId: CM }, 'spam');
     expect(calls[0].payload).toEqual({ user_id: 'user-1', thread_id: TH, comment_id: null, reason: 'Denunciado pelo usuário' });
     expect(calls[1].payload).toEqual({ user_id: 'user-1', thread_id: null, comment_id: CM, reason: 'spam' });
+  });
+});
+
+describe('remote queries', () => {
+  // One client per test (a new one per render would drop the cache); gcTime 0 so no timer outlives the test.
+  const makeClient = () => new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 } } });
+
+  function Probe({ version, eventId }: { version: number; eventId?: string }) {
+    const q = useRemoteThreads(version, eventId);
+    return <Text>{(q.data ?? []).map((t) => t.title).join(',') || 'vazio'}</Text>;
+  }
+  const tree = (client: QueryClient, version: number, eventId?: string) => (
+    <QueryClientProvider client={client}>
+      <Probe version={version} eventId={eventId} />
+    </QueryClientProvider>
+  );
+
+  it('refetches after a push without blanking the list in between', async () => {
+    let n = 0;
+    const calls = use(() => ({ data: [{ ...threadRow, title: `v${++n}` }] }));
+    const client = makeClient();
+    const view = await render(tree(client, 0));
+    await screen.findByText('v1');
+
+    await view.rerender(tree(client, 1));
+    // Same cache entry: the old rows stay on screen while the refetch runs.
+    expect(screen.queryByText('vazio')).toBeNull();
+    await screen.findByText('v2');
+    expect(calls.filter((c) => c.table === 'threads_feed')).toHaveLength(2);
+  });
+
+  it("keys one event's threads separately from the feed", async () => {
+    const calls = use(() => ({ data: [threadRow] }));
+    await render(tree(makeClient(), 0, EV));
+    await screen.findByText('Vale pagar o camarote?');
+    expect(calls[0].filters).toContainEqual(['event_id', 'eq', EV]);
   });
 });

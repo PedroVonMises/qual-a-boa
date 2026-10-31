@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useEffect, useRef } from 'react';
 
 import type { Comment, Thread, ThreadKind } from '@/domain/community';
 
@@ -6,7 +7,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 import { ensureUserId, getSupabase, isRemote } from '../supabaseClient';
 import { UUID_RE } from './reviews';
-import { isDuplicate, warn } from './util';
+import { authedClient, isDuplicate, warn } from './util';
 
 /** Row of the `threads_feed` view. */
 export interface ThreadFeedRow {
@@ -105,13 +106,25 @@ export function mapCommentRow(r: CommentFeedRow): RemoteComment {
 
 export const isServerId = (id: string | undefined): id is string => !!id && UUID_RE.test(id);
 
-/** Published threads + the caller's own, newest first. Throws on network/RLS errors. */
-export async function pullThreads(): Promise<RemoteThread[]> {
+/** Published threads + the caller's own, newest first (newest 100; optionally one event's). Throws on network/RLS errors. */
+export async function pullThreads(eventId?: string): Promise<RemoteThread[]> {
   const sb = getSupabase();
-  if (!sb) return [];
-  const { data, error } = await sb.from('threads_feed').select('*').order('created_at', { ascending: false }).limit(100);
+  if (!sb || (eventId !== undefined && !isServerId(eventId))) return [];
+  let q = sb.from('threads_feed').select('*');
+  if (eventId) q = q.eq('event_id', eventId);
+  const { data, error } = await q.order('created_at', { ascending: false }).limit(100);
   if (error) throw error;
   return ((data ?? []) as ThreadFeedRow[]).map(mapThreadRow);
+}
+
+/** One thread by id (deep links and threads older than the feed window). Null when missing or hidden from the caller. */
+export async function pullThread(id: string): Promise<RemoteThread | null> {
+  const sb = getSupabase();
+  if (!sb || !isServerId(id)) return null;
+  const { data, error } = await sb.from('threads_feed').select('*').eq('id', id).limit(1);
+  if (error) throw error;
+  const row = ((data ?? []) as ThreadFeedRow[])[0];
+  return row ? mapThreadRow(row) : null;
 }
 
 /** Comments of a thread, oldest first. Throws on network/RLS errors. */
@@ -129,10 +142,9 @@ export async function pullComments(threadId: string): Promise<RemoteComment[]> {
 
 /** Signed-in client + user id for writes, or null when not remote / not signed in (callers stay local-only). */
 async function writer(): Promise<{ sb: SupabaseClient; uid: string } | null> {
-  const sb = getSupabase();
-  if (!sb || !isRemote()) return null;
-  const uid = await ensureUserId();
-  return uid ? { sb, uid } : null;
+  const sb = await authedClient();
+  const uid = sb ? await ensureUserId() : null;
+  return sb && uid ? { sb, uid } : null;
 }
 
 export interface Profile {
@@ -161,21 +173,13 @@ export async function pushHandle(profile: Profile): Promise<HandleResult> {
   }
 }
 
-/** Posting by name needs the handle on the server first. Anonymous posts skip it. */
-async function ensureHandle(anonymous: boolean, profile: Profile | undefined): Promise<boolean> {
-  if (anonymous) return true;
-  if (!profile) return false;
-  return (await pushHandle(profile)) === 'ok';
-}
-
-/** Inserts a thread; returns the server id, or null (not remote, not signed in, local id scope, or rejected). Never throws. */
-export async function pushThread(thread: Thread, profile?: Profile): Promise<string | null> {
+/** Inserts a thread (a named one needs the handle claimed first: flushCommunity does that once per run). Returns the server id, or null (not remote, not signed in, local id scope, or rejected). Never throws. */
+export async function pushThread(thread: Thread): Promise<string | null> {
   try {
     if (!isServerId(thread.eventId)) return null;
     const w = await writer();
     if (!w) return null;
     const { sb, uid } = w;
-    if (!(await ensureHandle(thread.author.anonymous, profile))) return null;
     const { data, error } = await sb
       .from('threads')
       .insert({
@@ -200,13 +204,12 @@ export async function pushThread(thread: Thread, profile?: Profile): Promise<str
 }
 
 /** Inserts a comment; needs server ids for the thread and parent. Returns the server id or null. Never throws. */
-export async function pushComment(comment: Comment, profile?: Profile): Promise<string | null> {
+export async function pushComment(comment: Comment): Promise<string | null> {
   try {
     if (!isServerId(comment.threadId) || (comment.parentId && !isServerId(comment.parentId))) return null;
     const w = await writer();
     if (!w) return null;
     const { sb, uid } = w;
-    if (!(await ensureHandle(comment.author.anonymous, profile))) return null;
     const { data, error } = await sb
       .from('comments')
       .insert({
@@ -279,20 +282,47 @@ export async function pushCommunityReport(target: ReportTarget, reason: string =
   }
 }
 
-/** Remote threads. `version` bumps after each successful push so the feed refetches. */
-export function useRemoteThreads(version: number) {
-  return useQuery({
-    queryKey: ['remote', 'community', 'threads', version],
-    enabled: isRemote(),
-    queryFn: pullThreads,
+/** Calls `refetch` when `version` changes (after the first render), keeping the data on screen meanwhile. */
+function useRefetchOnChange(version: number, refetch: () => unknown) {
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    void refetch();
+  }, [version, refetch]);
+}
+
+/** Remote threads (all, or one event's). `version` bumps after each accepted push: the list refetches in place. */
+export function useRemoteThreads(version: number, eventId?: string) {
+  const q = useQuery({
+    queryKey: ['remote', 'community', 'threads', eventId ?? 'all'],
+    enabled: isRemote() && (eventId === undefined || isServerId(eventId)),
+    queryFn: () => pullThreads(eventId),
   });
+  useRefetchOnChange(version, q.refetch);
+  return q;
+}
+
+/** One remote thread by id. */
+export function useRemoteThread(id: string | undefined, version: number) {
+  const q = useQuery({
+    queryKey: ['remote', 'community', 'thread', id ?? ''],
+    enabled: isRemote() && isServerId(id),
+    queryFn: () => pullThread(id!),
+  });
+  useRefetchOnChange(version, q.refetch);
+  return q;
 }
 
 /** Remote comments of a thread. */
 export function useRemoteComments(threadId: string | undefined, version: number) {
-  return useQuery({
-    queryKey: ['remote', 'community', 'comments', threadId ?? '', version],
+  const q = useQuery({
+    queryKey: ['remote', 'community', 'comments', threadId ?? ''],
     enabled: isRemote() && isServerId(threadId),
     queryFn: () => pullComments(threadId!),
   });
+  useRefetchOnChange(version, q.refetch);
+  return q;
 }

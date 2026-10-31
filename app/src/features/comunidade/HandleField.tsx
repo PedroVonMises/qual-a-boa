@@ -10,6 +10,7 @@ import { Button, Text } from '@/ui';
 export function HandleField() {
   const { colors } = useTheme();
   const claimHandle = useCommunity((s) => s.claimHandle);
+  const taken = useCommunity((s) => s.handleTaken);
   const [value, setValue] = useState('');
   const [error, setError] = useState<string | undefined>();
   const [busy, setBusy] = useState(false);
@@ -20,8 +21,10 @@ export function HandleField() {
   };
   return (
     <View style={styles.wrap}>
-      <Text variant="bodySm" tone="textMuted">
-        Escolha seu @ para postar com nome, ou poste como anônimo.
+      <Text variant="bodySm" tone={taken ? 'dangerText' : 'textMuted'} accessibilityLiveRegion="polite">
+        {taken
+          ? 'O @ que você escolheu sem internet já é de outra pessoa. Escolha outro para publicar seus posts.'
+          : 'Escolha seu @ para postar com nome, ou poste como anônimo.'}
       </Text>
       <View style={styles.row}>
         <TextInput

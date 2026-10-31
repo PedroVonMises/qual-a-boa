@@ -42,5 +42,7 @@ Handle setup is a sheet shown on first post/comment. Out of scope: public profil
 ## Open items
 - Confirm the auto-hide threshold (implemented as 3 distinct reports).
 - Not yet exercised against the live project: the sync layer is tested against a fake client only.
-- No moderation UI for the author of a hidden post, and no pagination beyond the newest 100 threads.
+- No moderation UI for the author of a hidden post, and no pagination beyond the newest 100 threads in the global feed (an event's hub and a single thread are fetched on their own).
+- Abuse: users are anonymous auth accounts, so 3 throwaway accounts can auto-hide any post, and thread/comment/report inserts are not throttled. Needs a decision (account age, per-user rate limits, or a higher threshold) before launch.
+- `0011_community_hidden_parents.sql` is not applied to the remote yet.
 - 0009 is not applied to the remote; confirm ordering before applying 0010.

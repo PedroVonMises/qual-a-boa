@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 
 import { isRemote } from '@/data/supabaseClient';
-import { isServerId, useRemoteComments, useRemoteThreads, type RemoteThread } from '@/data/sync/community';
+import { isServerId, useRemoteComments, useRemoteThread, useRemoteThreads, type RemoteThread } from '@/data/sync/community';
 import { topHelpful, type Comment, type Thread } from '@/domain/community';
 import { flushCommunity, useCommunity } from '@/state/community';
 import { DEMO_COMMENTS, DEMO_THREADS } from './demo';
@@ -20,14 +20,16 @@ const byNewest = (a: { createdAt: string }, b: { createdAt: string }) => (a.crea
  * All threads, newest first, with reply counts and the pinned Mais útil preview resolved.
  * Backend off: this device's threads + the pilot demo threads. Backend on: server threads, with this device's
  * unsynced threads on top (the server row wins once a thread has synced); no demo content.
+ * With `eventId` (and the backend on) only that event's threads are fetched, so old events are not cut off by the
+ * feed window.
  */
-export function useThreads(): ThreadView[] {
+export function useThreads(eventId?: string): ThreadView[] {
   const remote = isRemote();
   const mineThreads = useCommunity((s) => s.threads);
   const mineComments = useCommunity((s) => s.comments);
   const votedIds = useCommunity((s) => s.votedIds);
   const tick = useCommunity((s) => s.tick);
-  const q = useRemoteThreads(tick);
+  const q = useRemoteThreads(tick, eventId);
 
   // Retry anything left unsynced whenever the feed is (re)loaded.
   useEffect(() => {
@@ -69,18 +71,29 @@ export function useThreads(): ThreadView[] {
   }, [remote, q.data, mineThreads, mineComments, votedIds]);
 }
 
+/** A thread by id. A local id resolves through its alias once synced; older server threads are fetched on their own. */
 export function useThread(id: string | undefined): ThreadView | undefined {
+  const real = useCommunity((s) => (id ? (s.aliases[id] ?? id) : id));
+  const tick = useCommunity((s) => s.tick);
+  const mineComments = useCommunity((s) => s.comments);
   const threads = useThreads();
-  return useMemo(() => threads.find((t) => t.id === id), [threads, id]);
+  const single = useRemoteThread(real, tick);
+  return useMemo(() => {
+    const inList = threads.find((t) => t.id === real);
+    if (inList || !single.data) return inList;
+    const t = single.data;
+    return { ...t, replies: t.replies + mineComments.filter((c) => c.threadId === t.id && !isServerId(c.id)).length };
+  }, [threads, real, single.data, mineComments]);
 }
 
 /** Comments of a thread. Backend on: server comments plus this device's unsynced ones; off: demo + this device's. */
 export function useComments(threadId: string | undefined): Comment[] {
   const remote = isRemote();
+  const aliased = useCommunity((s) => (threadId ? (s.aliases[threadId] ?? threadId) : threadId));
   const mine = useCommunity((s) => s.comments);
   const tick = useCommunity((s) => s.tick);
   const adoptVotes = useCommunity((s) => s.adoptVotes);
-  const q = useRemoteComments(threadId, tick);
+  const q = useRemoteComments(aliased, tick);
 
   useEffect(() => {
     const voted = (q.data ?? []).filter((c) => c.voted).map((c) => c.id);
@@ -88,14 +101,14 @@ export function useComments(threadId: string | undefined): Comment[] {
   }, [q.data, adoptVotes]);
 
   return useMemo(() => {
-    const here = mine.filter((c) => c.threadId === threadId);
+    const here = mine.filter((c) => c.threadId === aliased);
     if (remote) {
       const server = q.data ?? [];
       const known = new Set(server.map((c) => c.id));
       return [...server, ...here.filter((c) => !known.has(c.id))];
     }
-    return [...DEMO_COMMENTS.filter((c) => c.threadId === threadId), ...here];
-  }, [remote, q.data, mine, threadId]);
+    return [...DEMO_COMMENTS.filter((c) => c.threadId === aliased), ...here];
+  }, [remote, q.data, mine, aliased]);
 }
 
 /** Threads that belong to an event: written for it, or pinned to its venue (pilot demo). */

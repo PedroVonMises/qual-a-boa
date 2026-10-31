@@ -108,6 +108,7 @@ export function ThreadScreen({ id }: { id?: string }) {
       depth={opts.depth ?? 0}
       onToggleHelpful={() => toggleHelpful(c.id)}
       onReply={opts.depth === 1 ? undefined : () => setReplyTo(c)}
+      canVote={!c.mine}
       onReport={c.mine ? undefined : () => report(c.id, 'comment')}
       reported={reportedIds.includes(c.id)}
     />

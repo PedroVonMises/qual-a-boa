@@ -21,7 +21,7 @@ export function EventoConversaScreen({ id }: { id?: string }) {
   const router = useRouter();
   const goBack = useGoBack();
   const q = useEvent(id);
-  const all = useThreads();
+  const all = useThreads(id);
   const [kind, setKind] = useState<ThreadKind>('vale_a_pena');
   const [sortOverride, setSortOverride] = useState<CommunitySort | undefined>();
   const sort = sortOverride ?? defaultSort(kind);

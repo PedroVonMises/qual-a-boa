@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter, type Href } from 'expo-router';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 
-import { useSearchEvents } from '@/data/queries';
+import { useEvent, useSearchEvents } from '@/data/queries';
 import { KIND_LABEL, THREAD_BODY_MAX, THREAD_KINDS, TITLE_MAX, type ThreadKind } from '@/domain/community';
 import { formatEventDate } from '@/domain/format';
 import { useCommunity } from '@/state/community';
@@ -30,14 +30,16 @@ export function NovaScreen() {
   const [anonymous, setAnonymous] = useState(false);
   const [error, setError] = useState<string | undefined>();
 
-  const picked = items.find((i) => i.event.id === eventId);
+  // The event we came from (hub) may not be among the 8 soonest listed: resolve it by id so its name and venue are kept.
+  const preset = useEvent(params.eventId || undefined);
+  const known = items.find((i) => i.event.id === eventId) ?? (preset.data?.event.id === eventId ? preset.data : undefined);
 
   const submit = () => {
     if (!eventId) return setError('Escolha o evento da conversa.');
     const r = createThread({
       eventId,
-      eventName: picked?.event.title ?? 'Evento',
-      venueSlug: picked?.venue.slug,
+      eventName: known?.event.title ?? 'Evento',
+      venueSlug: known?.venue.slug,
       kind,
       title,
       body: details,
@@ -65,7 +67,9 @@ export function NovaScreen() {
                   onPress={() => setEventId(event.id)}
                 />
               ))}
-              {eventId && !picked ? <Chip label="Evento selecionado" selected onPress={() => undefined} /> : null}
+              {eventId && !items.some((i) => i.event.id === eventId) ? (
+                <Chip label={known?.event.title ?? 'Evento selecionado'} selected onPress={() => undefined} />
+              ) : null}
             </View>
             {q.isPending ? (
               <Text variant="bodySm" tone="textMuted">

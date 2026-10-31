@@ -48,6 +48,10 @@ interface CommunityStore {
   reportedIds: string[];
   /** Report ids the server accepted ('Denúncia enviada'); the rest are only saved on this device. */
   reportSentIds: string[];
+  /** Local thread id -> server id once synced, so a screen opened on the local id keeps resolving its thread. */
+  aliases: Record<string, string>;
+  /** The handle chosen offline turned out to belong to someone else: the user must pick another to publish named posts. */
+  handleTaken: boolean;
   /** Bumped after each accepted push so remote queries refetch. Not persisted. */
   tick: number;
   /** Local-only: validates and stores the handle. Returns a pt-BR error, or undefined on success. */
@@ -76,11 +80,13 @@ export const useCommunity = create<CommunityStore>()(
       votedIds: [],
       reportedIds: [],
       reportSentIds: [],
+      aliases: {},
+      handleTaken: false,
       tick: 0,
       setHandle: (handle) => {
         const h = handle.trim().toLowerCase().replace(/^@/, '');
         if (!isValidHandle(h)) return 'Use de 3 a 20 letras minúsculas, números, _ ou ponto.';
-        set({ handle: h });
+        set({ handle: h, handleTaken: false });
         return undefined;
       },
       claimHandle: async (raw) => {
@@ -171,6 +177,7 @@ export const useCommunity = create<CommunityStore>()(
         votedIds: s.votedIds,
         reportedIds: s.reportedIds,
         reportSentIds: s.reportSentIds,
+        aliases: s.aliases,
       }),
     },
   ),
@@ -179,10 +186,15 @@ export const useCommunity = create<CommunityStore>()(
 let flushing = false;
 let flushAgain = false;
 
+const isNamed = (x: { author: { anonymous: boolean } }) => !x.author.anonymous;
+
 /**
  * Pushes this device's unsynced threads (oldest first), then comments (parents before replies). A pushed item gets its
- * server id, and anything pointing at the old id (comments of a thread, replies of a comment) is re-pointed. Rejected
- * items are skipped for the rest of the run, not retried in a loop; the next post or feed load tries again. Safe to call concurrently.
+ * server id, and anything pointing at the old id (comments of a thread, replies of a comment) is re-pointed; a thread
+ * also records an alias so screens opened on its local id keep working. The handle is claimed once per run, and only
+ * when a named item is waiting; if another user owns it, the local handle is dropped (`handleTaken`) and named items
+ * wait for a new one while anonymous items still go out. Rejected items are skipped for the rest of the run, not
+ * retried in a loop; the next post or feed load tries again. Safe to call concurrently.
  */
 export async function flushCommunity(): Promise<void> {
   if (!isRemote()) return;
@@ -191,18 +203,29 @@ export async function flushCommunity(): Promise<void> {
     return;
   }
   flushing = true;
-  // Ids that failed during this run are skipped by its later passes; the next call (a new post, a feed load) retries.
+  // Ids that failed during this run are skipped by its later passes.
   const failed = new Set<string>();
+  let namedOk: boolean | undefined;
+  const canPostNamed = async (): Promise<boolean> => {
+    if (namedOk !== undefined) return namedOk;
+    const { handle, avatarHue } = useCommunity.getState();
+    if (!handle) return (namedOk = false);
+    const r = await pushHandle({ handle, avatarHue });
+    if (r === 'taken') useCommunity.setState({ handle: undefined, handleTaken: true });
+    return (namedOk = r === 'ok');
+  };
   try {
     do {
       flushAgain = false;
-      const { handle, avatarHue, threads } = useCommunity.getState();
-      const profile = handle ? { handle, avatarHue } : undefined;
 
-      for (const t of [...threads].reverse()) {
+      for (const t of [...useCommunity.getState().threads].reverse()) {
         const cur = useCommunity.getState().threads.find((x) => x.id === t.id);
         if (!cur || isServerId(cur.id) || failed.has(cur.id)) continue;
-        const id = await pushThread(cur, profile);
+        if (isNamed(cur) && !(await canPostNamed())) {
+          failed.add(cur.id);
+          continue;
+        }
+        const id = await pushThread(cur);
         if (!id) {
           failed.add(cur.id);
           continue;
@@ -210,6 +233,7 @@ export async function flushCommunity(): Promise<void> {
         useCommunity.setState((s) => ({
           threads: s.threads.map((x) => (x.id === t.id ? { ...x, id } : x)),
           comments: s.comments.map((c) => (c.threadId === t.id ? { ...c, threadId: id } : c)),
+          aliases: { ...s.aliases, [t.id]: id },
           tick: s.tick + 1,
         }));
         flushAgain = true;
@@ -218,7 +242,11 @@ export async function flushCommunity(): Promise<void> {
       for (const c of [...useCommunity.getState().comments]) {
         const cur = useCommunity.getState().comments.find((x) => x.id === c.id);
         if (!cur || isServerId(cur.id) || failed.has(cur.id)) continue;
-        const id = await pushComment(cur, profile);
+        if (isNamed(cur) && !(await canPostNamed())) {
+          failed.add(cur.id);
+          continue;
+        }
+        const id = await pushComment(cur);
         if (!id) {
           failed.add(cur.id);
           continue;

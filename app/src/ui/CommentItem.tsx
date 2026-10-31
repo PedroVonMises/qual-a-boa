@@ -23,6 +23,8 @@ export interface CommentItemProps {
   onToggleHelpful: () => void;
   /** Omitted at depth 1 (nesting is capped). */
   onReply?: () => void;
+  /** False on your own comment: the server rejects self-votes. Default true. */
+  canVote?: boolean;
   /** Omit for your own comments. */
   onReport?: () => void;
   reported?: boolean;
@@ -41,6 +43,7 @@ export function CommentItem({
   depth = 0,
   onToggleHelpful,
   onReply,
+  canVote = true,
   onReport,
   reported = false,
   testID,
@@ -67,7 +70,7 @@ export function CommentItem({
       </View>
       <Text variant="body">{body}</Text>
       <View style={styles.actions}>
-        <HelpfulButton count={helpfulCount} selected={helpful} onPress={onToggleHelpful} />
+        <HelpfulButton count={helpfulCount} selected={helpful} disabled={!canVote} onPress={onToggleHelpful} />
         {onReply && depth === 0 ? (
           <PressableScale
             accessibilityRole="button"
