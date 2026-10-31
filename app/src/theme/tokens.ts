@@ -1,4 +1,4 @@
-// Design tokens. Source of truth: docs/DESIGN.md (sections 2-6, 13). Do not hardcode these values elsewhere.
+// Design tokens. Documented in docs/DESIGN.md (sections 2-4, 7, 8); keep both in sync. Do not hardcode these values elsewhere.
 
 export const palette = {
   // Dark theme (default)

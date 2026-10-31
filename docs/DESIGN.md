@@ -3,8 +3,10 @@
 Mobile-first (iOS, Android, responsive web). Pilot market: Vitória, ES, Brazil. Language: pt-BR. Dark-first, light supported.
 Taste dials: Density 5 (Daily App Balanced), Variance 6 (Offset Asymmetric), Motion 6 (Fluid, spring-driven).
 
+**This document describes the system as built** (2026-10-30). Values come from `app/src/theme/tokens.ts` and `app/src/ui/**`; when this file and the code disagree, fix one of them in the same change. The visual reference is `docs/SCREENS.md` (screenshots of every implemented screen in UX-flow order) and the published inventory: https://claude.ai/artifact/HyRSm12LNa6nVz7qf8fS6h. The HTML mockups in `docs/design-canvas/` are the earlier exploration and are kept for history only.
+
 ## 1. Visual Theme & Atmosphere
-A late-evening interface: deep warm-charcoal surfaces, one hot punk-pink accent (Riot Pink), and photography doing the heavy lifting. It should feel like the sidewalk outside a good club at 11pm: lit, a little loud, but easy to read. Event covers are full-bleed and rounded; typography is confident and tightly tracked; chrome stays quiet so the posters and artists stand out. Browse patterns borrow from delivery apps (shelves, chips, sticky filters), but the tone is local and playful, not corporate.
+A late-evening interface: deep warm-charcoal surfaces, one hot punk-pink accent (Riot Pink), and illustrated covers doing the heavy lifting. It should feel like the sidewalk outside a good club at 11pm: lit, a little loud, but easy to read. Covers are full-bleed and rounded; typography is confident and tightly tracked; chrome stays quiet so the posters and artists stand out. Browse patterns borrow from delivery apps (shelves, chips, sticky filters), but the tone is local and playful, not corporate.
 
 ## 2. Color Palette & Roles
 Dark theme (default):
@@ -51,71 +53,35 @@ Rules: max one accent; no purple/blue neon, no gradient text, no glow shadows. I
 - Home composition is asymmetric: the first shelf ("Hoje à noite") uses one large lead card + stacked smaller cards at md+, not three equal cards.
 - Use CSS grid on web, never calc() hacks; full-height uses 100dvh equivalents and safe-area insets.
 - No overlapping content: text sits on scrims only inside image cards, otherwise in its own zone.
-- Touch targets >= 44pt iOS / 48dp Android. No hover-only affordances.
+- Status never by color alone (text chips, icons, check marks). No hover-only affordances.
 
-## 6. Motion & Interaction
-- Springs by default (Reanimated: stiffness 140, damping 18); no linear easing.
-- Shelves and lists mount with staggered fade+translateY (40ms steps, max 8 items).
-- Shared-element transition from card cover to event hero on supported platforms.
-- Perpetual micro-motion limited to: skeleton shimmer, a soft pulse on the "Agora" live badge.
-- Animate transform/opacity only. Respect Reduce Motion: replace springs with 120ms fades.
+## 7. Motion & Interaction (`motion`)
+- Springs by default (stiffness 140, damping 18, mass 1); no linear easing. Press = scale 0.97 spring + light haptic on native.
+- Lists and shelves mount with staggered fade + translateY (40ms steps, max 8 items).
+- Perpetual micro-motion only for skeleton shimmer and the soft pulse of the "Agora" live badge.
+- Animate transform/opacity only. Reduce Motion replaces springs with 120ms fades.
+- Splash: the bulb tube and base draw on (700ms), the amber core flickers on (650ms), the wordmark follows (1350ms delay). With Reduce Motion it shows the lit logo.
 
-## 7. Iconography & Imagery
-- Icons: one outline set (SF Symbols on iOS via expo-symbols, Material Symbols on Android/web), 24px, 1.75 stroke feel.
-- Photography: crowd/stage/venue shots, 4:5 poster crop default, blurhash placeholders, WebP/AVIF via Supabase transforms.
-- Seed imagery uses picsum.photos or generated SVG; real venue photos replace them in P4.
+## 8. Brand
+- **Logo:** a light bulb rotated 45 degrees that reads as a "Q" (globe = ring, screw base = tail, amber core = light on). Files: `app/assets/brand/mark.svg`, `mark-mono.svg`, `app-icon.svg`, `mark-neon.svg`, `app-icon-wine.svg`. The earlier "Q?" exploration is archived in `app/assets/brand/alt-q/` and not used.
+- **Colors:** ring and base Riot Pink, core Amber. On pink backgrounds use the mono mark in Riot Ink. Minimum size 16px; clear space equal to the core diameter.
+- **Wordmark:** "Qual a boa?" with a capital Q, Outfit 700, tracking -2%.
+- **Glow** only in brand art (neon mark, splash, sticker); the UI never glows. Tagline: "Acende a noite."
 
-## 8. Copy Voice (pt-BR)
-Casual, short, local. Examples: "Qual a boa hoje?", "Perto de você", "Até R$ 40", "Já passaram por aqui", "Ver ingressos". Gírias capixabas only where they read naturally. No marketing clichés. Mandatory 18+ and "beba com moderação" notices in onboarding and footer.
+## 9. Copy Voice (pt-BR)
+Casual, short, local: "Qual a boa hoje?", "Perto de você", "Até R$ 40", "Já passaram por aqui", "Ver ingressos". Capixaba slang only where it reads naturally. No marketing clichés. Mandatory 18+ and "Beba com moderação. Se beber, não dirija." in onboarding and footer. Honest data labels ("Relatos de 14 pessoas, o último há 12 min"); response-time expectations before contact; inline field errors with the fix.
 
-## 9. Anti-Patterns (Banned)
-- Emojis as UI icons, Inter, pure black/white backgrounds, neon glows, purple/blue AI gradients.
+## 10. UX Rules
+- Onboarding gate: age (18+) then location and optional styles; `SessionGuard` redirects until both are done.
+- Nights run 06:00 to 05:59 ("Hoje", Quando sheet).
+- The app never sells tickets: Ingressos shows price, quantity, meia-entrada and the exact host where the purchase ends.
+- Demonstration content (reviews, live status, updates, support chat) exists only for Casa Maré and carries no mock tags (owner decision, Wave 7); the Terms disclose demonstration content during the pilot. Never invent reviews or status for other venues.
+- Offline: floating banner above the tab bar; cached results stay on screen.
+- Not built on purpose (needs contracts or setup): ticket tiers/lotes, Google/Apple sign-in, Instagram Stories share, the "Vai ou não vai?" poll, a time-of-night filter.
+
+## 11. Anti-Patterns (Banned)
+- Emojis as UI icons, Inter, pure black/white backgrounds, neon glows in the UI, purple/blue AI gradients.
 - Three equal feature cards as a layout device, centered hero on md+.
 - Nested cards inside cards, carousels without scroll affordance, hidden filter state.
 - Placeholder names like "John Doe"/"Acme"; fake round stats; "Scroll to explore" text.
-- Color as the only signal (always pair with text/icon); touch targets under 44pt.
-
-## 10. Logo (added 2026-10-22)
-- **Concept:** a light bulb rotated 45 degrees reads as a "Q": the globe is the ring, the screw base is the tail, the amber core is the light on. Tagline: "Acende a noite."
-- **Files:** `app/assets/brand/mark.svg` (full color), `mark-mono.svg` (one color), `app-icon.svg` (dark rounded square). Wordmark is "Qual a boa?" in Outfit 700, tracking -2%; it is live text in the design, not an SVG, so outline it before shipping.
-- **Colors:** ring and base Riot Pink `#FF4F81`, core Amber `#F2A65A` (the only place amber is allowed outside imagery). On pink backgrounds use the mono mark in Riot Ink `#1A0A06`.
-- **Rules:** minimum size 16px; clear space equal to the core diameter; never bone/white on Riot Pink (2.8:1).
-- **Alternatives kept on the canvas (Marca board):** B filament tail, C Q inside a bulb. A chosen for legibility at small sizes.
-
-## 11. Refinements (added 2026-10-22)
-- Chips and all tap targets are 44px tall minimum (was 40px for chips).
-- Selected chips show a check icon in addition to the pink fill.
-- Active tab shows a 3px top indicator in addition to the pink color.
-- Empty states use the unlit bulb (mark in Ash tones) with a specific next action.
-
-## 12. Brand direction "Q?" (supersedes the bulb logo, 2026-10-22)
-- **Mark (B, chosen):** a Q whose tail is the hook of a question mark, ending in a lit amber dot. Files: `app/assets/brand/mark-q.svg` (color), `mark-q-mono.svg`, `mark-q-neon.svg` (brand art only), `app-icon-q.svg` (wine gradient). The earlier bulb-Q (`mark.svg`) stays as an alternative.
-- **Rejected:** a Q with an inner "?" (version A) because it reads as the search/magnifier icon in a discovery app.
-- **Wordmark:** lowercase "qual a boa?" in Outfit 700, tracking -3%, final "?" in Riot Pink. Outline the text before shipping.
-- **Color depth added:** Wine `#3A1220`, Burgundy `#6B1D3A`, Blush `#FFC2D1`. Amber `#F2A65A` is reserved for light (the dot, glows). Gradients only wine to burgundy in brand art.
-- **Contrast:** Blush on Wine 10.8, on Burgundy 7.5; Bone on Wine 14.5, on Burgundy 10.0; Amber on Wine 8.1; Pink on Wine 5.2 (ok for text); **Pink on Burgundy 3.6 (graphics and text of 24px+ only)**; Ink on Pink 6.1.
-- **Glow:** allowed only in brand art (neon mark, splash). UI never glows.
-- **Motion:** splash draws the ring and hook on (700 ms), then the dot flickers on; with Reduce Motion it shows the final lit state.
-- **Trademark:** run an INPI search for "Qual a boa?" and the mark before launch.
-
-## 13. Decision update: the light bulb is the single logo (2026-10-23)
-- The bulb mark (`mark.svg`, `mark-mono.svg`, `app-icon.svg`) is the only logo. The Q? exploration is archived in `app/assets/brand/alt-q/` and no longer used. Section 12 is superseded.
-- **Wordmark:** "Qual a boa?" with a capital Q, Outfit 700, tracking -2%.
-- **Neon variations (brand art only):** `mark-neon.svg` (four layers: blurred glow, pink tube, blush core, amber light), neon sign lockup (CSS text-shadow glow), neon app icon for the store, wine-gradient icon `app-icon-wine.svg`. UI never glows.
-- **Sticker/pattern:** circular "Tá na Qual a boa?" decal with the bulb and "hoje"; bulb pattern at 4-8% opacity on pink.
-- **Splash:** tube and base draw on, then the amber core flickers on; Reduce Motion shows the lit logo.
-
-## 14. UX flows added (2026-10-23)
-- **Event tracking:** Acompanhando (timeline Salvo / Ingresso / Dia do evento / Avaliar, countdown, change feed with unread markers), Avisos (per-event toggles and channels), Ao vivo (queue, crowd, music, price from community reports with age and sample size, a pre-departure checklist, "Estou aqui").
-- **Feedback and reviews:** Avaliar in two steps (rating + topics + tags, then text + photo + anonymous option), Avaliações do evento (distribution, topic scores, "Foi ao evento" verified badge, helpful/report actions).
-- **Support messaging:** Ajuda (search, common topics, open ticket, expected response time), Mensagens (ticket inbox with text status chips), Conversa com o suporte (event context card, quick replies, read receipts, typing, attach, security reminder), Novo chamado (topic radio list, related event, validated description, optional screenshot).
-- **UX rules used:** status never by color alone (text chips, icons, check marks); every tappable 44px+; honest data labels ("Relatos de 14 pessoas, o último há 12 min"); response-time expectations stated before contact; inline field errors with the fix; demonstration content (reviews, live status, updates) exists only for Casa Maré and carries no mock tags in the UI (owner decision, Wave 7); the Terms say the pilot may show demonstration content until listings are verified with each venue. Never invent reviews or status for other venues.
-
-## 15. UX gaps closed (2026-10-29)
-- **Busca:** dedicated screen opened by the search key or "Buscar em casas e artistas"; results grouped Casas / Eventos / Artistas with count chips, widest radius, recent searches kept only on the device.
-- **Quando:** sheet with quick ranges (Hoje, Amanhã, Fim de semana, Próxima semana, Qualquer dia) and a calendar; nights run 06:00 to 05:59 like "Hoje". Opened from the date pill in Explorar and from Filtros > Data.
-- **Ingressos:** a step before the external ticket site: published price, quantity estimate, meia-entrada rule, and the exact host where the purchase ends. The app never sells tickets.
-- **Chamar a galera:** editable invite sent via WhatsApp (wa.me), copy (web) or the system share sheet.
-- **Offline:** floating banner above the tab bar; cached results stay on screen. Native needs a connectivity source wired into TanStack `onlineManager`.
-- **Privacidade e dados:** permissions, what stays on the device, clear searches, reset recommendations, export/erase (account) or wipe (visitor), legal drafts.
-- Not built on purpose (needs contracts or setup): ticket tiers/lotes data, Google/Apple sign-in, Instagram Stories share, the "Vai ou não vai?" poll, a time-of-night filter.
+- Color as the only signal; touch targets under 44.
