@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T22:26:51.005Z",
+  "generatedAt": "2026-10-30T15:28:55.873Z",
   "genres": [
     {
       "id": "18927a65-f850-38b3-a5ba-33a476a24a9b",
@@ -427,26 +427,6 @@
     }
   ],
   "events": [
-    {
-      "id": "91eaecd1-4fb7-3a25-83ec-b3a7e87a0ac7",
-      "title": "Karaokê de Quarta",
-      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
-      "startsAt": "2026-10-29T00:00:00.000Z",
-      "endsAt": "2026-10-29T05:00:00.000Z",
-      "priceMin": 0,
-      "priceMax": 0,
-      "isFree": true,
-      "ageMin": 18,
-      "genreSlugs": [
-        "karaoke-ao-vivo"
-      ],
-      "artistIds": [
-        "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
-      ],
-      "status": "published",
-      "coverKey": "art:guitarra:tangerina-petroleo:c",
-      "popularity": 55
-    },
     {
       "id": "31705c72-a71b-3a9f-b38b-341394f8b15a",
       "title": "Quinta do Samba",
