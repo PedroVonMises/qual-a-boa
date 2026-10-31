@@ -3,7 +3,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 export interface Call {
   table: string;
-  op: 'select' | 'insert' | 'update' | 'delete';
+  op: 'select' | 'insert' | 'update' | 'upsert' | 'delete';
   payload?: unknown;
   filters: Array<[string, string, unknown]>;
   selected: boolean;
@@ -30,6 +30,11 @@ export function fakeClient(handler: Handler): { client: SupabaseClient; calls: C
         call.payload = p;
         return b;
       },
+      upsert: (p: unknown) => {
+        call.op = 'upsert';
+        call.payload = p;
+        return b;
+      },
       update: (p: unknown) => {
         call.op = 'update';
         call.payload = p;
@@ -42,6 +47,7 @@ export function fakeClient(handler: Handler): { client: SupabaseClient; calls: C
       eq: (c: string, v: unknown) => (call.filters.push([c, 'eq', v]), b),
       in: (c: string, v: unknown) => (call.filters.push([c, 'in', v]), b),
       order: () => b,
+      limit: () => b,
       single: () => run(),
       then: (res: (v: unknown) => unknown, rej?: (e: unknown) => unknown) => run().then(res, rej),
     };

@@ -35,6 +35,7 @@ export default function TabLayout() {
       }}>
       <Tabs.Screen name="index" options={{ title: 'Explorar', tabBarIcon: icon('compass') }} />
       <Tabs.Screen name="mapa" options={{ title: 'Mapa', tabBarIcon: icon('map') }} />
+      <Tabs.Screen name="comunidade" options={{ title: 'Comunidade', tabBarIcon: icon('message') }} />
       <Tabs.Screen name="salvos" options={{ title: 'Salvos', tabBarIcon: icon('bookmark') }} />
       <Tabs.Screen name="perfil" options={{ title: 'Perfil', tabBarIcon: icon('user') }} />
     </Tabs>

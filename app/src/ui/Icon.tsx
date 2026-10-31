@@ -6,7 +6,8 @@ import type { ThemeColors } from '@/theme/tokens';
 export type IconName =
   | 'search' | 'pin' | 'heart' | 'heartFilled' | 'bookmark' | 'compass' | 'map' | 'user'
   | 'chevronLeft' | 'chevronRight' | 'chevronDown' | 'close' | 'check' | 'filter' | 'share'
-  | 'send' | 'paperclip' | 'star' | 'starFilled' | 'headset' | 'clock' | 'plus';
+  | 'send' | 'paperclip' | 'star' | 'starFilled' | 'headset' | 'clock' | 'plus'
+  | 'message' | 'arrowUp' | 'spark';
 
 const HEART = 'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z';
 const STAR = 'M12 3.8l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 17.1l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z';
@@ -42,6 +43,9 @@ const ICONS: Record<IconName, Def> = {
   headset: { paths: ['M4 14v-2a8 8 0 0 1 16 0v2', 'M4 14h3v5H5a1 1 0 0 1-1-1zM20 14h-3v5h2a1 1 0 0 0 1-1z', 'M17 19c0 1.5-2 2-5 2'] },
   clock: { paths: ['M12 7.5V12l3 2'], circles: [[12, 12, 8.5]] },
   plus: { paths: ['M12 5v14M5 12h14'] },
+  message: { paths: ['M5 5h14v10H9l-4 4z'] },
+  arrowUp: { paths: ['M7 11l5-6 5 6M12 5v14'] },
+  spark: { paths: ['M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z'], filled: true },
 };
 
 export interface IconProps {

@@ -133,6 +133,11 @@ export function EventoScreen({ id }: { id?: string }) {
             Ver avaliações
           </Text>
         </PressableScale>
+        <PressableScale accessibilityRole="link" accessibilityLabel="Ver conversas" onPress={() => go(`/comunidade/evento/${event.id}`)} style={styles.link}>
+          <Text variant="bodySm" tone="accent" style={styles.bold}>
+            Ver conversas
+          </Text>
+        </PressableScale>
       </View>
       <ShareSheet visible={shareOpen} onClose={() => setShareOpen(false)} event={event} venue={venue} />
     </Frame>
