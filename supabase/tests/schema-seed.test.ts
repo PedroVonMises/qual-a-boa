@@ -21,9 +21,10 @@ describe('migrations', () => {
       `select c.relname, c.relrowsecurity from pg_class c join pg_namespace n on n.oid = c.relnamespace
        where n.nspname = 'public' and c.relkind = 'r' order by 1`);
     assert.deepEqual(r.rows.map((x) => x.relname), [
-      'artists', 'checkins', 'event_artists', 'event_follows', 'event_genres', 'event_reports', 'events',
-      'favorites', 'genres', 'profiles', 'review_photos', 'review_reports', 'review_votes', 'reviews',
-      'support_attachments', 'support_messages', 'support_tickets', 'venue_aliases', 'venues',
+      'artists', 'checkins', 'comment_votes', 'comments', 'community_reports', 'event_artists', 'event_follows',
+      'event_genres', 'event_reports', 'events', 'favorites', 'genres', 'profiles', 'review_photos',
+      'review_reports', 'review_votes', 'reviews', 'support_attachments', 'support_messages', 'support_tickets',
+      'threads', 'venue_aliases', 'venues',
     ]);
     for (const row of r.rows) assert.equal(row.relrowsecurity, true, `${row.relname} has RLS`);
   });

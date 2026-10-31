@@ -61,7 +61,7 @@ All states are visible in the dev gallery at `/dev/ui` (`Gallery.tsx`, dev build
 - **Switch:** 52×32 track, 24 thumb, Pink when on, label always present.
 - **Rating / ScoreBar:** star rating (Amber stars, 44+ targets), horizontal score bars per topic with the value in mono.
 - **Sheet:** bottom sheet with radius 28 top corners (native via @gorhom/bottom-sheet, web via SheetWeb); right drawer 420 wide on web >= 1024. SheetHeader with title and close.
-- **TabBar:** Explorar, Mapa, Salvos, Perfil. Bottom bar 64 + safe area; active = Pink icon + label + 3px top indicator. At >= 1024 it becomes a 240px left rail with the logo on top.
+- **TabBar:** Explorar, Mapa, Comunidade, Salvos, Perfil. Bottom bar 64 + safe area; active = Pink icon + label + 3px top indicator. At >= 1024 it becomes a 240px left rail with the logo on top.
 - **ScreenHeader:** back IconButton, centered title, optional right action.
 - **Skeleton:** shimmer blocks at exact card size; no spinners.
 - **EmptyState / ErrorState:** unlit bulb illustration, a specific headline and one next action ("Explorar eventos", "Aumente o raio para 10 km"); errors inline with retry.

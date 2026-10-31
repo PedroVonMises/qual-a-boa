@@ -20,7 +20,7 @@ export interface TabBarProps {
     emit: (event: any) => { defaultPrevented: boolean };
     navigate: (...args: any[]) => void;
   };
-  /** Route name to icon. Defaults cover index/explorar, mapa, salvos, perfil. */
+  /** Route name to icon. Defaults cover index/explorar, mapa, comunidade, salvos, perfil. */
   icons?: Record<string, IconName>;
   /** 'rail' = vertical side rail for wide screens (>= 1024): max 240px wide, 48px items, logo mark on top. */
   variant?: 'bottom' | 'rail';
@@ -30,6 +30,7 @@ const DEFAULT_ICONS: Record<string, IconName> = {
   index: 'compass',
   explorar: 'compass',
   mapa: 'map',
+  comunidade: 'message',
   salvos: 'bookmark',
   perfil: 'user',
 };

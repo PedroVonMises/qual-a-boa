@@ -82,8 +82,9 @@ Returns event columns plus `genre_slugs` (taxonomy order), `artist_ids` (billing
 
 ## Remote Supabase project
 
-Project `qualaboa` (ref `kcwtbmznclayplexoxhc`, us-west-2, Postgres 17) has migrations 0001–0008 applied (2026-10-29). `0009_access_tags.sql` is NOT applied yet: apply it before shipping an app build whose users can pick a vibe & acesso tag, and before loading the current `seed.sql` (it inserts `access_tags`).
-The catalog tables are empty: the seed is not loaded. Anonymous sign-ins must be enabled in Authentication > Sign In / Providers.
+Project `qualaboa` (ref `kcwtbmznclayplexoxhc`, us-west-2, Postgres 17) has migrations 0001–0012 applied: 0001–0008 on 2026-10-29 (0008 is recorded as `search_artists`), and 0009–0012 on 2026-10-31. `0011_community_hidden_parents.sql` makes replies follow a hidden parent in `comments_feed` and `comment_count`; `0012_community_feed_paging.sql` adds the feed paging indexes and drops `threads_created_idx`.
+On 2026-10-31 the catalog had rows (10 genres, 8 venues, 25 artists, 76 events); all user and community tables were empty. The events and venues were loaded before 0009, so their `access_tags` are empty until the seed or ingest is re-run. Anonymous sign-ins must be enabled in Authentication > Sign In / Providers.
+The security advisor lists `reviews_feed`, `threads_feed` and `comments_feed` (definer views) and `can_vote_review`, `owns_review`, `can_vote_comment`, `can_report_thread` (definer functions callable by signed-in users). This is intentional: the views hide `user_id` on anonymous posts and the RLS policies call the functions as the caller.
 The generic steps below apply to attaching any other project.
 
 Prereqs: Supabase CLI installed and logged in (`supabase login`), a project created in the dashboard.
