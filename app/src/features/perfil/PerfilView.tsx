@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useDisplayName } from '@/data/account';
+import { useMyVenueAccounts } from '@/data/casas';
 import { authAvailable, signOut, useAccountEmail } from '@/data/auth';
 import { env } from '@/lib/env';
 import { clearDemoData, loadDemoData, resetApp, useDemoLoaded } from '@/state/demo';
@@ -235,6 +236,11 @@ export function PerfilView() {
         />
 
         <Text variant="caption" tone="textMuted" style={styles.section}>
+          PARA CASAS NOTURNAS
+        </Text>
+        <CasasRow />
+
+        <Text variant="caption" tone="textMuted" style={styles.section}>
           SOBRE
         </Text>
         <ListRow title="Privacidade e dados (LGPD)" chevron divider onPress={() => router.push('/privacidade')} testID="perfil-privacidade" />
@@ -269,3 +275,15 @@ const styles = StyleSheet.create({
   stepper: { gap: space.sm, paddingBottom: space.md, borderBottomWidth: 1 },
   switchRow: { minHeight: 56 },
 });
+
+/** Entry point for venue owners: the plan screen, or the venue panel once the user belongs to a venue account. */
+function CasasRow() {
+  const router = useRouter();
+  const accounts = useMyVenueAccounts();
+  const member = (accounts.data?.length ?? 0) > 0;
+  return member ? (
+    <ListRow title="Painel da casa" subtitle="Suas festas e a assinatura" icon="spark" chevron divider onPress={() => router.push('/casas/painel')} testID="perfil-casas" />
+  ) : (
+    <ListRow title="Sua casa no Qual a boa?" subtitle="Divulgue 4 festas por mês" icon="spark" chevron divider onPress={() => router.push('/casas')} testID="perfil-casas" />
+  );
+}

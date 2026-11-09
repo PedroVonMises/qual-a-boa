@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
 
 import { isValidCep, normalizeCep } from '@/lib/cep';
 import { useProfile, type ProfileAddress } from '@/state/profile';
@@ -146,4 +146,24 @@ export function useSaveAddress() {
     if (res.ok && res.synced) await qc.invalidateQueries({ queryKey: addressKey });
     return res;
   };
+}
+
+export type DeleteAddressResult = { ok: true; warning?: string };
+
+const DELETE_FAILED = 'Endereço apagado deste aparelho. Não deu para apagar da sua conta agora.';
+
+/** Clears the address locally (and the registered location), then deletes the server row when signed in. Never throws. */
+export async function deleteAddress(client?: QueryClient): Promise<DeleteAddressResult> {
+  useProfile.getState().clearAddress();
+  client?.setQueryData(addressKey, null);
+  if (!isRemote()) return { ok: true };
+  try {
+    const sb = getSupabase();
+    const uid = sb ? (await sb.auth.getSession()).data.session?.user.id : null;
+    if (!sb || !uid) return { ok: true };
+    const { error } = await sb.from('profile_addresses').delete().eq('user_id', uid);
+    return error ? { ok: true, warning: DELETE_FAILED } : { ok: true };
+  } catch {
+    return { ok: true, warning: DELETE_FAILED };
+  }
 }

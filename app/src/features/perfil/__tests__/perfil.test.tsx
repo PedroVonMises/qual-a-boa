@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import { setRepo } from '@/data';
+import { resetCasasDemo, useCasasDemo } from '@/data/casas';
 import { env } from '@/lib/env';
 import { miniDataset } from '@/data/__fixtures__/mini';
 import { SeedRepo } from '@/data/seedRepo';
@@ -79,6 +80,27 @@ describe('Perfil', () => {
     await renderPerfil();
     await fireEvent.press(screen.getByRole('button', { name: 'Privacidade e dados (LGPD)' }));
     expect(mockPush).toHaveBeenCalledWith('/privacidade');
+  });
+
+  it('nightclub row opens the venue panel for members', async () => {
+    resetCasasDemo();
+    await renderPerfil();
+    expect(screen.getByText('PARA CASAS NOTURNAS')).toBeTruthy();
+    expect(await screen.findByText('Painel da casa')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('perfil-casas'));
+    expect(mockPush).toHaveBeenCalledWith('/casas/painel');
+  });
+
+  it('nightclub row pitches the plan to people without a venue', async () => {
+    useCasasDemo.setState({ accounts: [] });
+    try {
+      await renderPerfil();
+      expect(await screen.findByText('Sua casa no Qual a boa?')).toBeTruthy();
+      await fireEvent.press(screen.getByTestId('perfil-casas'));
+      expect(mockPush).toHaveBeenCalledWith('/casas');
+    } finally {
+      resetCasasDemo();
+    }
   });
 
   it('legal rows open placeholder drafts', async () => {
