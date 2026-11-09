@@ -50,6 +50,14 @@
         }
       ],
       "expo-image",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Usamos suas fotos só para você escolher o cartaz da festa ou anexos de suporte.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
       "expo-localization",
       "expo-font",
       [

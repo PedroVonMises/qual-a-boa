@@ -64,6 +64,8 @@ export interface ClaimVenueInput {
   legalName: string;
   contactName: string;
   whatsapp: string;
+  /** Display only (demo mode): name/area of the picked catalog venue. Not sent to the backend. */
+  venueLabel?: { name: string; area: string };
 }
 
 /** Payload of submit_event (snake_case on the wire). */

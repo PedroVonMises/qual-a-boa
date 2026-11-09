@@ -6,7 +6,7 @@
 // subscribed and with two festas, so the screens work end to end. The demo applies the same rules (quota by party
 // month, paid period, statuses) and never touches the network.
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { create } from 'zustand';
 
 import {
@@ -330,7 +330,7 @@ export async function claimVenue(input: ClaimVenueInput): Promise<CasasResult<{ 
       plan: { code: PLAN.code, priceCents: PLAN.priceCents, eventsPerMonth: PLAN.eventsPerMonth },
       subscription: null,
     };
-    if (input.venueId) account.venue = input.venueId === CASA_MARE.id ? CASA_MARE : { id: input.venueId, slug: '', name: input.proposed?.name ?? 'Casa', area: '' };
+    if (input.venueId) account.venue = input.venueId === CASA_MARE.id ? CASA_MARE : { id: input.venueId, slug: '', name: input.venueLabel?.name ?? 'Casa', area: input.venueLabel?.area ?? '' };
     useCasasDemo.setState({ accounts: [...accounts, account] });
     return { ok: true, accountId: id };
   }
@@ -510,7 +510,7 @@ function useDemoVersion(): unknown {
 
 export function useMyVenueAccounts() {
   const demo = useDemoVersion();
-  return useQuery({ queryKey: [...casasKeys.accounts, demo], queryFn: () => fetchMyVenueAccounts(), staleTime: 60_000 });
+  return useQuery({ queryKey: [...casasKeys.accounts, demo], queryFn: () => fetchMyVenueAccounts(), staleTime: 60_000, placeholderData: keepPreviousData });
 }
 
 export function useAccountEvents(accountId: string | undefined) {
@@ -520,6 +520,7 @@ export function useAccountEvents(accountId: string | undefined) {
     queryFn: () => fetchAccountEvents(accountId!),
     enabled: !!accountId,
     staleTime: 30_000,
+    placeholderData: keepPreviousData,
   });
 }
 
@@ -530,6 +531,7 @@ export function useVenueQuota(accountId: string | undefined, month: string | und
     queryFn: () => fetchVenueQuota(accountId!, month!),
     enabled: !!accountId && !!month,
     staleTime: 30_000,
+    placeholderData: keepPreviousData,
   });
 }
 

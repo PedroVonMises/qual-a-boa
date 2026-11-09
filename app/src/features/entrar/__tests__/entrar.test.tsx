@@ -6,7 +6,12 @@ import { syncAll } from '@/data/sync';
 import { EntrarScreen } from '../EntrarScreen';
 
 const mockBack = jest.fn();
-jest.mock('expo-router', () => ({ useRouter: () => ({ back: mockBack, push: jest.fn(), replace: jest.fn() }) }));
+const mockReplace = jest.fn();
+let mockParams: { next?: string } = {};
+jest.mock('expo-router', () => ({
+  useRouter: () => ({ back: mockBack, push: jest.fn(), replace: mockReplace }),
+  useLocalSearchParams: () => mockParams,
+}));
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
 );
@@ -61,6 +66,25 @@ describe('EntrarScreen', () => {
     expect(confirm).toHaveBeenCalledWith('Ana@Exemplo.com', '123456', 'link');
     expect(syncAll).toHaveBeenCalled();
     expect(mockBack).toHaveBeenCalled();
+  });
+
+  it('goes to a same-app `next` path after confirming, and ignores outside URLs', async () => {
+    request.mockResolvedValue({ ok: true, mode: 'signin' });
+    confirm.mockResolvedValue({ ok: true });
+    for (const [next, replaced] of [['/casas/vincular', true], ['//evil.example', false], ['https://evil.example', false]] as const) {
+      jest.clearAllMocks();
+      mockParams = { next };
+      const view = await render(<EntrarScreen />);
+      await fireEvent.changeText(screen.getByTestId('entrar-email'), 'ana@exemplo.com');
+      await press('entrar-enviar');
+      await fireEvent.changeText(screen.getByTestId('entrar-codigo'), '123456');
+      await press('entrar-confirmar');
+      if (replaced) expect(mockReplace).toHaveBeenCalledWith(next);
+      else expect(mockBack).toHaveBeenCalled();
+      expect(replaced ? mockBack : mockReplace).not.toHaveBeenCalled();
+      await view.unmount();
+    }
+    mockParams = {};
   });
 
   it('stays on the code step with an error for a wrong code', async () => {
