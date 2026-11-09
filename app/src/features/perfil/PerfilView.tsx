@@ -13,7 +13,6 @@ import { relativeTimePt, useGenres } from '@/data/queries';
 import { explainProfile, useResetRecommendations, useTasteProfile } from '../explorar/useTasteProfile';
 import { useFilters } from '@/state/filters';
 import { useLocation, type Origin } from '@/state/location';
-import { addressLabel, useProfile } from '@/state/profile';
 import { useSession } from '@/state/session';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
@@ -59,7 +58,6 @@ export function PerfilView() {
   const permission = loc.permission;
   const [areaOpen, setAreaOpen] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const address = useProfile((s) => s.address);
   const liveStatus =
     permission === 'blocked'
       ? 'Bloqueada nas configurações'
@@ -70,7 +68,6 @@ export function PerfilView() {
         : permission === 'denied'
           ? 'Permissão negada. Toque para tentar de novo'
           : 'Permitir localização';
-  const registeredStatus = address ? addressLabel(address) : loc.registered ? `Bairro: ${loc.registered.label}` : 'Cadastrar endereço';
   const refresh = async () => {
     setRefreshing(true);
     try {
@@ -163,16 +160,6 @@ export function PerfilView() {
           disabled={refreshing || permission === 'blocked'}
           onPress={loc.live && permission === 'granted' ? undefined : refresh}
           testID="origin-live"
-        />
-        <ListRow
-          title="Endereço"
-          subtitle={registeredStatus}
-          icon="pin"
-          value={loc.activeOrigin === 'registered' ? 'Em uso' : undefined}
-          chevron
-          divider
-          onPress={() => router.push('/dados-cadastrais')}
-          testID="origin-registered"
         />
         {loc.activeOrigin === 'default' ? (
           <Text variant="bodySm" tone="textMuted" testID="origin-default">
