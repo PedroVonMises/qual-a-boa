@@ -26,6 +26,11 @@ Deno.serve((req) =>
       const { error } = await admin.storage.from(bucket).remove(paths);
       return !error;
     },
+    async isSoleActiveVenueOwner(id) {
+      const { data, error } = await admin.rpc('blocks_account_deletion', { p_user: id });
+      if (error) throw error;
+      return data === true;
+    },
     async deleteUser(id) {
       const { error } = await admin.auth.admin.deleteUser(id);
       return !error;

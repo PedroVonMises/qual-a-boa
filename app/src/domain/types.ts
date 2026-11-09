@@ -5,7 +5,8 @@ import type { AccessTag } from './accessTags';
 import type { Uf } from './region';
 
 export type VenueStatus = 'open' | 'closed' | 'unverified';
-export type EventStatus = 'published' | 'cancelled' | 'draft';
+/** pending_review and rejected only occur on festas sent by a casa (Plano Casas, domain/casas.ts); public reads never see them. */
+export type EventStatus = 'published' | 'cancelled' | 'draft' | 'pending_review' | 'rejected';
 /** `recommended` is client-only (domain/recommend.ts): repos and SQL never receive it. */
 export type SortKey = 'distance' | 'price' | 'date' | 'popularity' | 'recommended';
 
