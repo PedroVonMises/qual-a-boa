@@ -116,6 +116,7 @@ describe('erasing the account', () => {
     await openConfirm();
     expect(await screen.findByText('Apagar sua conta?')).toBeTruthy();
     expect(screen.getByText(/fotos que você enviou/)).toBeTruthy();
+    expect(screen.getByText(/o endereço cadastrado/)).toBeTruthy();
     expect(calls.find((c) => c[0] === 'invoke')).toBeUndefined();
   });
 

@@ -17,6 +17,7 @@ function fake(over: Partial<Deps> & { files?: Record<string, string[][]> } = {})
     },
     removeFiles: async (bucket, paths) => (log.push(`remove:${bucket}:${paths.join(',')}`), true),
     deleteUser: async (id) => (log.push(`deleteUser:${id}`), true),
+    isSoleActiveVenueOwner: async (id) => (log.push(`ownerCheck:${id}`), false),
     ...over,
   };
   return { deps, log };
@@ -82,6 +83,7 @@ describe('deletion', () => {
     assert.deepEqual(await body(res), { ok: true });
     assert.deepEqual(log, [
       'getUser:tok',
+      `ownerCheck:${U}`,
       `list:review-photos:${U}`,
       `remove:review-photos:${U}/p1.jpg,${U}/p2.jpg`,
       `list:review-photos:${U}`,
@@ -111,6 +113,24 @@ describe('deletion', () => {
     await deleteAccount(post(), deps);
     assert.deepEqual(log.filter((l) => l.startsWith('deleteUser')), ['deleteUser:someone-else']);
     assert.ok(log.filter((l) => l.startsWith('remove:')).every((l) => l.includes('someone-else/')));
+  });
+});
+
+describe('venue owner guard', () => {
+  test('the sole owner of a casa with a live subscription is refused before anything is touched', async () => {
+    const { deps, log } = fake({ isSoleActiveVenueOwner: async () => true });
+    const res = await deleteAccount(post(), deps);
+    assert.equal(res.status, 409);
+    assert.deepEqual(await body(res), { error: 'venue_owner_active' });
+    assert.deepEqual(log, ['getUser:tok']);
+  });
+
+  test('a failing owner check refuses instead of deleting', async () => {
+    const { deps, log } = fake({ isSoleActiveVenueOwner: async () => { throw new Error('db down'); } });
+    const res = await deleteAccount(post(), deps);
+    assert.equal(res.status, 500);
+    assert.deepEqual(await body(res), { error: 'owner_check_failed' });
+    assert.ok(!log.some((l) => l.startsWith('list:') || l.startsWith('deleteUser')));
   });
 });
 

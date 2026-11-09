@@ -9,6 +9,10 @@
 // nobody could ever retry), which is worse for LGPD than the order used here. The remaining window is: files gone,
 // user deletion fails. That state is safe to retry (the cleanup is idempotent) and only removes data the user asked
 // to erase, so we shrink it with a few quick retries and tell the caller (`files_removed`) so the UI can say so.
+//
+// Guard (Plano Casas Noturnas): the only owner of a venue account with a live (active/past_due) subscription cannot
+// delete the account (409 venue_owner_active): the casa would keep being charged with nobody able to manage it. They
+// cancel in the billing portal or add another owner first. Checked before anything is touched; a failed check refuses.
 
 /** Buckets whose objects live under `<user_id>/`. */
 export const BUCKETS = ['review-photos', 'support-attachments'] as const;
@@ -24,6 +28,8 @@ export interface Deps {
   listFolder(bucket: string, folder: string, limit: number): Promise<string[] | null>;
   removeFiles(bucket: string, paths: string[]): Promise<boolean>;
   deleteUser(id: string): Promise<boolean>;
+  /** True when the user is the sole owner of a venue account whose subscription is active or past_due. */
+  isSoleActiveVenueOwner(id: string): Promise<boolean>;
 }
 
 const CORS = {
@@ -49,6 +55,12 @@ export async function deleteAccount(req: Request, deps: Deps): Promise<Response>
     user = null;
   }
   if (!user) return json(401, { error: 'unauthorized' });
+
+  try {
+    if (await deps.isSoleActiveVenueOwner(user.id)) return json(409, { error: 'venue_owner_active' });
+  } catch {
+    return json(500, { error: 'owner_check_failed' });
+  }
 
   try {
     for (const bucket of BUCKETS) {

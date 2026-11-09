@@ -11,7 +11,7 @@ const routes = [
   { key: 'c', name: 'salvos' },
 ];
 const descriptors = {
-  a: { options: { title: 'Explorar' } },
+  a: { options: { title: 'Início' } },
   b: { options: { title: 'Mapa' } },
   c: { options: { title: 'Salvos' } },
 };
@@ -21,7 +21,9 @@ describe('TabBar', () => {
     const navigate = jest.fn();
     const emit = jest.fn(() => ({ defaultPrevented: false }));
     await render(<TabBar state={{ index: 0, routes }} descriptors={descriptors} navigation={{ emit, navigate }} />);
-    expect(screen.getByRole('tab', { name: 'Explorar' })).toBeSelected();
+    expect(screen.getByRole('tab', { name: 'Início' })).toBeSelected();
+    expect(screen.getByTestId('icon-discoBall', HIDDEN)).toBeTruthy();
+    expect(screen.queryByTestId('icon-compass', HIDDEN)).toBeNull();
     expect(screen.getByRole('tab', { name: 'Mapa' })).not.toBeSelected();
     expect(screen.getAllByTestId('tab-indicator', HIDDEN)).toHaveLength(1);
     expect(heightOf(screen.getByRole('tab', { name: 'Mapa' }))).toBeGreaterThanOrEqual(44);
@@ -34,7 +36,7 @@ describe('TabBar', () => {
     const emit = jest.fn(() => ({ defaultPrevented: true }));
     await render(<TabBar state={{ index: 0, routes }} descriptors={descriptors} navigation={{ emit, navigate }} />);
     await fireEvent.press(screen.getByRole('tab', { name: 'Mapa' }));
-    await fireEvent.press(screen.getByRole('tab', { name: 'Explorar' }));
+    await fireEvent.press(screen.getByRole('tab', { name: 'Início' }));
     expect(navigate).not.toHaveBeenCalled();
   });
 });

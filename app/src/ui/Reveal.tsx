@@ -107,7 +107,7 @@ export interface SwapProps {
 }
 
 /**
- * Wraps text that changes in place (the Explorar header when the date changes): the new content settles in with a
+ * Wraps text that changes in place (the Início header when the date changes): the new content settles in with a
  * short fade and rise instead of snapping. Under Reduce Motion: a 120 ms fade, no movement.
  */
 export function Swap({ swapKey, children, style, testID }: SwapProps) {

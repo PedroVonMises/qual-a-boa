@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect } from 'react';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -8,6 +9,7 @@ import { useFavorites } from './favorites';
 import { useFilters } from './filters';
 import { useLive } from './live';
 import { useLocation } from './location';
+import { useProfile } from './profile';
 import { safeMerge } from './safeMerge';
 import { useReviews } from './reviews';
 import { useSearchHistory } from './searchHistory';
@@ -24,17 +26,19 @@ import type { EventItem, SeedDataset } from '@/domain/types';
  */
 interface DemoStore {
   loaded: boolean;
+  /** Set once the preview autoload ran, so clearing the demo data sticks. */
+  autoloaded: boolean;
   setLoaded: (v: boolean) => void;
 }
 
 export const useDemoLoaded = create<DemoStore>()(
   persist(
-    (set) => ({ loaded: false, setLoaded: (loaded) => set({ loaded }) }),
+    (set) => ({ loaded: false, autoloaded: false, setLoaded: (loaded) => set({ loaded }) }),
     {
       name: 'qab.demo',
       merge: (persisted, current) => safeMerge(persisted, current),
       storage: createJSONStorage(() => AsyncStorage),
-      partialize: (s) => ({ loaded: s.loaded }),
+      partialize: (s) => ({ loaded: s.loaded, autoloaded: s.autoloaded }),
     },
   ),
 );
@@ -160,11 +164,31 @@ export function clearDemoData(): void {
   useDemoLoaded.getState().setLoaded(false);
 }
 
-/** Clears everything including session, filters and location, so the age gate and onboarding show again. */
+/** Clears everything including session, filters, profile (phone/address) and location, so the age gate and onboarding show again. */
 export function resetApp(): void {
   clearDemoData();
   useFilters.getState().reset();
   useSearchHistory.getState().clear();
+  useProfile.getState().clear();
   useLocation.getState().resetLocation();
   useSession.getState().reset();
+}
+
+/** Preview builds with demo autoload: load the demo data once per install, after the store hydrates. */
+export function maybeAutoloadDemo(enabled: boolean, nowMs: number = Date.now()): boolean {
+  if (!enabled) return false;
+  const s = useDemoLoaded.getState();
+  if (s.autoloaded) return false;
+  useDemoLoaded.setState({ autoloaded: true });
+  if (!s.loaded) loadDemoData(defaultDataset(), nowMs);
+  return true;
+}
+
+export function useDemoAutoload(enabled: boolean): void {
+  useEffect(() => {
+    if (!enabled) return;
+    const run = () => maybeAutoloadDemo(true);
+    if (useDemoLoaded.persist.hasHydrated()) run();
+    else return useDemoLoaded.persist.onFinishHydration(run);
+  }, [enabled]);
 }

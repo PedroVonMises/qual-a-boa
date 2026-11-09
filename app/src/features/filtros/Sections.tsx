@@ -4,13 +4,14 @@ import { StyleSheet, View } from 'react-native';
 import { ACCESS_TAGS } from '@/domain/accessTags';
 import { useAreas, useGenres } from '@/data/queries';
 import { rangeLabel } from '@/domain/calendar';
-import { RADIUS_OPTIONS, type DateRange } from '@/domain/filters';
+import { type DateRange } from '@/domain/filters';
 import { QuandoSheet } from '@/features/quando';
 import { useFilters } from '@/state/filters';
 import { space } from '@/theme/tokens';
 import { Chip, Text } from '@/ui';
 import { ArtistPicker } from './ArtistPicker';
 import { PriceStepper } from './PriceStepper';
+import { RadiusSlider } from './RadiusSlider';
 
 const DATES: { value: Exclude<DateRange, 'datas'>; label: string }[] = [
   { value: 'hoje', label: 'Hoje' },
@@ -67,11 +68,7 @@ export function Sections() {
         <PriceStepper value={filters.priceMax} onChange={(priceMax) => set({ priceMax })} />
       </Section>
       <Section title="Distância">
-        <View style={styles.chips}>
-          {RADIUS_OPTIONS.map((r) => (
-            <Chip key={r} label={`${r} km`} selected={filters.radiusKm === r} onPress={() => set({ radiusKm: r })} />
-          ))}
-        </View>
+        <RadiusSlider value={filters.radiusKm} onChange={(radiusKm) => set({ radiusKm })} />
       </Section>
       <Section title="Data">
         <View style={styles.chips}>

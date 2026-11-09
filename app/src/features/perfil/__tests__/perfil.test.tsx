@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import { setRepo } from '@/data';
+import { resetCasasDemo, useCasasDemo } from '@/data/casas';
 import { env } from '@/lib/env';
 import { miniDataset } from '@/data/__fixtures__/mini';
 import { SeedRepo } from '@/data/seedRepo';
@@ -10,6 +11,7 @@ import { useDemoLoaded } from '@/state/demo';
 import { useFavorites } from '@/state/favorites';
 import { useFilters } from '@/state/filters';
 import { useLocation } from '@/state/location';
+import { useProfile } from '@/state/profile';
 import { useSession } from '@/state/session';
 import { PerfilView } from '../PerfilView';
 
@@ -43,18 +45,20 @@ describe('Perfil', () => {
     expect(screen.queryByTestId('perfil-conta')).toBeNull();
   });
 
-  it('radius stepper updates the filters store within bounds', async () => {
+  it('"Raio padrão" slider updates the filters store within bounds', async () => {
     await renderPerfil();
+    expect(screen.getByText('Raio padrão')).toBeTruthy();
     expect(useFilters.getState().filters.radiusKm).toBe(10);
-    await fireEvent.press(screen.getByRole('button', { name: 'Aumentar raio' }));
+    expect(screen.getByTestId('radius-value')).toHaveTextContent('Até 10 km');
+    await fireEvent.press(screen.getByRole('button', { name: 'Até 25 km' }));
     expect(useFilters.getState().filters.radiusKm).toBe(25);
-    expect(screen.getByRole('button', { name: 'Aumentar raio' })).toBeDisabled();
-    await fireEvent.press(screen.getByRole('button', { name: 'Diminuir raio' }));
-    await fireEvent.press(screen.getByRole('button', { name: 'Diminuir raio' }));
-    await fireEvent.press(screen.getByRole('button', { name: 'Diminuir raio' }));
-    await fireEvent.press(screen.getByRole('button', { name: 'Diminuir raio' }));
+    const slider = screen.getByTestId('radius-stepper');
+    await fireEvent(slider, 'accessibilityAction', { nativeEvent: { actionName: 'increment' } });
+    expect(useFilters.getState().filters.radiusKm).toBe(25);
+    await fireEvent.press(screen.getByRole('button', { name: 'Até 1 km' }));
+    await fireEvent(slider, 'accessibilityAction', { nativeEvent: { actionName: 'decrement' } });
     expect(useFilters.getState().filters.radiusKm).toBe(1);
-    expect(screen.getByRole('button', { name: 'Diminuir raio' })).toBeDisabled();
+    expect(screen.getByTestId('radius-value')).toHaveTextContent('Até 1 km');
   });
 
   it('favorite styles sheet toggles genres in the store', async () => {
@@ -76,6 +80,27 @@ describe('Perfil', () => {
     await renderPerfil();
     await fireEvent.press(screen.getByRole('button', { name: 'Privacidade e dados (LGPD)' }));
     expect(mockPush).toHaveBeenCalledWith('/privacidade');
+  });
+
+  it('nightclub row opens the venue panel for members', async () => {
+    resetCasasDemo();
+    await renderPerfil();
+    expect(screen.getByText('PARA CASAS NOTURNAS')).toBeTruthy();
+    expect(await screen.findByText('Painel da casa')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('perfil-casas'));
+    expect(mockPush).toHaveBeenCalledWith('/casas/painel');
+  });
+
+  it('nightclub row pitches the plan to people without a venue', async () => {
+    useCasasDemo.setState({ accounts: [] });
+    try {
+      await renderPerfil();
+      expect(await screen.findByText('Sua casa no Qual a boa?')).toBeTruthy();
+      await fireEvent.press(screen.getByTestId('perfil-casas'));
+      expect(mockPush).toHaveBeenCalledWith('/casas');
+    } finally {
+      resetCasasDemo();
+    }
   });
 
   it('legal rows open placeholder drafts', async () => {
@@ -124,22 +149,55 @@ describe('Perfil', () => {
 });
 
 describe('Perfil localização', () => {
-  it('shows status, change-area, refresh and the on-device note; settings only when blocked', async () => {
+  beforeEach(() => {
     useLocation.getState().resetLocation();
     useLocation.getState().setPermission('undetermined');
+    useProfile.getState().clear();
+  });
+
+  it('shows both origins, the default point, refresh and the new privacy note; settings only when blocked', async () => {
     await renderPerfil();
-    expect(screen.getByTestId('location-status')).toHaveTextContent(/Ponto padrão/);
+    expect(screen.getByTestId('origin-live')).toHaveTextContent(/Permitir localização/);
+    expect(screen.getByTestId('origin-registered')).toHaveTextContent(/Cadastrar endereço/);
+    expect(screen.getByTestId('origin-default')).toHaveTextContent(/ponto padrão/);
     expect(screen.getByText('Alterar bairro')).toBeTruthy();
     expect(screen.getByText('Atualizar localização')).toBeTruthy();
-    expect(screen.getByText(/nunca é enviada a um servidor/)).toBeTruthy();
+    expect(screen.getByText(/Sua localização em tempo real fica só neste aparelho\. O endereço que você cadastra fica salvo na sua conta/)).toBeTruthy();
+    expect(screen.queryByText(/nunca é enviada/)).toBeNull();
     expect(screen.queryByText('Abrir configurações')).toBeNull();
   });
 
   it('blocked: offers Abrir configurações', async () => {
     useLocation.getState().setPermission('blocked');
     await renderPerfil();
-    expect(screen.getByTestId('location-status')).toHaveTextContent(/Bloqueada nas configurações/);
+    expect(screen.getByTestId('origin-live')).toHaveTextContent(/Bloqueada nas configurações/);
     expect(screen.getByText('Abrir configurações')).toBeTruthy();
-    useLocation.getState().setPermission('undetermined');
   });
-});
+
+  it('segmented control switches the preferred origin; statuses show the live fix and the address', async () => {
+    useLocation.getState().setDeviceFix({ point: { lat: -20.29, lng: -40.29, label: 'Jardim da Penha' }, accuracyM: 30, at: new Date(Date.now() - 2 * 60_000).toISOString() });
+    useProfile.getState().setAddress({ cep: '29055000', street: 'R. Joaquim Lírio', number: '823', district: 'Praia do Canto', city: 'Vitória', uf: 'ES', lat: -20.3, lng: -40.29 });
+    await renderPerfil();
+    expect(screen.getByLabelText('Calcular distância a partir de')).toBeTruthy();
+    expect(screen.getByRole('tab', { name: 'Tempo real' })).toBeSelected();
+    expect(screen.getByTestId('origin-live')).toHaveTextContent(/Agora em Jardim da Penha · há 2 min/);
+    expect(screen.getByTestId('origin-live')).toHaveTextContent(/Em uso/);
+    expect(screen.getByTestId('origin-registered')).toHaveTextContent(/R\. Joaquim Lírio, 823/);
+    await fireEvent.press(screen.getByRole('tab', { name: 'Endereço' }));
+    expect(useLocation.getState().preferred).toBe('registered');
+    expect(useLocation.getState().activeOrigin).toBe('registered');
+    expect(screen.getByRole('tab', { name: 'Endereço' })).toBeSelected();
+    expect(screen.getByTestId('origin-registered')).toHaveTextContent(/Em uso/);
+    await fireEvent.press(screen.getByRole('tab', { name: 'Tempo real' }));
+    expect(useLocation.getState().preferred).toBe('live');
+  });
+
+  it('"Endereço" row and "Dados cadastrais" row open /dados-cadastrais', async () => {
+    await renderPerfil();
+    await fireEvent.press(screen.getByRole('button', { name: /Endereço, Cadastrar endereço/ }));
+    expect(mockPush).toHaveBeenCalledWith('/dados-cadastrais');
+    mockPush.mockClear();
+    await fireEvent.press(screen.getByRole('button', { name: 'Dados cadastrais, Nome, contato e endereço' }));
+    expect(mockPush).toHaveBeenCalledWith('/dados-cadastrais');
+  });
+});

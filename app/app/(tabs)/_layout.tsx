@@ -1,6 +1,7 @@
-import { Tabs } from 'expo-router';
+import { Tabs, usePathname } from 'expo-router';
 import { useWindowDimensions, type ColorValue } from 'react-native';
 
+import { useForegroundLocationWatch } from '@/lib/location';
 import { breakpoints, fonts, palette } from '@/theme/tokens';
 import { Icon, TabBar, type IconName } from '@/ui';
 
@@ -14,6 +15,8 @@ const icon = (name: IconName) =>
 export default function TabLayout() {
   const { width } = useWindowDimensions();
   const wide = width >= breakpoints.lg;
+  // Live device position only in the foreground, on Início/Mapa, when the user prefers it (R3).
+  useForegroundLocationWatch(usePathname());
   return (
     <Tabs
       tabBar={(props) => <TabBar {...props} variant={wide ? 'rail' : 'bottom'} />}
@@ -35,7 +38,7 @@ export default function TabLayout() {
         },
         sceneStyle: { backgroundColor: palette.night },
       }}>
-      <Tabs.Screen name="index" options={{ title: 'Explorar', tabBarIcon: icon('compass') }} />
+      <Tabs.Screen name="index" options={{ title: 'Início', tabBarIcon: icon('discoBall') }} />
       <Tabs.Screen name="mapa" options={{ title: 'Mapa', tabBarIcon: icon('map') }} />
       <Tabs.Screen name="comunidade" options={{ title: 'Comunidade', tabBarIcon: icon('message') }} />
       <Tabs.Screen name="salvos" options={{ title: 'Salvos', tabBarIcon: icon('bookmark') }} />

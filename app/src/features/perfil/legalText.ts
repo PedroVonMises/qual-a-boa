@@ -9,8 +9,8 @@ export const PRIVACY: LegalDoc = {
   title: 'Privacidade e dados (LGPD)',
   paragraphs: [
     DRAFT,
-    'Usamos sua localização apenas para ordenar casas e eventos por distância. Ela fica neste aparelho e você pode trocá-la quando quiser.',
-    'Sua localização fica somente neste aparelho e nunca é enviada a um servidor.',
+    'Usamos sua localização apenas para ordenar casas e eventos por distância. Você escolhe o ponto de partida: sua localização em tempo real ou um endereço cadastrado.',
+    'Sua localização em tempo real fica somente neste aparelho. O endereço que você cadastra (CEP, rua, número e bairro) fica salvo na sua conta para calcular a distância a partir de casa, e você pode apagar quando quiser.',
     'Seus favoritos, filtros e preferências ficam salvos localmente. Nesta versão não há conta nem envio de dados pessoais.',
     'Você poderá pedir acesso, correção ou exclusão dos seus dados quando o login estiver disponível.',
   ],

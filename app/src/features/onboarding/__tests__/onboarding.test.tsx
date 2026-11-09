@@ -102,6 +102,8 @@ describe('Local', () => {
   it('explains why before the system prompt', async () => {
     await wrap(<LocalView />);
     expect(screen.getByTestId('location-rationale')).toHaveTextContent(/permissão de localização do seu aparelho/);
+    expect(screen.getByTestId('location-rationale')).toHaveTextContent(/tempo real fica só neste aparelho/);
+    expect(screen.getByTestId('location-rationale')).not.toHaveTextContent(/servidor/);
   });
 
   it('blocked: distinct copy, opens settings, offers the area fallback', async () => {

@@ -54,20 +54,20 @@ All states are visible in the dev gallery at `/dev/ui` (`Gallery.tsx`, dev build
 - **Chip:** 44 tall, radius full, Raised Ash idle; selected = Pink fill + check icon; optional count; horizontal scroll rows.
 - **Tag / Badge:** 28 tall, radius full. Tag = neutral text label (genres, vibe & acesso). Badge tones: accent ("Hoje · 21h"), success ("Grátis"), danger ("Esgotado", "Cancelado"), neutral ("Aberto agora"); always text, optional icon.
 - **EventCard:** poster 264×240, radius 24, full-bleed cover, neutral bottom scrim, date badge top-left, save heart top-right (44 target), title + venue/distance + price in mono. Row variant: 72×72 cover (radius 14) left, text right, min height 88, divider below instead of a nested card.
-- **Explorar lead grid (md+):** one lead card spanning 2×2 poster cells plus smaller posters, never three equal cards.
+- **Início lead grid (md+):** one lead card spanning 2×2 poster cells plus smaller posters, never three equal cards.
 - **VenueRow / ArtistRow / ListRow:** list rows with divider; ArtistRow has a 40px circular avatar and an optional "já tocou" date in mono.
 - **SearchBar:** 48 tall, Raised Ash, radius 16, placeholder plus accessible label.
 - **SegmentedControl:** Ash track, radius 16, 2px inset, selected segment in Riot Pink.
 - **Switch:** 52×32 track, 24 thumb, Pink when on, label always present.
 - **Rating / ScoreBar:** star rating (Amber stars, 44+ targets), horizontal score bars per topic with the value in mono.
 - **Sheet:** bottom sheet with radius 28 top corners (native via @gorhom/bottom-sheet, web via SheetWeb); right drawer 420 wide on web >= 1024. SheetHeader with title and close.
-- **TabBar:** Explorar, Mapa, Comunidade, Salvos, Perfil. Bottom bar 64 + safe area; active = Pink icon + label + 3px top indicator. At >= 1024 it becomes a 240px left rail with the logo on top. Comunidade is about the user's **state**: a one-line explainer under the title and a state pill (pin + name + chevron, same shape as the Explorar pills) that opens "Seu estado", a sheet of all 27 states where only the pilot states (Espírito Santo) are selectable and the rest read "Em breve".
+- **TabBar:** Início, Mapa, Comunidade, Salvos, Perfil. Bottom bar 64 + safe area; active = Pink icon + label + 3px top indicator. Início's icon is a disco ball on its wire; when the tab becomes focused (not on first mount) it swings once from the top of the wire, -8° → +4° → rest, on the token spring (transform only, none under Reduce Motion). At >= 1024 it becomes a 240px left rail with the logo on top. Comunidade is about the user's **state**: a one-line explainer under the title and a state pill (pin + name + chevron, same shape as the Início pills) that opens "Seu estado", a sheet of all 27 states where only the pilot states (Espírito Santo) are selectable and the rest read "Em breve".
 - **ScreenHeader:** back IconButton, centered title, optional right action.
 - **Skeleton:** shimmer blocks at exact card size; no spinners.
 - **EmptyState / ErrorState:** unlit bulb illustration, a specific headline and one next action ("Explorar eventos", "Aumente o raio para 10 km"); errors inline with retry.
 - **Cover / Scrim:** illustrated cover art (see §2) and the neutral legibility scrim.
 - **Logo / AnimatedLogo / Wordmark:** see §8.
-- **Icon:** the app's own outline SVG set (`Icon.tsx`), 24px, stroke 1.75: search, pin, heart, bookmark, compass, map, user, chevrons, close, check, filter, share, send, paperclip, star, headset, clock, plus. No emoji as icons.
+- **Icon:** the app's own outline SVG set (`Icon.tsx`), 24px, stroke 1.75: search, pin, heart, bookmark, compass (Mapa), discoBall (the Início tab's disco ball), map, user, chevrons, close, check, filter, share, send, paperclip, star, headset, clock, plus, message, arrowUp, spark. No emoji as icons.
 - **Filtros sections:** Gênero (multi chips), Vibe & acesso (Acessível, LGBTQIA+ friendly, Pet friendly, Opção vegana; AND match; Evento and Casa show the same labels as Tags), Região, Preço (stepper + "Grátis"), Distância (1/3/5/10/25 km), Data (opens Quando), Artista (searchable). Sticky footer "Limpar" + "Ver N eventos".
 
 ## 6. Layout Principles
@@ -78,7 +78,7 @@ All states are visible in the dev gallery at `/dev/ui` (`Gallery.tsx`, dev build
 ## 7. Motion & Interaction (`motion`)
 - Springs by default (stiffness 140, damping 18, mass 1); no linear easing. Press = scale 0.97 spring + light haptic on native.
 - Lists and shelves mount with staggered fade + translateY (40ms steps, max 8 items). Implemented by `Reveal` (`ui/Reveal.tsx`) with a per-list `useRevealScope`, so a row never replays its entrance when recycled or revisited; later pages append quietly.
-- Content that replaces a skeleton, and whole screens on mount, fade in (`ScreenFade`, opacity only). Text that changes in place, like the Explorar headline, settles in with `Swap`. Tabs cross-fade (`animation: 'fade'`); the native stack keeps its platform push animation (its `animation` option is iOS/Android only), so on web the screen fade is the transition.
+- Content that replaces a skeleton, and whole screens on mount, fade in (`ScreenFade`, opacity only). Text that changes in place, like the Início headline, settles in with `Swap`. Tabs cross-fade (`animation: 'fade'`); the native stack keeps its platform push animation (its `animation` option is iOS/Android only), so on web the screen fade is the transition.
 - Perpetual micro-motion only for skeleton shimmer and the soft pulse of the "Agora" live badge.
 - Animate transform/opacity only. Reduce Motion replaces springs with 120ms fades.
 - Splash: the bulb tube and base draw on (700ms), the amber core flickers on (650ms), the wordmark follows (1350ms delay). With Reduce Motion it shows the lit logo.

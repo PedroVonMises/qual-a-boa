@@ -18,6 +18,17 @@ export { IconButton, type IconButtonProps } from './IconButton';
 export { KindChip } from './KindChip';
 export { ListRow, type ListRowProps } from './ListRow';
 export { Logo, type LogoProps, type LogoVariant } from './Logo';
+export {
+  MAP_SHEET_PEEK,
+  MAP_SHEET_STATES,
+  MAP_SHEET_TABLET_MAX_WIDTH,
+  MapSheet,
+  MapSheetScrollView,
+  snapHeights,
+  type MapSheetIndex,
+  type MapSheetProps,
+  type MapSheetRef,
+} from './MapSheet';
 export { PressableScale, type PressableScaleProps } from './PressableScale';
 export { Rating, type RatingProps } from './Rating';
 export { Reveal, REVEAL_MAX_ITEMS, REVEAL_MAX_STAGGER, revealDelay, ScreenFade, Swap, useRevealScope, type RevealProps, type RevealScope, type SwapProps } from './Reveal';
@@ -30,11 +41,13 @@ export { SegmentedControl, type SegmentedControlProps, type SegmentOption } from
 export { Sheet, type SheetProps } from './Sheet';
 export { Shelf, type ShelfProps } from './Shelf';
 export { EventCardSkeleton, Skeleton, ThreadCardSkeleton, type SkeletonProps } from './Skeleton';
+export { snapIndex, StepSlider, type StepSliderProps } from './StepSlider';
 export { Switch, type SwitchProps } from './Switch';
 
 export { TAB_BAR_HEIGHT, TabBar, type TabBarProps } from './TabBar';
 export { Tag } from './Tag';
 export { Text, type TextProps, type TextVariant } from './Text';
+export { TextField, type TextFieldProps } from './TextField';
 export { ThreadCard, type ThreadCardProps } from './ThreadCard';
 export { breakpointFor, useBreakpoint, type Breakpoint } from './useBreakpoint';
 export { VenueRow, type VenueRowProps } from './VenueRow';

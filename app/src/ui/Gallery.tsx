@@ -14,6 +14,7 @@ const COVERS: CoverKey[] = ['bolt', 'selva', 'gordinho', 'pub426', 'caipora', 'f
 const ICONS: IconName[] = [
   'search', 'pin', 'heart', 'heartFilled', 'bookmark', 'compass', 'map', 'user', 'chevronLeft', 'chevronRight', 'chevronDown',
   'close', 'check', 'filter', 'share', 'send', 'paperclip', 'star', 'starFilled', 'headset', 'clock', 'plus',
+  'message', 'arrowUp', 'spark', 'discoBall',
 ];
 
 function Section({ title, children }: { title: string; children: ReactNode }) {

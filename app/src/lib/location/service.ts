@@ -7,7 +7,7 @@ import type { DeviceFix, FixResult, LocationPermission } from './types';
 export const FIX_TIMEOUT_MS = 8000;
 const GEOCODE_TIMEOUT_MS = 4000;
 
-function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
+export function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     const t = setTimeout(() => reject(new Error('timeout')), ms);
     p.then(

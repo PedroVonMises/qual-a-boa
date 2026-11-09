@@ -36,15 +36,18 @@ describe('Filtros', () => {
     expect(await screen.findByText('Ver 2 eventos')).toBeOnTheScreen();
   });
 
-  it('price steps, radius and date chips write to the store; Limpar resets', async () => {
+  it('price and radius sliders and date chips write to the store; Limpar resets', async () => {
     await renderWithData(<FiltrosScreen />);
     await fireEvent.press(screen.getByRole('button', { name: 'Grátis' }));
     expect(useFilters.getState().filters.priceMax).toBe(0);
     await fireEvent.press(screen.getByRole('button', { name: 'Até R$ 40' }));
     expect(useFilters.getState().filters.priceMax).toBe(40);
-    await fireEvent.press(screen.getByRole('button', { name: '3 km' }));
+    expect(screen.getByTestId('radius-value')).toHaveTextContent('Até 10 km');
+    await fireEvent.press(screen.getByRole('button', { name: 'Até 3 km' }));
+    expect(screen.getByTestId('radius-value')).toHaveTextContent('Até 3 km');
+    await fireEvent(screen.getByTestId('radius-stepper'), 'accessibilityAction', { nativeEvent: { actionName: 'increment' } });
+    expect(useFilters.getState().filters.radiusKm).toBe(5);
     await fireEvent.press(screen.getByRole('button', { name: 'Hoje' }));
-    expect(useFilters.getState().filters.radiusKm).toBe(3);
     expect(useFilters.getState().filters.dateRange).toBe('hoje');
     await fireEvent.press(screen.getByRole('button', { name: 'Limpar' }));
     expect(useFilters.getState().filters.priceMax).toBeNull();

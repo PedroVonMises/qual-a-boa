@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 
@@ -24,6 +24,7 @@ const BENEFITS: { icon: IconName; text: string }[] = [
 /** Entrar: email, then the one-time code. Keeps favorites, follows and reviews when upgrading a visitor. */
 export function EntrarScreen() {
   const router = useRouter();
+  const { next } = useLocalSearchParams<{ next?: string }>();
   const { colors } = useTheme();
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
@@ -57,7 +58,9 @@ export function EntrarScreen() {
     setBusy(false);
     if (!res.ok) return setError(res.error);
     void syncAll();
-    router.back();
+    // Only same-app paths: `next` comes from the URL.
+    if (typeof next === 'string' && next.startsWith('/') && !next.startsWith('//')) router.replace(next as never);
+    else router.back();
   };
 
   return (

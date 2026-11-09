@@ -75,3 +75,18 @@ Contracts: `CoverKey` is a string (`domain/types.ts`, legacy keys in `LEGACY_COV
 | 7-C Feed + DB | `data/feedRepo.ts`, `data/index.ts`, perfil "atualizado" row, `supabase/migrations/0006_catalog_ingest.sql` and its tests |
 | 7-D Ingest core | `ingest/src/**` except `adapters/{sympla-api,crawler}.ts`, `.github/workflows/ingest.yml`, `app/public/feed/v1/**` |
 | 7-E Adapters | `ingest/src/adapters/{sympla-api,crawler}.ts` + tests, `docs/INGESTION.md` details |
+
+## Wave 8 (Início, mapa responsivo, duas localizações, Plano Casas Noturnas)
+Spec: https://claude.ai/artifact/WphzMabhQ55z13sk1Rg2do · mockups: https://claude.ai/artifact/GCU7xmjJDZjCwKiQejqmHd
+Contracts: `state/location.ts` v2 (`live`, `registered`, `preferred`, derived `location`/`activeOrigin`; persist `qab.location` v2 with a v1 migrate), `state/profile.ts` (`qab.profile.v1`), `data/address.ts` (`profile_addresses`), `ui/StepSlider.tsx`, `ui/MapSheet.tsx`, `ui/TextField.tsx`, `domain/casas.ts` + `data/casas.ts` (venue accounts, quota, billing; local demo with Casa Maré when not remote), `EventStatus` gains `pending_review` and `rejected`.
+| Agent | Owns |
+|---|---|
+| 8-A Tab | `ui/{Icon,TabBar,Gallery}.tsx`, `(tabs)/_layout.tsx` title |
+| 8-B Slider | `ui/StepSlider.tsx`, `features/filtros/**`, Perfil "Raio padrão" |
+| 8-C Location | `state/{location,profile}.ts`, `lib/location/**`, `lib/cep.ts`, `data/address.ts`, `0014_profile_addresses.sql` |
+| 8-D Casas backend | `0015_venue_accounts.sql`, `functions/billing-*`, `functions/delete-account` guard, `domain/casas.ts`, `data/casas.ts` |
+| 8-E Map | `features/mapa/**`, `ui/MapSheet*.tsx` |
+| 8-F Dados cadastrais | `features/dadosCadastrais/**`, `ui/TextField.tsx`, Perfil LOCALIZAÇÃO, `explorar/{AreaSheet,Header}.tsx`, privacy copy |
+| 8-G Casas UI | `features/casas/**`, `app/casas/**` |
+
+Billing (Stripe, decided 2026-11-09): Edge Function secrets `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID` (monthly BRL 299,00 price created in the Stripe dashboard), `STRIPE_WEBHOOK_SECRET`, `APP_URL` (checkout returns to `APP_URL/casas/assinatura?status=sucesso|cancelado`). Deploy `billing-webhook` with `--no-verify-jwt` and point a Stripe webhook at it (`checkout.session.completed`, `customer.subscription.*`, `invoice.paid`, `invoice.payment_failed`). Venue account verification is a manual `update venue_accounts set status='verified'` with service_role; festas are approved with `review_event` (service_role). Before launch, confirm App Store / Play rules for selling this plan outside in-app purchase.

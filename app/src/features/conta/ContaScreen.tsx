@@ -19,6 +19,7 @@ import { Button, EmptyState, ListRow, Screen, ScreenHeader, Sheet, Text } from '
 
 const ERASED = [
   'seu cadastro e o e-mail',
+  'o endereço cadastrado',
   'favoritos, eventos que você acompanha e check-ins',
   'avaliações e votos de útil',
   'chamados, mensagens e anexos',

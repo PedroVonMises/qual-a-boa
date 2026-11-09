@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import type { Map as GlMap, Marker as GlMarker } from 'maplibre-gl';
+import type { GeoJSONSource as GlGeoJSONSource, Map as GlMap, Marker as GlMarker } from 'maplibre-gl';
 
 import { Icon, Text } from '@/ui';
 import { hit, palette, radius, space } from '@/theme/tokens';
@@ -8,11 +8,14 @@ import { ATTRIBUTION, DEFAULT_ZOOM, MAX_ZOOM, MIN_ZOOM, PILOT_BOUNDS } from './m
 import { MAP_STYLE } from './mapStyle';
 import type { VenueMapProps } from './mapTypes';
 import { pinLabel, type VenuePin } from './pins';
+import { circleBounds, circleFeature } from './radiusCircle';
 import { VenueMapSchematic } from './VenueMapSchematic';
 
 const FALLBACK_NOTE = 'Mapa simplificado (sem conexão com os mapas)';
 const STYLE_TIMEOUT_MS = 15000;
-const FIT_PADDING = { top: 96, right: 48, bottom: 200, left: 48 };
+const LOCATE_GAP = 12;
+const fitPadding = (bottomInset: number) => ({ top: 96, right: 48, bottom: bottomInset + 48, left: 48 });
+const EMPTY_FC: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
 
 const CHECK_SVG =
   '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
@@ -149,6 +152,8 @@ function WebGlVenueMap({
   userLocation,
   onLocate,
   fitKey,
+  radiusKm,
+  bottomInset = 0,
 }: VenueMapProps & { onFail: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<GlMap | null>(null);
@@ -159,11 +164,13 @@ function WebGlVenueMap({
   const onSelectRef = useRef(onSelect);
   const centerRef = useRef(center);
   const pinsRef = useRef(pins);
+  const bottomRef = useRef(bottomInset);
   // Keep the latest props readable from async/imperative code. Declared first so they are current for every effect below.
   useEffect(() => {
     onSelectRef.current = onSelect;
     centerRef.current = center;
     pinsRef.current = pins;
+    bottomRef.current = bottomInset;
   });
 
   // Load maplibre-gl (separate chunk) and create the map.
@@ -251,40 +258,74 @@ function WebGlVenueMap({
       : null;
   }, [map, userLocation]);
 
-  // Animate to `center` when it changes (the initial view already starts there).
+  // Radius circle: geojson source + accent fill (8%) + 1px accent outline, added once the style is ready.
   useEffect(() => {
     if (!map) return;
+    const data = radiusKm ? circleFeature(center, radiusKm) : EMPTY_FC;
+    const apply = () => {
+      const src = map.getSource('radius') as GlGeoJSONSource | undefined;
+      if (src) {
+        src.setData(data);
+        return;
+      }
+      map.addSource('radius', { type: 'geojson', data });
+      map.addLayer({ id: 'radius-fill', type: 'fill', source: 'radius', paint: { 'fill-color': palette.riotPink, 'fill-opacity': 0.08 } });
+      map.addLayer({ id: 'radius-line', type: 'line', source: 'radius', paint: { 'line-color': palette.riotPink, 'line-width': 1 } });
+    };
+    if (map.isStyleLoaded()) apply();
+    else map.once('load', apply);
+    return () => {
+      map.off('load', apply);
+    };
+  }, [map, radiusKm, center.lat, center.lng]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // With a radius: frame the circle whenever the radius, the center or the sheet height changes.
+  useEffect(() => {
+    const lib = libRef.current;
+    if (!map || !lib || !radiusKm) return;
+    const [w, s, e, n] = circleBounds(center, radiusKm);
+    map.fitBounds(new lib.LngLatBounds([w, s], [e, n]), { padding: fitPadding(bottomInset), duration: 500 });
+  }, [map, radiusKm, center.lat, center.lng, bottomInset]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Animate to `center` when it changes (the initial view already starts there). The radius fit covers it otherwise.
+  useEffect(() => {
+    if (!map || radiusKm) return;
     if (firstCenter.current) {
       firstCenter.current = false;
       return;
     }
     map.easeTo({ center: [center.lng, center.lat], duration: 500 });
-  }, [map, center.lat, center.lng]);
+  }, [map, center.lat, center.lng]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Fit all pins when the set changes in a way that should refit. Declared after the center effect so it wins.
   useEffect(() => {
     const lib = libRef.current;
     const list = pinsRef.current;
-    if (!map || !lib || list.length === 0) return;
+    // The search only returns venues inside the radius, so the circle fit already frames them.
+    if (!map || !lib || radiusKm || list.length === 0) return;
     if (list.length === 1) {
       map.easeTo({ center: [list[0].venue.lng, list[0].venue.lat], zoom: 15, duration: 500 });
       return;
     }
     const bounds = new lib.LngLatBounds();
     list.forEach((p) => bounds.extend([p.venue.lng, p.venue.lat]));
-    map.fitBounds(bounds, { padding: FIT_PADDING, maxZoom: 15, duration: 500 });
-  }, [map, fitKey]);
+    map.fitBounds(bounds, { padding: fitPadding(bottomRef.current), maxZoom: 15, duration: 500 });
+  }, [map, fitKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <View style={styles.fill}>
       <div ref={containerRef} aria-label="Mapa de casas abertas" role="region" style={{ position: 'absolute', inset: 0 }} />
-      <View pointerEvents="none" style={styles.attribution}>
+      <View pointerEvents="none" style={[styles.attribution, { bottom: bottomInset + space.sm }]}>
         <Text variant="caption" tone={palette.dusk}>
           {ATTRIBUTION}
         </Text>
       </View>
       {onLocate ? (
-        <Pressable accessibilityRole="button" accessibilityLabel="Minha localização" onPress={onLocate} style={styles.locate}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Minha localização"
+          onPress={onLocate}
+          style={[styles.locate, { bottom: bottomInset + LOCATE_GAP }]}>
           <Icon name="compass" size={24} color={palette.bone} />
         </Pressable>
       ) : null}
@@ -313,7 +354,6 @@ const styles = StyleSheet.create({
   locate: {
     position: 'absolute',
     right: space.md,
-    top: space.md,
     width: hit.min,
     height: hit.min,
     borderRadius: radius.full,

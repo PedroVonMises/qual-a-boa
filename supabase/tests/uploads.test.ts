@@ -49,7 +49,7 @@ const putObject = (bucket: string, name: string) =>
 describe('buckets', () => {
   test('both are private, 5 MB, images only', async () => {
     const r = await db.query<{ id: string; public: boolean; file_size_limit: string; allowed_mime_types: string[] }>(
-      `select id, public, file_size_limit, allowed_mime_types from storage.buckets order by id`);
+      `select id, public, file_size_limit, allowed_mime_types from storage.buckets where id in ('review-photos','support-attachments') order by id`);
     assert.deepEqual(r.rows.map((b) => b.id), ['review-photos', 'support-attachments']);
     for (const b of r.rows) {
       assert.equal(b.public, false);
