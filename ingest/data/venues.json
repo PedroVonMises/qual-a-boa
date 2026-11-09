@@ -89,5 +89,77 @@
     "genreSlugs": ["pagode-samba", "hip-hop-rnb", "rock-indie", "eletronica-house"],
     "status": "closed",
     "hours": "Encerrou as atividades em out/2026"
+  },
+  {
+    "id": "taiko-beach-club",
+    "name": "Taikô Beach Club",
+    "aliases": ["Taiko Beach", "Taiko beach", "TAIKON BEACH", "Taikô Beach"],
+    "address": "R. Joaquim Lírio, 820 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.2967,
+    "lng": -40.2951,
+    "genreSlugs": ["forro-tecnobrega", "funk"],
+    "status": "unverified"
+  },
+  {
+    "id": "recreio-dos-olhos",
+    "name": "Recreio dos Olhos",
+    "aliases": [],
+    "address": "Av. Cel. José Martins de Figueiredo, 575 - Tabuazeiro",
+    "area": "Tabuazeiro",
+    "city": "Vitória",
+    "lat": -20.2958,
+    "lng": -40.3218,
+    "genreSlugs": ["forro-tecnobrega"],
+    "status": "unverified"
+  },
+  {
+    "id": "brizz",
+    "name": "Brizz",
+    "aliases": ["BRIZZ"],
+    "address": "R. Judite Maria Tovar Varejão, 411 - Enseada do Suá",
+    "area": "Enseada do Suá",
+    "city": "Vitória",
+    "lat": -20.3172,
+    "lng": -40.2933,
+    "genreSlugs": ["pop-hits"],
+    "status": "unverified"
+  },
+  {
+    "id": "la-isla",
+    "name": "La Isla",
+    "aliases": ["LA ISLA"],
+    "address": "R. Thereza Zanoni Caser, 221 - Pontal de Camburi",
+    "area": "Pontal de Camburi",
+    "city": "Vitória",
+    "lat": -20.2879,
+    "lng": -40.2863,
+    "genreSlugs": ["eletronica-house"],
+    "status": "unverified"
+  },
+  {
+    "id": "the-point",
+    "name": "The Point",
+    "aliases": [],
+    "address": "R. Felicidade Siqueira, 80 - Industrial",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.3392,
+    "lng": -40.3198,
+    "genreSlugs": ["hip-hop-rnb"],
+    "status": "unverified"
+  },
+  {
+    "id": "cineteatro-das-artes",
+    "name": "Cineteatro das Artes",
+    "aliases": [],
+    "address": "Av. Jerônimo Monteiro, 902, 2º piso - Centro",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.3301,
+    "lng": -40.2924,
+    "genreSlugs": ["hip-hop-rnb"],
+    "status": "unverified"
   }
 ]

@@ -182,7 +182,8 @@
       "adultOnly": true,
       "genreSlugs": [
         "rock-indie",
-        "metal-punk-goth"
+        "metal-punk-goth",
+        "hip-hop-rnb"
       ],
       "accessTags": [
         "pet-friendly"
@@ -238,6 +239,115 @@
       "hours": "Qui a sáb, 21h–04h",
       "coverKey": "mare",
       "id": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
+      "placeholder": true
+    },
+    {
+      "slug": "taiko-beach-club",
+      "name": "Taikô Beach Club",
+      "area": "Praia do Canto",
+      "city": "Vitória",
+      "address": "R. Joaquim Lírio, 820 - Praia do Canto",
+      "lat": -20.2967,
+      "lng": -40.2951,
+      "status": "unverified",
+      "adultOnly": true,
+      "genreSlugs": [
+        "funk",
+        "forro-tecnobrega"
+      ],
+      "coverKey": "generic",
+      "id": "daae1292-1e21-3c17-83a7-b4724e983162",
+      "accessTags": [],
+      "placeholder": true
+    },
+    {
+      "slug": "recreio-dos-olhos",
+      "name": "Recreio dos Olhos",
+      "area": "Tabuazeiro",
+      "city": "Vitória",
+      "address": "Av. Cel. José Martins de Figueiredo, 575 - Tabuazeiro",
+      "lat": -20.2958,
+      "lng": -40.3218,
+      "status": "unverified",
+      "adultOnly": true,
+      "genreSlugs": [
+        "forro-tecnobrega"
+      ],
+      "coverKey": "generic",
+      "id": "39b26a94-506b-3a03-837a-b1b5d96bdb72",
+      "accessTags": [],
+      "placeholder": true
+    },
+    {
+      "slug": "brizz",
+      "name": "Brizz",
+      "area": "Enseada do Suá",
+      "city": "Vitória",
+      "address": "R. Judite Maria Tovar Varejão, 411 - Enseada do Suá",
+      "lat": -20.3172,
+      "lng": -40.2933,
+      "status": "unverified",
+      "adultOnly": true,
+      "genreSlugs": [
+        "pop-hits"
+      ],
+      "coverKey": "generic",
+      "id": "984f7bd0-fef0-3281-aa0f-09cb5417e734",
+      "accessTags": [],
+      "placeholder": true
+    },
+    {
+      "slug": "la-isla",
+      "name": "La Isla",
+      "area": "Pontal de Camburi",
+      "city": "Vitória",
+      "address": "R. Thereza Zanoni Caser, 221 - Pontal de Camburi",
+      "lat": -20.2879,
+      "lng": -40.2863,
+      "status": "unverified",
+      "adultOnly": true,
+      "genreSlugs": [
+        "eletronica-house"
+      ],
+      "coverKey": "generic",
+      "id": "9c5beac4-5891-349a-bec1-7b90fbd79085",
+      "accessTags": [],
+      "placeholder": true
+    },
+    {
+      "slug": "the-point",
+      "name": "The Point",
+      "area": "Vila Velha",
+      "city": "Vila Velha",
+      "address": "R. Felicidade Siqueira, 80 - Industrial",
+      "lat": -20.3392,
+      "lng": -40.3198,
+      "status": "unverified",
+      "adultOnly": false,
+      "genreSlugs": [
+        "hip-hop-rnb"
+      ],
+      "coverKey": "generic",
+      "id": "a5b9561d-5d22-3b01-a8f3-45c5b71e7602",
+      "accessTags": [],
+      "placeholder": true
+    },
+    {
+      "slug": "cineteatro-das-artes",
+      "name": "Cineteatro das Artes",
+      "area": "Vila Velha",
+      "city": "Vila Velha",
+      "address": "Av. Jerônimo Monteiro, 902, 2º piso - Centro",
+      "lat": -20.3301,
+      "lng": -40.2924,
+      "status": "unverified",
+      "adultOnly": false,
+      "genreSlugs": [
+        "hip-hop-rnb"
+      ],
+      "coverKey": "generic",
+      "id": "b1f4d53b-1059-301d-b467-7bdfb49b3261",
+      "accessTags": [],
       "placeholder": true
     }
   ],
@@ -1703,6 +1813,25 @@
       "ticketUrl": "https://example.com/ingressos/a-selva-tecnobrega-selvagem-w1"
     },
     {
+      "id": "6a553c7c-9a77-37f7-a0c8-711e29527551",
+      "title": "Forró do Canto",
+      "venueId": "daae1292-1e21-3c17-83a7-b4724e983162",
+      "startsAt": "2026-11-06T23:00:00.000Z",
+      "endsAt": "2026-11-07T06:30:00.000Z",
+      "priceMin": null,
+      "priceMax": null,
+      "isFree": false,
+      "ticketUrl": "https://www.sympla.com.br/evento/forro-do-canto/3639480",
+      "ageMin": 18,
+      "genreSlugs": [
+        "forro-tecnobrega"
+      ],
+      "artistIds": [],
+      "status": "published",
+      "coverKey": "art:palmas:menta-amora:c",
+      "popularity": 62
+    },
+    {
       "id": "affc57b6-a11c-3791-9732-d86ee5de69ee",
       "title": "New Wave Night",
       "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
@@ -1941,6 +2070,25 @@
       "ticketUrl": "https://example.com/ingressos/fluente-sofrencia-na-penha-w3"
     },
     {
+      "id": "e06b16e9-5f61-342a-a5d4-35aa0ce1c79a",
+      "title": "Forrozada Boa",
+      "venueId": "39b26a94-506b-3a03-837a-b1b5d96bdb72",
+      "startsAt": "2026-11-14T01:00:00.000Z",
+      "endsAt": "2026-11-14T07:00:00.000Z",
+      "priceMin": null,
+      "priceMax": null,
+      "isFree": false,
+      "ticketUrl": "https://www.sympla.com.br/evento/forrozada-boa-pipoca-show-seu-branco-discoteca-forro-veneno/3614801",
+      "ageMin": 18,
+      "genreSlugs": [
+        "forro-tecnobrega"
+      ],
+      "artistIds": [],
+      "status": "published",
+      "coverKey": "art:arcos:turquesa-coral:d",
+      "popularity": 64
+    },
+    {
       "id": "f7c684b0-d462-3053-a7b1-5b4d22d63661",
       "title": "Festa Rascunho",
       "venueId": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
@@ -2051,6 +2199,25 @@
       "ticketUrl": "https://example.com/ingressos/a-selva-selva-indie-w3"
     },
     {
+      "id": "4f94d044-c31a-3c1d-854a-95350dd48b2c",
+      "title": "Flashback Sunset",
+      "venueId": "984f7bd0-fef0-3281-aa0f-09cb5417e734",
+      "startsAt": "2026-11-15T20:00:00.000Z",
+      "endsAt": "2026-11-16T00:00:00.000Z",
+      "priceMin": null,
+      "priceMax": null,
+      "isFree": false,
+      "ticketUrl": "https://www.sympla.com.br/evento/flashback-sunset/3569075",
+      "ageMin": 18,
+      "genreSlugs": [
+        "pop-hits"
+      ],
+      "artistIds": [],
+      "status": "published",
+      "coverKey": "art:neon:turquesa-coral:b",
+      "popularity": 58
+    },
+    {
       "id": "a44cdcb6-32c3-354f-8b4c-aa4399d4848f",
       "title": "Karaokê de Quarta",
       "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
@@ -2090,6 +2257,82 @@
       "coverKey": "art:ondas:coral-marinho:c",
       "popularity": 72,
       "ticketUrl": "https://example.com/ingressos/a-selva-noite-do-pagodao-w3"
+    },
+    {
+      "id": "315fdbdb-6fe8-3dcc-af77-c08aa841345f",
+      "title": "Slipmami em Vila Velha",
+      "venueId": "58a224b8-1eeb-343a-8bf0-2e015cfa81ab",
+      "startsAt": "2026-11-21T00:00:00.000Z",
+      "endsAt": "2026-11-21T05:00:00.000Z",
+      "priceMin": null,
+      "priceMax": null,
+      "isFree": false,
+      "ticketUrl": "https://www.sympla.com.br/evento/slipmami-em-vila-velha-es/3565753",
+      "ageMin": 18,
+      "genreSlugs": [
+        "hip-hop-rnb"
+      ],
+      "artistIds": [],
+      "status": "published",
+      "coverKey": "art:lua:rosa-oceano:c",
+      "popularity": 72
+    },
+    {
+      "id": "25a15acb-17f1-3b78-ae57-7dd14ca1e7bf",
+      "title": "Sunset by DJ Ale Alves & convidados",
+      "venueId": "9c5beac4-5891-349a-bec1-7b90fbd79085",
+      "startsAt": "2026-11-21T19:00:00.000Z",
+      "endsAt": "2026-11-22T01:00:00.000Z",
+      "priceMin": null,
+      "priceMax": null,
+      "isFree": false,
+      "ticketUrl": "https://www.sympla.com.br/evento/sunset-by-dj-ale-alves-convidados/3625056",
+      "ageMin": 18,
+      "genreSlugs": [
+        "eletronica-house"
+      ],
+      "artistIds": [],
+      "status": "published",
+      "coverKey": "art:equalizador:esmeralda-pessego:d",
+      "popularity": 50
+    },
+    {
+      "id": "eb4c94f9-3d0b-3fa8-970d-50a0d14928be",
+      "title": "Alex Emissário: Em tempos de guerras, a rima prevalece",
+      "venueId": "b1f4d53b-1059-301d-b467-7bdfb49b3261",
+      "startsAt": "2026-11-21T23:00:00.000Z",
+      "endsAt": "2026-11-22T01:30:00.000Z",
+      "priceMin": null,
+      "priceMax": null,
+      "isFree": false,
+      "ticketUrl": "https://www.sympla.com.br/evento/alex-emissario-apresenta-em-tempos-de-guerras-a-rima-prevalece/3609093",
+      "ageMin": 18,
+      "genreSlugs": [
+        "hip-hop-rnb"
+      ],
+      "artistIds": [],
+      "status": "published",
+      "coverKey": "art:skyline:coral-marinho:a",
+      "popularity": 55
+    },
+    {
+      "id": "cb4e7cd6-e5fd-3a1a-b753-ad42323ad35c",
+      "title": "Subsolo",
+      "venueId": "a5b9561d-5d22-3b01-a8f3-45c5b71e7602",
+      "startsAt": "2026-11-22T01:00:00.000Z",
+      "endsAt": "2026-11-22T07:00:00.000Z",
+      "priceMin": null,
+      "priceMax": null,
+      "isFree": false,
+      "ticketUrl": "https://www.sympla.com.br/evento/subsolo-the-point/3606059",
+      "ageMin": 16,
+      "genreSlugs": [
+        "hip-hop-rnb"
+      ],
+      "artistIds": [],
+      "status": "published",
+      "coverKey": "art:drink:sol-vinho:d",
+      "popularity": 66
     }
   ]
 }

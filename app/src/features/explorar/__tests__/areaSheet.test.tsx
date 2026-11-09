@@ -82,7 +82,7 @@ const fix = (label: string, accuracyM: number, lat = -20.31, lng = -40.3) =>
 const ADDRESS = { cep: '29055000', street: 'R. Joaquim Lírio', number: '823', district: 'Praia do Canto', city: 'Vitória', uf: 'ES', lat: -20.3, lng: -40.29 };
 
 describe('AreaSheet origins', () => {
-  it('shows both origins as radios; without an address "Perto de casa" is disabled with a register shortcut', async () => {
+  it('shows both origins as radios; without an address "Perto de casa" is disabled and there is no address shortcut', async () => {
     fix('Jardim da Penha', 30);
     await renderWithData(<AreaSheet visible onClose={onClose} />);
     expect(screen.getByText('CONTAR A DISTÂNCIA A PARTIR DE')).toBeTruthy();
@@ -92,9 +92,7 @@ describe('AreaSheet origins', () => {
     const home = screen.getByRole('radio', { name: /Perto de casa, Nenhum endereço cadastrado/ });
     expect(home).not.toBeChecked();
     expect(home).toBeDisabled();
-    await fireEvent.press(screen.getByRole('button', { name: 'Cadastrar endereço' }));
-    expect(onClose).toHaveBeenCalled();
-    expect(mockPush).toHaveBeenCalledWith('/dados-cadastrais');
+    expect(screen.queryByRole('button', { name: 'Cadastrar endereço' })).toBeNull();
   });
 
   it('"Perto de casa" sets the registered origin, clears the area filter and closes', async () => {

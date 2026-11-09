@@ -1,2 +1,9 @@
 # One public event page (https) per line. Add with: npm run add -- <url>
 # Lines starting with # are ignored. Each page is fetched politely (robots.txt, 1 req / 2 s / host) and reviewed before publishing.
+# Sympla, Espírito Santo, novembro 2026 (venues added to data/venues.json on 2026-11-09)
+https://www.sympla.com.br/evento/forrozada-boa-pipoca-show-seu-branco-discoteca-forro-veneno/3614801
+https://www.sympla.com.br/evento/flashback-sunset/3569075
+https://www.sympla.com.br/evento/slipmami-em-vila-velha-es/3565753
+https://www.sympla.com.br/evento/sunset-by-dj-ale-alves-convidados/3625056
+https://www.sympla.com.br/evento/alex-emissario-apresenta-em-tempos-de-guerras-a-rima-prevalece/3609093
+https://www.sympla.com.br/evento/subsolo-the-point/3606059

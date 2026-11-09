@@ -142,8 +142,14 @@ export function useThreads(q: ThreadQuery): ThreadFeed {
       hasNextPage: visible < localAll.length,
       isFetchingNextPage: false,
       isFetchNextPageError: false,
-      fetchNextPage: () => setPaging({ key: keyText, visible: visible + COMMUNITY_PAGE_SIZE }),
-      refresh: async () => setPaging({ key: keyText, visible: COMMUNITY_PAGE_SIZE }),
+      // FlashList calls onEndReached on every layout while the list is shorter than the screen. Paging past the end
+      // (or re-setting the same page) must be a no-op, or each call re-renders and asks again: an update loop.
+      fetchNextPage: () => {
+        if (visible >= localAll.length) return;
+        setPaging((p) => ({ key: keyText, visible: (p.key === keyText ? p.visible : COMMUNITY_PAGE_SIZE) + COMMUNITY_PAGE_SIZE }));
+      },
+      refresh: async () =>
+        setPaging((p) => (p.key === keyText && p.visible === COMMUNITY_PAGE_SIZE ? p : { key: keyText, visible: COMMUNITY_PAGE_SIZE })),
     };
   }
 
