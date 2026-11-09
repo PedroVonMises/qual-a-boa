@@ -8,9 +8,10 @@ import { countActiveFilters, defaultFilters } from '@/domain/filters';
 import { OUTSIDE_PILOT_MESSAGE } from '@/lib/location/pilot';
 import { useFilters } from '@/state/filters';
 import { useLocation } from '@/state/location';
+import { addressLabel, useProfile } from '@/state/profile';
 import { radius, space } from '@/theme/tokens';
 import { useTheme } from '@/theme/ThemeProvider';
-import { Chip, Icon, IconButton, PressableScale, SearchBar, Swap, Text, useBreakpoint } from '@/ui';
+import { Chip, Icon, IconButton, type IconName, PressableScale, SearchBar, Swap, Text, useBreakpoint } from '@/ui';
 import { useHydrated } from '@/ui/useHydrated';
 import { minuteNow } from './clock';
 
@@ -124,6 +125,26 @@ function DatePill({ onPress }: { onPress: () => void }) {
   );
 }
 
+/**
+ * Location chip text + icon from the active origin: "Agora · Jardim da Penha" (compass) for the live fix,
+ * "Casa" (pin) for the registered address, the neighbourhood name for a hand-picked one, else the default label.
+ */
+export function useOriginChip(): { label: string; icon: IconName } {
+  const location = useLocation((s) => s.location);
+  const activeOrigin = useLocation((s) => s.activeOrigin);
+  const outsidePilot = useLocation((s) => s.outsidePilot);
+  const accuracyM = useLocation((s) => s.accuracyM);
+  const address = useProfile((s) => s.address);
+  if (activeOrigin === 'live') {
+    return { label: `Agora · ${location.label}${accuracyM > 1000 ? ' (aproximada)' : ''}`, icon: 'compass' };
+  }
+  if (activeOrigin === 'registered') {
+    const isHome = !!address && addressLabel(address) === location.label;
+    return { label: isHome ? 'Casa' : location.label, icon: 'pin' };
+  }
+  return { label: outsidePilot ? OUTSIDE_PILOT_MESSAGE : location.label, icon: 'pin' };
+}
+
 export function Header({
   onPickArea,
   onPickDate,
@@ -134,15 +155,7 @@ export function Header({
   /** Search key on the keyboard: opens the full search (events, venues, artists). */
   onSubmitSearch?: (text: string) => void;
 }) {
-  const location = useLocation((s) => s.location);
-  const outsidePilot = useLocation((s) => s.outsidePilot);
-  const accuracyM = useLocation((s) => s.accuracyM);
-  const source = useLocation((s) => s.source);
-  const chipLabel = outsidePilot
-    ? OUTSIDE_PILOT_MESSAGE
-    : source === 'device' && accuracyM > 1000
-      ? `${location.label} (aproximada)`
-      : location.label;
+  const { label: chipLabel, icon: chipIcon } = useOriginChip();
   const radiusKm = useFilters((s) => s.filters.radiusKm);
   const [text, setText] = useSearchText();
   const { gutter } = useBreakpoint();
@@ -156,7 +169,7 @@ export function Header({
         onPress={onPickArea}
         style={[styles.location, { backgroundColor: colors.surfaceAlt }]}
         testID="location-chip">
-        <Icon name="pin" size={18} color="accent" />
+        <Icon name={chipIcon} size={18} color="accent" />
         <Text variant="bodySm" numberOfLines={1} style={styles.locText}>
           {chipLabel}
         </Text>

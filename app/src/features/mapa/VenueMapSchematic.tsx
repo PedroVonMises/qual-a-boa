@@ -6,12 +6,24 @@ import { useTheme } from '@/theme/ThemeProvider';
 import { hit, radius, space } from '@/theme/tokens';
 import type { VenueMapProps } from './mapTypes';
 import { pinLabel } from './pins';
-import { NEIGHBORHOODS, project } from './projection';
+import { BOUNDS, NEIGHBORHOODS, project } from './projection';
+import { circleRing } from './radiusCircle';
 
 const PIN_W = 160;
 
+/** SVG path (0..100 viewBox, unclamped so a big radius runs off the edges) of the radius circle. */
+export function schematicCirclePath(center: { lat: number; lng: number }, radiusKm: number): string {
+  const sx = (lng: number) => ((lng - BOUNDS.minLng) / (BOUNDS.maxLng - BOUNDS.minLng)) * 100;
+  const sy = (lat: number) => ((BOUNDS.maxLat - lat) / (BOUNDS.maxLat - BOUNDS.minLat)) * 100;
+  return (
+    circleRing(center, radiusKm)
+      .map(([lng, lat], i) => `${i === 0 ? 'M' : 'L'}${sx(lng).toFixed(2)} ${sy(lat).toFixed(2)}`)
+      .join(' ') + 'z'
+  );
+}
+
 /** Schematic SVG map: fallback when the real map cannot load (offline, style error, no native module). */
-export function VenueMapSchematic({ pins, selectedId, onSelect, userLocation }: VenueMapProps) {
+export function VenueMapSchematic({ pins, selectedId, onSelect, userLocation, center, radiusKm }: VenueMapProps) {
   const { colors } = useTheme();
   const at = (lat: number, lng: number) => {
     const p = project(lat, lng);
@@ -23,6 +35,16 @@ export function VenueMapSchematic({ pins, selectedId, onSelect, userLocation }: 
         <Rect width="100" height="100" fill={colors.surfaceAlt} />
         <Path d="M8 30 Q20 8 50 12 T85 28 Q95 50 80 66 Q60 82 38 76 Q12 70 8 30z" fill={colors.surface} />
         <Path d="M10 40 L85 36 M30 18 L42 76 M12 60 L80 54 M62 16 L70 72" stroke={colors.border} strokeWidth={1.2} fill="none" />
+        {radiusKm ? (
+          <Path
+            testID="radius-circle"
+            d={schematicCirclePath(center, radiusKm)}
+            stroke={colors.accent}
+            strokeWidth={1}
+            vectorEffect="non-scaling-stroke"
+            fill="none"
+          />
+        ) : null}
       </Svg>
       {NEIGHBORHOODS.map((n) => (
         <View key={n.name} pointerEvents="none" style={[styles.hood, at(n.lat, n.lng)]}>

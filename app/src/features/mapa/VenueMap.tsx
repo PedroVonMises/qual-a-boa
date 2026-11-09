@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import type * as MapLibre from '@maplibre/maplibre-react-native';
 
@@ -8,6 +8,7 @@ import { ATTRIBUTION, DEFAULT_ZOOM, MAX_ZOOM, MIN_ZOOM, PILOT_BOUNDS } from './m
 import { MAP_STYLE } from './mapStyle';
 import type { VenueMapProps } from './mapTypes';
 import { pinLabel, type VenuePin } from './pins';
+import { circleBounds, circleFeature } from './radiusCircle';
 import { VenueMapSchematic } from './VenueMapSchematic';
 
 type MapLibreModule = typeof MapLibre;
@@ -15,7 +16,13 @@ type MapLibreModule = typeof MapLibre;
 const FALLBACK_NOTE = 'Mapa simplificado (sem conexão com os mapas)';
 /** If the style has not reported loaded by then, show the schematic map instead of a blank view. */
 const STYLE_TIMEOUT_MS = 15000;
-const FIT_PADDING = { top: 96, right: 48, bottom: 200, left: 48 };
+/** The locate button floats this far above the sheet's top edge. */
+export const LOCATE_GAP = 12;
+/** Camera padding around fitted content; the bottom grows with the sheet. */
+export const fitPadding = (bottomInset: number) => ({ top: 96, right: 48, bottom: bottomInset + 48, left: 48 });
+/** Radius circle: accent fill at 8% and a 1px accent outline. */
+const RADIUS_FILL = { 'fill-color': palette.riotPink, 'fill-opacity': 0.08 } as const;
+const RADIUS_LINE = { 'line-color': palette.riotPink, 'line-width': 1 } as const;
 
 /** The native module is missing in jest, Expo Go and web: resolve it lazily and never throw. */
 function loadMapLibre(): MapLibreModule | null {
@@ -60,8 +67,12 @@ function NativeVenueMap({
   userLocation,
   onLocate,
   fitKey,
+  radiusKm,
+  bottomInset = 0,
 }: VenueMapProps & { lib: MapLibreModule; onFail: () => void }) {
-  const { Map, Camera, Marker } = lib;
+  const { Map, Camera, Marker, GeoJSONSource, Layer } = lib;
+  // Older builds or partial mocks may lack sources/layers: then the circle is simply not drawn.
+  const canDrawCircle = !!(lib as Partial<MapLibreModule>).GeoJSONSource && !!(lib as Partial<MapLibreModule>).Layer;
   const cameraRef = useRef<MapLibre.CameraRef>(null);
   const pinsRef = useRef(pins);
   useEffect(() => {
@@ -77,19 +88,32 @@ function NativeVenueMap({
     return () => clearTimeout(t);
   }, [onFail]);
 
-  // Animate to `center` when it changes (the initial view already starts there).
+  const bottomRef = useRef(bottomInset);
   useEffect(() => {
+    bottomRef.current = bottomInset;
+  });
+
+  // With a radius: frame the circle whenever the radius, the center or the sheet height changes.
+  useEffect(() => {
+    if (!radiusKm) return;
+    cameraRef.current?.fitBounds(circleBounds(center, radiusKm), { padding: fitPadding(bottomInset), duration: 500 });
+  }, [radiusKm, center.lat, center.lng, bottomInset]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Animate to `center` when it changes (the initial view already starts there). The radius fit covers it otherwise.
+  useEffect(() => {
+    if (radiusKm) return;
     if (firstCenter.current) {
       firstCenter.current = false;
       return;
     }
     cameraRef.current?.easeTo({ center: [center.lng, center.lat], duration: 500 });
-  }, [center.lat, center.lng]);
+  }, [center.lat, center.lng]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Fit all pins when the set changes in a way that should refit. Declared after the center effect so it wins.
   useEffect(() => {
     const list = pinsRef.current;
-    if (list.length === 0) return;
+    // The search only returns venues inside the radius, so the circle fit already frames them.
+    if (radiusKm || list.length === 0) return;
     if (list.length === 1) {
       cameraRef.current?.easeTo({ center: [list[0].venue.lng, list[0].venue.lat], zoom: 15, duration: 500 });
       return;
@@ -97,10 +121,12 @@ function NativeVenueMap({
     const lngs = list.map((p) => p.venue.lng);
     const lats = list.map((p) => p.venue.lat);
     cameraRef.current?.fitBounds([Math.min(...lngs), Math.min(...lats), Math.max(...lngs), Math.max(...lats)], {
-      padding: FIT_PADDING,
+      padding: fitPadding(bottomRef.current),
       duration: 500,
     });
-  }, [fitKey]);
+  }, [fitKey]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const circle = useMemo(() => (radiusKm ? circleFeature(center, radiusKm) : null), [radiusKm, center.lat, center.lng]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <View style={styles.fill}>
@@ -124,6 +150,12 @@ function NativeVenueMap({
           maxZoom={MAX_ZOOM}
           maxBounds={PILOT_BOUNDS}
         />
+        {circle && canDrawCircle ? (
+          <GeoJSONSource id="radius" data={circle}>
+            <Layer id="radius-fill" type="fill" paint={RADIUS_FILL} />
+            <Layer id="radius-line" type="line" paint={RADIUS_LINE} />
+          </GeoJSONSource>
+        ) : null}
         {userLocation ? (
           <Marker id="user-location" lngLat={[userLocation.lng, userLocation.lat]}>
             <View accessibilityLabel="Você está aqui" style={styles.user} />
@@ -143,7 +175,7 @@ function NativeVenueMap({
           );
         })}
       </Map>
-      <View pointerEvents="none" style={styles.attribution}>
+      <View pointerEvents="none" style={[styles.attribution, { bottom: bottomInset + space.sm }]}>
         <Text variant="caption" tone={palette.dusk}>
           {ATTRIBUTION}
         </Text>
@@ -153,7 +185,7 @@ function NativeVenueMap({
           accessibilityRole="button"
           accessibilityLabel="Minha localização"
           onPress={onLocate}
-          style={styles.locate}>
+          style={[styles.locate, { bottom: bottomInset + LOCATE_GAP }]}>
           <Icon name="compass" size={24} color={palette.bone} />
         </Pressable>
       ) : null}
@@ -229,7 +261,6 @@ const styles = StyleSheet.create({
   locate: {
     position: 'absolute',
     right: space.md,
-    top: space.md,
     width: hit.min,
     height: hit.min,
     borderRadius: radius.full,

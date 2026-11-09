@@ -40,6 +40,7 @@ jest.mock('react-native-reanimated', () => {
     withDelay: (_d: number, a: unknown) => a,
     withSequence: (...a: unknown[]) => a[a.length - 1],
     Easing: { out: id, in: id, inOut: id, cubic: id, quad: id },
+    ReduceMotion: { System: 'system', Always: 'always', Never: 'never' },
   };
 });
 

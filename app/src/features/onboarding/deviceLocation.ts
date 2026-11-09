@@ -17,7 +17,7 @@ export async function requestDeviceLocation(): Promise<DeviceLocationResult> {
 }
 
 export const LOCATION_RATIONALE =
-  'Vamos pedir a permissão de localização do seu aparelho. Usamos só para ordenar as casas por distância. Ela fica no aparelho e não é enviada a nenhum servidor.';
+  'Vamos pedir a permissão de localização do seu aparelho. Usamos só para ordenar as casas por distância. Sua localização em tempo real fica só neste aparelho.';
 
 export const LOCATION_MESSAGES: Record<Exclude<DeviceLocationResult, 'granted'>, string> = {
   denied: 'Sem permissão de localização. Tudo bem: escolha o seu bairro para continuar.',
