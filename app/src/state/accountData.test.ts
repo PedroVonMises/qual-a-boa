@@ -2,6 +2,8 @@ import { buildExport, exportFileName, wipeLocalData } from './accountData';
 import { useCheckins } from './checkins';
 import { useFavorites } from './favorites';
 import { useFollows } from './follows';
+import { useLocation } from './location';
+import { useProfile } from './profile';
 import { useReviews } from './reviews';
 import { useSession } from './session';
 import { useSupport } from './support';
@@ -63,6 +65,15 @@ describe('buildExport', () => {
     expect(out.reviews).toEqual([]);
   });
 
+  it('includes the registered phone and address', () => {
+    useProfile.getState().clear();
+    expect(buildExport({ email: null, displayName: null }, NOW).profile).toEqual({ phone: null, address: null });
+    const address = { cep: '29060000', street: 'Rua A', number: '1', district: 'Centro', city: 'Vitória', uf: 'ES', lat: -20.3, lng: -40.3 };
+    useProfile.getState().setPhone('27 99999-0000');
+    useProfile.getState().setAddress(address);
+    expect(buildExport({ email: null, displayName: null }, NOW).profile).toEqual({ phone: '27 99999-0000', address });
+  });
+
   it('names the file by date', () => {
     expect(exportFileName(NOW)).toBe('qual-a-boa-meus-dados-2026-10-28.json');
   });
@@ -81,5 +92,14 @@ describe('wipeLocalData', () => {
     expect(useTaste.getState().genres).toEqual({});
     expect(useTaste.getState().views).toEqual([]);
     expect(useSession.getState().ageConfirmed).toBeFalsy();
+  });
+
+  it('clears the profile (phone/address) and both locations', () => {
+    useProfile.getState().setPhone('27 3333-0000');
+    useProfile.getState().setAddress({ cep: '29060000', street: 'Rua A', number: '1', district: 'Centro', city: 'Vitória', uf: 'ES', lat: -20.3, lng: -40.3 });
+    useLocation.getState().setDeviceFix({ point: { lat: -20.31, lng: -40.3, label: 'X' }, accuracyM: 10, at: NOW.toISOString() });
+    wipeLocalData();
+    expect(useProfile.getState()).toMatchObject({ phone: undefined, address: undefined });
+    expect(useLocation.getState()).toMatchObject({ live: null, registered: null, activeOrigin: 'default' });
   });
 });

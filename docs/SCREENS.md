@@ -25,18 +25,18 @@ Primeira abertura. O `SessionGuard` só libera o app depois da idade e da locali
 
 ## 2. Descobrir
 
-Aba Explorar e tudo que abre a partir dela.
+Aba Início e tudo que abre a partir dela.
 
 | # | Screen | Route | What it does |
 |---|---|---|---|
-| 5 | Explorar | `/` | Local + data, busca, chips de gênero, prateleiras Para você, Hoje à noite, Fim de semana, Até R$ 40, Perto de você. |
+| 5 | Início | `/` | Local + data, busca, chips de gênero, prateleiras Para você, Hoje à noite, Fim de semana, Até R$ 40, Perto de você. |
 | 6 | Quando | `/ (sheet)` | Atalhos (Hoje, Amanhã, Fim de semana…) e calendário. |
 | 7 | Onde você quer sair? | `/ (sheet)` | Perto de mim ou bairro. |
 | 8 | Filtros | `/filtros` | Gênero, vibe e acesso, região, preço, distância, data, artista; rodapé "Limpar" + "Ver N eventos". |
 | 9 | Busca | `/busca` | Resultados agrupados Casas / Eventos / Artistas com contagem. |
 | 10 | Mapa | `/(tabs)/mapa` | Pins das casas e lista "Nesta área" (aqui no modo simplificado, sem tiles). |
 
-<img src="screens/05-explorar.jpg" width="200" alt="Explorar"> <img src="screens/06-quando.jpg" width="200" alt="Quando"> <img src="screens/07-area.jpg" width="200" alt="Onde você quer sair?"> <img src="screens/08-filtros.jpg" width="200" alt="Filtros"> <img src="screens/09-busca.jpg" width="200" alt="Busca"> <img src="screens/15-mapa.jpg" width="200" alt="Mapa">
+<img src="screens/05-explorar.jpg" width="200" alt="Início"> <img src="screens/06-quando.jpg" width="200" alt="Quando"> <img src="screens/07-area.jpg" width="200" alt="Onde você quer sair?"> <img src="screens/08-filtros.jpg" width="200" alt="Filtros"> <img src="screens/09-busca.jpg" width="200" alt="Busca"> <img src="screens/15-mapa.jpg" width="200" alt="Mapa">
 
 ## 3. Evento
 
@@ -115,6 +115,6 @@ Do FAQ ao chamado.
 
 ## Desktop (>= 1024)
 
-The tab bar becomes a 240px left rail; Explorar opens with an asymmetric lead grid; Mapa is a list/map split.
+The tab bar becomes a 240px left rail; Início opens with an asymmetric lead grid; Mapa is a list/map split.
 
-<img src="screens/34-desktop-explorar.jpg" width="640" alt="Explorar desktop"> <img src="screens/35-desktop-mapa.jpg" width="640" alt="Mapa desktop">
+<img src="screens/34-desktop-explorar.jpg" width="640" alt="Início desktop"> <img src="screens/35-desktop-mapa.jpg" width="640" alt="Mapa desktop">

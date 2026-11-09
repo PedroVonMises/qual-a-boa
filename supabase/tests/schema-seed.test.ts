@@ -22,7 +22,7 @@ describe('migrations', () => {
        where n.nspname = 'public' and c.relkind = 'r' order by 1`);
     assert.deepEqual(r.rows.map((x) => x.relname), [
       'artists', 'checkins', 'comment_votes', 'comments', 'community_reports', 'event_artists', 'event_follows',
-      'event_genres', 'event_reports', 'events', 'favorites', 'genres', 'profiles', 'review_photos',
+      'event_genres', 'event_reports', 'events', 'favorites', 'genres', 'profile_addresses', 'profiles', 'review_photos',
       'review_reports', 'review_votes', 'reviews', 'support_attachments', 'support_messages', 'support_tickets',
       'threads', 'venue_aliases', 'venues',
     ]);

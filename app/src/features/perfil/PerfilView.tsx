@@ -5,7 +5,6 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useDisplayName } from '@/data/account';
 import { authAvailable, signOut, useAccountEmail } from '@/data/auth';
-import { RADIUS_OPTIONS } from '@/domain/filters';
 import { env } from '@/lib/env';
 import { clearDemoData, loadDemoData, resetApp, useDemoLoaded } from '@/state/demo';
 import { OUTSIDE_PILOT_MESSAGE, openSettings, refreshDeviceLocation } from '@/lib/location';
@@ -16,7 +15,8 @@ import { useLocation } from '@/state/location';
 import { useSession } from '@/state/session';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
-import { Button, Icon, IconButton, ListRow, Screen, Switch, Text } from '@/ui';
+import { Button, Icon, ListRow, Screen, Switch, Text } from '@/ui';
+import { RadiusSlider } from '../filtros';
 import { NARROW_MAX_WIDTH } from '../layout';
 import { AreaSheet } from '../explorar/AreaSheet';
 import { FeedStatusRow } from './FeedStatusRow';
@@ -61,8 +61,6 @@ export function PerfilView() {
               ? 'Permissão negada. Usando o ponto padrão'
               : `Ponto padrão: ${loc.location.label}`;
 
-  const idx = RADIUS_OPTIONS.indexOf(radiusKm);
-  const step = (d: number) => setFilters({ radiusKm: RADIUS_OPTIONS[Math.min(RADIUS_OPTIONS.length - 1, Math.max(0, idx + d))] });
   const version = Constants.expoConfig?.version ?? '0.0.0';
 
   return (
@@ -111,14 +109,8 @@ export function PerfilView() {
           onPress={() => setGenresOpen(true)}
         />
         <View style={[styles.stepper, { borderBottomColor: colors.border }]}>
-          <Text variant="body" style={styles.flex}>
-            Raio padrão
-          </Text>
-          <IconButton icon="chevronLeft" label="Diminuir raio" variant="filled" disabled={idx <= 0} onPress={() => step(-1)} />
-          <Text variant="mono" accessibilityLabel={`Raio ${radiusKm} quilômetros`} testID="radius-value" style={styles.radius}>
-            {radiusKm} km
-          </Text>
-          <IconButton icon="chevronRight" label="Aumentar raio" variant="filled" disabled={idx >= RADIUS_OPTIONS.length - 1} onPress={() => step(1)} />
+          <Text variant="body">Raio padrão</Text>
+          <RadiusSlider value={radiusKm} onChange={(r) => setFilters({ radiusKm: r })} />
         </View>
         <Switch label="Avisos de eventos salvos" value={alerts} onValueChange={setAlerts} style={styles.switchRow} />
 
@@ -221,7 +213,6 @@ const styles = StyleSheet.create({
   who: { flexDirection: 'row', alignItems: 'center', gap: space.lg },
   avatar: { width: 64, height: 64, borderRadius: radius.full, alignItems: 'center', justifyContent: 'center' },
   section: { marginTop: space.lg },
-  stepper: { minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: space.sm, borderBottomWidth: 1 },
-  radius: { minWidth: 56, textAlign: 'center' },
+  stepper: { gap: space.sm, paddingBottom: space.md, borderBottomWidth: 1 },
   switchRow: { minHeight: 56 },
-});
+});

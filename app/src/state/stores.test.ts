@@ -32,7 +32,7 @@ describe('stores', () => {
 
   it('location defaults and custom', () => {
     expect(useLocation.getState().location).toEqual(DEFAULT_LOCATION);
-    useLocation.getState().setLocation({ lat: 1, lng: 2, label: 'x' });
+    useLocation.getState().setLocation({ lat: -20.3, lng: -40.3, label: 'x' });
     expect(useLocation.getState().isCustom).toBe(true);
     useLocation.getState().resetLocation();
     expect(useLocation.getState().isCustom).toBe(false);

@@ -30,6 +30,7 @@ export { SegmentedControl, type SegmentedControlProps, type SegmentOption } from
 export { Sheet, type SheetProps } from './Sheet';
 export { Shelf, type ShelfProps } from './Shelf';
 export { EventCardSkeleton, Skeleton, ThreadCardSkeleton, type SkeletonProps } from './Skeleton';
+export { snapIndex, StepSlider, type StepSliderProps } from './StepSlider';
 export { Switch, type SwitchProps } from './Switch';
 
 export { TAB_BAR_HEIGHT, TabBar, type TabBarProps } from './TabBar';

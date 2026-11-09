@@ -61,13 +61,13 @@ All states are visible in the dev gallery at `/dev/ui` (`Gallery.tsx`, dev build
 - **Switch:** 52×32 track, 24 thumb, Pink when on, label always present.
 - **Rating / ScoreBar:** star rating (Amber stars, 44+ targets), horizontal score bars per topic with the value in mono.
 - **Sheet:** bottom sheet with radius 28 top corners (native via @gorhom/bottom-sheet, web via SheetWeb); right drawer 420 wide on web >= 1024. SheetHeader with title and close.
-- **TabBar:** Explorar, Mapa, Comunidade, Salvos, Perfil. Bottom bar 64 + safe area; active = Pink icon + label + 3px top indicator. At >= 1024 it becomes a 240px left rail with the logo on top. Comunidade is about the user's **state**: a one-line explainer under the title and a state pill (pin + name + chevron, same shape as the Explorar pills) that opens "Seu estado", a sheet of all 27 states where only the pilot states (Espírito Santo) are selectable and the rest read "Em breve".
+- **TabBar:** Início, Mapa, Comunidade, Salvos, Perfil. Bottom bar 64 + safe area; active = Pink icon + label + 3px top indicator. Início's icon is a disco ball on its wire; when the tab becomes focused (not on first mount) it swings once from the top of the wire, -8° → +4° → rest, on the token spring (transform only, none under Reduce Motion). At >= 1024 it becomes a 240px left rail with the logo on top. Comunidade is about the user's **state**: a one-line explainer under the title and a state pill (pin + name + chevron, same shape as the Explorar pills) that opens "Seu estado", a sheet of all 27 states where only the pilot states (Espírito Santo) are selectable and the rest read "Em breve".
 - **ScreenHeader:** back IconButton, centered title, optional right action.
 - **Skeleton:** shimmer blocks at exact card size; no spinners.
 - **EmptyState / ErrorState:** unlit bulb illustration, a specific headline and one next action ("Explorar eventos", "Aumente o raio para 10 km"); errors inline with retry.
 - **Cover / Scrim:** illustrated cover art (see §2) and the neutral legibility scrim.
 - **Logo / AnimatedLogo / Wordmark:** see §8.
-- **Icon:** the app's own outline SVG set (`Icon.tsx`), 24px, stroke 1.75: search, pin, heart, bookmark, compass, map, user, chevrons, close, check, filter, share, send, paperclip, star, headset, clock, plus. No emoji as icons.
+- **Icon:** the app's own outline SVG set (`Icon.tsx`), 24px, stroke 1.75: search, pin, heart, bookmark, compass (Mapa), discoBall (the Início tab's disco ball), map, user, chevrons, close, check, filter, share, send, paperclip, star, headset, clock, plus, message, arrowUp, spark. No emoji as icons.
 - **Filtros sections:** Gênero (multi chips), Vibe & acesso (Acessível, LGBTQIA+ friendly, Pet friendly, Opção vegana; AND match; Evento and Casa show the same labels as Tags), Região, Preço (stepper + "Grátis"), Distância (1/3/5/10/25 km), Data (opens Quando), Artista (searchable). Sticky footer "Limpar" + "Ver N eventos".
 
 ## 6. Layout Principles

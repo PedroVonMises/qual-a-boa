@@ -7,7 +7,7 @@ export type IconName =
   | 'search' | 'pin' | 'heart' | 'heartFilled' | 'bookmark' | 'compass' | 'map' | 'user'
   | 'chevronLeft' | 'chevronRight' | 'chevronDown' | 'close' | 'check' | 'filter' | 'share'
   | 'send' | 'paperclip' | 'star' | 'starFilled' | 'headset' | 'clock' | 'plus'
-  | 'message' | 'arrowUp' | 'spark';
+  | 'message' | 'arrowUp' | 'spark' | 'discoBall';
 
 const HEART = 'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z';
 const STAR = 'M12 3.8l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 17.1l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z';
@@ -46,6 +46,17 @@ const ICONS: Record<IconName, Def> = {
   message: { paths: ['M5 5h14v10H9l-4 4z'] },
   arrowUp: { paths: ['M7 11l5-6 5 6M12 5v14'] },
   spark: { paths: ['M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z'], filled: true },
+  // Disco ball on its wire (Início tab): sphere with two latitude and two longitude lines, small glint top-right.
+  discoBall: {
+    circles: [[11, 14, 7]],
+    paths: [
+      'M11 2.5V7',
+      'M4.6 11.5h12.8M4.6 16.5h12.8',
+      'M11 7c-2.2 2-3.2 4.4-3.2 7s1 5 3.2 7',
+      'M11 7c2.2 2 3.2 4.4 3.2 7s-1 5-3.2 7',
+      'M19.5 3v3.5M17.75 4.75h3.5',
+    ],
+  },
 };
 
 export interface IconProps {

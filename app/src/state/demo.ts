@@ -8,6 +8,7 @@ import { useFavorites } from './favorites';
 import { useFilters } from './filters';
 import { useLive } from './live';
 import { useLocation } from './location';
+import { useProfile } from './profile';
 import { safeMerge } from './safeMerge';
 import { useReviews } from './reviews';
 import { useSearchHistory } from './searchHistory';
@@ -160,11 +161,12 @@ export function clearDemoData(): void {
   useDemoLoaded.getState().setLoaded(false);
 }
 
-/** Clears everything including session, filters and location, so the age gate and onboarding show again. */
+/** Clears everything including session, filters, profile (phone/address) and location, so the age gate and onboarding show again. */
 export function resetApp(): void {
   clearDemoData();
   useFilters.getState().reset();
   useSearchHistory.getState().clear();
+  useProfile.getState().clear();
   useLocation.getState().resetLocation();
   useSession.getState().reset();
 }

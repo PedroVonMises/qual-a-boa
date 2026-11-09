@@ -43,18 +43,20 @@ describe('Perfil', () => {
     expect(screen.queryByTestId('perfil-conta')).toBeNull();
   });
 
-  it('radius stepper updates the filters store within bounds', async () => {
+  it('"Raio padrão" slider updates the filters store within bounds', async () => {
     await renderPerfil();
+    expect(screen.getByText('Raio padrão')).toBeTruthy();
     expect(useFilters.getState().filters.radiusKm).toBe(10);
-    await fireEvent.press(screen.getByRole('button', { name: 'Aumentar raio' }));
+    expect(screen.getByTestId('radius-value')).toHaveTextContent('Até 10 km');
+    await fireEvent.press(screen.getByRole('button', { name: 'Até 25 km' }));
     expect(useFilters.getState().filters.radiusKm).toBe(25);
-    expect(screen.getByRole('button', { name: 'Aumentar raio' })).toBeDisabled();
-    await fireEvent.press(screen.getByRole('button', { name: 'Diminuir raio' }));
-    await fireEvent.press(screen.getByRole('button', { name: 'Diminuir raio' }));
-    await fireEvent.press(screen.getByRole('button', { name: 'Diminuir raio' }));
-    await fireEvent.press(screen.getByRole('button', { name: 'Diminuir raio' }));
+    const slider = screen.getByTestId('radius-stepper');
+    await fireEvent(slider, 'accessibilityAction', { nativeEvent: { actionName: 'increment' } });
+    expect(useFilters.getState().filters.radiusKm).toBe(25);
+    await fireEvent.press(screen.getByRole('button', { name: 'Até 1 km' }));
+    await fireEvent(slider, 'accessibilityAction', { nativeEvent: { actionName: 'decrement' } });
     expect(useFilters.getState().filters.radiusKm).toBe(1);
-    expect(screen.getByRole('button', { name: 'Diminuir raio' })).toBeDisabled();
+    expect(screen.getByTestId('radius-value')).toHaveTextContent('Até 1 km');
   });
 
   it('favorite styles sheet toggles genres in the store', async () => {
@@ -142,4 +144,4 @@ describe('Perfil localização', () => {
     expect(screen.getByText('Abrir configurações')).toBeTruthy();
     useLocation.getState().setPermission('undetermined');
   });
-});
+});
