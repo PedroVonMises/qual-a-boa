@@ -17,6 +17,8 @@ export const env = {
   appEnv,
   /** Demo tools (Perfil "Dados de demonstração") are hidden only in store/production builds. */
   demoTools: appEnv !== 'production',
+  /** Preview builds only (EXPO_PUBLIC_DEMO_AUTOLOAD=1): load the demo data once on first launch. Never in production. */
+  demoAutoload: appEnv !== 'production' && process.env.EXPO_PUBLIC_DEMO_AUTOLOAD === '1',
   /** Dev only: extra synthetic threads in seed mode (EXPO_PUBLIC_DEMO_THREADS=60) to exercise feed paging. Never in production. */
   demoThreads:
     appEnv === 'production'

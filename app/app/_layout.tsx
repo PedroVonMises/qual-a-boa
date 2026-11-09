@@ -13,7 +13,9 @@ import { AppProviders } from '@/shell/AppProviders';
 import { OfflineBanner } from '@/shell/OfflineBanner';
 import { SessionGuard } from '@/shell/SessionGuard';
 import { SplashOverlay } from '@/shell/SplashOverlay';
+import { useDemoAutoload } from '@/state/demo';
 import { useSession } from '@/state/session';
+import { env } from '@/lib/env';
 import { fontMap } from '@/theme/fonts';
 import { palette } from '@/theme/tokens';
 
@@ -33,6 +35,7 @@ export const unstable_settings = { initialRouteName: '(tabs)' };
 export default function RootLayout() {
   useRemoteSync();
   useLocationRefresh();
+  useDemoAutoload(env.demoAutoload);
   const [fontsLoaded, fontError] = useFonts(fontMap);
   const hydrated = useSession((s) => s.hydrated);
   const ready = (fontsLoaded || !!fontError) && hydrated;

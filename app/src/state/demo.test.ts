@@ -1,5 +1,5 @@
 import { useCheckins } from './checkins';
-import { clearDemoData, loadDemoData, resetApp, useDemoLoaded } from './demo';
+import { clearDemoData, loadDemoData, maybeAutoloadDemo, resetApp, useDemoLoaded } from './demo';
 import { useFavorites } from './favorites';
 import { useFollows } from './follows';
 import { useLive } from './live';
@@ -80,5 +80,25 @@ describe('demo data', () => {
     resetApp();
     expect(useSession.getState()).toMatchObject({ ageConfirmed: false, onboardingDone: false });
     expect(useCheckins.getState().checkins).toEqual([]);
+  });
+});
+
+describe('maybeAutoloadDemo (preview builds)', () => {
+  beforeEach(() => {
+    clearDemoData();
+    useDemoLoaded.setState({ loaded: false, autoloaded: false });
+  });
+
+  it('does nothing when disabled', () => {
+    expect(maybeAutoloadDemo(false, NOW)).toBe(false);
+    expect(useDemoLoaded.getState()).toMatchObject({ loaded: false, autoloaded: false });
+  });
+
+  it('loads the demo once, and a later clear sticks', () => {
+    expect(maybeAutoloadDemo(true, NOW)).toBe(true);
+    expect(useDemoLoaded.getState()).toMatchObject({ loaded: true, autoloaded: true });
+    clearDemoData();
+    expect(maybeAutoloadDemo(true, NOW)).toBe(false);
+    expect(useDemoLoaded.getState().loaded).toBe(false);
   });
 });
