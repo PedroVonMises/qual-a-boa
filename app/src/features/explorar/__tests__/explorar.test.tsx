@@ -46,9 +46,16 @@ describe('Explorar', () => {
 
   it('typing in the search bar writes a debounced query into the store', async () => {
     await renderWithData(<ExplorarScreen />);
-    await fireEvent.changeText(await screen.findByTestId('search-input'), 'pagode');
-    expect(useFilters.getState().filters.query).toBe('');
+    const input = await screen.findByTestId('search-input');
+    // Time the store write instead of asserting it is still empty right after typing: on a slow CI runner the
+    // awaited changeText can itself take longer than the debounce.
+    let wroteAt = 0;
+    const unsub = useFilters.subscribe((st) => { if (!wroteAt && st.filters.query === 'pagode') wroteAt = Date.now(); });
+    const typedAt = Date.now();
+    await fireEvent.changeText(input, 'pagode');
     await waitFor(() => expect(useFilters.getState().filters.query).toBe('pagode'));
+    unsub();
+    expect(wroteAt - typedAt).toBeGreaterThanOrEqual(250);
     expect(await screen.findAllByText(/Pagode da Selva/)).not.toHaveLength(0);
   });
 
