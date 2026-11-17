@@ -50,6 +50,7 @@ export function TextoScreen({ id }: { id?: string }) {
       tags: draft.tags,
       text,
       anonymous: draft.anonymous,
+      safety: draft.safety,
     });
     draft.clear();
     router.replace(`/avaliacoes/${id}?enviada=1` as Href);

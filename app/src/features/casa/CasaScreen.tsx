@@ -10,6 +10,7 @@ import { Hero } from '@/features/evento/Hero';
 import { genreLabels, longDate, monthYear } from '@/features/evento/labels';
 import { openMaps } from '@/features/evento/linking';
 import { useRecordView } from '@/state/useRecordView';
+import { SafetySection } from './SafetySection';
 import { useFavorites } from '@/state/favorites';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
@@ -99,6 +100,7 @@ export function CasaScreen({ slug }: { slug?: string }) {
             </Text>
           </View>
         ) : null}
+        {closed ? null : <SafetySection venue={venue} />}
         {pastArtists.length ? (
           <View style={styles.section}>
             <Text variant="title" accessibilityRole="header">

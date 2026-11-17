@@ -3,6 +3,7 @@
 
 import { monthTitle } from './calendar';
 import { dayString, nightDayNumber } from './filters';
+import type { SafetyProtocol } from './safetyProtocol';
 import type { EventStatus } from './types';
 
 export const PLAN = { code: 'casa_mensal', name: 'Plano Casas Noturnas', priceCents: 29900, eventsPerMonth: 4 } as const;
@@ -193,6 +194,29 @@ export function formatCnpj(raw: string): string {
     .replace(/(\d{4})(\d)/, '$1-$2');
 }
 
+// --- Selo Protocolo Não é Não (S1, migration 0019) ---------------------------------------------------------------------
+
+/** The casa's own view of its declaration. status null = not declared, or rejected (reviewNote says why). */
+export interface SafetyDeclaration {
+  status: SafetyProtocol | null;
+  statusAt: string | null;
+  responsibleName: string | null;
+  evidencePath: string | null;
+  declaredAt: string | null;
+  reviewedAt: string | null;
+  reviewNote: string | null;
+}
+
+export const NO_SAFETY_DECLARATION: SafetyDeclaration = {
+  status: null,
+  statusAt: null,
+  responsibleName: null,
+  evidencePath: null,
+  declaredAt: null,
+  reviewedAt: null,
+  reviewNote: null,
+};
+
 // --- Errors -----------------------------------------------------------------------------------------------------
 
 export type CasasErrorCode =
@@ -223,6 +247,9 @@ export type CasasErrorCode =
   | 'venue_owner_active'
   | 'poster_too_large'
   | 'poster_type'
+  | 'invalid_responsible'
+  | 'invalid_evidence'
+  | 'protocol_not_declared'
   | 'no_backend'
   | 'network';
 
@@ -254,6 +281,9 @@ export const CASAS_ERROR_MESSAGES: Record<CasasErrorCode, string> = {
   venue_owner_active: 'Você é dono de uma casa com assinatura ativa. Cancele a assinatura ou passe a casa para outra pessoa antes de apagar a conta.',
   poster_too_large: 'O cartaz pode ter até 5 MB.',
   poster_type: 'Envie o cartaz em JPG, PNG ou WebP.',
+  invalid_responsible: 'Informe o nome de quem responde pelo protocolo na casa.',
+  invalid_evidence: 'Não foi possível usar essa foto. Envie de novo.',
+  protocol_not_declared: 'A casa ainda não declarou o protocolo.',
   no_backend: 'O Plano Casas ainda não está disponível neste app.',
   network: 'Não foi possível concluir agora. Tente de novo em instantes.',
 };

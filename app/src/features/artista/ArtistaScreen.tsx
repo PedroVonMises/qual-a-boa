@@ -75,6 +75,7 @@ export function ArtistaScreen({ slug }: { slug?: string }) {
                 variant="row"
                 title={it.event.title}
                 venueName={it.venue.name}
+                seal={it.venue.safetyProtocol === 'verified'}
                 area={it.venue.area}
                 distanceKm={it.distanceKm}
                 dateLabel={formatEventDate(it.event.startsAt)}

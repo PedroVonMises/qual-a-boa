@@ -16,6 +16,7 @@ import {
   type VenueDetail,
 } from '@/domain/types';
 import { cleanTags } from '@/domain/accessTags';
+import { cleanSafetyProtocol } from '@/domain/safetyProtocol';
 import { haversineKm } from '@/domain/geo';
 import type { Repo } from './repo';
 
@@ -47,6 +48,12 @@ export function mapArtist(r: Row): Artist {
   };
 }
 
+/** Spread into a venue: the key is left out when there is no seal, so venues without one stay deep-equal. */
+const withSafetyProtocol = (v: unknown) => {
+  const s = cleanSafetyProtocol(v);
+  return s ? { safetyProtocol: s } : {};
+};
+
 export function mapVenue(r: Row): Venue {
   return {
     id: r.id,
@@ -61,6 +68,7 @@ export function mapVenue(r: Row): Venue {
     adultOnly: pick<boolean>(r, 'adult_only', 'adultOnly') ?? false,
     genreSlugs: pick<string[] | null>(r, 'genre_slugs', 'genreSlugs') ?? [],
     accessTags: cleanTags(pick<string[] | null>(r, 'access_tags', 'accessTags')),
+    ...withSafetyProtocol(pick<string | null>(r, 'safety_protocol', 'safetyProtocol')),
     hours: r.hours ?? undefined,
     coverKey: (pick<string | null>(r, 'cover_key', 'coverKey') ?? 'generic') as CoverKey,
     placeholder: r.placeholder ?? false,
@@ -120,6 +128,7 @@ export function mapSearchRow(r: Row): SearchItem {
       hours: r.venue_hours,
       cover_key: r.venue_cover_key,
       placeholder: r.venue_placeholder,
+      safety_protocol: r.venue_safety_protocol,
     }),
     distanceKm: Number(r.distance_km),
   };

@@ -3,13 +3,16 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
 
-import { resetCasasDemo, submitEvent, useCasasDemo } from '@/data/casas';
+import * as ImagePicker from 'expo-image-picker';
+
+import { fetchSafetyProtocol, resetCasasDemo, submitEvent, useCasasDemo } from '@/data/casas';
 import { AssinaturaScreen } from '../AssinaturaScreen';
 import { EmpresaScreen } from '../EmpresaScreen';
 import { NovaFestaScreen } from '../NovaFestaScreen';
 import { PagamentoScreen } from '../PagamentoScreen';
 import { PainelScreen } from '../PainelScreen';
 import { PlanoScreen } from '../PlanoScreen';
+import { ProtocoloScreen } from '../ProtocoloScreen';
 import { VincularScreen } from '../VincularScreen';
 import { useCasasFlow, useFestaDrafts } from '../store';
 
@@ -337,5 +340,62 @@ describe('Nova festa', () => {
     await first.unmount();
     await show(<NovaFestaScreen />);
     expect((await screen.findByTestId('festa-nome')).props.value).toBe('Sexta de Pagode');
+  });
+});
+
+describe('Protocolo Não é Não (S1)', () => {
+  it('painel row opens the protocol screen and shows the state', async () => {
+    await show(<PainelScreen />);
+    const row = await screen.findByTestId('casas-painel-protocolo-row');
+    await waitFor(() => expect(row).toHaveTextContent(/Não declarado/));
+    await fireEvent.press(row);
+    expect(mockPush).toHaveBeenCalledWith('/casas/protocolo');
+  });
+
+  it('declares with the responsible person and a photo of the poster', async () => {
+    (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValueOnce({
+      canceled: false,
+      assets: [{ uri: 'file:///cartaz.jpg', mimeType: 'image/jpeg', fileSize: 1000 }],
+    });
+    await show(<ProtocoloScreen />);
+    expect(await screen.findByTestId('casas-protocolo-estado')).toHaveTextContent('Sua casa ainda não declarou o protocolo.');
+    expect(screen.getByText(/Lei 14\.786\/2023/)).toBeTruthy();
+    expect(screen.getByText(/nunca é vendido/)).toBeTruthy();
+
+    await fireEvent.press(screen.getByTestId('casas-protocolo-enviar'));
+    expect(screen.getByText('Informe o nome de quem responde pelo protocolo na casa.')).toBeTruthy();
+
+    await fireEvent.press(screen.getByTestId('casas-protocolo-foto'));
+    await waitFor(() => expect(screen.getByText('Foto escolhida. Ela vai junto com a declaração.')).toBeTruthy());
+    await fireEvent.changeText(screen.getByTestId('casas-protocolo-responsavel'), 'Ana Souza, gerente');
+    await fireEvent.press(screen.getByTestId('casas-protocolo-enviar'));
+
+    expect(await screen.findByText('Recebemos sua declaração. A equipe confere e avisa por aqui.')).toBeTruthy();
+    const decl = await fetchSafetyProtocol('demo-casa-mare');
+    expect(decl).toMatchObject({ status: 'declared', responsibleName: 'Ana Souza, gerente' });
+    expect(decl.evidencePath).toMatch(/^demo-casa-mare\/.+\.jpg$/);
+    await waitFor(() => expect(screen.getByTestId('casas-protocolo-estado')).toHaveTextContent(/ainda não conferiu/));
+    expect(screen.getByTestId('casas-protocolo-enviar')).toHaveTextContent('Atualizar declaração');
+  });
+
+  it('a rejected declaration tells the casa why; a pending casa cannot declare yet', async () => {
+    useCasasDemo.setState((s) => ({
+      safety: {
+        'demo-casa-mare': {
+          status: null, statusAt: null, responsibleName: 'Ana', evidencePath: null,
+          declaredAt: '2026-11-01T12:00:00Z', reviewedAt: '2026-11-02T12:00:00Z', reviewNote: 'Foto ilegível',
+        },
+      },
+      accounts: s.accounts,
+    }));
+    const first = await show(<ProtocoloScreen />);
+    expect(await screen.findByTestId('casas-protocolo-estado')).toHaveTextContent('Não aprovamos a declaração: Foto ilegível. Corrija e envie de novo.');
+    expect(screen.getByTestId('casas-protocolo-responsavel').props.value).toBe('Ana');
+    await first.unmount();
+
+    useCasasDemo.setState((s) => ({ accounts: s.accounts.map((a) => ({ ...a, status: 'pending' as const })) }));
+    await show(<ProtocoloScreen />);
+    expect(await screen.findByText('Sua casa ainda está em análise. Avisamos quando for aprovada.')).toBeTruthy();
+    expect(screen.getByTestId('casas-protocolo-enviar')).toBeDisabled();
   });
 });

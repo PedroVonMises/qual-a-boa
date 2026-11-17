@@ -3,6 +3,7 @@
 
 import type { AccessTag } from './accessTags';
 import type { Uf } from './region';
+import type { SafetyProtocol } from './safetyProtocol';
 
 export type VenueStatus = 'open' | 'closed' | 'unverified';
 /** pending_review and rejected only occur on festas sent by a casa (Plano Casas, domain/casas.ts); public reads never see them. */
@@ -48,6 +49,8 @@ export interface Venue {
   genreSlugs: string[];
   /** Vibe & access tags the venue declares (demonstration data until verified). */
   accessTags?: AccessTag[];
+  /** Selo "Protocolo Não é Não" (migration 0019). Absent = no seal. */
+  safetyProtocol?: SafetyProtocol;
   hours?: string; // free text for MVP, e.g. 'Sex e sáb, 23h–06h'
   coverKey: CoverKey;
   /** True while data is a design placeholder, not verified with the venue. */

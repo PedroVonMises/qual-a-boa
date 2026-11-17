@@ -28,6 +28,7 @@ export interface NewTicketInput {
   topic: TicketTopic;
   eventId?: string;
   description: string;
+  safety?: SupportTicket['safety'];
 }
 
 interface SupportStore {
@@ -63,6 +64,7 @@ export const useSupport = create<SupportStore>()(
           topic: input.topic,
           eventId: input.eventId,
           description: input.description.trim(),
+          ...(input.safety ? { safety: input.safety } : {}),
           status: 'open',
           createdAt: now,
           messages: [
@@ -146,7 +148,7 @@ async function runSync(localId: string): Promise<void> {
   let sid = st().remoteIds[localId];
   if (!sid && !st().unsynced.includes(localId)) sid = localId; // pulled ticket: its id is already the server uuid
   if (!sid) {
-    const created = await pushTicket({ topic: ticket.topic, eventId: ticket.eventId, description: ticket.description });
+    const created = await pushTicket({ topic: ticket.topic, eventId: ticket.eventId, description: ticket.description, safety: ticket.safety });
     if (!created) return; // stays flagged unsynced; the next message or edit tries again, no retry loop
     sid = created;
     useSupport.setState((s) => ({

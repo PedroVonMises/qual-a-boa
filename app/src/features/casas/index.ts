@@ -4,4 +4,5 @@ export { NovaFestaScreen } from './NovaFestaScreen';
 export { PagamentoScreen } from './PagamentoScreen';
 export { PainelScreen } from './PainelScreen';
 export { PlanoScreen } from './PlanoScreen';
+export { ProtocoloScreen } from './ProtocoloScreen';
 export { VincularScreen } from './VincularScreen';

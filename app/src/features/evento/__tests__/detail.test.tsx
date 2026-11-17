@@ -177,6 +177,29 @@ describe('CasaScreen', () => {
     expect(screen.getByText('Opção vegana')).toBeTruthy();
   });
 
+  it('shows the Protocolo Não é Não seal and explains it on tap', async () => {
+    const sealed: SeedDataset = { ...data, venues: data.venues.map((v) => (v.slug === 'bolt' ? { ...v, safetyProtocol: 'verified' } : v)) };
+    await renderWith(<CasaScreen slug="bolt" />, sealed);
+    const seal = await screen.findByRole('button', { name: /^Protocolo Não é Não\. Ver o que significa/ });
+    expect(screen.queryByTestId('selo-nao-e-nao-detalhe')).toBeNull();
+    await fireEvent.press(seal);
+    expect(screen.getByTestId('selo-nao-e-nao-detalhe')).toHaveTextContent(/conferiu que a casa segue o protocolo/);
+    expect(screen.getByText(/Lei 14\.786\/2023/)).toBeTruthy();
+  });
+
+  it('shows the safety section with an honest empty index at venues without enough reviews', async () => {
+    await renderWith(<CasaScreen slug="bolt" />);
+    expect(await screen.findByText('Segurança')).toBeTruthy();
+    expect(await screen.findByTestId('casa-indice-legenda')).toHaveTextContent(/Ainda não há avaliações suficientes de quem foi/);
+    expect(screen.queryByTestId('casa-indice-valor')).toBeNull();
+  });
+
+  it('shows no seal at a venue without one', async () => {
+    await renderWith(<CasaScreen slug="bolt" />);
+    expect(await screen.findByText('Acessível')).toBeTruthy();
+    expect(screen.queryByTestId('selo-nao-e-nao-verified')).toBeNull();
+  });
+
   it('closed venue hides upcoming events and the CTA', async () => {
     await renderWith(<CasaScreen slug="pub-426" />);
     expect(await screen.findByText('Encerrou as atividades')).toBeTruthy();

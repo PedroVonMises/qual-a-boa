@@ -12,6 +12,7 @@ import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
 import { ArtistRow, Badge, Button, IconButton, PressableScale, Tag, Text, useBreakpoint } from '@/ui';
 import { AccessBadges } from './AccessBadges';
+import { SafetyProtocolSeal } from './SafetyProtocolSeal';
 import { Frame, StateShell, useGoBack } from './Frame';
 import { Hero } from './Hero';
 import { isHttpsUrl, openMaps } from './linking';
@@ -96,6 +97,7 @@ export function EventoScreen({ id }: { id?: string }) {
           </View>
         ) : null}
         <AccessBadges tags={effectiveTags(venue, event)} />
+        <SafetyProtocolSeal status={venue.safetyProtocol} />
         <Text variant="display" accessibilityRole="header">
           {event.title}
         </Text>
@@ -136,6 +138,17 @@ export function EventoScreen({ id }: { id?: string }) {
         <PressableScale accessibilityRole="link" accessibilityLabel="Ver conversas" onPress={() => go(`/comunidade/evento/${event.id}`)} style={styles.link}>
           <Text variant="bodySm" tone="accent" style={styles.bold}>
             Ver conversas
+          </Text>
+        </PressableScale>
+        <PressableScale
+          accessibilityRole="link"
+          accessibilityLabel="Aconteceu algo comigo"
+          accessibilityHint="Ligar 190 ou 180 e fazer um relato privado"
+          onPress={() => go(`/seguranca/relato?casa=${encodeURIComponent(venue.slug)}&evento=${encodeURIComponent(event.id)}`)}
+          style={styles.link}
+          testID="evento-relato">
+          <Text variant="bodySm" tone="accent" style={styles.bold}>
+            Aconteceu algo comigo
           </Text>
         </PressableScale>
       </View>

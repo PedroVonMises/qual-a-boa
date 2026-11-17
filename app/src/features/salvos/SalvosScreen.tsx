@@ -69,10 +69,12 @@ export function SalvosScreen({ now }: { now?: string }) {
           testID={`saved-${event.id}`}
           title={event.title}
           venueName={venue.name}
+          seal={venue.safetyProtocol === 'verified'}
           area={venue.area}
           coverKey={event.coverKey}
           dateLabel={formatEventDate(event.startsAt, nowIso)}
-          priceLabel={formatPriceLabel(event.priceMin, event.priceMax, event.isFree)}
+          priceLabel={formatPriceLabel(event.priceMin, event.priceMax, event.isFree)}
+
           saved
           onToggleSave={() => remove(event.id)}
           onPress={() => router.push(`/evento/${event.id}`)}

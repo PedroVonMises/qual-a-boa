@@ -67,4 +67,10 @@ describe('EventCard', () => {
     expect(screen.getByText('R$ 40')).toBeTruthy();
     expect(screen.queryByText(/ilustrativ/i)).toBeNull();
   });
+
+  it('names the verified seal in text and in the label', async () => {
+    await render(<EventCard variant="row" title="Noite" venueName="Bolt" coverKey="bolt" seal onPress={() => {}} />);
+    expect(screen.getByText('Não é Não')).toBeTruthy();
+    expect(screen.getByRole('button', { name: /Protocolo Não é Não verificado/ })).toBeTruthy();
+  });
 });
