@@ -12,6 +12,7 @@ import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
 import { ArtistRow, Badge, Button, IconButton, PressableScale, Tag, Text, useBreakpoint } from '@/ui';
 import { AccessBadges } from './AccessBadges';
+import { SafetyProtocolSeal } from './SafetyProtocolSeal';
 import { Frame, StateShell, useGoBack } from './Frame';
 import { Hero } from './Hero';
 import { isHttpsUrl, openMaps } from './linking';
@@ -96,6 +97,7 @@ export function EventoScreen({ id }: { id?: string }) {
           </View>
         ) : null}
         <AccessBadges tags={effectiveTags(venue, event)} />
+        <SafetyProtocolSeal status={venue.safetyProtocol} />
         <Text variant="display" accessibilityRole="header">
           {event.title}
         </Text>

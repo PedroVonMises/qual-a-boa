@@ -239,7 +239,8 @@
       "hours": "Qui a sáb, 21h–04h",
       "coverKey": "mare",
       "id": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
-      "placeholder": true
+      "placeholder": true,
+      "safetyProtocol": "verified"
     },
     {
       "slug": "taiko-beach-club",

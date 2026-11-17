@@ -7,6 +7,7 @@ import { useGenres, useVenue } from '@/data/queries';
 import { AccessBadges } from '@/features/evento/AccessBadges';
 import { Frame, StateShell, useGoBack } from '@/features/evento/Frame';
 import { Hero } from '@/features/evento/Hero';
+import { SafetyProtocolSeal } from '@/features/evento/SafetyProtocolSeal';
 import { genreLabels, longDate, monthYear } from '@/features/evento/labels';
 import { openMaps } from '@/features/evento/linking';
 import { useRecordView } from '@/state/useRecordView';
@@ -83,6 +84,7 @@ export function CasaScreen({ slug }: { slug?: string }) {
           ))}
         </View>
         <AccessBadges tags={effectiveTags(venue, {})} />
+        <SafetyProtocolSeal status={venue.safetyProtocol} />
         {venue.status === 'unverified' ? (
           <View accessibilityRole="alert" style={styles.notice}>
             <Icon name="clock" size={16} color="textMuted" />

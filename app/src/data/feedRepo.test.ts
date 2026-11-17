@@ -256,3 +256,16 @@ describe('validateFeed tags', () => {
     expect(out!.venues.find((v) => v.id === 'v3')!.accessTags).toBeUndefined();
   });
 });
+
+describe('validateFeed safety seal', () => {
+  it('keeps a known seal and drops an unknown one', () => {
+    const feed = {
+      ...miniDataset,
+      venues: miniDataset.venues.map((v) =>
+        v.id === 'v1' ? { ...v, safetyProtocol: 'verified' } : v.id === 'v3' ? { ...v, safetyProtocol: 'comprado' } : v),
+    };
+    const out = validateFeed(feed);
+    expect(out!.venues.find((v) => v.id === 'v1')!.safetyProtocol).toBe('verified');
+    expect('safetyProtocol' in out!.venues.find((v) => v.id === 'v3')!).toBe(false);
+  });
+});

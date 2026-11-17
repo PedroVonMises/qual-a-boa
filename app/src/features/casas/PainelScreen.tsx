@@ -2,9 +2,10 @@ import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { useAccountEvents } from '@/data/casas';
+import { useAccountEvents, useSafetyProtocol } from '@/data/casas';
 import { casasErrorMessage, partyMonthKey, submissionBlocker, type VenueAccount, type VenueEvent } from '@/domain/casas';
 import { formatEventDate, formatPriceLabel } from '@/domain/format';
+import { SAFETY_PROTOCOL_NAME, safetyProtocolPanelLabel } from '@/domain/safetyProtocol';
 import { useTheme } from '@/theme/ThemeProvider';
 import { space } from '@/theme/tokens';
 import { Badge, Button, Chip, EmptyState, ErrorState, ListRow, SegmentedControl, Skeleton, Text } from '@/ui';
@@ -54,6 +55,7 @@ export function PainelScreen() {
   const { query, loading, failed, accounts, account } = useCurrentAccount();
   const selectAccount = useCasasFlow((s) => s.selectAccount);
   const events = useAccountEvents(account?.id);
+  const safety = useSafetyProtocol(account?.id);
   const [which, setWhich] = useState<Which>('atual');
 
   const quota = account ? (which === 'atual' ? account.currentMonth : account.nextMonth) : null;
@@ -202,12 +204,20 @@ export function PainelScreen() {
       )}
 
       <ListRow
+        title={SAFETY_PROTOCOL_NAME}
+        subtitle={safety.data ? safetyProtocolPanelLabel(safety.data.status, safety.data.reviewNote) : 'Selo gratuito de segurança'}
+        icon="shield"
+        chevron
+        onPress={() => router.push('/casas/protocolo')}
+        style={casasStyles.section}
+        testID="casas-painel-protocolo-row"
+      />
+      <ListRow
         title="Assinatura"
         subtitle={sub ? SUBSCRIPTION_BADGE[sub.status].label : 'Sem assinatura'}
         icon="star"
         chevron
         onPress={() => router.push('/casas/assinatura')}
-        style={casasStyles.section}
         testID="casas-painel-assinatura-row"
       />
     </CasasShell>

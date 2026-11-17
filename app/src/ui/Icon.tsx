@@ -7,7 +7,7 @@ export type IconName =
   | 'search' | 'pin' | 'heart' | 'heartFilled' | 'bookmark' | 'compass' | 'map' | 'user'
   | 'chevronLeft' | 'chevronRight' | 'chevronDown' | 'close' | 'check' | 'filter' | 'share'
   | 'send' | 'paperclip' | 'star' | 'starFilled' | 'headset' | 'clock' | 'plus'
-  | 'message' | 'arrowUp' | 'spark' | 'discoBall';
+  | 'message' | 'arrowUp' | 'spark' | 'discoBall' | 'shield';
 
 const HEART = 'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z';
 const STAR = 'M12 3.8l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 17.1l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z';
@@ -32,6 +32,7 @@ const ICONS: Record<IconName, Def> = {
   chevronDown: { paths: ['M5.5 9.5L12 16l6.5-6.5'] },
   close: { paths: ['M6 6l12 12M18 6L6 18'] },
   check: { paths: ['M5 12.5l4.5 4.5L19 7.5'] },
+  shield: { paths: ['M12 3.5l7 2.8v5.4c0 4.3-2.9 7.6-7 8.8-4.1-1.2-7-4.5-7-8.8V6.3z', 'M9 12l2.2 2.2L15.2 10'] },
   filter: { paths: ['M4 7h10M18 7h2M4 17h2M10 17h10'], circles: [[16, 7, 2], [8, 17, 2]] },
   share: { paths: ['M12 15V4M8 8l4-4 4 4M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6'] },
   send: { paths: ['M20 4L10.5 13.5M20 4l-6 16-3.5-6.5L4 10z'] },

@@ -3,8 +3,10 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import {
   cancelEventSubmission,
   claimVenue,
+  declareSafetyProtocol,
   fetchAccountEvents,
   fetchMyVenueAccounts,
+  fetchSafetyProtocol,
   fetchVenueQuota,
   mapAccountRow,
   openBillingPortal,
@@ -158,6 +160,23 @@ describe('remote mode', () => {
     expect(await openBillingPortal(ACC)).toEqual({ ok: true, url: 'https://billing.stripe.com/p/1' });
     invokeResult = { data: { url: 'javascript:alert(1)' }, error: null };
     expect(await openBillingPortal(ACC)).toMatchObject({ ok: false });
+  });
+
+  it('reads and declares the Protocolo Não é Não through the RPCs', async () => {
+    rpcResult = { data: [], error: null };
+    expect(await fetchSafetyProtocol(ACC)).toMatchObject({ status: null, reviewNote: null });
+    expect(calls[0]).toEqual(['my_safety_protocol', { p_account: ACC }]);
+    rpcResult = {
+      data: [{ status: 'verified', status_at: 't', responsible_name: 'Ana', evidence_path: `${ACC}/f.jpg`, declared_at: 'd', reviewed_at: 'r', review_note: null }],
+      error: null,
+    };
+    expect(await fetchSafetyProtocol(ACC)).toMatchObject({ status: 'verified', responsibleName: 'Ana', evidencePath: `${ACC}/f.jpg` });
+    expect(await declareSafetyProtocol(ACC, { responsibleName: ' x ' })).toMatchObject({ ok: false, code: 'invalid_responsible' });
+    rpcResult = { data: 'declared', error: null };
+    expect(await declareSafetyProtocol(ACC, { responsibleName: ' Ana Souza ', evidencePath: `${ACC}/f.jpg` })).toEqual({ ok: true, status: 'declared' });
+    expect(calls[calls.length - 1]).toEqual(['declare_safety_protocol', { p_account: ACC, p_responsible_name: 'Ana Souza', p_evidence_path: `${ACC}/f.jpg` }]);
+    rpcResult = { data: null, error: { message: 'account_not_verified', code: 'P0001', hint: 'account_not_verified' } };
+    expect(await declareSafetyProtocol(ACC, { responsibleName: 'Ana' })).toMatchObject({ ok: false, code: 'account_not_verified' });
   });
 
   it('uploads posters to the account folder', async () => {

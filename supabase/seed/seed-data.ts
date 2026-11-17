@@ -440,6 +440,8 @@ export function buildSeed(now: Date, opts: BuildSeedOptions = {}): SeedDataset {
     genreSlugs: sortGenres(v.genreSlugs),
     accessTags: cleanTags(v.accessTags),
     placeholder: true,
+    // Demo of the S1 seal on the fictional casa only, and never in the production profile.
+    ...(demoAtRealVenues && FICTIONAL_VENUES.has(v.slug) ? { safetyProtocol: 'verified' as const } : {}),
   }));
   const venueBySlug = new Map(venues.map((v) => [v.slug, v]));
 

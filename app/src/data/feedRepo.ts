@@ -12,6 +12,7 @@ import type {
   VenueDetail,
 } from '@/domain/types';
 import { cleanTags } from '@/domain/accessTags';
+import { cleanSafetyProtocol } from '@/domain/safetyProtocol';
 import type { Repo } from './repo';
 import { SeedRepo } from './seedRepo';
 
@@ -121,10 +122,17 @@ export function validateFeed(raw: unknown): SeedDataset | null {
   if (goodEvents.length === 0 || goodVenues.length === 0) return null;
   const withTags = <T extends { accessTags?: unknown }>(row: T) =>
     row.accessTags === undefined ? row : { ...row, accessTags: cleanTags(row.accessTags) };
+  // The seal only ever comes from the database; an unknown value in the feed shows no seal.
+  const withSeal = <T extends { safetyProtocol?: unknown }>(row: T) => {
+    if (row.safetyProtocol === undefined) return row;
+    const { safetyProtocol, ...rest } = row;
+    const s = cleanSafetyProtocol(safetyProtocol);
+    return (s ? { ...rest, safetyProtocol: s } : rest) as T;
+  };
   return {
     generatedAt: raw.generatedAt,
     genres: goodGenres,
-    venues: goodVenues.map(withTags),
+    venues: goodVenues.map((v) => withSeal(withTags(v))),
     artists: goodArtists,
     events: goodEvents.map(withTags),
   };

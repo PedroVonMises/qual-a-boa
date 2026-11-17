@@ -28,7 +28,10 @@ import {
   type VenueAccountStatus,
   type VenueEvent,
   type VenueRole,
+  NO_SAFETY_DECLARATION,
+  type SafetyDeclaration,
 } from '@/domain/casas';
+import { cleanSafetyProtocol, isValidResponsible } from '@/domain/safetyProtocol';
 import type { EventStatus } from '@/domain/types';
 
 import { getSupabase, isRemote } from './supabaseClient';
@@ -46,6 +49,7 @@ export const casasKeys = {
   accounts: ['casas', 'accounts'] as const,
   events: (accountId: string) => ['casas', 'events', accountId] as const,
   quota: (accountId: string, month: string) => ['casas', 'quota', accountId, month] as const,
+  safety: (accountId: string) => ['casas', 'safety', accountId] as const,
 };
 
 function uuid(): string {
@@ -195,6 +199,8 @@ interface DemoEvent extends VenueEvent {
 interface CasasDemoState {
   accounts: DemoAccount[];
   events: DemoEvent[];
+  /** Selo Não é Não declarations by account id. */
+  safety: Record<string, SafetyDeclaration>;
 }
 
 /** Next Friday (SP) at 23:00 after `nowMs`, `weeks` weeks later. */
@@ -231,6 +237,7 @@ export function initialCasasDemo(nowMs: number = Date.now()): CasasDemoState {
       { ...base, id: 'demo-festa-1', title: 'Maré Alta: sertanejo', startsAt: demoFriday(nowMs, 0), status: 'published', ticketUrl: 'https://example.com/ingressos/mare-alta' },
       { ...base, id: 'demo-festa-2', title: 'House na Praia', startsAt: demoFriday(nowMs, 1), status: 'pending_review', ticketUrl: null },
     ],
+    safety: {},
   };
 }
 
@@ -501,6 +508,90 @@ export async function posterUrl(path: string, expiresInS = 3600): Promise<string
   return error ? null : (data?.signedUrl ?? null);
 }
 
+// --- Selo Protocolo Não é Não (S1) -------------------------------------------------------------------------------------
+
+interface SafetyRow {
+  status: string | null;
+  status_at: string | null;
+  responsible_name: string | null;
+  evidence_path: string | null;
+  declared_at: string | null;
+  reviewed_at: string | null;
+  review_note: string | null;
+}
+
+export const mapSafetyRow = (r: SafetyRow | undefined | null): SafetyDeclaration =>
+  r
+    ? {
+        status: cleanSafetyProtocol(r.status) ?? null,
+        statusAt: r.status_at,
+        responsibleName: r.responsible_name,
+        evidencePath: r.evidence_path,
+        declaredAt: r.declared_at,
+        reviewedAt: r.reviewed_at,
+        reviewNote: r.review_note,
+      }
+    : NO_SAFETY_DECLARATION;
+
+/** The casa's declaration (members only). Throws on network/RLS errors. */
+export async function fetchSafetyProtocol(accountId: string): Promise<SafetyDeclaration> {
+  if (!isRemote()) return useCasasDemo.getState().safety[accountId] ?? NO_SAFETY_DECLARATION;
+  const sb = getSupabase();
+  if (!sb) return NO_SAFETY_DECLARATION;
+  const { data, error } = await sb.rpc('my_safety_protocol', { p_account: accountId });
+  if (error) throw error;
+  return mapSafetyRow((Array.isArray(data) ? data[0] : data) as SafetyRow | undefined);
+}
+
+export interface SafetyDeclarationInput {
+  responsibleName: string;
+  /** From uploadPoster (same private bucket, in the account folder). Null keeps the photo already sent. */
+  evidencePath?: string | null;
+}
+
+/** Declares (or updates) the protocol. Resolves with the public state the venue shows now. */
+export async function declareSafetyProtocol(
+  accountId: string,
+  input: SafetyDeclarationInput,
+  nowMs: number = Date.now(),
+): Promise<CasasResult<{ status: SafetyDeclaration['status'] }>> {
+  const name = input.responsibleName.trim();
+  if (!isValidResponsible(name)) return fail('invalid_responsible');
+  if (!isRemote()) {
+    const a = demoAccount(accountId);
+    if (!a) return fail('not_member');
+    if (a.status !== 'verified') return fail('account_not_verified');
+    if (!a.venue) return fail('venue_missing');
+    const prev = useCasasDemo.getState().safety[accountId] ?? NO_SAFETY_DECLARATION;
+    const at = new Date(nowMs).toISOString();
+    const status = prev.status ?? 'declared';
+    const next: SafetyDeclaration = {
+      status,
+      statusAt: prev.status ? prev.statusAt : at,
+      responsibleName: name,
+      evidencePath: input.evidencePath ?? prev.evidencePath,
+      declaredAt: at,
+      reviewedAt: null,
+      reviewNote: null,
+    };
+    useCasasDemo.setState((s) => ({ safety: { ...s.safety, [accountId]: next } }));
+    return { ok: true, status };
+  }
+  try {
+    const sb = getSupabase();
+    if (!sb) return fail('no_backend');
+    const { data, error } = await sb.rpc('declare_safety_protocol', {
+      p_account: accountId,
+      p_responsible_name: name,
+      p_evidence_path: input.evidencePath ?? null,
+    });
+    if (error) return fail(await codeOf(error));
+    return { ok: true, status: cleanSafetyProtocol(data) ?? null };
+  } catch (e) {
+    return fail(await codeOf(e));
+  }
+}
+
 // --- Hooks ------------------------------------------------------------------------------------------------------------------
 
 /** Demo mutations change the zustand store; subscribing keeps the queries fresh. */
@@ -518,6 +609,17 @@ export function useAccountEvents(accountId: string | undefined) {
   return useQuery({
     queryKey: [...casasKeys.events(accountId ?? ''), demo],
     queryFn: () => fetchAccountEvents(accountId!),
+    enabled: !!accountId,
+    staleTime: 30_000,
+    placeholderData: keepPreviousData,
+  });
+}
+
+export function useSafetyProtocol(accountId: string | undefined) {
+  const demo = useDemoVersion();
+  return useQuery({
+    queryKey: [...casasKeys.safety(accountId ?? ''), demo],
+    queryFn: () => fetchSafetyProtocol(accountId!),
     enabled: !!accountId,
     staleTime: 30_000,
     placeholderData: keepPreviousData,
@@ -554,3 +656,5 @@ export const useStartCheckout = () => useCasasMutation((accountId: string) => st
 export const useOpenBillingPortal = () => useCasasMutation((accountId: string) => openBillingPortal(accountId));
 export const useUploadPoster = () =>
   useMutation({ mutationFn: (v: { accountId: string; file: PosterFile }) => uploadPoster(v.accountId, v.file) });
+export const useDeclareSafetyProtocol = () =>
+  useCasasMutation((v: { accountId: string; input: SafetyDeclarationInput }) => declareSafetyProtocol(v.accountId, v.input));
