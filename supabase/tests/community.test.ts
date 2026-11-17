@@ -513,3 +513,116 @@ describe('account deletion', () => {
     assert.equal((await db.query(`select 1 from public.comment_votes where comment_id = '${c}'`)).rows.length, 0);
   });
 });
+
+describe('blocking (0016)', () => {
+  const visibleTo = (who: typeof asA, view: 'threads_feed' | 'comments_feed', id: string) =>
+    who(async () => (await db.query(`select 1 from public.${view} where id = $1`, [id])).rows.length === 1);
+  const block = (who: typeof asA, target: { thread?: string; comment?: string }) =>
+    who(async () => (await db.query<{ ok: boolean }>(`select public.block_author($1, $2) ok`,
+      [target.thread ?? null, target.comment ?? null])).rows[0].ok);
+  const count = (who: typeof asA) =>
+    who(async () => (await db.query<{ n: number }>(`select public.my_block_count() n`)).rows[0].n);
+  const unblockAll = (who: typeof asA) =>
+    who(async () => (await db.query<{ n: number }>(`select public.unblock_all() n`)).rows[0].n);
+
+  test('blocking from an anonymous post hides all of that author\'s posts, only for the blocker', async () => {
+    const anonThread = await newThread(asA, { anonymous: true });
+    const namedThread = await newThread(asA);
+    const other = await newThread(asC);
+    const cA = await newComment(asA, other);
+    const cE = await newComment(asE, other, null, true);
+    const replyToA = await newComment(asE, other, cA, true);
+
+    assert.equal(await block(asB, { thread: anonThread }), true);
+    assert.equal(await count(asB), 1);
+    for (const id of [anonThread, namedThread]) {
+      assert.equal(await visibleTo(asB, 'threads_feed', id), false);
+      assert.equal(await visibleTo(asC, 'threads_feed', id), true);
+    }
+    assert.equal(await visibleTo(asB, 'comments_feed', cA), false);
+    assert.equal(await visibleTo(asB, 'comments_feed', replyToA), false, 'reply under a blocked comment');
+    assert.equal(await visibleTo(asB, 'comments_feed', cE), true);
+    assert.equal(await visibleTo(asC, 'comments_feed', cA), true);
+    // Reply counts on the card follow what the blocker can see.
+    const n = (who: typeof asA) => who(async () =>
+      (await db.query<{ n: number }>(`select comment_count n from public.threads_feed where id = $1`, [other])).rows[0].n);
+    assert.equal(await n(asB), 1);
+    assert.equal(await n(asC), 3);
+
+    // Blocking again is a no-op; the blocked user still sees the blocker.
+    assert.equal(await block(asB, { comment: cA }), true);
+    assert.equal(await count(asB), 1);
+    const bThread = await newThread(asB);
+    assert.equal(await visibleTo(asA, 'threads_feed', bThread), true);
+
+    assert.equal(await unblockAll(asB), 1);
+    assert.equal(await visibleTo(asB, 'threads_feed', anonThread), true);
+    assert.equal(await count(asB), 0);
+  });
+
+  test('cannot block yourself, a missing post, or without a session; blocks are not readable', async () => {
+    const mine = await newThread(asC);
+    assert.equal(await block(asC, { thread: mine }), false);
+    assert.equal(await block(asC, { thread: '00000000-0000-4000-8000-000000000999' }), false);
+    await asC(() => assert.rejects(db.query(`select public.block_author(null, null)`), /exactly one/));
+    await asAnon(() => denied(db.query(`select public.block_author($1, null)`, [mine]), /permission denied/i));
+    await asC(() => denied(db.query(`select * from public.user_blocks`), /permission denied/i));
+    await asC(() => denied(db.query(`insert into public.user_blocks (blocked_id) values ('${A}')`), /permission denied/i));
+  });
+});
+
+describe('community guards (0017)', () => {
+  const limits = (sql: string) => db.exec(`update public.community_limits set ${sql}`);
+  const relaxed = `threads_per_10min = 100000, comments_per_hour = 100000, reports_to_hide = 3, reporter_min_age = interval '0'`;
+  after(() => limits(relaxed));
+  const [F, G, H, I] = ['1f', '2f', '3f', '4f'].map(U);
+  const asF = as(F), asG = as(G), asH = as(H), asI = as(I);
+  before(async () => {
+    await db.exec(`insert into auth.users (id, is_anonymous) values ('${F}', true), ('${G}', true), ('${H}', true), ('${I}', false)`);
+  });
+  const report = (who: typeof asA, t: string) =>
+    who(() => db.query(`insert into public.community_reports (thread_id, reason) values ($1, 'spam')`, [t]));
+
+  test('anonymous sessions cannot hide a post, however many report it', async () => {
+    const t = await newThread(asC);
+    for (const w of [asF, asG, asH]) await report(w, t);
+    assert.ok(await feedThread(asAnon, t), 'still visible after 3 anonymous reports');
+    // Stored for moderation all the same.
+    assert.equal(Number((await db.query<{ n: number }>(`select count(*) n from public.community_reports where thread_id = $1`, [t])).rows[0].n), 3);
+    // Real accounts still count: two more (plus one anonymous ignored) are not enough, a third is.
+    await report(asI, t);
+    await report(asA, t);
+    assert.ok(await feedThread(asAnon, t));
+    await report(asB, t);
+    assert.equal(await feedThread(asAnon, t), undefined);
+  });
+
+  test('brand-new accounts do not count until reporter_min_age', async () => {
+    await limits(`reporter_min_age = interval '24 hours'`);
+    const t = await newThread(asC);
+    for (const w of [asA, asB, asI]) await report(w, t);
+    assert.ok(await feedThread(asAnon, t), 'accounts created minutes ago do not hide');
+    await db.exec(`update auth.users set created_at = now() - interval '2 days' where id in ('${A}', '${B}', '${I}')`);
+    await report(asE, t); // E is new: still not counted, but the trigger re-counts the older three
+    assert.equal(await feedThread(asAnon, t), undefined);
+    await limits(relaxed);
+  });
+
+  test('threads and comments are rate limited per user', async () => {
+    await limits(`threads_per_10min = 2, comments_per_hour = 3`);
+    await newThread(asI, { anonymous: true });
+    await newThread(asI, { anonymous: true });
+    await assert.rejects(newThread(asI, { anonymous: true }), /rate_limited/);
+    // Another user is not affected.
+    const t = await newThread(asF, { anonymous: true });
+    for (let i = 0; i < 3; i++) await newComment(asI, t, null, true);
+    await assert.rejects(newComment(asI, t, null, true), /rate_limited/);
+    await newComment(asG, t, null, true);
+    await limits(relaxed);
+  });
+
+  test('limits are not readable or writable by clients', async () => {
+    await asA(() => denied(db.query(`select * from public.community_limits`), /permission denied/i));
+    await asAnon(() => denied(db.query(`update public.community_limits set reports_to_hide = 1`), /permission denied/i));
+  });
+});

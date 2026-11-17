@@ -416,7 +416,22 @@ const DEMO_LIVE: { key: string; title: string; startH: number; endH: number; gen
   { key: 'encerrado', title: 'Maré Baixa', startH: -8, endH: -3, genres: ['sertanejo'], artists: ['Duo Moqueca'], price: [25, 35], popularity: 70 },
 ];
 
-export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: true }): SeedDataset {
+/** Fictional venues: the only ones that may carry invented demo events in a production build. */
+export const FICTIONAL_VENUES: ReadonlySet<string> = new Set(['casa-mare']);
+
+export interface BuildSeedOptions {
+  /** Casa Maré events relative to `now` (in progress / soon / just ended). Default true. */
+  demoLive?: boolean;
+  /**
+   * Invented demo events at real venues (Bolt, A Selva, ...). Default true for dev, tests and the demo preview;
+   * false in production builds, so a real venue only shows events with a public source (Sympla).
+   */
+  demoAtRealVenues?: boolean;
+}
+
+export function buildSeed(now: Date, opts: BuildSeedOptions = {}): SeedDataset {
+  const { demoLive = true, demoAtRealVenues = true } = opts;
+  const keepDemo = (s: EventSpec) => demoAtRealVenues || FICTIONAL_VENUES.has(s.venue);
   const genres: Genre[] = GENRES.map(([slug, label]) => ({ id: genreId(slug), slug, label }));
 
   const venues: Venue[] = VENUES.map((v) => ({
@@ -471,7 +486,7 @@ export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: 
     return ev;
   };
 
-  const demoLive: EventItem[] = opts.demoLive
+  const live: EventItem[] = demoLive
     ? DEMO_LIVE.map((d) => {
         const venue = venueBySlug.get('casa-mare');
         if (!venue) throw new Error('casa-mare missing');
@@ -525,10 +540,10 @@ export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: 
   });
 
   const events = [
-    ...UPCOMING.map((s) => toEvent(s, 'w')),
-    ...PAST.map((s) => toEvent(s, 'p')),
+    ...UPCOMING.filter(keepDemo).map((s) => toEvent(s, 'w')),
+    ...PAST.filter(keepDemo).map((s) => toEvent(s, 'p')),
     ...real,
-    ...demoLive,
+    ...live,
   ].sort((a, b) => a.startsAt.localeCompare(b.startsAt) || a.id.localeCompare(b.id));
 
   const ids = new Set<string>();

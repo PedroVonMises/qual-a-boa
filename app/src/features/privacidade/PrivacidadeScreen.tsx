@@ -11,6 +11,7 @@ import { LegalSheet } from '@/features/perfil/LegalSheet';
 import { PRIVACY, TERMS, type LegalDoc } from '@/features/perfil/legalText';
 import { OUTSIDE_PILOT_MESSAGE, openSettings } from '@/lib/location';
 import { wipeLocalData } from '@/state/accountData';
+import { useCommunity } from '@/state/community';
 import { useLocation } from '@/state/location';
 import { useSearchHistory } from '@/state/searchHistory';
 import { useTheme } from '@/theme/ThemeProvider';
@@ -47,6 +48,8 @@ export function PrivacidadeScreen() {
   const clearHistory = useSearchHistory((s) => s.clear);
   const resetReco = useResetRecommendations();
   const hasAccount = authAvailable();
+  const blockCount = useCommunity((s) => s.blocks.length);
+  const unblockAll = useCommunity((s) => s.unblockAll);
 
   const [areaOpen, setAreaOpen] = useState(false);
   const [legal, setLegal] = useState<LegalDoc | null>(null);
@@ -108,6 +111,24 @@ export function PrivacidadeScreen() {
             say('Recomendações zeradas.');
           }}
           testID="privacidade-reset-reco"
+        />
+
+        <Caption>COMUNIDADE</Caption>
+        <ListRow
+          title="Desbloquear todas as pessoas"
+          subtitle={
+            blockCount
+              ? `${blockCount} ${blockCount === 1 ? 'pessoa bloqueada' : 'pessoas bloqueadas'}. As publicações delas voltam a aparecer`
+              : 'Ninguém bloqueado. Bloqueie pelo botão Bloquear em uma conversa'
+          }
+          icon="user"
+          divider
+          disabled={!blockCount}
+          onPress={() => {
+            void unblockAll();
+            say('Pessoas desbloqueadas.');
+          }}
+          testID="privacidade-unblock"
         />
 
         <Caption>SEUS DADOS</Caption>

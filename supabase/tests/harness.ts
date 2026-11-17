@@ -27,7 +27,9 @@ create role anon nologin noinherit;
 create role authenticated nologin noinherit;
 create role service_role nologin noinherit bypassrls;
 create schema auth;
-create table auth.users (id uuid primary key);
+create table auth.users (
+  id uuid primary key, is_anonymous boolean not null default false, created_at timestamptz not null default now()
+);
 create function auth.uid() returns uuid language sql stable as $$
   select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid
 $$;
@@ -74,6 +76,9 @@ export async function createDb(seed?: SeedDataset): Promise<DB> {
       throw new Error(`migration ${path.basename(file)} failed: ${(err as Error).message}`);
     }
   }
+  // Community guards (0017) are tuned for production; tests that are not about them post in bursts from fresh users.
+  await db.exec(`update public.community_limits set threads_per_10min = 100000, comments_per_hour = 100000,
+    reporter_min_age = interval '0'`);
   if (seed) await db.exec(datasetToSql(seed));
   return db;
 }

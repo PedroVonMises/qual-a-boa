@@ -13,6 +13,7 @@ import {
 } from '@/data/sync/community';
 import {
   COMMUNITY_PAGE_SIZE,
+  isBlocked,
   threadMatchesQuery,
   threadQueryKey,
   topHelpful,
@@ -84,6 +85,7 @@ export function useThreads(q: ThreadQuery): ThreadFeed {
   const mineThreads = useCommunity((s) => s.threads);
   const mineComments = useCommunity((s) => s.comments);
   const votedIds = useCommunity((s) => s.votedIds);
+  const blocks = useCommunity((s) => s.blocks);
   const tick = useCommunity((s) => s.tick);
   const synthetic = useSyntheticThreads();
   const inf = useThreadsInfinite(q);
@@ -118,21 +120,21 @@ export function useThreads(q: ThreadQuery): ThreadFeed {
     const unsynced = (id: string) => mineComments.filter((c) => c.threadId === id && !isServerId(c.id)).length;
     return [
       ...overlay.sort(newestFirst).map((t) => ({ ...t, replies: t.commentCount + unsynced(t.id) })),
-      ...server.map((t) => ({ ...t, replies: t.replies + unsynced(t.id) })),
+      ...server.filter((t) => !isBlocked(t, blocks)).map((t) => ({ ...t, replies: t.replies + unsynced(t.id) })),
     ];
     // `q` is derived from stable inputs by the caller; the key text covers it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [remote, inf.data, mineThreads, mineComments, keyText]);
+  }, [remote, inf.data, mineThreads, mineComments, blocks, keyText]);
 
   const localAll = useMemo<ThreadView[]>(() => {
     if (remote) return [];
-    const comments = [...DEMO_COMMENTS, ...mineComments];
+    const comments = [...DEMO_COMMENTS.filter((c) => !isBlocked(c, blocks)), ...mineComments];
     const all = [...mineThreads, ...DEMO_THREADS, ...synthetic]
-      .filter((t) => threadMatchesQuery(t, q))
+      .filter((t) => threadMatchesQuery(t, q) && !isBlocked(t, blocks))
       .map((t) => toView(t, comments, votedIds));
     return all.sort(q.sort === 'helpful' ? byHelpful : newestFirst);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [remote, mineThreads, mineComments, votedIds, synthetic, keyText]);
+  }, [remote, mineThreads, mineComments, votedIds, blocks, synthetic, keyText]);
 
   if (!remote) {
     return {
@@ -182,17 +184,22 @@ export function useThread(id: string | undefined): ThreadView | undefined {
   const mineThreads = useCommunity((s) => s.threads);
   const mineComments = useCommunity((s) => s.comments);
   const votedIds = useCommunity((s) => s.votedIds);
+  const blocks = useCommunity((s) => s.blocks);
   const synthetic = useSyntheticThreads();
   const single = useRemoteThread(real, tick);
 
   return useMemo(() => {
     const unsynced = (tid: string) => mineComments.filter((c) => c.threadId === tid && !isServerId(c.id)).length;
-    if (remote && single.data) return { ...single.data, replies: single.data.replies + unsynced(single.data.id) };
+    if (remote && single.data) {
+      if (isBlocked(single.data, blocks)) return undefined;
+      return { ...single.data, replies: single.data.replies + unsynced(single.data.id) };
+    }
     const local =
       mineThreads.find((t) => t.id === real) ??
-      (remote ? undefined : [...DEMO_THREADS, ...synthetic].find((t) => t.id === real));
-    return local ? toView(local, [...DEMO_COMMENTS, ...mineComments], votedIds) : undefined;
-  }, [remote, single.data, mineThreads, mineComments, votedIds, synthetic, real]);
+      (remote ? undefined : [...DEMO_THREADS, ...synthetic].find((t) => t.id === real && !isBlocked(t, blocks)));
+    const comments = [...DEMO_COMMENTS.filter((c) => !isBlocked(c, blocks)), ...mineComments];
+    return local ? toView(local, comments, votedIds) : undefined;
+  }, [remote, single.data, mineThreads, mineComments, votedIds, blocks, synthetic, real]);
 }
 
 /** Comments of a thread. Backend on: server comments plus this device's unsynced ones; off: demo + this device's. */
@@ -200,6 +207,7 @@ export function useComments(threadId: string | undefined): Comment[] {
   const remote = isRemote();
   const aliased = useCommunity((s) => (threadId ? (s.aliases[threadId] ?? threadId) : threadId));
   const mine = useCommunity((s) => s.comments);
+  const blocks = useCommunity((s) => s.blocks);
   const tick = useCommunity((s) => s.tick);
   const adoptVotes = useCommunity((s) => s.adoptVotes);
   const q = useRemoteComments(aliased, tick);
@@ -212,10 +220,16 @@ export function useComments(threadId: string | undefined): Comment[] {
   return useMemo(() => {
     const here = mine.filter((c) => c.threadId === aliased);
     if (remote) {
-      const server = q.data ?? [];
-      const known = new Set(server.map((c) => c.id));
-      return [...server, ...here.filter((c) => !known.has(c.id))];
+      const server = (q.data ?? []).filter((c) => !isBlocked(c, blocks));
+      const known = new Set((q.data ?? []).map((c) => c.id));
+      return withVisibleParent([...server, ...here.filter((c) => !known.has(c.id))]);
     }
-    return [...DEMO_COMMENTS.filter((c) => c.threadId === aliased), ...here];
-  }, [remote, q.data, mine, aliased]);
+    return withVisibleParent([...DEMO_COMMENTS.filter((c) => c.threadId === aliased && !isBlocked(c, blocks)), ...here]);
+  }, [remote, q.data, mine, blocks, aliased]);
+}
+
+/** Drops replies whose parent is not in the list (blocked author), as the server's comments_feed does. */
+function withVisibleParent(list: Comment[]): Comment[] {
+  const ids = new Set(list.map((c) => c.id));
+  return list.filter((c) => !c.parentId || ids.has(c.parentId));
 }

@@ -28,6 +28,8 @@ export interface CommentItemProps {
   /** Omit for your own comments. */
   onReport?: () => void;
   reported?: boolean;
+  /** Bloquear the author (hides all of their posts for you). Omit for your own comments. */
+  onBlock?: () => void;
   testID?: string;
 }
 
@@ -46,6 +48,7 @@ export function CommentItem({
   canVote = true,
   onReport,
   reported = false,
+  onBlock,
   testID,
 }: CommentItemProps) {
   const { colors } = useTheme();
@@ -94,6 +97,19 @@ export function CommentItem({
             style={styles.replyBtn}>
             <Text variant="bodySm" tone="textMuted">
               {reported ? 'Denunciado' : 'Denunciar'}
+            </Text>
+          </PressableScale>
+        ) : null}
+        {onBlock ? (
+          <PressableScale
+            accessibilityRole="button"
+            accessibilityLabel={`Bloquear ${name}`}
+            accessibilityHint="Esconde todas as publicações dessa pessoa para você"
+            onPress={onBlock}
+            scaleTo={0.97}
+            style={styles.replyBtn}>
+            <Text variant="bodySm" tone="textMuted">
+              Bloquear
             </Text>
           </PressableScale>
         ) : null}

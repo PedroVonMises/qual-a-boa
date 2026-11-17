@@ -9,8 +9,11 @@ interface PgError {
   message?: string;
 }
 
-/** Postgres codes meaning "the server said no" (RLS 42501, check-in window / throttle 23514). Retrying cannot help. */
-const REJECT_CODES = new Set(['42501', '23514']);
+/**
+ * Postgres codes meaning "the server said no" (RLS 42501, check / throttle 23514, a rule raised by an RPC P0001:
+ * check-in too far or closed, rate limited). Retrying cannot help.
+ */
+const REJECT_CODES = new Set(['42501', '23514', 'P0001']);
 export const isRejection = (e: PgError | null | undefined) =>
   !!e && (REJECT_CODES.has(e.code ?? '') || /row-level security|throttled/i.test(e.message ?? ''));
 export const isDuplicate = (e: PgError | null | undefined) => e?.code === '23505';

@@ -1,6 +1,6 @@
 import '@/ui/testSetup';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 
 import { useCommunity } from '@/state/community';
 import { ThreadScreen } from '../ThreadScreen';
@@ -13,7 +13,7 @@ jest.mock('@react-native-async-storage/async-storage', () =>
 );
 
 beforeEach(() =>
-  useCommunity.setState({ handle: undefined, threads: [], comments: [], votedIds: [], reportedIds: [], reportSentIds: [], aliases: {}, handleTaken: false }),
+  useCommunity.setState({ handle: undefined, threads: [], comments: [], votedIds: [], reportedIds: [], reportSentIds: [], blocks: [], aliases: {}, handleTaken: false }),
 );
 
 const renderThread = (id: string) =>
@@ -122,5 +122,42 @@ describe('ThreadScreen (demo thread)', () => {
   it('shows the not-found state for an unknown thread', async () => {
     await renderThread("nope");
     expect(screen.getByText('Conversa não encontrada')).toBeTruthy();
+  });
+});
+
+describe('ThreadScreen: Bloquear', () => {
+  it('blocking a named author hides all of their comments and the replies under them', async () => {
+    await renderThread('demo-th-1');
+    expect(screen.getByTestId('comentario-demo-cm-2')).toBeTruthy();
+    await fireEvent.press(screen.getByRole('button', { name: 'Bloquear @rafa.praia' }));
+    expect(screen.queryByTestId('comentario-demo-cm-1')).toBeNull();
+    expect(screen.queryByTestId('comentario-demo-cm-2')).toBeNull(); // reply under the blocked comment
+    expect(screen.getByTestId('comentario-demo-cm-3')).toBeTruthy();
+    expect(useCommunity.getState().blocks).toEqual([{ postId: 'demo-cm-1', handle: 'rafa.praia' }]);
+  });
+
+  it('blocking an anonymous comment hides that comment only on this device', async () => {
+    await renderThread('demo-th-1');
+    await fireEvent.press(screen.getByRole('button', { name: 'Bloquear Anônimo' }));
+    expect(screen.queryByTestId('comentario-demo-cm-3')).toBeNull();
+    expect(screen.getByTestId('comentario-demo-cm-1')).toBeTruthy();
+    expect(useCommunity.getState().blocks).toEqual([{ postId: 'demo-cm-3', handle: undefined }]);
+  });
+
+  it('offers no Bloquear on your own comment, and unblocking brings posts back', async () => {
+    useCommunity.getState().setHandle('eu_mesma');
+    useCommunity.getState().addComment({ threadId: 'demo-th-2', body: 'Minha resposta', anonymous: false });
+    await renderThread('demo-th-2');
+    expect(screen.getAllByRole('button', { name: /^Bloquear [@A]/ })).toHaveLength(1);
+    await fireEvent.press(screen.getByRole('button', { name: 'Bloquear @rafa.praia' }));
+    expect(screen.queryByTestId('comentario-demo-cm-5')).toBeNull();
+    await act(() => useCommunity.getState().unblockAll());
+    expect(await screen.findByTestId('comentario-demo-cm-5')).toBeTruthy();
+  });
+
+  it('blocking the author of the thread leaves the conversation', async () => {
+    await renderThread('demo-th-1');
+    await fireEvent.press(screen.getByTestId('comunidade-bloquear-autor'));
+    expect(useCommunity.getState().blocks).toEqual([{ postId: 'demo-th-1', handle: 'marina_vix' }]);
   });
 });

@@ -1,3 +1,4 @@
+import type { CheckinPosition } from '@/domain/checkin';
 import type { Checkin } from '@/domain/engage';
 import { useCheckins } from '@/state/checkins';
 
@@ -11,12 +12,19 @@ const setUnsynced = (eventId: string, on: boolean) =>
   });
 
 /**
- * Inserts the check-in (the server stamps `at` and enforces the window: 2h before start until the end).
- * An RLS rejection keeps the local row and marks it unsynced; it is not retried.
+ * Checks in through public.check_in(): the server stamps `at` and enforces the window (2h before start until the end)
+ * and the distance to the venue. The position is sent only for that check and never stored. Without a position (a
+ * check-in left over from before 0018, or made offline) the server refuses. A rejection keeps the local row and marks
+ * it unsynced; it is not retried.
  */
-export function pushCheckin(eventId: string): Promise<PushResult> {
+export function pushCheckin(eventId: string, pos?: CheckinPosition): Promise<PushResult> {
   return safely('checkin', async (sb) => {
-    const { error } = await sb.from('checkins').insert({ event_id: eventId });
+    const { error } = await sb.rpc('check_in', {
+      p_event_id: eventId,
+      p_lat: pos?.lat ?? null,
+      p_lng: pos?.lng ?? null,
+      p_accuracy_m: pos?.accuracyM ?? null,
+    });
     if (error && !isDuplicate(error)) {
       if (isRejection(error)) {
         setUnsynced(eventId, true);
