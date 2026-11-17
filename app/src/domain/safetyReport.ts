@@ -26,3 +26,27 @@ export const telUrl = (number: string) => `tel:${number.replace(/[^0-9+]/g, '')}
 
 export const SAFETY_REPORT_PRIVACY =
   'Seu relato nunca é publicado e a casa não fica sabendo quem relatou. Só a equipe do Qual a Boa lê e responde por aqui.';
+
+/** Map link that opens in any phone (Google Maps universal URL). */
+export const mapsLink = (lat: number, lng: number) =>
+  `https://www.google.com/maps/search/?api=1&query=${lat.toFixed(6)},${lng.toFixed(6)}`;
+
+export interface SharePlace {
+  name: string;
+  address?: string;
+  lat: number;
+  lng: number;
+  /** Event title, when sharing from an event page. */
+  eventTitle?: string;
+}
+
+/**
+ * "Compartilhar minha localização" (S4): the text handed to the system share sheet. With a fresh fix it carries the
+ * person's own position; without one (no permission, no signal) it falls back to the venue's. The app keeps nothing.
+ */
+export function locationShareMessage(place: SharePlace, me?: { lat: number; lng: number } | null): string {
+  const where = place.eventTitle ? `em ${place.eventTitle}, na ${place.name}` : `na ${place.name}`;
+  const addr = place.address ? ` (${place.address})` : '';
+  if (me) return `Estou ${where}${addr}. Minha localização agora: ${mapsLink(me.lat, me.lng)}`;
+  return `Estou ${where}${addr}. Endereço no mapa: ${mapsLink(place.lat, place.lng)}`;
+}

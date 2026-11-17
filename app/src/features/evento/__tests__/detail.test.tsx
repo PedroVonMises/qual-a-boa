@@ -104,6 +104,19 @@ describe('EventoScreen', () => {
     expect(useFavorites.getState().eventIds).toEqual(['e01']);
   });
 
+  it('shows the emergency buttons on the event and on the venue (S4)', async () => {
+    await renderWith(<EventoScreen id="e01" />);
+    expect(await screen.findByTestId('evento-emergencia')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('evento-volta'));
+    expect(mockPush).toHaveBeenCalledWith('/volta?evento=e01');
+    await fireEvent.press(screen.getByTestId('evento-emergencia-ligar-190'));
+    expect(Linking.openURL).toHaveBeenCalledWith('tel:190');
+    expect(screen.getByRole('button', { name: 'Compartilhar minha localização' })).toBeTruthy();
+    const venue = data.venues.find((v) => v.id === data.events.find((e) => e.id === 'e01')!.venueId)!;
+    await renderWith(<CasaScreen slug={venue.slug} />);
+    expect(await screen.findByTestId('casa-emergencia')).toBeTruthy();
+  });
+
   it('shows the venue and event access tags as text badges', async () => {
     await renderWith(<EventoScreen id="e01" />);
     expect(await screen.findByText('Acessível')).toBeTruthy();

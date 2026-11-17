@@ -8,6 +8,7 @@ import { useEvent, useGenres } from '@/data/queries';
 import { useRecordView } from '@/state/useRecordView';
 import { useFavorites } from '@/state/favorites';
 import { useLocation } from '@/state/location';
+import { EmergencyActions } from '@/features/seguranca/EmergencyActions';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
 import { ArtistRow, Badge, Button, IconButton, PressableScale, Tag, Text, useBreakpoint } from '@/ui';
@@ -151,6 +152,21 @@ export function EventoScreen({ id }: { id?: string }) {
             Aconteceu algo comigo
           </Text>
         </PressableScale>
+        <PressableScale
+          accessibilityRole="link"
+          accessibilityLabel="Cheguei em casa"
+          accessibilityHint="Avisar pessoas de confiança que você está voltando e quando chegar"
+          onPress={() => go(`/volta?evento=${encodeURIComponent(event.id)}`)}
+          style={styles.link}
+          testID="evento-volta">
+          <Text variant="bodySm" tone="accent" style={styles.bold}>
+            Cheguei em casa: avisar quem espera notícia
+          </Text>
+        </PressableScale>
+        <EmergencyActions
+          place={{ name: venue.name, address: venue.address, lat: venue.lat, lng: venue.lng, eventTitle: event.title }}
+          testID="evento-emergencia"
+        />
       </View>
       <ShareSheet visible={shareOpen} onClose={() => setShareOpen(false)} event={event} venue={venue} />
     </Frame>

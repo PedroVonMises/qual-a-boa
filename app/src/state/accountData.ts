@@ -6,6 +6,7 @@ import { useProfile } from './profile';
 import { useReviews } from './reviews';
 import { useSupport } from './support';
 import { useTaste } from './taste';
+import { useVolta } from './volta';
 
 export interface ExportAccount {
   email: string | null;
@@ -30,6 +31,8 @@ export function buildExport(account: ExportAccount, now: Date = new Date()) {
     reviews: useReviews.getState().mine,
     supportTickets: useSupport.getState().tickets,
     profile: { phone: profile.phone ?? null, address: profile.address ?? null },
+    // Device-only (S5): the trusted contacts never leave this phone except in this export.
+    trustedContacts: useVolta.getState().contacts,
   };
 }
 
@@ -39,4 +42,5 @@ export const exportFileName = (now: Date = new Date()) => `qual-a-boa-meus-dados
 export function wipeLocalData(): void {
   resetApp();
   useTaste.getState().reset();
+  useVolta.getState().reset();
 }

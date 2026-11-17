@@ -9,6 +9,7 @@ import { eventPhase, isDemoVenue } from '@/features/acompanhar/logic';
 import { getNow, useNow } from '@/features/acompanhar/useNow';
 import { Frame, StateShell, useGoBack } from '@/features/evento/Frame';
 import { openMaps } from '@/features/evento/linking';
+import { EmergencyActions } from '@/features/seguranca/EmergencyActions';
 import { useCheckins } from '@/state/checkins';
 import { useFollows } from '@/state/follows';
 import { useLive } from '@/state/live';
@@ -207,6 +208,18 @@ export function AoVivoScreen({ id }: { id?: string }) {
           })}
         </View>
         )}
+        <Button
+          label="Tô voltando: avisar quem espera"
+          variant="secondary"
+          icon="send"
+          fullWidth
+          onPress={() => router.push(`/volta?evento=${encodeURIComponent(event.id)}` as Href)}
+          testID="aovivo-volta"
+        />
+        <EmergencyActions
+          place={{ name: venue.name, address: venue.address, lat: venue.lat, lng: venue.lng, eventTitle: event.title }}
+          testID="aovivo-emergencia"
+        />
       </View>
 
       <ReportSheet
