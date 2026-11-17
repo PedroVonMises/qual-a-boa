@@ -6,7 +6,16 @@ import { safeMerge } from './safeMerge';
 
 import { isRemote } from '@/data/supabaseClient';
 import { DEFAULT_UF, type Uf } from '@/domain/region';
-import { isServerId, pushComment, pushCommentVote, pushCommunityReport, pushHandle, pushThread } from '@/data/sync/community';
+import {
+  isServerId,
+  pushBlockAuthor,
+  pushComment,
+  pushCommentVote,
+  pushCommunityReport,
+  pushHandle,
+  pushThread,
+  pushUnblockAll,
+} from '@/data/sync/community';
 
 import {
   COMMENT_MAX,
@@ -14,7 +23,9 @@ import {
   THREAD_BODY_MAX,
   TITLE_MAX,
   validatePost,
+  type Author,
   type Comment,
+  type LocalBlock,
   type Thread,
   type ThreadKind,
 } from '@/domain/community';
@@ -51,6 +62,8 @@ interface CommunityStore {
   reportedIds: string[];
   /** Report ids the server accepted ('Denúncia enviada'); the rest are only saved on this device. */
   reportSentIds: string[];
+  /** Bloquear: one entry per block made on this device (the post it came from, and the handle when not anonymous). */
+  blocks: LocalBlock[];
   /** Local thread id -> server id once synced, so a screen opened on the local id keeps resolving its thread. */
   aliases: Record<string, string>;
   /** The handle chosen offline turned out to belong to someone else: the user must pick another to publish named posts. */
@@ -66,6 +79,13 @@ interface CommunityStore {
   addComment: (input: CommentInput) => Comment | string;
   toggleHelpful: (id: string) => void;
   report: (id: string, kind: 'thread' | 'comment') => void;
+  /**
+   * Blocks the author of a post: their posts disappear from this device at once (by handle when the post is named),
+   * and with the backend on the server hides all of their posts, anonymous ones included. Never your own post.
+   */
+  block: (post: { id: string; author: Author; mine?: boolean }, kind: 'thread' | 'comment') => void;
+  /** Lifts every block, here and on the server. */
+  unblockAll: () => Promise<void>;
   /** Adds server-confirmed votes to the local set (never removes: a local vote may not be pushed yet). */
   adoptVotes: (ids: string[]) => void;
 }
@@ -83,6 +103,7 @@ export const useCommunity = create<CommunityStore>()(
       votedIds: [],
       reportedIds: [],
       reportSentIds: [],
+      blocks: [],
       aliases: {},
       handleTaken: false,
       tick: 0,
@@ -163,6 +184,21 @@ export const useCommunity = create<CommunityStore>()(
           if (ok) set((s) => (s.reportSentIds.includes(id) ? s : { reportSentIds: [...s.reportSentIds, id] }));
         });
       },
+      block: (post, kind) => {
+        if (post.mine || get().blocks.some((b) => b.postId === post.id)) return;
+        const handle = post.author.anonymous ? undefined : post.author.handle;
+        set((s) => ({ blocks: [...s.blocks, { postId: post.id, handle }], tick: s.tick + 1 }));
+        if (!isRemote()) return;
+        const target = kind === 'thread' ? { threadId: post.id } : { commentId: post.id };
+        // Bump after the server stored it, so remote lists refetch without the author's other posts.
+        void pushBlockAuthor(target).then((ok) => {
+          if (ok) set((s) => ({ tick: s.tick + 1 }));
+        });
+      },
+      unblockAll: async () => {
+        set((s) => ({ blocks: [], tick: s.tick + 1 }));
+        if (isRemote() && (await pushUnblockAll())) set((s) => ({ tick: s.tick + 1 }));
+      },
       adoptVotes: (ids) =>
         set((s) => {
           const add = ids.filter((id) => !s.votedIds.includes(id));
@@ -181,6 +217,7 @@ export const useCommunity = create<CommunityStore>()(
         votedIds: s.votedIds,
         reportedIds: s.reportedIds,
         reportSentIds: s.reportSentIds,
+        blocks: s.blocks,
         aliases: s.aliases,
       }),
     },

@@ -79,6 +79,7 @@ export function ThreadScreen({ id }: { id?: string }) {
   const toggleHelpful = useCommunity((s) => s.toggleHelpful);
   const reportedIds = useCommunity((s) => s.reportedIds);
   const report = useCommunity((s) => s.report);
+  const block = useCommunity((s) => s.block);
   const [sortOverride, setSortOverride] = useState<CommunitySort | undefined>();
   const [replyTo, setReplyTo] = useState<Comment | undefined>();
 
@@ -111,6 +112,7 @@ export function ThreadScreen({ id }: { id?: string }) {
       canVote={!c.mine}
       onReport={c.mine ? undefined : () => report(c.id, 'comment')}
       reported={reportedIds.includes(c.id)}
+      onBlock={c.mine ? undefined : () => block(c, 'comment')}
     />
   );
 
@@ -134,6 +136,24 @@ export function ThreadScreen({ id }: { id?: string }) {
           <Text variant="bodySm" tone="textMuted">
             {thread.author.anonymous ? 'Anônimo' : `@${thread.author.handle}`} · {formatRelative(thread.createdAt)}
           </Text>
+          {thread.mine ? null : (
+            <View style={styles.chips}>
+              <Chip
+                label={reportedIds.includes(thread.id) ? 'Denunciada' : 'Denunciar conversa'}
+                selected={reportedIds.includes(thread.id)}
+                onPress={() => report(thread.id, 'thread')}
+                testID="comunidade-denunciar-conversa"
+              />
+              <Chip
+                label="Bloquear quem postou"
+                onPress={() => {
+                  block(thread, 'thread');
+                  goBack();
+                }}
+                testID="comunidade-bloquear-autor"
+              />
+            </View>
+          )}
 
           <View style={styles.sortRow}>
             <Text variant="bodySm" tone="textMuted">

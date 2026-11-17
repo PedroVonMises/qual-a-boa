@@ -217,3 +217,19 @@ export function threadMatchesQuery(t: Filterable, q: ThreadQuery): boolean {
   }
   return true;
 }
+
+/** A block made on this device: the post it was made from, and the author's handle when the post was not anonymous. */
+export interface LocalBlock {
+  postId: string;
+  handle?: string;
+}
+
+/**
+ * Hidden by a block made on this device: the post itself, or anything signed by a blocked handle. The server also
+ * filters every post of a blocked author (anonymous ones included) out of the feed views; this covers the moment right
+ * after blocking and the demo/offline mode.
+ */
+export function isBlocked(x: { id: string; author: Author }, blocks: readonly LocalBlock[]): boolean {
+  if (blocks.length === 0) return false;
+  return blocks.some((b) => b.postId === x.id || (!!b.handle && !x.author.anonymous && x.author.handle === b.handle));
+}

@@ -1,10 +1,11 @@
 import '@/ui/testSetup';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen } from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import { setRepo, SeedRepo } from '@/data';
 import { miniDataset } from '@/data/__fixtures__/mini';
 import { PRIVACY } from '@/features/perfil/legalText';
+import { useCommunity } from '@/state/community';
 import { useLocation } from '@/state/location';
 import { useProfile } from '@/state/profile';
 import { PrivacidadeScreen } from '../PrivacidadeScreen';
@@ -52,5 +53,22 @@ describe('Privacidade: two locations', () => {
     expect(text).not.toMatch(/nunca é enviada/);
     expect(text).toMatch(/tempo real fica somente neste aparelho/);
     expect(text).toMatch(/fica salvo na sua conta/);
+  });
+});
+
+describe('Privacidade: pessoas bloqueadas', () => {
+  it('shows how many people are blocked and unblocks them all', async () => {
+    useCommunity.setState({ blocks: [{ postId: 'demo-cm-1', handle: 'rafa.praia' }, { postId: 'demo-cm-3' }] });
+    await renderScreen();
+    expect(screen.getByText(/2 pessoas bloqueadas/)).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('privacidade-unblock'));
+    expect(useCommunity.getState().blocks).toEqual([]);
+    expect(await screen.findByText('Pessoas desbloqueadas.')).toBeTruthy();
+  });
+
+  it('is disabled when nobody is blocked', async () => {
+    useCommunity.setState({ blocks: [] });
+    await renderScreen();
+    expect(screen.getByText(/Ninguém bloqueado/)).toBeTruthy();
   });
 });

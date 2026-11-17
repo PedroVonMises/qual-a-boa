@@ -7,5 +7,11 @@ DEMO_PREVIEW_BRANCHES="claude/project-thread-mx7z8b"
 if [ "${VERCEL_ENV:-}" = "preview" ] && [[ " $DEMO_PREVIEW_BRANCHES " == *" ${VERCEL_GIT_COMMIT_REF:-} "* ]]; then
   echo "vercel-build: demo preview for ${VERCEL_GIT_COMMIT_REF} (seed data, demo autoload)"
   export EXPO_PUBLIC_APP_ENV=preview EXPO_PUBLIC_DATA_SOURCE=seed EXPO_PUBLIC_DEMO_AUTOLOAD=1
+  # Full demo catalog, re-dated to today.
+  npm run seed
+else
+  # Production (and other previews): re-date the bundled catalog to the build day, without invented events at real
+  # venues. Without this the committed seed.json runs out of upcoming events a few weeks after it was generated.
+  npm run seed -- --production
 fi
 npx expo export --platform web
