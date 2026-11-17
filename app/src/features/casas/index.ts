@@ -6,3 +6,4 @@ export { PainelScreen } from './PainelScreen';
 export { PlanoScreen } from './PlanoScreen';
 export { ProtocoloScreen } from './ProtocoloScreen';
 export { VincularScreen } from './VincularScreen';
+export { VoltaInfoScreen } from './VoltaInfoScreen';

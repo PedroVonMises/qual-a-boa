@@ -78,6 +78,8 @@ export interface EventSubmission {
   priceMin?: number | null;
   priceMax?: number | null;
   ticketUrl?: string | null;
+  /** Item 14 (migration 0023). */
+  dressCode?: string | null;
   ageMin?: number;
   genreSlugs: string[];
   posterPath?: string | null;

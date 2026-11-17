@@ -17,6 +17,8 @@ import {
 } from '@/domain/types';
 import { cleanTags } from '@/domain/accessTags';
 import { cleanSafetyProtocol } from '@/domain/safetyProtocol';
+import { cleanEventTrust } from '@/domain/eventTrust';
+import { cleanReturnInfo, hasReturnInfo } from '@/domain/returnInfo';
 import { haversineKm } from '@/domain/geo';
 import type { Repo } from './repo';
 
@@ -49,6 +51,11 @@ export function mapArtist(r: Row): Artist {
 }
 
 /** Spread into a venue: the key is left out when there is no seal, so venues without one stay deep-equal. */
+const withReturnInfo = (v: unknown) => {
+  const r = cleanReturnInfo(v);
+  return hasReturnInfo(r) ? { returnInfo: r } : {};
+};
+
 const withSafetyProtocol = (v: unknown) => {
   const s = cleanSafetyProtocol(v);
   return s ? { safetyProtocol: s } : {};
@@ -69,6 +76,7 @@ export function mapVenue(r: Row): Venue {
     genreSlugs: pick<string[] | null>(r, 'genre_slugs', 'genreSlugs') ?? [],
     accessTags: cleanTags(pick<string[] | null>(r, 'access_tags', 'accessTags')),
     ...withSafetyProtocol(pick<string | null>(r, 'safety_protocol', 'safetyProtocol')),
+    ...withReturnInfo(pick<unknown>(r, 'return_info', 'returnInfo')),
     hours: r.hours ?? undefined,
     coverKey: (pick<string | null>(r, 'cover_key', 'coverKey') ?? 'generic') as CoverKey,
     placeholder: r.placeholder ?? false,
@@ -104,8 +112,14 @@ export function mapEvent(r: Row): EventItem {
     status: r.status,
     coverKey: (pick<string | null>(r, 'cover_key', 'coverKey') ?? 'generic') as CoverKey,
     popularity: Number(r.popularity ?? 0),
+    ...cleanEventTrust({
+      sourceUrl: pick(r, 'source_url', 'sourceUrl'),
+      verifiedAt: pick(r, 'verified_at', 'verifiedAt'),
+      dressCode: pick(r, 'dress_code', 'dressCode'),
+    }),
   };
 }
+
 
 const EVENT_SELECT = '*, event_genres(genres(slug)), event_artists(artist_id, billing_order)';
 

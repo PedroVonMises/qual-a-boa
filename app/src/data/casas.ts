@@ -31,9 +31,11 @@ import {
   NO_SAFETY_DECLARATION,
   type SafetyDeclaration,
 } from '@/domain/casas';
+import { cleanReturnInfo, returnInfoToRow, type ReturnInfo } from '@/domain/returnInfo';
 import { cleanSafetyProtocol, isValidResponsible } from '@/domain/safetyProtocol';
 import type { EventStatus } from '@/domain/types';
 
+import { getRepo } from './index';
 import { getSupabase, isRemote } from './supabaseClient';
 
 export type CasasResult<T> = ({ ok: true } & T) | { ok: false; code: CasasErrorCode; error: string };
@@ -50,6 +52,7 @@ export const casasKeys = {
   events: (accountId: string) => ['casas', 'events', accountId] as const,
   quota: (accountId: string, month: string) => ['casas', 'quota', accountId, month] as const,
   safety: (accountId: string) => ['casas', 'safety', accountId] as const,
+  returnInfo: (venueId: string) => ['casas', 'returnInfo', venueId] as const,
 };
 
 function uuid(): string {
@@ -179,6 +182,7 @@ export function submissionPayload(s: EventSubmission): Record<string, unknown> {
     price_min: s.isFree ? null : (s.priceMin ?? null),
     price_max: s.isFree ? null : (s.priceMax ?? null),
     ticket_url: s.ticketUrl?.trim() || null,
+    dress_code: s.dressCode?.trim().replace(/\s+/g, ' ') || null,
     age_min: s.ageMin ?? 18,
     genre_slugs: s.genreSlugs,
     poster_path: s.posterPath ?? null,
@@ -201,6 +205,8 @@ interface CasasDemoState {
   events: DemoEvent[];
   /** Selo Não é Não declarations by account id. */
   safety: Record<string, SafetyDeclaration>;
+  /** Informações de volta by venue id (S8). Absent = the seed's value. */
+  returnInfo: Record<string, ReturnInfo>;
 }
 
 /** Next Friday (SP) at 23:00 after `nowMs`, `weeks` weeks later. */
@@ -238,6 +244,7 @@ export function initialCasasDemo(nowMs: number = Date.now()): CasasDemoState {
       { ...base, id: 'demo-festa-2', title: 'House na Praia', startsAt: demoFriday(nowMs, 1), status: 'pending_review', ticketUrl: null },
     ],
     safety: {},
+    returnInfo: {},
   };
 }
 
@@ -592,6 +599,48 @@ export async function declareSafetyProtocol(
   }
 }
 
+// --- Informações de volta (S8) ---------------------------------------------------------------------------------------------
+
+/** What the venue page shows now (venues are public). Demo: the local edit, else the seed. */
+export async function fetchReturnInfo(venue: { id: string; slug: string }): Promise<ReturnInfo> {
+  const venueId = venue.id;
+  if (!isRemote()) {
+    const local = useCasasDemo.getState().returnInfo[venueId];
+    if (local) return local;
+    const detail = venue.slug ? await getRepo().getVenue(venue.slug) : null;
+    return detail?.venue.returnInfo ?? {};
+  }
+  const sb = getSupabase();
+  if (!sb) return {};
+  const { data, error } = await sb.from('venues').select('return_info').eq('id', venueId).maybeSingle();
+  if (error) throw error;
+  return cleanReturnInfo((data as { return_info?: unknown } | null)?.return_info);
+}
+
+/** Saves the whole block (empty fields are removed). Resolves with what was stored. */
+export async function saveReturnInfo(accountId: string, info: ReturnInfo): Promise<CasasResult<{ info: ReturnInfo }>> {
+  const row = returnInfoToRow(info);
+  if (!isRemote()) {
+    const a = demoAccount(accountId);
+    if (!a) return fail('not_member');
+    if (a.status !== 'verified') return fail('account_not_verified');
+    if (!a.venue) return fail('venue_missing');
+    const stored = cleanReturnInfo(row);
+    const venueId = a.venue.id;
+    useCasasDemo.setState((s) => ({ returnInfo: { ...s.returnInfo, [venueId]: stored } }));
+    return { ok: true, info: stored };
+  }
+  try {
+    const sb = getSupabase();
+    if (!sb) return fail('no_backend');
+    const { data, error } = await sb.rpc('set_return_info', { p_account: accountId, p_info: row });
+    if (error) return fail(await codeOf(error));
+    return { ok: true, info: cleanReturnInfo(data) };
+  } catch (e) {
+    return fail(await codeOf(e));
+  }
+}
+
 // --- Hooks ------------------------------------------------------------------------------------------------------------------
 
 /** Demo mutations change the zustand store; subscribing keeps the queries fresh. */
@@ -626,6 +675,21 @@ export function useSafetyProtocol(accountId: string | undefined) {
   });
 }
 
+export function useReturnInfo(venue: { id: string; slug: string } | null | undefined) {
+  const demo = useDemoVersion();
+  return useQuery({
+    queryKey: [...casasKeys.returnInfo(venue?.id ?? ''), demo],
+    queryFn: () => fetchReturnInfo(venue!),
+    enabled: !!venue,
+    staleTime: 30_000,
+    placeholderData: keepPreviousData,
+  });
+}
+
+/** Demo only: the casa's local edit of its return info, so the venue page reflects the painel. Remote: undefined. */
+export const useDemoReturnInfo = (venueId: string): ReturnInfo | undefined =>
+  useCasasDemo((st) => (isRemote() ? undefined : st.returnInfo[venueId]));
+
 export function useVenueQuota(accountId: string | undefined, month: string | undefined) {
   const demo = useDemoVersion();
   return useQuery({
@@ -656,5 +720,7 @@ export const useStartCheckout = () => useCasasMutation((accountId: string) => st
 export const useOpenBillingPortal = () => useCasasMutation((accountId: string) => openBillingPortal(accountId));
 export const useUploadPoster = () =>
   useMutation({ mutationFn: (v: { accountId: string; file: PosterFile }) => uploadPoster(v.accountId, v.file) });
+export const useSaveReturnInfo = () =>
+  useCasasMutation((v: { accountId: string; info: ReturnInfo }) => saveReturnInfo(v.accountId, v.info));
 export const useDeclareSafetyProtocol = () =>
   useCasasMutation((v: { accountId: string; input: SafetyDeclarationInput }) => declareSafetyProtocol(v.accountId, v.input));

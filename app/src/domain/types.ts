@@ -3,6 +3,7 @@
 
 import type { AccessTag } from './accessTags';
 import type { Uf } from './region';
+import type { ReturnInfo } from './returnInfo';
 import type { SafetyProtocol } from './safetyProtocol';
 
 export type VenueStatus = 'open' | 'closed' | 'unverified';
@@ -51,6 +52,8 @@ export interface Venue {
   accessTags?: AccessTag[];
   /** Selo "Protocolo Não é Não" (migration 0019). Absent = no seal. */
   safetyProtocol?: SafetyProtocol;
+  /** Informações de volta (S8, migration 0022). Absent = the casa has not filled it. */
+  returnInfo?: ReturnInfo;
   hours?: string; // free text for MVP, e.g. 'Sex e sáb, 23h–06h'
   coverKey: CoverKey;
   /** True while data is a design placeholder, not verified with the venue. */
@@ -77,6 +80,12 @@ export interface EventItem {
   /** Organizer-supplied poster (https). Only with permission; the illustrated cover is the fallback. */
   imageUrl?: string;
   popularity: number; // 0..100, curated for MVP
+  /** Where the facts came from (https), e.g. the Sympla page. Migration 0006. */
+  sourceUrl?: string;
+  /** When someone on the team last checked the event (approval or curator). Migration 0023. */
+  verifiedAt?: string;
+  /** Dress code sent by the casa, e.g. "Esporte fino". Migration 0023. */
+  dressCode?: string;
 }
 
 export interface SearchParams {

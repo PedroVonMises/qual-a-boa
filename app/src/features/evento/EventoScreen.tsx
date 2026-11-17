@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { effectiveTags } from '@/domain/accessTags';
+import { provenanceLabel } from '@/domain/eventTrust';
 import { formatDistance, formatEventDate, formatPriceLabel } from '@/domain/format';
 import { useEvent, useGenres } from '@/data/queries';
 import { useRecordView } from '@/state/useRecordView';
@@ -44,6 +45,7 @@ export function EventoScreen({ id }: { id?: string }) {
   const canBuy = !cancelled && isHttpsUrl(event.ticketUrl);
   const tags = genreLabels(event.genreSlugs, genres);
   const go = (path: string) => router.push(path as Href);
+  const provenance = provenanceLabel(event);
 
   // Tickets go through the Ingressos step, which says where the purchase ends before leaving the app.
   const buy = () => {
@@ -114,6 +116,16 @@ export function EventoScreen({ id }: { id?: string }) {
         <Text variant="bodySm" tone="textMuted">
           {event.ageMin >= 18 ? 'Maiores de 18 anos' : `Classificação ${event.ageMin} anos`}
         </Text>
+        {event.dressCode ? (
+          <Text variant="bodySm" tone="textMuted" testID="evento-dress-code">
+            {`Dress code: ${event.dressCode}`}
+          </Text>
+        ) : null}
+        {provenance ? (
+          <Text variant="caption" tone="textMuted" testID="evento-fonte">
+            {provenance}
+          </Text>
+        ) : null}
         {lineup.length ? (
           <View style={styles.section}>
             <Text variant="title" accessibilityRole="header">

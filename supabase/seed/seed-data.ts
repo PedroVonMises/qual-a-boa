@@ -279,6 +279,9 @@ const UPCOMING: EventSpec[] = [
   e('casa-mare', 'Festa Rascunho', FRI, 3, 22, ['pop-hits'], ['DJ Caju'], [30, 30], 40, 'draft'),
 ];
 
+/** When the Sympla pages below were read and checked by hand (verifiedAt of those events). */
+export const SYMPLA_READ_AT = '2026-11-09T15:00:00.000Z';
+
 /**
  * Real events announced on Sympla for November 2026 in Espírito Santo (read 2026-11-09). Facts only, as shown on the
  * Sympla page: title, venue, start/end (-03:00) and the ticket link. Prices and line-ups are left empty (not
@@ -442,6 +445,10 @@ export function buildSeed(now: Date, opts: BuildSeedOptions = {}): SeedDataset {
     placeholder: true,
     // Demo of the S1 seal on the fictional casa only, and never in the production profile.
     ...(demoAtRealVenues && FICTIONAL_VENUES.has(v.slug) ? { safetyProtocol: 'verified' as const } : {}),
+    // Demo of the S8 return info, same rule.
+    ...(demoAtRealVenues && FICTIONAL_VENUES.has(v.slug)
+      ? { returnInfo: { ridesharePoint: 'Na esquina, em frente à padaria', litStreet: 'sim' as const, busStop: 'Avenida principal, a 2 quadras', parking: 'conveniado' as const } }
+      : {}),
   }));
   const venueBySlug = new Map(venues.map((v) => [v.slug, v]));
 
@@ -532,6 +539,9 @@ export function buildSeed(now: Date, opts: BuildSeedOptions = {}): SeedDataset {
       priceMax: null,
       isFree: false,
       ticketUrl: r.url,
+      // Item 14: the facts come from the Sympla page, read on SYMPLA_READ_AT.
+      sourceUrl: r.url,
+      verifiedAt: SYMPLA_READ_AT,
       ageMin: r.ageMin ?? 18,
       genreSlugs: sortGenres(r.genres),
       artistIds: [],

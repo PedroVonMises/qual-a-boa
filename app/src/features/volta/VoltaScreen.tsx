@@ -18,6 +18,7 @@ import {
   type TripPlace,
   type TrustedContact,
 } from '@/domain/volta';
+import { ReturnInfoSection } from '@/features/casa/ReturnInfoSection';
 import { NARROW_MAX_WIDTH } from '@/features/layout';
 import { cancelReminder, remindersSupported, scheduleArrivalReminder } from '@/lib/reminder';
 import { useVolta } from '@/state/volta';
@@ -213,6 +214,8 @@ export function VoltaScreen({ eventId }: { eventId?: string }) {
               ) : null}
             </>
           )}
+
+          <ReturnInfoSection info={data?.venue.returnInfo} title={data ? `Na volta: ${data.venue.name}` : "Na volta"} testID="volta-info" />
 
           {notice ? (
             <Text variant="bodySm" tone="textMuted" accessibilityLiveRegion="polite" testID="volta-aviso">

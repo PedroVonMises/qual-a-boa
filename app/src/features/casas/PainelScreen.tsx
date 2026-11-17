@@ -213,6 +213,14 @@ export function PainelScreen() {
         testID="casas-painel-protocolo-row"
       />
       <ListRow
+        title="Informações de volta"
+        subtitle="Embarque de app, rua, ônibus e estacionamento"
+        icon="pin"
+        chevron
+        onPress={() => router.push('/casas/volta')}
+        testID="casas-painel-volta-row"
+      />
+      <ListRow
         title="Assinatura"
         subtitle={sub ? SUBSCRIPTION_BADGE[sub.status].label : 'Sem assinatura'}
         icon="star"
