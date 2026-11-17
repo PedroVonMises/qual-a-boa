@@ -68,6 +68,30 @@ describe('Avaliar step 1', () => {
 });
 
 describe('Avaliar step 2 and submit', () => {
+  it('asks the private safety questions only after a check-in, and keeps the answers with the review', async () => {
+    const first = await renderWith(<AvaliarScreen id={demoEvent.id} />);
+    await screen.findByText('Como foi a noite?');
+    expect(screen.queryByTestId('avaliar-seguranca')).toBeNull();
+    void first;
+
+    setCheckinLookup(() => true);
+    useDraft.getState().clear();
+    await renderWith(<AvaliarScreen id={demoEvent.id} />);
+    expect(await screen.findByText('Você se sentiu segura?')).toBeTruthy();
+    expect(screen.getByText('Sofreu ou viu assédio?')).toBeTruthy();
+    expect(screen.getByText('A equipe ajudou quando precisou?')).toBeTruthy();
+    expect(screen.getByText(/não aparecem na sua avaliação/)).toBeTruthy();
+    await fireEvent.press(screen.getAllByTestId('avaliar-feltSafe-em_parte')[0]);
+    await fireEvent.press(screen.getAllByTestId('avaliar-staffHelped-nao_precisei')[0]);
+    await fireEvent.press(screen.getAllByTestId('avaliar-staffHelped-nao_precisei')[0]); // tap again clears
+    expect(useDraft.getState().safety).toEqual({ feltSafe: 'em_parte' });
+
+    const r = useReviews.getState().submitReview({ eventId: demoEvent.id, rating: 4, safety: useDraft.getState().safety });
+    expect(r).toMatchObject({ attended: true, safety: { feltSafe: 'em_parte' } });
+    setCheckinLookup(() => false);
+    expect(useReviews.getState().submitReview({ eventId: realEvent.id, rating: 4, safety: { feltSafe: 'sim' } }).safety).toBeUndefined();
+  });
+
   it('redirects to step 1 when there is no rating', async () => {
     await render(<TextoScreen id={demoEvent.id} />);
     expect(screen.getByText('Falta a sua nota')).toBeTruthy();

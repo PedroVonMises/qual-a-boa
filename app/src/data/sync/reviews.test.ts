@@ -69,6 +69,9 @@ describe('review mapping', () => {
     const p = reviewPayload({ ...mapReviewRow(row), text: 'Bom' });
     expect(p).toEqual({ rating: 4, topics: { musica: 5, fila: 2 }, tags: ['som'], text: 'Bom', anonymous: true });
     expect(p).not.toHaveProperty('status');
+    // Safety answers go only from attended reviews, in snake_case.
+    expect(reviewPayload({ ...mapReviewRow(row), safety: { feltSafe: 'nao', harassment: 'sim' } }).safety).toEqual({ felt_safe: 'nao', harassment: 'sim' });
+    expect(reviewPayload({ ...mapReviewRow(row), attended: false, safety: { feltSafe: 'nao' } })).not.toHaveProperty('safety');
   });
 
   it('pullReviews reads reviews_feed for the event', async () => {

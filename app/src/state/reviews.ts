@@ -10,6 +10,7 @@ import { useCheckins } from '@/state/checkins';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { Review, ReviewTopic } from '@/domain/engage';
+import { cleanSafetyAnswers, type SafetyAnswers } from '@/domain/safetyIndex';
 
 export const REVIEW_TEXT_MAX = 800;
 
@@ -22,6 +23,8 @@ export interface ReviewInput {
   tags?: string[];
   text?: string;
   anonymous?: boolean;
+  /** Only kept when the review is attended ("Foi ao evento"). */
+  safety?: SafetyAnswers;
 }
 
 export type CheckinLookup = (eventId: string) => boolean;
@@ -86,6 +89,8 @@ export const useReviews = create<ReviewsStore>()(
       unsynced: [],
       reportSentIds: [],
       submitReview: (input) => {
+        const attended = hasCheckin(input.eventId);
+        const safety = attended ? cleanSafetyAnswers(input.safety) : {};
         const review: Review = {
           id: newId(),
           eventId: input.eventId,
@@ -94,7 +99,8 @@ export const useReviews = create<ReviewsStore>()(
           tags: input.tags ?? [],
           text: cleanText(input.text),
           anonymous: !!input.anonymous,
-          attended: hasCheckin(input.eventId),
+          attended,
+          ...(Object.keys(safety).length ? { safety } : {}),
           status: 'pending', // stays pending until moderation
           createdAt: new Date().toISOString(),
           helpfulCount: 0,
@@ -127,7 +133,12 @@ export const useReviews = create<ReviewsStore>()(
       adoptRemote: (eventId, remote) => {
         const row = remote.find((r) => r.mine);
         if (!row || get().unsynced.includes(eventId)) return;
-        set((s) => ({ mine: [row, ...s.mine.filter((r) => r.eventId !== eventId)] }));
+        // The server never returns the safety answers: keep this device's copy.
+        set((s) => {
+          const prev = s.mine.find((r) => r.eventId === eventId);
+          const merged = prev?.safety ? { ...row, safety: prev.safety } : row;
+          return { mine: [merged, ...s.mine.filter((r) => r.eventId !== eventId)] };
+        });
       },
       mineFor: (eventId) => get().mine.find((r) => r.eventId === eventId),
     }),

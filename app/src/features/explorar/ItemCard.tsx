@@ -38,11 +38,13 @@ export const ItemCard = memo(function ItemCard({ item, variant = 'poster', divid
       reason={reason}
       title={event.title}
       venueName={venue.name}
+      seal={venue.safetyProtocol === 'verified'}
       area={venue.area}
       distanceKm={distanceKm}
       priceLabel={formatPriceLabel(event.priceMin, event.priceMax, event.isFree)}
       dateLabel={formatEventDate(event.startsAt, hydrated ? minuteNow() : 0)}
-      coverKey={event.coverKey}
+      coverKey={event.coverKey}
+
       saved={saved}
       onPress={() => openEvent(event.id)}
       onToggleSave={() => toggle(event.id)}

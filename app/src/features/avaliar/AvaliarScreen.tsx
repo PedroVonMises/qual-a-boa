@@ -5,7 +5,9 @@ import { StyleSheet, View } from 'react-native';
 import { useEvent } from '@/data/queries';
 import { formatEventDate } from '@/domain/format';
 import { StateShell, useGoBack } from '@/features/evento/Frame';
-import { useReviews } from '@/state/reviews';
+import { hasCheckin, useReviews } from '@/state/reviews';
+import { useCheckins } from '@/state/checkins';
+import { SAFETY_QUESTIONS } from '@/domain/safetyIndex';
 import { space } from '@/theme/tokens';
 import { Button, Chip, Rating, Text } from '@/ui';
 import { RATING_WORDS, TAGS, TOPICS } from './content';
@@ -18,13 +20,16 @@ export function AvaliarScreen({ id }: { id?: string }) {
   const goBack = useGoBack();
   const q = useEvent(id);
   const draft = useDraft();
+  // Re-render when a check-in lands; the questions are only for "Foi ao evento".
+  useCheckins((s) => s);
+  const attended = !!id && hasCheckin(id);
   const [error, setError] = useState<string | null>(null);
 
   // Start (or resume) the draft for this event. Editing a previous review prefills it.
   useEffect(() => {
     if (!id || useDraft.getState().eventId === id) return;
     const prev = useReviews.getState().mineFor(id);
-    useDraft.getState().open(id, prev ? { rating: prev.rating, topics: prev.topics, tags: prev.tags, text: prev.text ?? '', anonymous: prev.anonymous } : undefined);
+    useDraft.getState().open(id, prev ? { rating: prev.rating, topics: prev.topics, tags: prev.tags, text: prev.text ?? '', anonymous: prev.anonymous, safety: prev.safety ?? {} } : undefined);
   }, [id]);
 
   if (q.isPending && q.fetchStatus !== 'idle') return <StateShell state="loading" />;
@@ -87,6 +92,34 @@ export function AvaliarScreen({ id }: { id?: string }) {
         ))}
       </View>
 
+      {attended ? (
+        <View style={styles.block} testID="avaliar-seguranca">
+          <Text variant="bodySm" tone="textMuted" accessibilityRole="header" style={styles.bold}>
+            Sua segurança (opcional)
+          </Text>
+          <Text variant="caption" tone="textMuted">
+            Essas respostas não aparecem na sua avaliação. Elas só entram no índice de segurança da casa, junto com as de
+            pelo menos mais 4 pessoas.
+          </Text>
+          {SAFETY_QUESTIONS.map((q) => (
+            <View key={q.key} style={styles.question} accessibilityRole="radiogroup" accessibilityLabel={q.label}>
+              <Text variant="body">{q.label}</Text>
+              <View style={styles.tags}>
+                {q.options.map((o) => (
+                  <Chip
+                    key={o.value}
+                    label={o.label}
+                    selected={draft.safety[q.key] === o.value}
+                    onPress={() => draft.setSafety(q.key, o.value as never)}
+                    testID={`avaliar-${q.key}-${o.value}`}
+                  />
+                ))}
+              </View>
+            </View>
+          ))}
+        </View>
+      ) : null}
+
       <View style={styles.block}>
         <Text variant="bodySm" tone="textMuted" accessibilityRole="header" style={styles.bold}>
           O que rolou?
@@ -105,5 +138,6 @@ const styles = StyleSheet.create({
   summary: { gap: 2 },
   block: { gap: space.sm },
   bold: { fontWeight: '600' },
+  question: { gap: space.xs },
   tags: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
 });

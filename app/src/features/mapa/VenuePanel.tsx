@@ -71,6 +71,7 @@ export function VenuePanel({ pins, now, onOpenEvent, onOpenVenue, showHeader = t
                   testID={`event-${event.id}`}
                   title={event.title}
                   venueName={venue.name}
+                  seal={venue.safetyProtocol === 'verified'}
                   area={venue.area}
                   distanceKm={distanceKm}
                   coverKey={event.coverKey}

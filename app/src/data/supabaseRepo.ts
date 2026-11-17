@@ -128,6 +128,7 @@ export function mapSearchRow(r: Row): SearchItem {
       hours: r.venue_hours,
       cover_key: r.venue_cover_key,
       placeholder: r.venue_placeholder,
+      safety_protocol: r.venue_safety_protocol,
     }),
     distanceKm: Number(r.distance_km),
   };

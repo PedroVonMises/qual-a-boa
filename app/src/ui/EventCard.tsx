@@ -5,6 +5,7 @@ import { useTheme } from '@/theme/ThemeProvider';
 import { palette, radius, space } from '@/theme/tokens';
 import { Badge } from './Badge';
 import { Cover } from './Cover';
+import { Icon } from './Icon';
 import { IconButton } from './IconButton';
 import { PressableScale } from './PressableScale';
 import { Scrim } from './Scrim';
@@ -26,6 +27,8 @@ export interface EventCardProps {
   onToggleSave?: () => void;
   /** Short pt-BR text tag explaining why this card is shown (recommender), e.g. "Você curte Funk". */
   reason?: string;
+  /** The venue has the verified "Protocolo Não é Não" seal (S1). */
+  seal?: boolean;
   variant?: 'poster' | 'row';
   /** Row variant: draw a hairline divider underneath. */
   divider?: boolean;
@@ -39,14 +42,28 @@ export function formatDistance(km?: number): string | undefined {
   return `${v.replace('.', ',')} km`;
 }
 
+export const SEAL_LABEL = 'Não é Não';
+const SEAL_A11Y = 'Protocolo Não é Não verificado';
+
+function SealLine({ color }: { color: string }) {
+  return (
+    <View style={styles.seal} testID="event-card-selo">
+      <Icon name="shield" size={14} color={color} />
+      <Text variant="caption" tone={color}>
+        {SEAL_LABEL}
+      </Text>
+    </View>
+  );
+}
+
 function a11yLabel(p: EventCardProps) {
-  const parts = [p.title, p.venueName + (p.area ? `, ${p.area}` : ''), p.dateLabel, p.priceLabel, formatDistance(p.distanceKm), p.reason];
+  const parts = [p.title, p.venueName + (p.area ? `, ${p.area}` : ''), p.seal ? SEAL_A11Y : undefined, p.dateLabel, p.priceLabel, formatDistance(p.distanceKm), p.reason];
   return parts.filter(Boolean).join('. ');
 }
 
 export function EventCard(props: EventCardProps) {
   const { colors } = useTheme();
-  const { title, venueName, area, distanceKm, priceLabel, dateLabel, coverKey, imageUrl, reason, saved, onPress, onToggleSave, variant = 'poster', style, testID } = props;
+  const { title, venueName, area, distanceKm, priceLabel, dateLabel, coverKey, imageUrl, reason, seal, saved, onPress, onToggleSave, variant = 'poster', style, testID } = props;
   const venueLine = area ? `${venueName} · ${area}` : venueName;
   const metaLine = [priceLabel, formatDistance(distanceKm)].filter(Boolean).join(' · ');
   const save = onToggleSave ? (
@@ -80,6 +97,7 @@ export function EventCard(props: EventCardProps) {
             <Text variant="bodySm" tone="textMuted" numberOfLines={1}>
               {venueLine}
             </Text>
+            {seal ? <SealLine color={colors.success} /> : null}
             {dateLabel ? (
               <Text variant="mono" numberOfLines={2}>
                 {dateLabel}
@@ -116,6 +134,7 @@ export function EventCard(props: EventCardProps) {
           <Text variant="bodySm" tone="#E4DFD8" numberOfLines={1}>
             {venueLine}
           </Text>
+          {seal ? <SealLine color={palette.bone} /> : null}
           {metaLine ? (
             <Text variant="mono" tone={palette.bone}>
               {metaLine}
@@ -131,6 +150,7 @@ export function EventCard(props: EventCardProps) {
 const styles = StyleSheet.create({
   poster: { width: 264, height: 240, borderRadius: radius.lg, overflow: 'hidden' },
   reasonTag: { marginTop: 2 },
+  seal: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   dateBadge: { position: 'absolute', left: 14, top: 14 },
   saveAbs: { position: 'absolute', right: 6, top: 6 },
   posterText: { position: 'absolute', left: 0, right: 0, bottom: 0, padding: space.lg, gap: space.xs },

@@ -187,6 +187,13 @@ describe('CasaScreen', () => {
     expect(screen.getByText(/Lei 14\.786\/2023/)).toBeTruthy();
   });
 
+  it('shows the safety section with an honest empty index at venues without enough reviews', async () => {
+    await renderWith(<CasaScreen slug="bolt" />);
+    expect(await screen.findByText('Segurança')).toBeTruthy();
+    expect(await screen.findByTestId('casa-indice-legenda')).toHaveTextContent(/Ainda não há avaliações suficientes de quem foi/);
+    expect(screen.queryByTestId('casa-indice-valor')).toBeNull();
+  });
+
   it('shows no seal at a venue without one', async () => {
     await renderWith(<CasaScreen slug="bolt" />);
     expect(await screen.findByText('Acessível')).toBeTruthy();

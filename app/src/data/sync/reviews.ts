@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import type { Review, ReviewStatus, ReviewTopic } from '@/domain/engage';
+import { safetyToRow } from '@/domain/safetyIndex';
 
 import { ensureUserId, getSupabase, isRemote } from '../supabaseClient';
 
@@ -55,6 +56,8 @@ export function reviewPayload(r: Review) {
     tags: r.tags,
     text: r.text ?? null,
     anonymous: r.anonymous,
+    // Safety answers only from attended reviews (the server checks it too); absent = leave the stored ones.
+    ...(r.attended && r.safety ? { safety: safetyToRow(r.safety) } : {}),
   };
 }
 

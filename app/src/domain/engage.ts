@@ -4,6 +4,8 @@
 // Dates are ISO 8601 UTC. Event ids reference EventItem.id.
 
 // --- Tracking (Acompanhar, Avisos) ---
+import type { SafetyAnswers } from './safetyIndex';
+
 export type AlertChannel = 'push' | 'email';
 export type AlertKind = 'price' | 'lineup' | 'lastTickets' | 'dayBefore' | 'cancelled';
 
@@ -52,6 +54,8 @@ export interface Review {
   text?: string;
   anonymous: boolean;
   attended: boolean; // 'Foi ao evento': requires a check-in
+  /** Private safety answers (S2), only on attended reviews. Kept on this device; the server never returns them. */
+  safety?: SafetyAnswers;
   status: ReviewStatus;
   createdAt: string;
   helpfulCount: number;
