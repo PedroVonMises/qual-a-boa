@@ -5,7 +5,7 @@ import type { ReactElement } from 'react';
 
 import * as ImagePicker from 'expo-image-picker';
 
-import { fetchSafetyProtocol, resetCasasDemo, submitEvent, useCasasDemo } from '@/data/casas';
+import { fetchReturnInfo, fetchSafetyProtocol, resetCasasDemo, submitEvent, useCasasDemo } from '@/data/casas';
 import { AssinaturaScreen } from '../AssinaturaScreen';
 import { EmpresaScreen } from '../EmpresaScreen';
 import { NovaFestaScreen } from '../NovaFestaScreen';
@@ -14,6 +14,7 @@ import { PainelScreen } from '../PainelScreen';
 import { PlanoScreen } from '../PlanoScreen';
 import { ProtocoloScreen } from '../ProtocoloScreen';
 import { VincularScreen } from '../VincularScreen';
+import { VoltaInfoScreen } from '../VoltaInfoScreen';
 import { useCasasFlow, useFestaDrafts } from '../store';
 
 jest.mock('@react-native-async-storage/async-storage', () =>
@@ -397,5 +398,41 @@ describe('Protocolo Não é Não (S1)', () => {
     await show(<ProtocoloScreen />);
     expect(await screen.findByText('Sua casa ainda está em análise. Avisamos quando for aprovada.')).toBeTruthy();
     expect(screen.getByTestId('casas-protocolo-enviar')).toBeDisabled();
+  });
+});
+
+describe('Informações de volta (S8)', () => {
+  const MARE = { id: '8e8224e9-9e2e-3a53-888c-b2fc444c3972', slug: 'casa-mare' };
+
+  it('painel row opens the screen', async () => {
+    await show(<PainelScreen />);
+    await fireEvent.press(await screen.findByTestId('casas-painel-volta-row'));
+    expect(mockPush).toHaveBeenCalledWith('/casas/volta');
+  });
+
+  it('starts from what the venue shows, validates texts and saves the whole block', async () => {
+    await show(<VoltaInfoScreen />);
+    const ride = await screen.findByTestId('casas-volta-embarque');
+    expect(ride.props.value).toBe('Na esquina, em frente à padaria');
+    expect(screen.getByTestId('casas-volta-rua-sim')).toBeSelected();
+
+    await fireEvent.changeText(ride, 'x');
+    await fireEvent.press(screen.getByTestId('casas-volta-salvar'));
+    expect(screen.getByText('Escreva um pouco mais.')).toBeTruthy();
+
+    await fireEvent.changeText(ride, '  Em frente à farmácia ');
+    await fireEvent.changeText(screen.getByTestId('casas-volta-onibus'), '');
+    await fireEvent.press(screen.getByTestId('casas-volta-rua-sim')); // unselect
+    await fireEvent.press(screen.getByTestId('casas-volta-estacionamento-rua'));
+    await fireEvent.press(screen.getByTestId('casas-volta-salvar'));
+    expect(await screen.findByText('Salvo. Já aparece na página da casa.')).toBeTruthy();
+    expect(await fetchReturnInfo(MARE)).toEqual({ ridesharePoint: 'Em frente à farmácia', parking: 'rua' });
+  });
+
+  it('a pending casa cannot save yet', async () => {
+    useCasasDemo.setState((s) => ({ accounts: s.accounts.map((a) => ({ ...a, status: 'pending' as const })) }));
+    await show(<VoltaInfoScreen />);
+    expect(await screen.findByText('Sua casa ainda está em análise. Avisamos quando for aprovada.')).toBeTruthy();
+    expect(screen.getByTestId('casas-volta-salvar')).toBeDisabled();
   });
 });

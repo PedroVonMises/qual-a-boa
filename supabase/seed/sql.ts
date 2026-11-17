@@ -1,5 +1,6 @@
 /** Render a SeedDataset as plain INSERT statements (Postgres). */
 import type { SeedDataset } from '../../app/src/domain/types';
+import { returnInfoToRow } from '../../app/src/domain/returnInfo';
 
 const q = (v: string | null | undefined): string =>
   v === null || v === undefined ? 'null' : `'${v.replace(/'/g, "''")}'`;
@@ -19,11 +20,11 @@ export function datasetToSql(ds: SeedDataset): string {
   out.push('insert into public.genres (id, slug, label, sort_order) values');
   out.push(ds.genres.map((g, i) => `  (${q(g.id)}, ${q(g.slug)}, ${q(g.label)}, ${i})`).join(',\n') + ';');
 
-  out.push('insert into public.venues (id, slug, name, area, city, address, lat, lng, status, adult_only, genre_slugs, hours, cover_key, placeholder, access_tags, safety_protocol) values');
+  out.push('insert into public.venues (id, slug, name, area, city, address, lat, lng, status, adult_only, genre_slugs, hours, cover_key, placeholder, access_tags, safety_protocol, return_info) values');
   out.push(
     ds.venues
       .map((v) =>
-        `  (${q(v.id)}, ${q(v.slug)}, ${q(v.name)}, ${q(v.area)}, ${q(v.city)}, ${q(v.address)}, ${n(v.lat)}, ${n(v.lng)}, ${q(v.status)}, ${b(v.adultOnly)}, ${arr(v.genreSlugs)}, ${q(v.hours)}, ${q(v.coverKey)}, ${b(v.placeholder)}, ${arr(v.accessTags ?? [])}, ${q(v.safetyProtocol)})`)
+        `  (${q(v.id)}, ${q(v.slug)}, ${q(v.name)}, ${q(v.area)}, ${q(v.city)}, ${q(v.address)}, ${n(v.lat)}, ${n(v.lng)}, ${q(v.status)}, ${b(v.adultOnly)}, ${arr(v.genreSlugs)}, ${q(v.hours)}, ${q(v.coverKey)}, ${b(v.placeholder)}, ${arr(v.accessTags ?? [])}, ${q(v.safetyProtocol)}, ${q(JSON.stringify(returnInfoToRow(v.returnInfo ?? {})))}::jsonb)`)
       .join(',\n') + ';',
   );
 

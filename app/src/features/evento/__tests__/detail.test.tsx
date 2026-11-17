@@ -117,6 +117,21 @@ describe('EventoScreen', () => {
     expect(await screen.findByTestId('casa-emergencia')).toBeTruthy();
   });
 
+  it('shows the return info on the venue page only when the casa filled it (S8)', async () => {
+    const venue = data.venues[0];
+    const withInfo: SeedDataset = {
+      ...data,
+      venues: data.venues.map((v) => (v.id === venue.id ? { ...v, returnInfo: { ridesharePoint: 'Na esquina', parking: 'rua' as const } } : v)),
+    };
+    await renderWith(<CasaScreen slug={venue.slug} />, withInfo);
+    expect(await screen.findByTestId('casa-volta-ridesharePoint')).toHaveTextContent('Embarque de appNa esquina');
+    expect(screen.getByTestId('casa-volta-parking')).toHaveTextContent(/Só na rua/);
+    expect(screen.queryByTestId('casa-volta-busStop')).toBeNull();
+    await renderWith(<CasaScreen slug={venue.slug} />);
+    await screen.findByTestId('casa-seguranca');
+    expect(screen.queryByTestId('casa-volta')).toBeNull();
+  });
+
   it('shows the venue and event access tags as text badges', async () => {
     await renderWith(<EventoScreen id="e01" />);
     expect(await screen.findByText('Acessível')).toBeTruthy();

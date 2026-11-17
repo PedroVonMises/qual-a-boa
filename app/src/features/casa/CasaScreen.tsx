@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { effectiveTags } from '@/domain/accessTags';
 import { formatEventDate, formatPriceLabel } from '@/domain/format';
+import { useDemoReturnInfo } from '@/data/casas';
 import { useGenres, useVenue } from '@/data/queries';
 import { AccessBadges } from '@/features/evento/AccessBadges';
 import { Frame, StateShell, useGoBack } from '@/features/evento/Frame';
@@ -10,6 +11,7 @@ import { Hero } from '@/features/evento/Hero';
 import { genreLabels, longDate, monthYear } from '@/features/evento/labels';
 import { openMaps } from '@/features/evento/linking';
 import { useRecordView } from '@/state/useRecordView';
+import { ReturnInfoSection } from './ReturnInfoSection';
 import { SafetySection } from './SafetySection';
 import { useFavorites } from '@/state/favorites';
 import { useTheme } from '@/theme/ThemeProvider';
@@ -28,6 +30,7 @@ export function CasaScreen({ slug }: { slug?: string }) {
   const eventIds = useFavorites((s) => s.eventIds);
   const toggleVenue = useFavorites((s) => s.toggleVenue);
   const toggleEvent = useFavorites((s) => s.toggleEvent);
+  const demoReturnInfo = useDemoReturnInfo(q.data?.venue.id ?? '');
 
   if (q.isPending && q.fetchStatus !== 'idle') return <StateShell state="loading" />;
   if (q.isError) return <StateShell state="error" onRetry={() => q.refetch()} />;
@@ -101,6 +104,7 @@ export function CasaScreen({ slug }: { slug?: string }) {
           </View>
         ) : null}
         {closed ? null : <SafetySection venue={venue} />}
+        {closed ? null : <ReturnInfoSection info={demoReturnInfo ?? venue.returnInfo} />}
         {pastArtists.length ? (
           <View style={styles.section}>
             <Text variant="title" accessibilityRole="header">

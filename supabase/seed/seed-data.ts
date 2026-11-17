@@ -442,6 +442,10 @@ export function buildSeed(now: Date, opts: BuildSeedOptions = {}): SeedDataset {
     placeholder: true,
     // Demo of the S1 seal on the fictional casa only, and never in the production profile.
     ...(demoAtRealVenues && FICTIONAL_VENUES.has(v.slug) ? { safetyProtocol: 'verified' as const } : {}),
+    // Demo of the S8 return info, same rule.
+    ...(demoAtRealVenues && FICTIONAL_VENUES.has(v.slug)
+      ? { returnInfo: { ridesharePoint: 'Na esquina, em frente à padaria', litStreet: 'sim' as const, busStop: 'Avenida principal, a 2 quadras', parking: 'conveniado' as const } }
+      : {}),
   }));
   const venueBySlug = new Map(venues.map((v) => [v.slug, v]));
 

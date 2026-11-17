@@ -12,6 +12,7 @@ import type {
   VenueDetail,
 } from '@/domain/types';
 import { cleanTags } from '@/domain/accessTags';
+import { cleanReturnInfo, hasReturnInfo } from '@/domain/returnInfo';
 import { cleanSafetyProtocol } from '@/domain/safetyProtocol';
 import type { Repo } from './repo';
 import { SeedRepo } from './seedRepo';
@@ -129,10 +130,16 @@ export function validateFeed(raw: unknown): SeedDataset | null {
     const s = cleanSafetyProtocol(safetyProtocol);
     return (s ? { ...rest, safetyProtocol: s } : rest) as T;
   };
+  const withReturn = <T extends { returnInfo?: unknown }>(row: T) => {
+    if (row.returnInfo === undefined) return row;
+    const { returnInfo, ...rest } = row;
+    const r = cleanReturnInfo(returnInfo);
+    return (hasReturnInfo(r) ? { ...rest, returnInfo: r } : rest) as T;
+  };
   return {
     generatedAt: raw.generatedAt,
     genres: goodGenres,
-    venues: goodVenues.map((v) => withSeal(withTags(v))),
+    venues: goodVenues.map((v) => withReturn(withSeal(withTags(v)))),
     artists: goodArtists,
     events: goodEvents.map(withTags),
   };

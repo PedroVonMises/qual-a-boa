@@ -240,7 +240,13 @@
       "coverKey": "mare",
       "id": "8e8224e9-9e2e-3a53-888c-b2fc444c3972",
       "placeholder": true,
-      "safetyProtocol": "verified"
+      "safetyProtocol": "verified",
+      "returnInfo": {
+        "ridesharePoint": "Na esquina, em frente à padaria",
+        "litStreet": "sim",
+        "busStop": "Avenida principal, a 2 quadras",
+        "parking": "conveniado"
+      }
     },
     {
       "slug": "taiko-beach-club",
