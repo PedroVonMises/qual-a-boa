@@ -1,3 +1,4 @@
+import { useRouter, type Href } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
 import type { SafetyProtocol } from '@/domain/safetyProtocol';
@@ -5,12 +6,13 @@ import { feltSafeLabel, safetyAverageLabel, safetyIndexCaption } from '@/domain/
 import { SafetyProtocolSeal } from '@/features/evento/SafetyProtocolSeal';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
-import { Icon, Skeleton, Text } from '@/ui';
+import { Icon, ListRow, Skeleton, Text } from '@/ui';
 import { useVenueSafety } from './useVenueSafety';
 
 /** "Segurança" block of the venue page: the S1 seal and the S2 index from people who checked in. */
 export function SafetySection({ venue }: { venue: { id: string; slug: string; safetyProtocol?: SafetyProtocol } }) {
   const { colors } = useTheme();
+  const router = useRouter();
   const q = useVenueSafety(venue);
   const stats = q.data;
   const avg = stats ? safetyAverageLabel(stats) : null;
@@ -42,6 +44,14 @@ export function SafetySection({ venue }: { venue: { id: string; slug: string; sa
           </Text>
         </View>
       )}
+      <ListRow
+        title="Aconteceu algo comigo"
+        subtitle="Ligar 190 ou 180 e fazer um relato privado"
+        icon="shield"
+        chevron
+        onPress={() => router.push(`/seguranca/relato?casa=${encodeURIComponent(venue.slug)}` as Href)}
+        testID="casa-relato"
+      />
     </View>
   );
 }

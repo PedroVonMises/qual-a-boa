@@ -139,6 +139,18 @@ describe('support push', () => {
     expect(calls[0].payload).toEqual({ user_id: 'user-1', topic: 'evento', event_id: ev, description: 'x' });
   });
 
+  it('a safety report goes through report_safety_incident with venue and kind', async () => {
+    const venue = '99999999-9999-4999-8999-999999999999';
+    const ev = '88888888-8888-4888-8888-888888888888';
+    const rpc: [string, unknown][] = [];
+    let answer: { data: unknown; error: unknown } = { data: TK, error: null };
+    mockClient = { rpc: async (name: string, args: unknown) => (rpc.push([name, args]), answer) };
+    await expect(pushTicket({ topic: 'seguranca', eventId: ev, description: 'x', safety: { venueId: venue, kind: 'assedio' } })).resolves.toBe(TK);
+    expect(rpc[0]).toEqual(['report_safety_incident', { p_venue_id: venue, p_event_id: ev, p_kind: 'assedio', p_description: 'x' }]);
+    answer = { data: null, error: { message: 'rate_limited' } };
+    await expect(pushTicket({ topic: 'seguranca', description: 'x', safety: { venueId: venue, kind: 'outro' } })).resolves.toBeNull();
+  });
+
   it('closing a synced ticket pushes status closed', async () => {
     const calls = use(okServer);
     const id = useSupport.getState().createTicket({ topic: 'outro', description: 'Preciso de ajuda aqui' });

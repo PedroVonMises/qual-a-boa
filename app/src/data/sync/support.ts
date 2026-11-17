@@ -74,12 +74,32 @@ export async function pullTickets(): Promise<SupportTicket[]> {
 }
 
 /** Inserts a ticket. Returns the server uuid, or null when not remote, signed out or rejected. Never throws. */
-export async function pushTicket(input: { topic: TicketTopic; eventId?: string; description: string }): Promise<string | null> {
+export async function pushTicket(input: {
+  topic: TicketTopic;
+  eventId?: string;
+  description: string;
+  safety?: SupportTicket['safety'];
+}): Promise<string | null> {
   try {
     const sb = getSupabase();
     if (!sb || !isRemote()) return null;
     const uid = await ensureUserId();
     if (!uid) return null;
+    const eventId = input.eventId && UUID_RE.test(input.eventId) ? input.eventId : null;
+    if (input.safety && UUID_RE.test(input.safety.venueId)) {
+      // Private report (S3): the RPC creates the ticket and the report row together.
+      const { data, error } = await sb.rpc('report_safety_incident', {
+        p_venue_id: input.safety.venueId,
+        p_event_id: eventId,
+        p_kind: input.safety.kind,
+        p_description: input.description,
+      });
+      if (error || typeof data !== 'string') {
+        warn('safety report', error);
+        return null;
+      }
+      return data;
+    }
     const { data, error } = await sb
       .from('support_tickets')
       .insert({

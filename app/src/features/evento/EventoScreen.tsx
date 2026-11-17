@@ -140,6 +140,17 @@ export function EventoScreen({ id }: { id?: string }) {
             Ver conversas
           </Text>
         </PressableScale>
+        <PressableScale
+          accessibilityRole="link"
+          accessibilityLabel="Aconteceu algo comigo"
+          accessibilityHint="Ligar 190 ou 180 e fazer um relato privado"
+          onPress={() => go(`/seguranca/relato?casa=${encodeURIComponent(venue.slug)}&evento=${encodeURIComponent(event.id)}`)}
+          style={styles.link}
+          testID="evento-relato">
+          <Text variant="bodySm" tone="accent" style={styles.bold}>
+            Aconteceu algo comigo
+          </Text>
+        </PressableScale>
       </View>
       <ShareSheet visible={shareOpen} onClose={() => setShareOpen(false)} event={event} venue={venue} />
     </Frame>

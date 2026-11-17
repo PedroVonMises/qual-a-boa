@@ -5,6 +5,7 @@
 
 // --- Tracking (Acompanhar, Avisos) ---
 import type { SafetyAnswers } from './safetyIndex';
+import type { SafetyIncidentKind } from './safetyReport';
 
 export type AlertChannel = 'push' | 'email';
 export type AlertKind = 'price' | 'lineup' | 'lastTickets' | 'dayBefore' | 'cancelled';
@@ -83,6 +84,8 @@ export interface SupportTicket {
   status: TicketStatus;
   createdAt: string;
   messages: SupportMessage[];
+  /** "Aconteceu algo comigo" (S3): the venue and kind, sent to the private report RPC. */
+  safety?: { venueId: string; kind: SafetyIncidentKind };
 }
 
 /** Check-in is the only way to unlock 'Foi ao evento' reviews and the live reporter. */
