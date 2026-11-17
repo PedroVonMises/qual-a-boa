@@ -513,3 +513,60 @@ describe('account deletion', () => {
     assert.equal((await db.query(`select 1 from public.comment_votes where comment_id = '${c}'`)).rows.length, 0);
   });
 });
+
+describe('blocking (0016)', () => {
+  const visibleTo = (who: typeof asA, view: 'threads_feed' | 'comments_feed', id: string) =>
+    who(async () => (await db.query(`select 1 from public.${view} where id = $1`, [id])).rows.length === 1);
+  const block = (who: typeof asA, target: { thread?: string; comment?: string }) =>
+    who(async () => (await db.query<{ ok: boolean }>(`select public.block_author($1, $2) ok`,
+      [target.thread ?? null, target.comment ?? null])).rows[0].ok);
+  const count = (who: typeof asA) =>
+    who(async () => (await db.query<{ n: number }>(`select public.my_block_count() n`)).rows[0].n);
+  const unblockAll = (who: typeof asA) =>
+    who(async () => (await db.query<{ n: number }>(`select public.unblock_all() n`)).rows[0].n);
+
+  test('blocking from an anonymous post hides all of that author\'s posts, only for the blocker', async () => {
+    const anonThread = await newThread(asA, { anonymous: true });
+    const namedThread = await newThread(asA);
+    const other = await newThread(asC);
+    const cA = await newComment(asA, other);
+    const cE = await newComment(asE, other, null, true);
+    const replyToA = await newComment(asE, other, cA, true);
+
+    assert.equal(await block(asB, { thread: anonThread }), true);
+    assert.equal(await count(asB), 1);
+    for (const id of [anonThread, namedThread]) {
+      assert.equal(await visibleTo(asB, 'threads_feed', id), false);
+      assert.equal(await visibleTo(asC, 'threads_feed', id), true);
+    }
+    assert.equal(await visibleTo(asB, 'comments_feed', cA), false);
+    assert.equal(await visibleTo(asB, 'comments_feed', replyToA), false, 'reply under a blocked comment');
+    assert.equal(await visibleTo(asB, 'comments_feed', cE), true);
+    assert.equal(await visibleTo(asC, 'comments_feed', cA), true);
+    // Reply counts on the card follow what the blocker can see.
+    const n = (who: typeof asA) => who(async () =>
+      (await db.query<{ n: number }>(`select comment_count n from public.threads_feed where id = $1`, [other])).rows[0].n);
+    assert.equal(await n(asB), 1);
+    assert.equal(await n(asC), 3);
+
+    // Blocking again is a no-op; the blocked user still sees the blocker.
+    assert.equal(await block(asB, { comment: cA }), true);
+    assert.equal(await count(asB), 1);
+    const bThread = await newThread(asB);
+    assert.equal(await visibleTo(asA, 'threads_feed', bThread), true);
+
+    assert.equal(await unblockAll(asB), 1);
+    assert.equal(await visibleTo(asB, 'threads_feed', anonThread), true);
+    assert.equal(await count(asB), 0);
+  });
+
+  test('cannot block yourself, a missing post, or without a session; blocks are not readable', async () => {
+    const mine = await newThread(asC);
+    assert.equal(await block(asC, { thread: mine }), false);
+    assert.equal(await block(asC, { thread: '00000000-0000-4000-8000-000000000999' }), false);
+    await asC(() => assert.rejects(db.query(`select public.block_author(null, null)`), /exactly one/));
+    await asAnon(() => denied(db.query(`select public.block_author($1, null)`, [mine]), /permission denied/i));
+    await asC(() => denied(db.query(`select * from public.user_blocks`), /permission denied/i));
+    await asC(() => denied(db.query(`insert into public.user_blocks (blocked_id) values ('${A}')`), /permission denied/i));
+  });
+});

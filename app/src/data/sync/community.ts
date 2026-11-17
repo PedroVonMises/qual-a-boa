@@ -343,6 +343,45 @@ export async function pushCommunityReport(target: ReportTarget, reason: string =
   }
 }
 
+/** Bloquear: the server resolves the post's author (never exposed to clients). True when the block is stored. */
+export async function pushBlockAuthor(target: ReportTarget): Promise<boolean> {
+  try {
+    const id = 'threadId' in target ? target.threadId : target.commentId;
+    if (!isServerId(id)) return false;
+    const w = await writer();
+    if (!w) return false;
+    const { data, error } = await w.sb.rpc('block_author', {
+      p_thread_id: 'threadId' in target ? target.threadId : null,
+      p_comment_id: 'commentId' in target ? target.commentId : null,
+    });
+    if (error) {
+      warn('community block', error);
+      return false;
+    }
+    return data === true;
+  } catch (e) {
+    warn('community block', e);
+    return false;
+  }
+}
+
+/** Lifts every block of the signed-in user. True when the server accepted. */
+export async function pushUnblockAll(): Promise<boolean> {
+  try {
+    const w = await writer();
+    if (!w) return false;
+    const { error } = await w.sb.rpc('unblock_all');
+    if (error) {
+      warn('community unblock', error);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    warn('community unblock', e);
+    return false;
+  }
+}
+
 /** Calls `refetch` when `version` changes (after the first render), keeping the data on screen meanwhile. */
 function useRefetchOnChange(version: number, refetch: () => unknown) {
   const first = useRef(true);
