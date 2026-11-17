@@ -1,6 +1,9 @@
 /**
  * Seed generator. Run from app/:  npm run seed            (seed.sql + app/src/data/seed.json)
  *                                 npm run seed -- --fixtures  (also test fixtures)
+ *                                 npm run seed -- --production  (only seed.json, without invented events at real
+ *                                   venues; run by scripts/vercel-build.sh so every deploy has dates relative to
+ *                                   the build instead of the day the committed seed.json was generated)
  *
  * Fixtures: dataset with `now` fixed to 2026-10-23T12:00:00Z plus search cases whose
  * expected results are computed by running search_events in PGlite (SQL is the oracle).
@@ -106,6 +109,17 @@ async function computeCases(ds: SeedDataset): Promise<SearchCase[]> {
 
 async function main() {
   const withFixtures = process.argv.includes('--fixtures');
+  const production = process.argv.includes('--production');
+
+  if (production) {
+    const ds = buildSeed(new Date(), { demoAtRealVenues: false });
+    write(SEED_JSON, json(ds));
+    const now = Date.parse(ds.generatedAt);
+    const upcoming = ds.events.filter((e) => e.status === 'published' && Date.parse(e.endsAt) > now).length;
+    console.log(`production seed: ${ds.events.length} events, ${upcoming} upcoming`);
+    if (upcoming === 0) throw new Error('production seed has no upcoming events');
+    return;
+  }
 
   const ds = buildSeed(new Date());
   write(SEED_SQL, datasetToSql(ds));

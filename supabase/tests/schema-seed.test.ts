@@ -4,7 +4,7 @@ import path from 'node:path';
 import { after, before, describe, test } from 'node:test';
 
 import type { SeedDataset } from '../../app/src/domain/types';
-import { buildSeed, uuidFromSlug } from '../seed/seed-data';
+import { buildSeed, FICTIONAL_VENUES, uuidFromSlug } from '../seed/seed-data';
 import { datasetToSql } from '../seed/sql';
 import { createDb, FIXED_NOW, REPO_ROOT, type DB } from './harness';
 
@@ -51,6 +51,23 @@ describe('seed dataset', () => {
     assert.deepEqual(other.venues.map((v) => v.id), ds.venues.map((v) => v.id));
     assert.equal(uuidFromSlug('venue:bolt'), ds.venues.find((v) => v.slug === 'bolt')!.id);
     for (const e of ds.events) assert.match(e.id, /^[0-9a-f]{8}-[0-9a-f]{4}-3[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
+  });
+
+  test('production profile keeps only sourced events at real venues', () => {
+    const prod = buildSeed(new Date(FIXED_NOW), { demoAtRealVenues: false });
+    const slugById = new Map(prod.venues.map((v) => [v.id, v.slug]));
+    assert.ok(prod.events.length > 0);
+    for (const e of prod.events) {
+      const slug = slugById.get(e.venueId)!;
+      if (FICTIONAL_VENUES.has(slug)) continue;
+      assert.match(e.ticketUrl ?? '', /^https:\/\/www\.sympla\.com\.br\//, `${e.title} at ${slug} has a public source`);
+    }
+    // Same venues and ids as the full seed: only events are dropped, so links keep working.
+    assert.deepEqual(prod.venues.map((v) => v.id), ds.venues.map((v) => v.id));
+    const all = new Set(ds.events.map((e) => e.id));
+    assert.ok(prod.events.every((e) => all.has(e.id)));
+    const upcoming = prod.events.filter((e) => Date.parse(e.startsAt) > now);
+    assert.ok(upcoming.some((e) => FICTIONAL_VENUES.has(slugById.get(e.venueId)!)), 'fictional venue still has upcoming demo events');
   });
 
   test('content follows docs/VENUES.md and the brief', () => {
