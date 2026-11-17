@@ -208,6 +208,14 @@ export function AoVivoScreen({ id }: { id?: string }) {
           })}
         </View>
         )}
+        <Button
+          label="Tô voltando: avisar quem espera"
+          variant="secondary"
+          icon="send"
+          fullWidth
+          onPress={() => router.push(`/volta?evento=${encodeURIComponent(event.id)}` as Href)}
+          testID="aovivo-volta"
+        />
         <EmergencyActions
           place={{ name: venue.name, address: venue.address, lat: venue.lat, lng: venue.lng, eventTitle: event.title }}
           testID="aovivo-emergencia"

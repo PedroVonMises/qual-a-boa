@@ -152,6 +152,17 @@ export function EventoScreen({ id }: { id?: string }) {
             Aconteceu algo comigo
           </Text>
         </PressableScale>
+        <PressableScale
+          accessibilityRole="link"
+          accessibilityLabel="Cheguei em casa"
+          accessibilityHint="Avisar pessoas de confiança que você está voltando e quando chegar"
+          onPress={() => go(`/volta?evento=${encodeURIComponent(event.id)}`)}
+          style={styles.link}
+          testID="evento-volta">
+          <Text variant="bodySm" tone="accent" style={styles.bold}>
+            Cheguei em casa: avisar quem espera notícia
+          </Text>
+        </PressableScale>
         <EmergencyActions
           place={{ name: venue.name, address: venue.address, lat: venue.lat, lng: venue.lng, eventTitle: event.title }}
           testID="evento-emergencia"

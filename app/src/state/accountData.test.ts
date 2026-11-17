@@ -1,4 +1,5 @@
 import { buildExport, exportFileName, wipeLocalData } from './accountData';
+import { useVolta } from './volta';
 import { useCheckins } from './checkins';
 import { useFavorites } from './favorites';
 import { useFollows } from './follows';
@@ -101,5 +102,12 @@ describe('wipeLocalData', () => {
     wipeLocalData();
     expect(useProfile.getState()).toMatchObject({ phone: undefined, address: undefined });
     expect(useLocation.getState()).toMatchObject({ live: null, registered: null, activeOrigin: 'default' });
+  });
+
+  it('exports and clears the trusted contacts (S5)', () => {
+    useVolta.setState({ contacts: [{ id: 'a', name: 'Ana', phone: '5527999990001' }], trip: { startedAt: NOW.toISOString(), place: null } });
+    expect(buildExport({ email: null, displayName: null }, NOW).trustedContacts).toEqual([{ id: 'a', name: 'Ana', phone: '5527999990001' }]);
+    wipeLocalData();
+    expect(useVolta.getState()).toMatchObject({ contacts: [], trip: null });
   });
 });

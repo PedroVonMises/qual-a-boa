@@ -12,7 +12,7 @@
       "bundleIdentifier": "br.com.qualaboa.app",
       "supportsTablet": true,
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Usamos sua localização só para ordenar as casas por distância."
+        "NSLocationWhenInUseUsageDescription": "Usamos sua localização para ordenar as casas por distância, confirmar seu check-in e, quando você pedir, compartilhar onde está."
       }
     },
     "android": {
@@ -44,12 +44,13 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Usamos sua localização só para ordenar as casas por distância.",
-          "locationAlwaysAndWhenInUsePermission": "Usamos sua localização só para ordenar as casas por distância.",
+          "locationWhenInUsePermission": "Usamos sua localização para ordenar as casas por distância, confirmar seu check-in e, quando você pedir, compartilhar onde está.",
+          "locationAlwaysAndWhenInUsePermission": "Usamos sua localização para ordenar as casas por distância, confirmar seu check-in e, quando você pedir, compartilhar onde está.",
           "isAndroidBackgroundLocationEnabled": false
         }
       ],
       "expo-image",
+      "expo-notifications",
       [
         "expo-image-picker",
         {

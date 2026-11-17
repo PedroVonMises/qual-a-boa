@@ -107,6 +107,8 @@ describe('EventoScreen', () => {
   it('shows the emergency buttons on the event and on the venue (S4)', async () => {
     await renderWith(<EventoScreen id="e01" />);
     expect(await screen.findByTestId('evento-emergencia')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('evento-volta'));
+    expect(mockPush).toHaveBeenCalledWith('/volta?evento=e01');
     await fireEvent.press(screen.getByTestId('evento-emergencia-ligar-190'));
     expect(Linking.openURL).toHaveBeenCalledWith('tel:190');
     expect(screen.getByRole('button', { name: 'Compartilhar minha localização' })).toBeTruthy();
