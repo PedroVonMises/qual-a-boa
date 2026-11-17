@@ -169,24 +169,29 @@ describe('follows', () => {
 });
 
 describe('checkins', () => {
-  it('inserts only event_id (server stamps at)', async () => {
+  it('calls check_in with the position (server stamps at and checks the distance)', async () => {
     const { client, calls } = fakeSupabase();
     setSupabase(client);
-    useCheckins.getState().checkIn('e1');
+    useCheckins.getState().checkIn('e1', undefined, { lat: -20.3, lng: -40.29, accuracyM: 25 });
     await flush();
-    expect(calls[0]).toMatchObject({ table: 'checkins', op: 'insert', payload: { event_id: 'e1' } });
+    expect(calls[0]).toMatchObject({
+      table: 'check_in',
+      op: 'rpc',
+      payload: { p_event_id: 'e1', p_lat: -20.3, p_lng: -40.29, p_accuracy_m: 25 },
+    });
     expect(useCheckins.getState().unsynced).toEqual([]);
   });
 
-  it('an RLS rejection keeps the local row, marks it unsynced and does not retry on pull', async () => {
-    const { client, calls } = fakeSupabase((c) => (c.op === 'insert' ? { error: rls } : { data: [] }));
+  it('a rejection (too far) keeps the local row, marks it unsynced and does not retry on pull', async () => {
+    const tooFar = { code: 'P0001', message: 'too_far' };
+    const { client, calls } = fakeSupabase((c) => (c.op === 'rpc' ? { error: tooFar } : { data: [] }));
     setSupabase(client);
     useCheckins.getState().checkIn('e1');
     await flush();
     expect(useCheckins.getState().hasCheckedIn('e1')).toBe(true);
     expect(useCheckins.getState().unsynced).toEqual(['e1']);
     await pullCheckins();
-    expect(calls.filter((c) => c.op === 'insert')).toHaveLength(1);
+    expect(calls.filter((c) => c.op === 'rpc')).toHaveLength(1);
     expect(useCheckins.getState().unsynced).toEqual(['e1']);
   });
 
@@ -214,7 +219,8 @@ describe('checkins', () => {
     setSupabase(client);
     await pullCheckins();
     expect(useCheckins.getState().checkins).toHaveLength(2);
-    expect(calls.find((c) => c.op === 'insert')?.payload).toEqual({ event_id: 'b' });
+    // Re-sent without a position: the server will refuse it (location_required) and it stays unsynced.
+    expect(calls.find((c) => c.op === 'rpc')?.payload).toEqual({ p_event_id: 'b', p_lat: null, p_lng: null, p_accuracy_m: null });
   });
 });
 

@@ -43,6 +43,17 @@ const count = async (sql: string, params: unknown[] = []) =>
   Number((await db.query<{ n: number }>(`select count(*)::int as n from (${sql}) s`, params)).rows[0].n);
 const denied = (p: Promise<unknown>, re = /permission denied|row-level security|violates|requires/i) =>
   assert.rejects(p, re);
+const asAnon = <T>(fn: () => Promise<T>) => asRole(db, 'anon', null, fn);
+
+/** Venue coordinates of an event (catalog is public). */
+const venueOf = async (eventId: string) =>
+  (await db.query<{ lat: number; lng: number }>(
+    `select v.lat, v.lng from public.events e join public.venues v on v.id = e.venue_id where e.id = $1`, [eventId])).rows[0];
+/** check_in() at the venue unless a position is given. Run inside a role. */
+async function checkIn(eventId: string, at?: { lat: number | null; lng: number | null; accuracy?: number }) {
+  const pos = at ?? (await venueOf(eventId)) ?? { lat: 0, lng: 0 };
+  return db.query(`select public.check_in($1, $2, $3, $4)`, [eventId, pos.lat, pos.lng, at?.accuracy ?? 20]);
+}
 
 describe('anon cannot write', () => {
   const tables = ['event_follows', 'checkins', 'event_reports', 'reviews', 'review_votes', 'review_reports',
@@ -85,31 +96,48 @@ describe('follows / checkins owner isolation', () => {
     });
   });
 
-  test('checkins: owner-only, published events only, server time', async () => {
+  test('checkins: owner-only, published events only, server time, only through check_in()', async () => {
     await asA(async () => {
-      await db.query(`insert into public.checkins (event_id) values ($1)`, [E1]);
+      await checkIn(E1);
       assert.equal(await count('select * from public.checkins'), 1);
-      await denied(db.query(`insert into public.checkins (event_id) values ($1)`, [draft.id]));
-      await denied(db.query(`insert into public.checkins (event_id, user_id) values ($1, $2)`, [E1, B]));
-      await denied(db.query(`insert into public.checkins (event_id, at) values ($1, now() - interval '30 days')`, [E1]));
-      await denied(db.query(`insert into public.checkins (event_id) values ($1)`, [E1]), /duplicate|unique/i);
+      await checkIn(E1); // idempotent
+      assert.equal(await count('select * from public.checkins'), 1);
+      await denied(checkIn(draft.id), /checkin_closed/);
+      // Direct writes are closed: no spoofed user, no backdated time, no skipping the distance check.
+      await denied(db.query(`insert into public.checkins (event_id) values ($1)`, [E2]), /permission denied/i);
+      await denied(db.query(`insert into public.checkins (event_id, user_id) values ($1, $2)`, [E1, B]), /permission denied/i);
     });
     await asB(async () => {
       assert.equal(await count('select * from public.checkins'), 0);
     });
+    await asAnon(() => denied(checkIn(E1), /permission denied/i));
   });
 });
 
-describe('check-in window', () => {
+describe('check-in window and proximity (0018)', () => {
   test('allowed from 2h before start until ends_at (or start + 8h)', async () => {
     await asA(async () => {
-      await db.query(`insert into public.checkins (event_id) values ($1)`, [E_SOON]);   // starts in 90 min
-      await db.query(`insert into public.checkins (event_id) values ($1)`, [E_NOEND]);  // started 7h ago, no ends_at
-      await denied(db.query(`insert into public.checkins (event_id) values ($1)`, [E_FAR]));    // 3h to go
-      await denied(db.query(`insert into public.checkins (event_id) values ($1)`, [E_FUTURE]));
-      await denied(db.query(`insert into public.checkins (event_id) values ($1)`, [E_ENDED]));  // ended
-      await denied(db.query(`insert into public.checkins (event_id) values ($1)`, [E_LONG]));   // > start + 8h
+      await checkIn(E_SOON);   // starts in 90 min
+      await checkIn(E_NOEND);  // started 7h ago, no ends_at
+      for (const id of [E_FAR, E_FUTURE, E_ENDED, E_LONG]) await denied(checkIn(id), /checkin_closed/);
     });
+  });
+
+  test('needs a position within 300 m of the venue (accuracy helps up to 150 m); coordinates are not stored', async () => {
+    const EP = published[3].id;
+    const v = await venueOf(EP);
+    await asRole(db, 'authenticated', C, async () => {
+      await denied(checkIn(EP, { lat: null, lng: null }), /location_required/);
+      // ~1.1 km north: too far even with a poor fix.
+      await denied(checkIn(EP, { lat: v.lat + 0.01, lng: v.lng, accuracy: 2000 }), /too_far/);
+      // ~400 m: too far with a precise fix, accepted with 150 m of accuracy.
+      await denied(checkIn(EP, { lat: v.lat + 0.0036, lng: v.lng, accuracy: 10 }), /too_far/);
+      await checkIn(EP, { lat: v.lat + 0.0036, lng: v.lng, accuracy: 150 });
+      assert.equal(await count(`select * from public.checkins where event_id = '${EP}'`), 1);
+    });
+    const cols = await db.query<{ column_name: string }>(
+      `select column_name from information_schema.columns where table_schema = 'public' and table_name = 'checkins'`);
+    assert.deepEqual(cols.rows.map((r) => r.column_name).sort(), ['at', 'event_id', 'id', 'user_id']);
   });
 });
 

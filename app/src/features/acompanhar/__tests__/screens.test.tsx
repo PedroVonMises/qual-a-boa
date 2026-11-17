@@ -22,6 +22,17 @@ jest.mock('@react-native-async-storage/async-storage', () =>
 jest.mock('expo-router', () => ({
   useRouter: () => ({ push: mockPush, back: jest.fn(), replace: mockReplace, canGoBack: () => true }),
 }));
+// Device position for the Ao vivo check-in: at the door of v3 (Rock na Praia) unless a test says otherwise.
+const mockFixAt = (lat: number, lng: number, accuracyM = 20) => ({
+  ok: true as const,
+  fix: { point: { lat, lng, label: 'Aqui' }, accuracyM, at: new Date().toISOString() },
+});
+const mockGetFix = jest.fn(async (): Promise<unknown> => mockFixAt(-20.34, -40.29));
+const mockRequestPermission = jest.fn(async () => 'denied');
+jest.mock('@/lib/location', () => ({
+  getFix: () => mockGetFix(),
+  requestPermission: () => mockRequestPermission(),
+}));
 jest.mock('expo-web-browser', () => ({ openBrowserAsync: jest.fn(() => Promise.resolve({ type: 'opened' })) }));
 jest.mock('expo-linking', () => ({ createURL: (p: string) => `qualaboa://${p}`, openURL: jest.fn(() => Promise.resolve(true)) }));
 
@@ -118,6 +129,20 @@ describe('Ao vivo', () => {
     expect(screen.queryByText(/ilustrativ/i)).toBeNull();
     expect(screen.getByLabelText('Relatar agora').props.accessibilityState.disabled).toBe(true);
     expect(screen.getByLabelText('Documento com foto (18+)')).toBeTruthy();
+  });
+
+  it('check-in needs the location and to be at the venue', async () => {
+    mockGetFix.mockResolvedValueOnce({ ok: false, reason: 'denied' });
+    await renderWith(<AoVivoScreen id="e03" />);
+    await fireEvent.press(await screen.findByText('Estou aqui'));
+    expect(await screen.findByText(/permita a localização/)).toBeTruthy();
+    expect(mockRequestPermission).toHaveBeenCalled();
+    expect(useCheckins.getState().hasCheckedIn('e03')).toBe(false);
+
+    mockGetFix.mockResolvedValueOnce(mockFixAt(-20.35, -40.29)); // ~1,1 km south
+    await fireEvent.press(screen.getByText('Estou aqui'));
+    expect(await screen.findByText(/você está a 1,1 km e precisa estar a até 300 m/)).toBeTruthy();
+    expect(useCheckins.getState().hasCheckedIn('e03')).toBe(false);
   });
 
   it('check-in unlocks the quick report, whose result shows with sample size', async () => {

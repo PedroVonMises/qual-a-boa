@@ -6,6 +6,7 @@ import { pushCheckin } from '@/data/sync/checkins';
 import { safeMerge } from './safeMerge';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+import type { CheckinPosition } from '@/domain/checkin';
 import type { Checkin } from '@/domain/engage';
 
 /** Idempotent: one check-in per event (the first one wins). */
@@ -19,7 +20,8 @@ interface CheckinsStore {
   checkins: Checkin[];
   /** Event ids whose check-in the server rejected (window closed etc.). Kept locally, never retried. */
   unsynced: string[];
-  checkIn: (eventId: string, nowIso?: string) => void;
+  /** Call only after the proximity check passed (see domain/checkin.ts); `pos` goes to the server for its own check. */
+  checkIn: (eventId: string, nowIso?: string, pos?: CheckinPosition) => void;
   hasCheckedIn: (eventId: string) => boolean;
 }
 
@@ -28,10 +30,10 @@ export const useCheckins = create<CheckinsStore>()(
     (set, get) => ({
       checkins: [],
       unsynced: [],
-      checkIn: (eventId, nowIso = new Date().toISOString()) => {
+      checkIn: (eventId, nowIso = new Date().toISOString(), pos) => {
         const had = hasCheckin(get().checkins, eventId);
         set((s) => ({ checkins: addCheckin(s.checkins, eventId, nowIso) }));
-        if (!had) void pushCheckin(eventId);
+        if (!had) void pushCheckin(eventId, pos);
       },
       hasCheckedIn: (eventId) => hasCheckin(get().checkins, eventId),
     }),

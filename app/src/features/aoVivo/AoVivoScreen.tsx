@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { useEvent } from '@/data/queries';
+import { CHECKIN_MAX_FIX_AGE_MS, CHECKIN_RADIUS_M, checkProximity, formatDistanceM } from '@/domain/checkin';
 import { formatBRL, formatRelative } from '@/domain/format';
 import { eventPhase, isDemoVenue } from '@/features/acompanhar/logic';
 import { getNow, useNow } from '@/features/acompanhar/useNow';
@@ -11,6 +12,7 @@ import { openMaps } from '@/features/evento/linking';
 import { useCheckins } from '@/state/checkins';
 import { useFollows } from '@/state/follows';
 import { useLive } from '@/state/live';
+import { getFix, requestPermission } from '@/lib/location';
 import { useLocation } from '@/state/location';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
@@ -39,6 +41,12 @@ export function AoVivoScreen({ id }: { id?: string }) {
   const [sheet, setSheet] = useState(false);
   const [done, setDone] = useState<string[]>([]);
   const [notice, setNotice] = useState('');
+  const [checking, setChecking] = useState(false);
+  const [noticeIsError, setNoticeIsError] = useState(false);
+  const fail = (msg: string) => {
+    setNoticeIsError(true);
+    setNotice(msg);
+  };
 
   const demo = isDemoVenue(q.data?.venue.slug);
   const reports = useMemo(() => {
@@ -73,9 +81,40 @@ export function AoVivoScreen({ id }: { id?: string }) {
               label="Estou aqui"
               icon="check"
               accessibilityHint="Registra que você chegou e libera relatos e a avaliação"
-              onPress={() => {
-                checkIn(id, new Date(getNow()).toISOString());
-                setNotice('Check-in feito. Agora você pode enviar relatos.');
+              loading={checking}
+              disabled={checking}
+              onPress={async () => {
+                const nowIso = new Date(getNow()).toISOString();
+                // Casa Maré is fictional (demo): no real place to be near.
+                if (demo) {
+                  checkIn(id, nowIso);
+                  setNotice('Check-in feito. Agora você pode enviar relatos.');
+                  return;
+                }
+                setChecking(true);
+                try {
+                  let fix = await getFix();
+                  if (!fix.ok && fix.reason === 'denied' && (await requestPermission()) === 'granted') fix = await getFix();
+                  if (!fix.ok || Date.now() - Date.parse(fix.fix.at) > CHECKIN_MAX_FIX_AGE_MS) {
+                    fail(
+                      'Para fazer check-in, permita a localização. Ela só confere que você está na casa e não fica guardada.',
+                    );
+                    return;
+                  }
+                  const pos = { lat: fix.fix.point.lat, lng: fix.fix.point.lng, accuracyM: fix.fix.accuracyM };
+                  const near = checkProximity(pos, venue);
+                  if (!near.ok) {
+                    fail(
+                      `O check-in só vale na casa: você está a ${formatDistanceM(near.distanceM)} e precisa estar a até ${CHECKIN_RADIUS_M} m.`,
+                    );
+                    return;
+                  }
+                  checkIn(id, nowIso, pos);
+                  setNoticeIsError(false);
+                  setNotice('Check-in feito. Agora você pode enviar relatos.');
+                } finally {
+                  setChecking(false);
+                }
               }}
               style={styles.flex}
             />
@@ -130,7 +169,12 @@ export function AoVivoScreen({ id }: { id?: string }) {
             Para relatar, toque em Estou aqui quando chegar. Assim os relatos vêm de quem está lá.
           </Text>
         )}
-        <Text accessibilityLiveRegion="polite" variant="bodySm" tone="success" style={notice ? undefined : styles.hidden}>
+        <Text
+          accessibilityLiveRegion="polite"
+          variant="bodySm"
+          tone={noticeIsError ? 'dangerText' : 'success'}
+          style={notice ? undefined : styles.hidden}
+          testID="aovivo-notice">
           {notice}
         </Text>
 
