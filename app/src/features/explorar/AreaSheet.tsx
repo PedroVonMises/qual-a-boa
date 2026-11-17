@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -9,7 +8,7 @@ import { useLocation, type Origin } from '@/state/location';
 import { addressLabel, useProfile } from '@/state/profile';
 import { useTheme } from '@/theme/ThemeProvider';
 import { hit, radius, space } from '@/theme/tokens';
-import { Button, Chip, Icon, ListRow, PressableScale, Sheet, Text, type IconName } from '@/ui';
+import { Chip, Icon, ListRow, PressableScale, Sheet, Text, type IconName } from '@/ui';
 import { radioGroup } from '@/ui/radioGroup';
 
 const FAIL_MESSAGES = {
@@ -118,12 +117,6 @@ export function AreaSheet({ visible, onClose }: { visible: boolean; onClose: () 
     pickArea(null);
   };
 
-  const register = () => {
-    reset();
-    onClose();
-    router.push('/dados-cadastrais');
-  };
-
   const liveSubtitle = busy
     ? 'Buscando sua localização...'
     : live && permission === 'granted'
@@ -167,7 +160,6 @@ export function AreaSheet({ visible, onClose }: { visible: boolean; onClose: () 
             a11y={rg.item(1)}
           />
         </View>
-        {!registered ? <Button label="Cadastrar endereço" variant="ghost" icon="plus" onPress={register} testID="area-cadastrar" /> : null}
         {message ? (
           <Text variant="bodySm" tone="dangerText" accessibilityRole="alert" testID="area-message">
             {message}

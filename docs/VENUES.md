@@ -18,6 +18,24 @@ Researched 2026-10-22 via web search. Venue names, neighborhoods and genre tende
 | Bali Lounge, Victoria Pub, Villa Bohemia | Camburi | pop/funk/electronic; funk | Low-Medium | |
 | Boate Garden | Vila Velha | pagode, funk | Low | |
 
+## Sympla, novembro de 2026 (pesquisado em 2026-11-09)
+
+Casas com festas ou shows no Espírito Santo anunciados no Sympla para novembro de 2026. Nome, endereço, data e link vêm da página do evento no Sympla. As coordenadas são aproximadas (nível de rua, sem geocodificação) e nada foi confirmado com a casa, por isso todas entram como `unverified`. No seed, esses eventos têm data fixa e link real; preço e line-up ficam vazios.
+
+| Casa | Endereço | Evento (Sympla) | Data |
+|---|---|---|---|
+| Taikô Beach Club | R. Joaquim Lírio, 820 - Praia do Canto, Vitória | [Forró do Canto](https://www.sympla.com.br/evento/forro-do-canto/3639480) | 6 nov, 20h |
+| Recreio dos Olhos | Av. Cel. José Martins de Figueiredo, 575 - Tabuazeiro, Vitória | [Forrozada Boa](https://www.sympla.com.br/evento/forrozada-boa-pipoca-show-seu-branco-discoteca-forro-veneno/3614801) | 13 nov, 22h |
+| Brizz | R. Judite Maria Tovar Varejão, 411 - Enseada do Suá, Vitória | [Flashback Sunset](https://www.sympla.com.br/evento/flashback-sunset/3569075) | 15 nov, 17h |
+| Correria Music Bar (já existia) | Av. Est. José Júlio de Souza, 740 - Praia de Itaparica, Vila Velha | [Slipmami em Vila Velha](https://www.sympla.com.br/evento/slipmami-em-vila-velha-es/3565753) | 20 nov, 21h |
+| La Isla | R. Thereza Zanoni Caser, 221 - Pontal de Camburi, Vitória | [Sunset by DJ Ale Alves](https://www.sympla.com.br/evento/sunset-by-dj-ale-alves-convidados/3625056) | 21 nov, 16h |
+| Cineteatro das Artes | Av. Jerônimo Monteiro, 902, 2º piso - Centro, Vila Velha | [Alex Emissário](https://www.sympla.com.br/evento/alex-emissario-apresenta-em-tempos-de-guerras-a-rima-prevalece/3609093) | 21 nov, 20h |
+| The Point | R. Felicidade Siqueira, 80 - Industrial, Vila Velha | [Subsolo](https://www.sympla.com.br/evento/subsolo-the-point/3606059) | 21 nov, 22h (16+) |
+
+Fora da lista: Lagun Vitória (R. Manoel Gonçalves Carneiro, 65) teve festa de 31 out a 1 nov, mas o bairro não aparece na página. Espaço Patrick Ribeiro, Clube ARCI e Na Vista têm shows em novembro em agregadores, mas a venda no Sympla não foi confirmada.
+
+Antes de produção: geocodificar os endereços (`npm run ingest -- --geocode`) e confirmar com cada casa.
+
 ## Product implications
 - Genre taxonomy for MVP: Funk, Pagode/Samba, Sertanejo, Eletrônica/House, Pop/Hits, Rock/Indie, Metal/Punk/Goth, Forró/Tecnobrega, Hip-hop/R&B, Música ao vivo/Karaokê.
 - Greater Vitória: search radius must cross into Vila Velha and Serra; label areas (Praia do Canto, Jardim da Penha, Centro, Camburi, Itaparica).

@@ -111,7 +111,7 @@ const VENUES: VenueSpec[] = [
     slug: 'correria-music-bar', name: 'Correria Music Bar', area: 'Vila Velha', city: 'Vila Velha',
     address: 'Av. Est. José Júlio de Souza, 740 - Praia de Itaparica', lat: -20.3625, lng: -40.2838,
     status: 'open', adultOnly: true,
-    genreSlugs: ['metal-punk-goth', 'rock-indie'],
+    genreSlugs: ['metal-punk-goth', 'rock-indie', 'hip-hop-rnb'],
     accessTags: ['pet-friendly'],
     hours: 'Sex e sáb, 22h–04h', coverKey: 'generic',
   },
@@ -130,6 +130,45 @@ const VENUES: VenueSpec[] = [
     genreSlugs: ['eletronica-house', 'pop-hits', 'sertanejo', 'karaoke-ao-vivo'],
     accessTags: ['acessivel', 'lgbtqia', 'vegano'],
     hours: 'Qui a sáb, 21h–04h', coverKey: 'mare',
+  },
+  // Venues with Espírito Santo events announced on Sympla for November 2026 (researched 2026-11-09, see
+  // docs/VENUES.md). Name and address come from the Sympla event page; coordinates are approximate (street level,
+  // not geocoded) and nothing was confirmed with the venue yet, hence 'unverified'.
+  {
+    slug: 'taiko-beach-club', name: 'Taikô Beach Club', area: 'Praia do Canto', city: 'Vitória',
+    address: 'R. Joaquim Lírio, 820 - Praia do Canto', lat: -20.2967, lng: -40.2951,
+    status: 'unverified', adultOnly: true,
+    genreSlugs: ['forro-tecnobrega', 'funk'], coverKey: 'generic',
+  },
+  {
+    slug: 'recreio-dos-olhos', name: 'Recreio dos Olhos', area: 'Tabuazeiro', city: 'Vitória',
+    address: 'Av. Cel. José Martins de Figueiredo, 575 - Tabuazeiro', lat: -20.2958, lng: -40.3218,
+    status: 'unverified', adultOnly: true,
+    genreSlugs: ['forro-tecnobrega'], coverKey: 'generic',
+  },
+  {
+    slug: 'brizz', name: 'Brizz', area: 'Enseada do Suá', city: 'Vitória',
+    address: 'R. Judite Maria Tovar Varejão, 411 - Enseada do Suá', lat: -20.3172, lng: -40.2933,
+    status: 'unverified', adultOnly: true,
+    genreSlugs: ['pop-hits'], coverKey: 'generic',
+  },
+  {
+    slug: 'la-isla', name: 'La Isla', area: 'Pontal de Camburi', city: 'Vitória',
+    address: 'R. Thereza Zanoni Caser, 221 - Pontal de Camburi', lat: -20.2879, lng: -40.2863,
+    status: 'unverified', adultOnly: true,
+    genreSlugs: ['eletronica-house'], coverKey: 'generic',
+  },
+  {
+    slug: 'the-point', name: 'The Point', area: 'Vila Velha', city: 'Vila Velha',
+    address: 'R. Felicidade Siqueira, 80 - Industrial', lat: -20.3392, lng: -40.3198,
+    status: 'unverified', adultOnly: false,
+    genreSlugs: ['hip-hop-rnb'], coverKey: 'generic',
+  },
+  {
+    slug: 'cineteatro-das-artes', name: 'Cineteatro das Artes', area: 'Vila Velha', city: 'Vila Velha',
+    address: 'Av. Jerônimo Monteiro, 902, 2º piso - Centro', lat: -20.3301, lng: -40.2924,
+    status: 'unverified', adultOnly: false,
+    genreSlugs: ['hip-hop-rnb'], coverKey: 'generic',
   },
 ];
 
@@ -238,6 +277,61 @@ const UPCOMING: EventSpec[] = [
   e('casa-mare', 'Quinta Sertaneja', THU, 2, 21, ['sertanejo'], ['Duo Moqueca', 'Ana Tereza & Viola'], [25, 35], 62),
   e('casa-mare', 'Maré de Neon', SAT, 3, 22, ['eletronica-house', 'pop-hits'], ['DJ Maresia', 'Lia Sol'], [40, 60], 86),
   e('casa-mare', 'Festa Rascunho', FRI, 3, 22, ['pop-hits'], ['DJ Caju'], [30, 30], 40, 'draft'),
+];
+
+/**
+ * Real events announced on Sympla for November 2026 in Espírito Santo (read 2026-11-09). Facts only, as shown on the
+ * Sympla page: title, venue, start/end (-03:00) and the ticket link. Prices and line-ups are left empty (not
+ * copied/unknown), so the app shows "preço não divulgado". Fixed dates, unlike the demo events above.
+ */
+interface RealEventSpec {
+  sympla: number; // Sympla event id (stable key)
+  venue: string;
+  title: string;
+  startsAt: string;
+  endsAt: string;
+  genres: string[];
+  url: string;
+  ageMin?: number;
+  popularity: number;
+}
+
+const REAL_NOVEMBER: RealEventSpec[] = [
+  {
+    sympla: 3639480, venue: 'taiko-beach-club', title: 'Forró do Canto',
+    startsAt: '2026-11-06T20:00:00-03:00', endsAt: '2026-11-07T03:30:00-03:00', genres: ['forro-tecnobrega'],
+    url: 'https://www.sympla.com.br/evento/forro-do-canto/3639480', popularity: 62,
+  },
+  {
+    sympla: 3614801, venue: 'recreio-dos-olhos', title: 'Forrozada Boa',
+    startsAt: '2026-11-13T22:00:00-03:00', endsAt: '2026-11-14T04:00:00-03:00', genres: ['forro-tecnobrega'],
+    url: 'https://www.sympla.com.br/evento/forrozada-boa-pipoca-show-seu-branco-discoteca-forro-veneno/3614801', popularity: 64,
+  },
+  {
+    sympla: 3569075, venue: 'brizz', title: 'Flashback Sunset',
+    startsAt: '2026-11-15T17:00:00-03:00', endsAt: '2026-11-15T21:00:00-03:00', genres: ['pop-hits'],
+    url: 'https://www.sympla.com.br/evento/flashback-sunset/3569075', popularity: 58,
+  },
+  {
+    sympla: 3565753, venue: 'correria-music-bar', title: 'Slipmami em Vila Velha',
+    startsAt: '2026-11-20T21:00:00-03:00', endsAt: '2026-11-21T02:00:00-03:00', genres: ['hip-hop-rnb'],
+    url: 'https://www.sympla.com.br/evento/slipmami-em-vila-velha-es/3565753', ageMin: 18, popularity: 72,
+  },
+  {
+    sympla: 3625056, venue: 'la-isla', title: 'Sunset by DJ Ale Alves & convidados',
+    startsAt: '2026-11-21T16:00:00-03:00', endsAt: '2026-11-21T22:00:00-03:00', genres: ['eletronica-house'],
+    url: 'https://www.sympla.com.br/evento/sunset-by-dj-ale-alves-convidados/3625056', popularity: 50,
+  },
+  {
+    sympla: 3609093, venue: 'cineteatro-das-artes', title: 'Alex Emissário: Em tempos de guerras, a rima prevalece',
+    startsAt: '2026-11-21T20:00:00-03:00', endsAt: '2026-11-21T22:30:00-03:00', genres: ['hip-hop-rnb'],
+    url: 'https://www.sympla.com.br/evento/alex-emissario-apresenta-em-tempos-de-guerras-a-rima-prevalece/3609093', popularity: 55,
+  },
+  {
+    sympla: 3606059, venue: 'the-point', title: 'Subsolo',
+    startsAt: '2026-11-21T22:00:00-03:00', endsAt: '2026-11-22T04:00:00-03:00', genres: ['hip-hop-rnb'],
+    url: 'https://www.sympla.com.br/evento/subsolo-the-point/3606059', ageMin: 16, popularity: 66,
+  },
 ];
 
 const PAST: EventSpec[] = [
@@ -406,9 +500,34 @@ export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: 
       })
     : [];
 
+  const real: EventItem[] = REAL_NOVEMBER.map((r) => {
+    const venue = venueBySlug.get(r.venue);
+    if (!venue) throw new Error(`unknown venue ${r.venue}`);
+    for (const g of r.genres) if (!GENRE_ORDER.has(g)) throw new Error(`unknown genre ${g}`);
+    const id = eventId(`sympla-${r.sympla}`);
+    return {
+      id,
+      title: r.title,
+      venueId: venue.id,
+      startsAt: new Date(r.startsAt).toISOString(),
+      endsAt: new Date(r.endsAt).toISOString(),
+      priceMin: null,
+      priceMax: null,
+      isFree: false,
+      ticketUrl: r.url,
+      ageMin: r.ageMin ?? 18,
+      genreSlugs: sortGenres(r.genres),
+      artistIds: [],
+      status: 'published' as const,
+      coverKey: coverFor({ genreSlugs: sortGenres(r.genres), venueSlug: venue.slug, eventId: id }),
+      popularity: r.popularity,
+    };
+  });
+
   const events = [
     ...UPCOMING.map((s) => toEvent(s, 'w')),
     ...PAST.map((s) => toEvent(s, 'p')),
+    ...real,
     ...demoLive,
   ].sort((a, b) => a.startsAt.localeCompare(b.startsAt) || a.id.localeCompare(b.id));
 

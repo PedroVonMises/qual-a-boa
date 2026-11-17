@@ -12,7 +12,6 @@ import { PRIVACY, TERMS, type LegalDoc } from '@/features/perfil/legalText';
 import { OUTSIDE_PILOT_MESSAGE, openSettings } from '@/lib/location';
 import { wipeLocalData } from '@/state/accountData';
 import { useLocation } from '@/state/location';
-import { addressLabel, useProfile } from '@/state/profile';
 import { useSearchHistory } from '@/state/searchHistory';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
@@ -43,7 +42,6 @@ export function PrivacidadeScreen() {
   const client = useQueryClient();
   const { colors } = useTheme();
   const permission = useLocation((s) => s.permission);
-  const address = useProfile((s) => s.address);
   const locationStatus = useLocationStatus();
   const recentCount = useSearchHistory((s) => s.recent.length);
   const clearHistory = useSearchHistory((s) => s.clear);
@@ -77,15 +75,6 @@ export function PrivacidadeScreen() {
         ) : (
           <ListRow title="Usar um bairro em vez do GPS" chevron divider onPress={() => setAreaOpen(true)} testID="privacidade-area" />
         )}
-        <ListRow
-          title="Endereço cadastrado"
-          subtitle={address ? `${addressLabel(address)}. Toque para editar ou apagar` : 'Nenhum endereço cadastrado'}
-          icon="pin"
-          chevron
-          divider
-          onPress={() => router.push('/dados-cadastrais')}
-          testID="privacidade-endereco"
-        />
         <ListRow
           title="Avisos de eventos"
           subtitle="Você escolhe os avisos em cada evento que acompanha"

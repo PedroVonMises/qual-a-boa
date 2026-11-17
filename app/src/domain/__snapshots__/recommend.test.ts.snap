@@ -2,20 +2,20 @@
 
 exports[`recommend seed top-5 snapshot (fixed now) Funk profile 1`] = `
 [
-  "Match @ fluente",
-  "Maré Cheia @ casa-mare",
-  "Maré Vazante @ casa-mare",
-  "Bolt Indie Club @ bolt",
   "Noite do Pagodão @ a-selva",
+  "Funk na Penha @ bolt",
+  "Baile da Selva @ a-selva",
+  "Match @ fluente",
+  "Match @ fluente",
 ]
 `;
 
 exports[`recommend seed top-5 snapshot (fixed now) empty profile 1`] = `
 [
-  "Maré Cheia @ casa-mare",
-  "Maré Vazante @ casa-mare",
-  "Bolt Indie Club @ bolt",
   "Noite do Pagodão @ a-selva",
-  "Match @ fluente",
+  "Maré Cheia @ casa-mare",
+  "Maré de Neon @ casa-mare",
+  "Pagode de Sábado @ gordinho",
+  "Maré Alta @ casa-mare",
 ]
 `;

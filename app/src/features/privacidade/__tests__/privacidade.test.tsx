@@ -1,6 +1,6 @@
 import '@/ui/testSetup';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import { render, screen } from '@testing-library/react-native';
 
 import { setRepo, SeedRepo } from '@/data';
 import { miniDataset } from '@/data/__fixtures__/mini';
@@ -40,12 +40,11 @@ describe('Privacidade: two locations', () => {
     expect(screen.queryByText(/nunca é enviada/)).toBeNull();
   });
 
-  it('"Endereço cadastrado" row shows the address and opens Dados cadastrais', async () => {
+  it('has no address row: the address lives only in Dados cadastrais', async () => {
     useProfile.getState().setAddress({ cep: '29055000', street: 'R. Joaquim Lírio', number: '823', district: 'Praia do Canto', city: 'Vitória', uf: 'ES', lat: -20.3, lng: -40.29 });
     await renderScreen();
-    expect(screen.getByTestId('privacidade-endereco')).toHaveTextContent(/R\. Joaquim Lírio, 823/);
-    await fireEvent.press(screen.getByTestId('privacidade-endereco'));
-    expect(mockPush).toHaveBeenCalledWith('/dados-cadastrais');
+    expect(screen.queryByTestId('privacidade-endereco')).toBeNull();
+    expect(screen.queryByText('Endereço cadastrado')).toBeNull();
   });
 
   it('the privacy policy no longer says the location is never sent', () => {

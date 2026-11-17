@@ -64,14 +64,25 @@ describe('seed dataset', () => {
     assert.ok(bySlug.has('casa-mare'));
     const caiporaId = bySlug.get('casa-caipora')!.id;
     assert.ok(!ds.events.some((e) => e.venueId === caiporaId && Date.parse(e.startsAt) >= now), 'no upcoming at Caipora');
-    const upcoming = ds.events.filter((e) => Date.parse(e.startsAt) >= now);
-    const past = ds.events.filter((e) => Date.parse(e.startsAt) < now);
+    // Real Sympla events (fixed November 2026 dates, real ticket links, no copied line-up) are checked apart.
+    const isReal = (e: (typeof ds.events)[number]) => !!e.ticketUrl?.startsWith('https://www.sympla.com.br/evento/');
+    const real = ds.events.filter(isReal);
+    assert.equal(real.length, 7);
+    for (const e of real) {
+      assert.ok(e.startsAt.startsWith('2026-11'), e.title);
+      assert.deepEqual(e.artistIds, []);
+      assert.equal(e.priceMin, null);
+      assert.equal(bySlug.get('correria-music-bar')!.id === e.venueId || ds.venues.find((v) => v.id === e.venueId)!.status === 'unverified', true);
+    }
+    const demo = ds.events.filter((e) => !isReal(e));
+    const upcoming = demo.filter((e) => Date.parse(e.startsAt) >= now);
+    const past = demo.filter((e) => Date.parse(e.startsAt) < now);
     assert.ok(upcoming.length >= 38 && upcoming.length <= 45, `upcoming=${upcoming.length}`);
     assert.ok(past.length >= 28, `past=${past.length}`);
     for (const e of upcoming) assert.ok(Date.parse(e.startsAt) - now <= 29 * 86_400_000);
     for (const e of past) assert.ok(now - Date.parse(e.startsAt) <= 183 * 86_400_000);
     assert.ok(ds.artists.length >= 24);
-    for (const e of ds.events) {
+    for (const e of demo) {
       if (e.priceMax !== null) assert.ok(e.priceMax <= 60);
       if (!e.isFree) assert.equal(e.ticketUrl, `https://example.com/ingressos/${e.ticketUrl!.split('/').pop()}`);
       assert.ok(e.artistIds.length > 0);

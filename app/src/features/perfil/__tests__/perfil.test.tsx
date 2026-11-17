@@ -158,7 +158,8 @@ describe('Perfil localização', () => {
   it('shows both origins, the default point, refresh and the new privacy note; settings only when blocked', async () => {
     await renderPerfil();
     expect(screen.getByTestId('origin-live')).toHaveTextContent(/Permitir localização/);
-    expect(screen.getByTestId('origin-registered')).toHaveTextContent(/Cadastrar endereço/);
+    // The address is edited only in Dados cadastrais: no address row in LOCALIZAÇÃO.
+    expect(screen.queryByTestId('origin-registered')).toBeNull();
     expect(screen.getByTestId('origin-default')).toHaveTextContent(/ponto padrão/);
     expect(screen.getByText('Alterar bairro')).toBeTruthy();
     expect(screen.getByText('Atualizar localização')).toBeTruthy();
@@ -182,21 +183,17 @@ describe('Perfil localização', () => {
     expect(screen.getByRole('tab', { name: 'Tempo real' })).toBeSelected();
     expect(screen.getByTestId('origin-live')).toHaveTextContent(/Agora em Jardim da Penha · há 2 min/);
     expect(screen.getByTestId('origin-live')).toHaveTextContent(/Em uso/);
-    expect(screen.getByTestId('origin-registered')).toHaveTextContent(/R\. Joaquim Lírio, 823/);
     await fireEvent.press(screen.getByRole('tab', { name: 'Endereço' }));
     expect(useLocation.getState().preferred).toBe('registered');
     expect(useLocation.getState().activeOrigin).toBe('registered');
     expect(screen.getByRole('tab', { name: 'Endereço' })).toBeSelected();
-    expect(screen.getByTestId('origin-registered')).toHaveTextContent(/Em uso/);
     await fireEvent.press(screen.getByRole('tab', { name: 'Tempo real' }));
     expect(useLocation.getState().preferred).toBe('live');
   });
 
-  it('"Endereço" row and "Dados cadastrais" row open /dados-cadastrais', async () => {
+  it('only the "Dados cadastrais" row leads to the address', async () => {
     await renderPerfil();
-    await fireEvent.press(screen.getByRole('button', { name: /Endereço, Cadastrar endereço/ }));
-    expect(mockPush).toHaveBeenCalledWith('/dados-cadastrais');
-    mockPush.mockClear();
+    expect(screen.queryByRole('button', { name: /^Endereço/ })).toBeNull();
     await fireEvent.press(screen.getByRole('button', { name: 'Dados cadastrais, Nome, contato e endereço' }));
     expect(mockPush).toHaveBeenCalledWith('/dados-cadastrais');
   });

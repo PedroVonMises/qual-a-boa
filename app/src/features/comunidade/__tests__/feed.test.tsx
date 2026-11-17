@@ -65,6 +65,25 @@ describe('useThreads (local mode)', () => {
     expect(state().startsWith(`${TOTAL}|false`)).toBe(true);
   });
 
+  it('paging past the end does not re-render (FlashList calls onEndReached on every layout of a short list)', async () => {
+    mockEnv.demoThreads = 0; // the bundled demo threads fit in one page
+    let renders = 0;
+    function Count() {
+      renders++;
+      const feed = useThreads(FEED);
+      return (
+        <Pressable accessibilityRole="button" accessibilityLabel="mais" onPress={feed.fetchNextPage}>
+          <Text>{`${feed.items.length}|${feed.hasNextPage}`}</Text>
+        </Pressable>
+      );
+    }
+    await render(wrap(<Count />));
+    expect(screen.getByText(/\|false$/)).toBeTruthy();
+    const before = renders;
+    for (let i = 0; i < 5; i++) await more();
+    expect(renders).toBe(before);
+  });
+
   it('orders newest first with no duplicates across pages', async () => {
     const ids: string[] = [];
     function Collect() {
