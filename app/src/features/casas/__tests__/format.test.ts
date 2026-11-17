@@ -82,6 +82,9 @@ describe('festa form helpers', () => {
       ageMin: 'A idade mínima vai de 18 a 21 anos.',
     });
     expect(validateFestaStep(2, { ...EMPTY_FESTA, free: true })).toEqual({});
+    expect(validateFestaStep(2, { ...EMPTY_FESTA, free: true, dressCode: 'x' })).toEqual({ dressCode: 'Escreva um pouco mais.' });
+    // Drafts saved before the field existed have no dressCode.
+    expect(validateFestaStep(2, { ...EMPTY_FESTA, free: true, dressCode: undefined })).toEqual({});
     expect(parseMoney('40,50')).toBe(40.5);
     expect(parseMoney('abc')).toBeNull();
     expect(draftPriceLabel({ ...EMPTY_FESTA, priceMin: '30', priceMax: '60' })).toBe('R$ 30 a R$ 60');

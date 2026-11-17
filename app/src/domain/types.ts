@@ -80,6 +80,12 @@ export interface EventItem {
   /** Organizer-supplied poster (https). Only with permission; the illustrated cover is the fallback. */
   imageUrl?: string;
   popularity: number; // 0..100, curated for MVP
+  /** Where the facts came from (https), e.g. the Sympla page. Migration 0006. */
+  sourceUrl?: string;
+  /** When someone on the team last checked the event (approval or curator). Migration 0023. */
+  verifiedAt?: string;
+  /** Dress code sent by the casa, e.g. "Esporte fino". Migration 0023. */
+  dressCode?: string;
 }
 
 export interface SearchParams {

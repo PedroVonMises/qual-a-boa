@@ -132,6 +132,22 @@ describe('EventoScreen', () => {
     expect(screen.queryByTestId('casa-volta')).toBeNull();
   });
 
+  it('shows the dress code and where the facts came from (item 14)', async () => {
+    const trusted: SeedDataset = {
+      ...data,
+      events: data.events.map((e) =>
+        e.id === 'e01' ? { ...e, dressCode: 'Esporte fino', sourceUrl: 'https://www.sympla.com.br/evento/x/1', verifiedAt: '2026-11-09T15:00:00.000Z' } : e,
+      ),
+    };
+    await renderWith(<EventoScreen id="e01" />, trusted);
+    expect(await screen.findByTestId('evento-dress-code')).toHaveTextContent('Dress code: Esporte fino');
+    expect(screen.getByTestId('evento-fonte')).toHaveTextContent('Informações de sympla.com.br, conferidas em 09/11');
+    await renderWith(<EventoScreen id="e02" />);
+    await screen.findByTestId('evento-emergencia');
+    expect(screen.queryByTestId('evento-dress-code')).toBeNull();
+    expect(screen.queryByTestId('evento-fonte')).toBeNull();
+  });
+
   it('shows the venue and event access tags as text badges', async () => {
     await renderWith(<EventoScreen id="e01" />);
     expect(await screen.findByText('Acessível')).toBeTruthy();

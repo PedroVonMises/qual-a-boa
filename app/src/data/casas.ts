@@ -182,6 +182,7 @@ export function submissionPayload(s: EventSubmission): Record<string, unknown> {
     price_min: s.isFree ? null : (s.priceMin ?? null),
     price_max: s.isFree ? null : (s.priceMax ?? null),
     ticket_url: s.ticketUrl?.trim() || null,
+    dress_code: s.dressCode?.trim().replace(/\s+/g, ' ') || null,
     age_min: s.ageMin ?? 18,
     genre_slugs: s.genreSlugs,
     poster_path: s.posterPath ?? null,

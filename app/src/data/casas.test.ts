@@ -136,7 +136,8 @@ describe('remote mode', () => {
     const res = await submitEvent(ACC, { ...SUB, ticketUrl: ' https://x.com/t ', posterPath: `${ACC}/p.jpg` });
     expect(res).toEqual({ ok: false, code: 'quota_exceeded', error: 'Você já usou as 4 festas deste mês.' });
     expect(calls[0]).toEqual(['submit_event', { p_account: ACC, p_payload: submissionPayload({ ...SUB, ticketUrl: ' https://x.com/t ', posterPath: `${ACC}/p.jpg` }) }]);
-    expect(submissionPayload({ ...SUB, isFree: true })).toMatchObject({ is_free: true, price_min: null, price_max: null, age_min: 18 });
+    expect(submissionPayload({ ...SUB, isFree: true })).toMatchObject({ is_free: true, price_min: null, price_max: null, age_min: 18, dress_code: null });
+    expect(submissionPayload({ ...SUB, dressCode: '  Esporte   fino ' })).toMatchObject({ dress_code: 'Esporte fino' });
     rpcResult = { data: 'ev1', error: null };
     expect(await submitEvent(ACC, SUB)).toEqual({ ok: true, eventId: 'ev1' });
     rpcResult = { data: null, error: { message: 'connection reset' } };

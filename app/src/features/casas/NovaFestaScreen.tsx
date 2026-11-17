@@ -29,6 +29,7 @@ import {
 } from './format';
 import { Caption, Card, CasasShell, Note, StepBar, SummaryRow, casasStyles } from './parts';
 import { draftFor, useCurrentAccount, useFestaDrafts } from './store';
+import { DRESS_CODE_MAX } from '@/domain/eventTrust';
 
 const STEPS = ['Quando e estilo', 'Preço e ingresso', 'Line-up e cartaz', 'Revisão'] as const;
 const MAX_LINEUP = 12;
@@ -193,6 +194,7 @@ function Form({ account }: { account: VenueAccount }) {
           priceMin: draft.free ? null : parseMoney(draft.priceMin),
           priceMax: draft.free || !draft.priceMax.trim() ? null : parseMoney(draft.priceMax),
           ticketUrl: draft.ticketUrl.trim() || null,
+          dressCode: (draft.dressCode ?? '').trim() || null,
           ageMin: Number(draft.ageMin),
           genreSlugs: draft.genres,
           posterPath,
@@ -353,6 +355,16 @@ function Form({ account }: { account: VenueAccount }) {
             testID="festa-link"
           />
           <TextField
+            label="Dress code"
+            value={draft.dressCode ?? ''}
+            onChangeText={(t) => set({ dressCode: t })}
+            maxLength={DRESS_CODE_MAX + 20}
+            placeholder="Ex.: esporte fino, sem chinelo"
+            hint="Opcional. Aparece na página da festa."
+            error={errors.dressCode}
+            testID="festa-dress-code"
+          />
+          <TextField
             label="Idade mínima"
             mono
             value={draft.ageMin}
@@ -398,6 +410,7 @@ function Form({ account }: { account: VenueAccount }) {
             <SummaryRow label="Horário" value={draft.end.trim() ? `${draft.start} às ${draft.end}` : `a partir de ${draft.start}`} mono />
             <SummaryRow label="Idade mínima" value={`${draft.ageMin} anos`} mono />
             {draft.lineup.length ? <SummaryRow label="Line-up" value={draft.lineup.join(', ')} /> : null}
+            {(draft.dressCode ?? '').trim() ? <SummaryRow label="Dress code" value={(draft.dressCode ?? '').trim()} /> : null}
             <SummaryRow label="Ingresso" value={draft.ticketUrl.trim() || 'Sem link'} divider={false} />
           </Card>
           {left !== null && monthKey ? (

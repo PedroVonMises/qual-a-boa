@@ -12,6 +12,7 @@ import type {
   VenueDetail,
 } from '@/domain/types';
 import { cleanTags } from '@/domain/accessTags';
+import { cleanEventTrust } from '@/domain/eventTrust';
 import { cleanReturnInfo, hasReturnInfo } from '@/domain/returnInfo';
 import { cleanSafetyProtocol } from '@/domain/safetyProtocol';
 import type { Repo } from './repo';
@@ -141,7 +142,10 @@ export function validateFeed(raw: unknown): SeedDataset | null {
     genres: goodGenres,
     venues: goodVenues.map((v) => withReturn(withSeal(withTags(v)))),
     artists: goodArtists,
-    events: goodEvents.map(withTags),
+    events: goodEvents.map((e) => {
+      const { sourceUrl, verifiedAt, dressCode, ...rest } = withTags(e);
+      return { ...rest, ...cleanEventTrust({ sourceUrl, verifiedAt, dressCode }) } as EventItem;
+    }),
   };
 }
 

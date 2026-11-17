@@ -6,6 +6,7 @@ import { isValidCnpj, onlyDigits, partyMonthLabel, type SubscriptionStatus, type
 import type { BadgeTone } from '@/ui';
 import type { EventStatus, SearchItem, Venue } from '@/domain/types';
 import type { AddressDraft } from '@/features/dadosCadastrais/format';
+import { dressCodeError } from '@/domain/eventTrust';
 
 const SP_OFFSET_MS = 3 * 3_600_000;
 const DAY = 86_400_000;
@@ -102,6 +103,8 @@ export interface FestaDraft {
   priceMin: string;
   priceMax: string;
   ticketUrl: string;
+  /** Optional (item 14). Optional in the type too: drafts saved before it existed do not have it. */
+  dressCode?: string;
   ageMin: string;
   lineup: string[];
   poster: PosterPick | null;
@@ -117,12 +120,13 @@ export const EMPTY_FESTA: FestaDraft = {
   priceMin: '',
   priceMax: '',
   ticketUrl: '',
+  dressCode: '',
   ageMin: '18',
   lineup: [],
   poster: null,
 };
 
-export type FestaField = 'title' | 'date' | 'start' | 'end' | 'genres' | 'priceMin' | 'priceMax' | 'ticketUrl' | 'ageMin';
+export type FestaField = 'title' | 'date' | 'start' | 'end' | 'genres' | 'priceMin' | 'priceMax' | 'ticketUrl' | 'dressCode' | 'ageMin';
 export type FestaErrors = Partial<Record<FestaField, string>>;
 
 export const MAX_GENRES = 3;
@@ -166,6 +170,8 @@ export function validateFestaStep(step: number, d: FestaDraft, nowMs: number = D
       }
     }
     if (d.ticketUrl.trim() && !TICKET_URL_RE.test(d.ticketUrl.trim())) e.ticketUrl = 'O link precisa começar com https://';
+    const dress = dressCodeError(d.dressCode ?? '');
+    if (dress) e.dressCode = dress;
     const age = Number(d.ageMin);
     if (!/^\d+$/.test(d.ageMin.trim()) || age < 18 || age > 21) e.ageMin = 'A idade mínima vai de 18 a 21 anos.';
   }

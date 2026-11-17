@@ -17,6 +17,7 @@ import {
 } from '@/domain/types';
 import { cleanTags } from '@/domain/accessTags';
 import { cleanSafetyProtocol } from '@/domain/safetyProtocol';
+import { cleanEventTrust } from '@/domain/eventTrust';
 import { cleanReturnInfo, hasReturnInfo } from '@/domain/returnInfo';
 import { haversineKm } from '@/domain/geo';
 import type { Repo } from './repo';
@@ -111,8 +112,14 @@ export function mapEvent(r: Row): EventItem {
     status: r.status,
     coverKey: (pick<string | null>(r, 'cover_key', 'coverKey') ?? 'generic') as CoverKey,
     popularity: Number(r.popularity ?? 0),
+    ...cleanEventTrust({
+      sourceUrl: pick(r, 'source_url', 'sourceUrl'),
+      verifiedAt: pick(r, 'verified_at', 'verifiedAt'),
+      dressCode: pick(r, 'dress_code', 'dressCode'),
+    }),
   };
 }
+
 
 const EVENT_SELECT = '*, event_genres(genres(slug)), event_artists(artist_id, billing_order)';
 

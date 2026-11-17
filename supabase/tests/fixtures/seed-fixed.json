@@ -1829,6 +1829,8 @@
       "priceMax": null,
       "isFree": false,
       "ticketUrl": "https://www.sympla.com.br/evento/forro-do-canto/3639480",
+      "sourceUrl": "https://www.sympla.com.br/evento/forro-do-canto/3639480",
+      "verifiedAt": "2026-11-09T15:00:00.000Z",
       "ageMin": 18,
       "genreSlugs": [
         "forro-tecnobrega"
@@ -2086,6 +2088,8 @@
       "priceMax": null,
       "isFree": false,
       "ticketUrl": "https://www.sympla.com.br/evento/forrozada-boa-pipoca-show-seu-branco-discoteca-forro-veneno/3614801",
+      "sourceUrl": "https://www.sympla.com.br/evento/forrozada-boa-pipoca-show-seu-branco-discoteca-forro-veneno/3614801",
+      "verifiedAt": "2026-11-09T15:00:00.000Z",
       "ageMin": 18,
       "genreSlugs": [
         "forro-tecnobrega"
@@ -2215,6 +2219,8 @@
       "priceMax": null,
       "isFree": false,
       "ticketUrl": "https://www.sympla.com.br/evento/flashback-sunset/3569075",
+      "sourceUrl": "https://www.sympla.com.br/evento/flashback-sunset/3569075",
+      "verifiedAt": "2026-11-09T15:00:00.000Z",
       "ageMin": 18,
       "genreSlugs": [
         "pop-hits"
@@ -2275,6 +2281,8 @@
       "priceMax": null,
       "isFree": false,
       "ticketUrl": "https://www.sympla.com.br/evento/slipmami-em-vila-velha-es/3565753",
+      "sourceUrl": "https://www.sympla.com.br/evento/slipmami-em-vila-velha-es/3565753",
+      "verifiedAt": "2026-11-09T15:00:00.000Z",
       "ageMin": 18,
       "genreSlugs": [
         "hip-hop-rnb"
@@ -2294,6 +2302,8 @@
       "priceMax": null,
       "isFree": false,
       "ticketUrl": "https://www.sympla.com.br/evento/sunset-by-dj-ale-alves-convidados/3625056",
+      "sourceUrl": "https://www.sympla.com.br/evento/sunset-by-dj-ale-alves-convidados/3625056",
+      "verifiedAt": "2026-11-09T15:00:00.000Z",
       "ageMin": 18,
       "genreSlugs": [
         "eletronica-house"
@@ -2313,6 +2323,8 @@
       "priceMax": null,
       "isFree": false,
       "ticketUrl": "https://www.sympla.com.br/evento/alex-emissario-apresenta-em-tempos-de-guerras-a-rima-prevalece/3609093",
+      "sourceUrl": "https://www.sympla.com.br/evento/alex-emissario-apresenta-em-tempos-de-guerras-a-rima-prevalece/3609093",
+      "verifiedAt": "2026-11-09T15:00:00.000Z",
       "ageMin": 18,
       "genreSlugs": [
         "hip-hop-rnb"
@@ -2332,6 +2344,8 @@
       "priceMax": null,
       "isFree": false,
       "ticketUrl": "https://www.sympla.com.br/evento/subsolo-the-point/3606059",
+      "sourceUrl": "https://www.sympla.com.br/evento/subsolo-the-point/3606059",
+      "verifiedAt": "2026-11-09T15:00:00.000Z",
       "ageMin": 16,
       "genreSlugs": [
         "hip-hop-rnb"

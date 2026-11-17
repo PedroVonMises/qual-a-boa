@@ -37,11 +37,11 @@ export function datasetToSql(ds: SeedDataset): string {
     );
   }
 
-  out.push('insert into public.events (id, venue_id, title, starts_at, ends_at, price_min, price_max, is_free, ticket_url, age_min, status, cover_key, popularity, access_tags) values');
+  out.push('insert into public.events (id, venue_id, title, starts_at, ends_at, price_min, price_max, is_free, ticket_url, age_min, status, cover_key, popularity, access_tags, source_url, verified_at, dress_code) values');
   out.push(
     ds.events
       .map((e) =>
-        `  (${q(e.id)}, ${q(e.venueId)}, ${q(e.title)}, ${q(e.startsAt)}, ${q(e.endsAt)}, ${n(e.priceMin)}, ${n(e.priceMax)}, ${b(e.isFree)}, ${q(e.ticketUrl)}, ${n(e.ageMin)}, ${q(e.status)}, ${q(e.coverKey)}, ${n(e.popularity)}, ${arr(e.accessTags ?? [])})`)
+        `  (${q(e.id)}, ${q(e.venueId)}, ${q(e.title)}, ${q(e.startsAt)}, ${q(e.endsAt)}, ${n(e.priceMin)}, ${n(e.priceMax)}, ${b(e.isFree)}, ${q(e.ticketUrl)}, ${n(e.ageMin)}, ${q(e.status)}, ${q(e.coverKey)}, ${n(e.popularity)}, ${arr(e.accessTags ?? [])}, ${q(e.sourceUrl)}, ${q(e.verifiedAt)}, ${q(e.dressCode)})`)
       .join(',\n') + ';',
   );
 
