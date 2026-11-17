@@ -1,0 +1,6 @@
+app/public/maplibre-gl-worker.mjs
+app/public/feed/
+docs/design-canvas/
+app/src/data/seed.json
+**/node_modules/
+graphify-out/
