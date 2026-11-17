@@ -8,6 +8,7 @@ import { useEvent, useGenres } from '@/data/queries';
 import { useRecordView } from '@/state/useRecordView';
 import { useFavorites } from '@/state/favorites';
 import { useLocation } from '@/state/location';
+import { EmergencyActions } from '@/features/seguranca/EmergencyActions';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
 import { ArtistRow, Badge, Button, IconButton, PressableScale, Tag, Text, useBreakpoint } from '@/ui';
@@ -151,6 +152,10 @@ export function EventoScreen({ id }: { id?: string }) {
             Aconteceu algo comigo
           </Text>
         </PressableScale>
+        <EmergencyActions
+          place={{ name: venue.name, address: venue.address, lat: venue.lat, lng: venue.lng, eventTitle: event.title }}
+          testID="evento-emergencia"
+        />
       </View>
       <ShareSheet visible={shareOpen} onClose={() => setShareOpen(false)} event={event} venue={venue} />
     </Frame>

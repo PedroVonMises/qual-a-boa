@@ -4,13 +4,14 @@ import { StyleSheet, View } from 'react-native';
 import type { SafetyProtocol } from '@/domain/safetyProtocol';
 import { feltSafeLabel, safetyAverageLabel, safetyIndexCaption } from '@/domain/safetyIndex';
 import { SafetyProtocolSeal } from '@/features/evento/SafetyProtocolSeal';
+import { EmergencyActions } from '@/features/seguranca/EmergencyActions';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, space } from '@/theme/tokens';
 import { Icon, ListRow, Skeleton, Text } from '@/ui';
 import { useVenueSafety } from './useVenueSafety';
 
 /** "Segurança" block of the venue page: the S1 seal and the S2 index from people who checked in. */
-export function SafetySection({ venue }: { venue: { id: string; slug: string; safetyProtocol?: SafetyProtocol } }) {
+export function SafetySection({ venue }: { venue: { id: string; slug: string; name: string; address?: string; lat: number; lng: number; safetyProtocol?: SafetyProtocol } }) {
   const { colors } = useTheme();
   const router = useRouter();
   const q = useVenueSafety(venue);
@@ -52,6 +53,7 @@ export function SafetySection({ venue }: { venue: { id: string; slug: string; sa
         onPress={() => router.push(`/seguranca/relato?casa=${encodeURIComponent(venue.slug)}` as Href)}
         testID="casa-relato"
       />
+      <EmergencyActions place={{ name: venue.name, address: venue.address, lat: venue.lat, lng: venue.lng }} testID="casa-emergencia" />
     </View>
   );
 }
