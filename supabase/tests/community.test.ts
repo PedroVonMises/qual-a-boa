@@ -570,3 +570,59 @@ describe('blocking (0016)', () => {
     await asC(() => denied(db.query(`insert into public.user_blocks (blocked_id) values ('${A}')`), /permission denied/i));
   });
 });
+
+describe('community guards (0017)', () => {
+  const limits = (sql: string) => db.exec(`update public.community_limits set ${sql}`);
+  const relaxed = `threads_per_10min = 100000, comments_per_hour = 100000, reports_to_hide = 3, reporter_min_age = interval '0'`;
+  after(() => limits(relaxed));
+  const [F, G, H, I] = ['1f', '2f', '3f', '4f'].map(U);
+  const asF = as(F), asG = as(G), asH = as(H), asI = as(I);
+  before(async () => {
+    await db.exec(`insert into auth.users (id, is_anonymous) values ('${F}', true), ('${G}', true), ('${H}', true), ('${I}', false)`);
+  });
+  const report = (who: typeof asA, t: string) =>
+    who(() => db.query(`insert into public.community_reports (thread_id, reason) values ($1, 'spam')`, [t]));
+
+  test('anonymous sessions cannot hide a post, however many report it', async () => {
+    const t = await newThread(asC);
+    for (const w of [asF, asG, asH]) await report(w, t);
+    assert.ok(await feedThread(asAnon, t), 'still visible after 3 anonymous reports');
+    // Stored for moderation all the same.
+    assert.equal(Number((await db.query<{ n: number }>(`select count(*) n from public.community_reports where thread_id = $1`, [t])).rows[0].n), 3);
+    // Real accounts still count: two more (plus one anonymous ignored) are not enough, a third is.
+    await report(asI, t);
+    await report(asA, t);
+    assert.ok(await feedThread(asAnon, t));
+    await report(asB, t);
+    assert.equal(await feedThread(asAnon, t), undefined);
+  });
+
+  test('brand-new accounts do not count until reporter_min_age', async () => {
+    await limits(`reporter_min_age = interval '24 hours'`);
+    const t = await newThread(asC);
+    for (const w of [asA, asB, asI]) await report(w, t);
+    assert.ok(await feedThread(asAnon, t), 'accounts created minutes ago do not hide');
+    await db.exec(`update auth.users set created_at = now() - interval '2 days' where id in ('${A}', '${B}', '${I}')`);
+    await report(asE, t); // E is new: still not counted, but the trigger re-counts the older three
+    assert.equal(await feedThread(asAnon, t), undefined);
+    await limits(relaxed);
+  });
+
+  test('threads and comments are rate limited per user', async () => {
+    await limits(`threads_per_10min = 2, comments_per_hour = 3`);
+    await newThread(asI, { anonymous: true });
+    await newThread(asI, { anonymous: true });
+    await assert.rejects(newThread(asI, { anonymous: true }), /rate_limited/);
+    // Another user is not affected.
+    const t = await newThread(asF, { anonymous: true });
+    for (let i = 0; i < 3; i++) await newComment(asI, t, null, true);
+    await assert.rejects(newComment(asI, t, null, true), /rate_limited/);
+    await newComment(asG, t, null, true);
+    await limits(relaxed);
+  });
+
+  test('limits are not readable or writable by clients', async () => {
+    await asA(() => denied(db.query(`select * from public.community_limits`), /permission denied/i));
+    await asAnon(() => denied(db.query(`update public.community_limits set reports_to_hide = 1`), /permission denied/i));
+  });
+});
