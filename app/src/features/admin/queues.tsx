@@ -221,7 +221,7 @@ function RelatoCard({ r }: { r: SafetyReportItem }) {
           />
           <View style={casasStyles.row}>
             <Button label="Responder" variant="primary" loading={m.isPending && !m.variables?.close} disabled={m.isPending} onPress={() => void send(false)} testID={`admin-relato-${r.ticketId}-responder`} />
-            <Button label="Responder e encerrar" loading={m.isPending && !!m.variables?.close} disabled={m.isPending} onPress={() => void send(true)} testID={`admin-relato-${r.ticketId}-encerrar`} />
+            <Button label="Responder e encerrar" variant="secondary" loading={m.isPending && !!m.variables?.close} disabled={m.isPending} onPress={() => void send(true)} testID={`admin-relato-${r.ticketId}-encerrar`} />
           </View>
           <Note text={error} tone="error" testID={`admin-relato-${r.ticketId}-erro`} />
         </>
