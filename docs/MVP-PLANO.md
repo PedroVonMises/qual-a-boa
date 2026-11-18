@@ -280,7 +280,7 @@ Hoje é 16/11/2026. Datas são metas, assumindo 1 pessoa desenvolvendo com apoio
 - [ ] Curadoria: 40 casas, eventos reais de dezembro e Réveillon. Tela simples de aprovação da ingestão.
 - [ ] Campos `womenEntry`, `sourceUrl`, `verifiedAt`, `dressCode`, informações de volta (S8).
 - [ ] S1 selo Não é Não, S2 índice de segurança, S3 denúncia de assédio, S4 emergência, S7 bloquear/silenciar, B5 check-in por proximidade, B6/B7 anti-brigada e throttle.
-- [ ] Back-office `/admin` mínimo (5.6).
+- [x] Back-office `/admin` mínimo (5.6): migration 0024 (`staff_members`, `admin_actions`, filas e decisões `admin_*`), tela `/admin`.
 - [ ] Refatoração 4.3 itens 1 a 3 (acoplamento `isRemote`, ciclos, seed fora da produção).
 - [ ] Performance 4.4: busca com bbox + trigram, FlashList nas listas longas.
 
