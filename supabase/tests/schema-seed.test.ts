@@ -21,9 +21,9 @@ describe('migrations', () => {
       `select c.relname, c.relrowsecurity from pg_class c join pg_namespace n on n.oid = c.relnamespace
        where n.nspname = 'public' and c.relkind = 'r' order by 1`);
     assert.deepEqual(r.rows.map((x) => x.relname), [
-      'artists', 'billing_events', 'checkins', 'comment_votes', 'comments', 'community_limits', 'community_reports', 'event_artists', 'event_follows',
+      'admin_actions', 'artists', 'billing_events', 'checkins', 'comment_votes', 'comments', 'community_limits', 'community_reports', 'event_artists', 'event_follows',
       'event_genres', 'event_reports', 'events', 'favorites', 'genres', 'plans', 'profile_addresses', 'profiles', 'review_photos',
-      'review_reports', 'review_votes', 'reviews', 'safety_reports', 'subscriptions', 'support_attachments', 'support_messages', 'support_tickets',
+      'review_reports', 'review_votes', 'reviews', 'safety_reports', 'staff_members', 'subscriptions', 'support_attachments', 'support_messages', 'support_tickets',
       'threads', 'user_blocks', 'venue_accounts', 'venue_aliases', 'venue_members', 'venue_safety_declarations', 'venues',
     ]);
     for (const row of r.rows) assert.equal(row.relrowsecurity, true, `${row.relname} has RLS`);
