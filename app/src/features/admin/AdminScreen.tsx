@@ -9,7 +9,7 @@ import { ADMIN_ERROR_MESSAGES, slaState, type AdminOverview, type AdminSection }
 import { CasasShell, Note, casasStyles } from '@/features/casas/parts';
 import { space } from '@/theme/tokens';
 import { Chip, EmptyState, Skeleton } from '@/ui';
-import { CasasQueue, FestasQueue, LogList, ModeracaoQueue, RelatosQueue, SelosQueue } from './queues';
+import { CasasQueue, FestasQueue, IngestaoQueue, LogList, ModeracaoQueue, RelatosQueue, SelosQueue } from './queues';
 
 const SECTIONS: { key: AdminSection; label: string; count?: (o: AdminOverview) => number }[] = [
   { key: 'relatos', label: 'Relatos', count: (o) => o.openSafetyReports },
@@ -17,6 +17,7 @@ const SECTIONS: { key: AdminSection; label: string; count?: (o: AdminOverview) =
   { key: 'casas', label: 'Casas', count: (o) => o.pendingAccounts },
   { key: 'selos', label: 'Selos', count: (o) => o.safetySeals },
   { key: 'moderacao', label: 'Moderação', count: (o) => o.hiddenPosts },
+  { key: 'ingestao', label: 'Ingestão', count: (o) => o.ingestPending },
   { key: 'log', label: 'Log' },
 ];
 
@@ -26,6 +27,7 @@ const QUEUES: Record<AdminSection, () => React.JSX.Element> = {
   selos: SelosQueue,
   moderacao: ModeracaoQueue,
   relatos: RelatosQueue,
+  ingestao: IngestaoQueue,
   log: LogList,
 };
 

@@ -5,6 +5,13 @@
 import { addLink } from './adapters/link.js';
 import { resolvePaths } from './config.js';
 import { runPipeline, type RunOptions } from './pipeline.js';
+import { createRemoteReview, remoteConfigFromEnv } from './remote.js';
+
+/** Curator decisions from /admin, when the service credentials are set (CI secrets). */
+function remoteFromEnv() {
+  const cfg = remoteConfigFromEnv();
+  return cfg ? createRemoteReview(cfg) : null;
+}
 
 function parseArgs(argv: string[]) {
   const flags = new Map<string, string | true>();
@@ -38,6 +45,7 @@ function runOptions(flags: Map<string, string | true>): RunOptions {
     fresh: flags.has('fresh') || process.env.INGEST_FRESH === '1',
     geocode: flags.has('geocode') || process.env.INGEST_GEOCODE === '1',
     log: (m) => console.log(`[ingest] ${m}`),
+    remote: remoteFromEnv(),
   };
 }
 
@@ -61,7 +69,7 @@ async function main() {
     }
     case 'check': {
       const o = runOptions(flags);
-      const r = await runPipeline({ ...o, offline: true, write: false, loadOptionalAdapters: false });
+      const r = await runPipeline({ ...o, offline: true, write: false, loadOptionalAdapters: false, remote: null });
       for (const n of r.needsReview) console.log(`needs-review: ${n.source} ${n.ref}: ${n.reason}`);
       for (const p of r.problems) console.log(`INVALID: ${p}`);
       console.log(`${r.candidates.length} candidates, ${r.pending.length} pending approval, ${r.needsReview.length} needing review, feed problems: ${r.problems.length}`);

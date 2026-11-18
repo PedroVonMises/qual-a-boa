@@ -49,6 +49,10 @@ jobs:
         env:
           # Optional. Used by the Sympla API adapter when present; the pipeline runs fine without it.
           SYMPLA_TOKENS_JSON: ${{ secrets.SYMPLA_TOKENS_JSON }}
+          # Optional. Curator decisions from /admin (migration 0025): pending records are sent to Supabase and
+          # approvals/rejections are read back. Without them, approval is approved.json only.
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: npm run ingest
 
       - name: PR title and body

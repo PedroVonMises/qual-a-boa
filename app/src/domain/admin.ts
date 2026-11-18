@@ -1,7 +1,7 @@
 // Back-office /admin (item 5.6 of docs/MVP-PLANO.md, migration 0024): types, row mapping and pt-BR copy for the
 // team's queues. Pure; the data layer is data/admin.ts.
 
-export type AdminSection = 'festas' | 'casas' | 'selos' | 'moderacao' | 'relatos' | 'log';
+export type AdminSection = 'festas' | 'casas' | 'selos' | 'moderacao' | 'relatos' | 'ingestao' | 'log';
 
 export interface AdminOverview {
   pendingEvents: number;
@@ -10,6 +10,7 @@ export interface AdminOverview {
   hiddenPosts: number;
   openSafetyReports: number;
   oldestSafetyReportAt: string | null;
+  ingestPending: number;
 }
 
 export interface PendingEvent {
@@ -100,6 +101,24 @@ export interface SafetyReportItem {
   messages: TicketMessage[];
 }
 
+/** A record the ingest run found on a public page (tier 2/3) and is waiting for a curator (0025). */
+export interface IngestCandidate {
+  id: string;
+  key: string;
+  tier: number;
+  title: string;
+  startsAt: string;
+  venueName: string;
+  venueMatched: boolean;
+  sourceUrl: string | null;
+  flags: string[];
+  price: string | null;
+  artists: string[];
+  genres: string[];
+  address: string | null;
+  firstSeenAt: string;
+}
+
 export interface AdminAction {
   id: string;
   actorName: string | null;
@@ -126,6 +145,7 @@ export const ADMIN_ERROR_MESSAGES = {
   protocol_not_declared: 'A casa ainda não declarou o protocolo.',
   post_not_hidden: 'Este post não está mais oculto. Atualize a lista.',
   ticket_not_found: 'Não achamos este relato.',
+  candidate_not_found: 'Não achamos este evento da ingestão.',
   invalid_payload: 'Confira os dados e tente de novo.',
   no_backend: 'O painel da equipe só funciona com o Supabase configurado.',
   network: 'Não deu para falar com o servidor. Tente de novo.',
@@ -175,6 +195,8 @@ const ACTION_LABEL: Record<string, string> = {
   post_keep_hidden: 'manteve o post oculto',
   ticket_reply: 'respondeu o relato',
   ticket_close: 'encerrou o relato',
+  ingest_approve: 'aprovou o evento da ingestão',
+  ingest_reject: 'recusou o evento da ingestão',
 };
 export const actionLabel = (action: string): string => ACTION_LABEL[action] ?? action.replace(/_/g, ' ');
 
@@ -231,6 +253,7 @@ export function mapOverview(r: Record<string, unknown> | null | undefined): Admi
     hiddenPosts: Number(r?.hidden_posts ?? 0),
     openSafetyReports: Number(r?.open_safety_reports ?? 0),
     oldestSafetyReportAt: str(r?.oldest_safety_report_at),
+    ingestPending: Number(r?.ingest_pending ?? 0),
   };
 }
 
@@ -322,6 +345,38 @@ export function mapSafetyReport(r: Record<string, unknown>): SafetyReportItem {
     status,
     createdAt: String(r.created_at),
     messages,
+  };
+}
+
+/** Review hints from ingest/src/normalize.ts, in pt-BR. Unknown ones show as they are. */
+const FLAG_LABEL: Record<string, string> = {
+  'venue-unverified': 'Casa fora do catálogo',
+  'venue-location-approximate': 'Localização aproximada',
+  'price-unknown': 'Sem preço',
+  'ticket-url-not-https': 'Link de ingresso sem https',
+  'no-ticket-url': 'Sem link de ingresso',
+};
+export const flagLabel = (f: string): string => FLAG_LABEL[f] ?? f;
+
+const strList = (v: unknown): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : []);
+
+export function mapIngestCandidate(r: Record<string, unknown>): IngestCandidate {
+  const d = r.details && typeof r.details === 'object' && !Array.isArray(r.details) ? (r.details as Record<string, unknown>) : {};
+  return {
+    id: String(r.id),
+    key: String(r.key),
+    tier: Number(r.tier ?? 2),
+    title: String(r.title),
+    startsAt: String(r.starts_at),
+    venueName: String(r.venue_name),
+    venueMatched: r.venue_matched === true,
+    sourceUrl: str(r.source_url),
+    flags: strList(r.flags),
+    price: str(d.price),
+    artists: strList(d.artists),
+    genres: strList(d.genres),
+    address: str(d.address),
+    firstSeenAt: String(r.first_seen_at),
   };
 }
 

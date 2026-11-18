@@ -9,6 +9,7 @@ import {
   isAdminErrorCode,
   mapAction,
   mapHiddenPost,
+  mapIngestCandidate,
   mapOverview,
   mapPendingAccount,
   mapPendingEvent,
@@ -18,6 +19,7 @@ import {
   type AdminErrorCode,
   type AdminOverview,
   type HiddenPost,
+  type IngestCandidate,
   type PendingAccount,
   type PendingEvent,
   type SafetyQueueItem,
@@ -74,6 +76,7 @@ export const fetchPendingAccounts = () => rpc<PendingAccount[]>('admin_pending_a
 export const fetchSafetyQueue = () => rpc<SafetyQueueItem[]>('admin_safety_queue', undefined, (d) => rows(d).map(mapSafetyItem));
 export const fetchHiddenPosts = () => rpc<HiddenPost[]>('admin_hidden_posts', undefined, (d) => rows(d).map(mapHiddenPost));
 export const fetchSafetyReports = () => rpc<SafetyReportItem[]>('admin_safety_reports', undefined, (d) => rows(d).map(mapSafetyReport));
+export const fetchIngestQueue = () => rpc<IngestCandidate[]>('admin_ingest_queue', undefined, (d) => rows(d).map(mapIngestCandidate));
 export const fetchRecentActions = (limit = 50) =>
   rpc<AdminAction[]>('admin_recent_actions', { p_limit: limit }, (d) => rows(d).map(mapAction));
 
@@ -100,6 +103,9 @@ export type ModerationAction = 'restore' | 'keep_hidden';
 export const moderatePost = (kind: HiddenPost['kind'], id: string, action: ModerationAction, note?: string | null) =>
   rpc('admin_moderate', { p_kind: kind, p_id: id, p_action: action, p_note: noteArg(note) }, scalar);
 
+export const reviewIngest = (id: string, approve: boolean, note?: string | null) =>
+  rpc('admin_review_ingest', { p_id: id, p_approve: approve, p_note: noteArg(note) }, scalar);
+
 export const replyTicket = (ticketId: string, text: string, close = false) =>
   rpc('admin_reply_ticket', { p_ticket_id: ticketId, p_text: text.trim(), p_close: close }, scalar);
 
@@ -114,6 +120,7 @@ export const adminKeys = {
   safety: ['admin', 'safety'] as const,
   posts: ['admin', 'posts'] as const,
   reports: ['admin', 'reports'] as const,
+  ingest: ['admin', 'ingest'] as const,
   log: ['admin', 'log'] as const,
 };
 
@@ -142,6 +149,7 @@ export const usePendingAccounts = (enabled: boolean) => useQuery(q(adminKeys.acc
 export const useSafetyQueue = (enabled: boolean) => useQuery(q(adminKeys.safety, fetchSafetyQueue, enabled));
 export const useHiddenPosts = (enabled: boolean) => useQuery(q(adminKeys.posts, fetchHiddenPosts, enabled));
 export const useSafetyReports = (enabled: boolean) => useQuery(q(adminKeys.reports, fetchSafetyReports, enabled));
+export const useIngestQueue = (enabled: boolean) => useQuery(q(adminKeys.ingest, fetchIngestQueue, enabled));
 export const useRecentActions = (enabled: boolean) => useQuery(q(adminKeys.log, () => fetchRecentActions(), enabled));
 
 /** Any decision refreshes every queue, the counters and the log. */
