@@ -4,7 +4,9 @@ import {
   adminErrorMessage,
   ageLabel,
   formatCnpj,
+  flagLabel,
   mapHiddenPost,
+  mapIngestCandidate,
   mapOverview,
   mapPendingAccount,
   mapPendingEvent,
@@ -59,7 +61,7 @@ describe('admin domain', () => {
 
   it('maps rows defensively', () => {
     expect(mapOverview(undefined)).toEqual({
-      pendingEvents: 0, pendingAccounts: 0, safetySeals: 0, hiddenPosts: 0, openSafetyReports: 0, oldestSafetyReportAt: null,
+      pendingEvents: 0, pendingAccounts: 0, safetySeals: 0, hiddenPosts: 0, openSafetyReports: 0, oldestSafetyReportAt: null, ingestPending: 0,
     });
     const e = mapPendingEvent({
       id: 'e', title: 'Noite', starts_at: 's', ends_at: null, venue_name: 'V', venue_slug: 'v', account_name: null, is_free: false,
@@ -77,5 +79,18 @@ describe('admin domain', () => {
     expect(r.kind).toBe('outro');
     expect(r.status).toBe('answered');
     expect(r.messages).toEqual([{ sender: 'support', text: 'oi', at: 'y' }]);
+  });
+
+  it('maps ingest candidates and labels review flags', () => {
+    const c = mapIngestCandidate({
+      id: 'i', key: 'link:abc', tier: 2, title: 'Rock no Quintal', starts_at: 's', venue_name: 'Quintal', venue_matched: false,
+      source_url: 'https://x.com/e', flags: ['venue-unverified', 'novo'], first_seen_at: 'f',
+      details: { price: 'R$ 30', artists: ['A', 3], genres: ['rock'], address: 'Rua X' },
+    });
+    expect(c).toMatchObject({ key: 'link:abc', price: 'R$ 30', artists: ['A'], genres: ['rock'], address: 'Rua X', venueMatched: false });
+    expect(mapIngestCandidate({ id: 'i', key: 'k', title: 't', starts_at: 's', venue_name: 'v', first_seen_at: 'f', details: null }).price).toBeNull();
+    expect(flagLabel('venue-unverified')).toBe('Casa fora do catálogo');
+    expect(flagLabel('novo')).toBe('novo');
+    expect(mapOverview({ ingest_pending: 4 }).ingestPending).toBe(4);
   });
 });

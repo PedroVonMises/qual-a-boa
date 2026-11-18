@@ -4,11 +4,13 @@ import { StyleSheet, View } from 'react-native';
 import {
   moderatePost,
   replyTicket,
+  reviewIngest,
   reviewAccount,
   reviewEvent,
   reviewSafety,
   useAdminMutation,
   useHiddenPosts,
+  useIngestQueue,
   usePendingAccounts,
   usePendingEvents,
   useRecentActions,
@@ -19,6 +21,7 @@ import {
   accountPlace,
   actionLabel,
   ageLabel,
+  flagLabel,
   formatCnpj,
   INCIDENT_LABEL,
   SEAL_LABEL,
@@ -239,6 +242,51 @@ export function RelatosQueue() {
       <Note text="Responda em até 12 horas. A identidade da pessoa não aparece aqui; a conversa segue em Mensagens." />
       {q.data.map((r) => (
         <RelatoCard key={r.ticketId} r={r} />
+      ))}
+    </View>
+  );
+}
+
+// --- Ingestão ---------------------------------------------------------------------------------------------------------------
+
+export function IngestaoQueue() {
+  const q = useIngestQueue(true);
+  if (q.isPending || q.error) return <QueueState loading={q.isPending} error={q.error} onRetry={() => void q.refetch()} testID="admin-ingestao" />;
+  if (q.data.length === 0) {
+    return <EmptyState title="Nada da ingestão esperando" message="Eventos achados em páginas públicas aparecem aqui depois da rodada diária." />;
+  }
+  return (
+    <View style={casasStyles.gap} testID="admin-ingestao">
+      <Note text="Confira na página de origem antes de aprovar. O evento entra no app na próxima rodada da ingestão (todo dia às 6h)." />
+      {q.data.map((c) => (
+        <DecisionCard
+          key={c.id}
+          testID={`admin-ingest-${c.id}`}
+          noteLabel="Motivo da recusa (fica no log)"
+          decisions={[
+            { key: 'aprovar', label: 'Aprovar', variant: 'primary', run: () => reviewIngest(c.id, true) },
+            { key: 'recusar', label: 'Recusar', needsNote: true, run: (note) => reviewIngest(c.id, false, note) },
+          ]}>
+          <Text variant="title">{c.title}</Text>
+          <Text variant="bodySm" tone={c.venueMatched ? 'textMuted' : 'dangerText'}>
+            {`${c.venueName}${c.address ? ` · ${c.address}` : ''}${c.venueMatched ? '' : ' · casa fora do catálogo'}`}
+          </Text>
+          <View>
+            <SummaryRow label="Quando" value={formatEventDate(c.startsAt)} />
+            <SummaryRow label="Preço" value={c.price ?? 'Não informado'} />
+            {c.artists.length ? <SummaryRow label="Line-up" value={c.artists.join(', ')} /> : null}
+            {c.genres.length ? <SummaryRow label="Gêneros" value={c.genres.join(', ')} /> : null}
+            {c.sourceUrl ? <SummaryRow label="Fonte" value={c.sourceUrl} mono /> : null}
+            <SummaryRow label="Achado" value={ageLabel(c.firstSeenAt)} divider={false} />
+          </View>
+          {c.flags.length ? (
+            <View style={casasStyles.wrapChips}>
+              {c.flags.map((f) => (
+                <Badge key={f} label={flagLabel(f)} tone="neutral" />
+              ))}
+            </View>
+          ) : null}
+        </DecisionCard>
       ))}
     </View>
   );
