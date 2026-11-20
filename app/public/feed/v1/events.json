@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T18:04:01.996Z",
+  "generatedAt": "2026-11-20T17:28:31.386Z",
   "genres": [
     {
       "id": "18927a65-f850-38b3-a5ba-33a476a24a9b",
@@ -427,26 +427,6 @@
     }
   ],
   "events": [
-    {
-      "id": "a44cdcb6-32c3-354f-8b4c-aa4399d4848f",
-      "title": "Karaokê de Quarta",
-      "venueId": "328c9632-39d6-308a-be3f-0d67d1bbdf6f",
-      "startsAt": "2026-11-19T00:00:00.000Z",
-      "endsAt": "2026-11-19T05:00:00.000Z",
-      "priceMin": 0,
-      "priceMax": 0,
-      "isFree": true,
-      "ageMin": 18,
-      "genreSlugs": [
-        "karaoke-ao-vivo"
-      ],
-      "artistIds": [
-        "b6e4a558-7f5c-30f0-8b52-6bd34c513f82"
-      ],
-      "status": "cancelled",
-      "coverKey": "art:neon:lima-ameixa:c",
-      "popularity": 51
-    },
     {
       "id": "60499e33-f9d1-30f2-b6cb-1cd21fc61017",
       "title": "Noite do Pagodão",
