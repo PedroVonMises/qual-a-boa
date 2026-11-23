@@ -10,19 +10,21 @@ import { useInsets } from '@/ui/useInsets';
 
 export interface HeroProps {
   coverKey: CoverKey;
+  /** Optional validated https cover image; falls back deterministically to coverKey SVG art. */
+  imageUrl?: string;
   onBack: () => void;
   /** Right-side action buttons. */
   actions?: ReactNode;
 }
 
 /** Cover hero: 380px on phones, wide 340px rounded banner (max 560px, so the poster art is not over-cropped) at >= 1024. Scrim + fade into the background. */
-export function Hero({ coverKey, onBack, actions }: HeroProps) {
+export function Hero({ coverKey, imageUrl, onBack, actions }: HeroProps) {
   const { colors } = useTheme();
   const { isLarge } = useBreakpoint();
   const insets = useInsets();
   return (
     <View testID="hero" style={[styles.box, isLarge ? styles.banner : styles.full]}>
-      <Cover coverKey={coverKey} style={StyleSheet.absoluteFill} />
+      <Cover coverKey={coverKey} imageUrl={imageUrl} style={StyleSheet.absoluteFill} />
       <Scrim />
       <View pointerEvents="none" style={styles.fade}>
         <Svg width="100%" height="100%" preserveAspectRatio="none">

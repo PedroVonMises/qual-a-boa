@@ -19,7 +19,7 @@ const ds: SeedDataset = buildSeed(new Date(FIXED_NOW));
 const events = new Map(ds.events.map((e) => [e.id, e]));
 const venues = new Map(ds.venues.map((v) => [v.id, v]));
 const base: SearchParams = {
-  lat: DEFAULT_LOCATION.lat, lng: DEFAULT_LOCATION.lng, radiusKm: 30, sort: 'date', limit: 100, now: FIXED_NOW,
+  lat: DEFAULT_LOCATION.lat, lng: DEFAULT_LOCATION.lng, radiusKm: 30, sort: 'date', limit: 500, now: FIXED_NOW,
 };
 const ev = (id: string) => events.get(id)!;
 const venueOf = (id: string) => venues.get(ev(id).venueId)!;
@@ -97,7 +97,7 @@ describe('search_events semantics', () => {
     const upTo20 = await search(db, { ...base, priceMax: 20 });
     for (const id of upTo20.ids) assert.ok(ev(id).isFree || (ev(id).priceMin !== null && ev(id).priceMin! <= 20));
     assert.ok(upTo20.ids.some((id) => !ev(id).isFree), 'paid events within budget included');
-    const nullPrice = ds.events.find((e) => e.priceMin === null && !e.isFree && e.status === 'published')!;
+    const nullPrice = ds.events.find((e) => e.priceMin === null && !e.isFree && e.status === 'published' && Date.parse(e.startsAt) >= Date.parse(FIXED_NOW) && venues.get(e.venueId)?.status !== 'closed')!;
     assert.ok(nullPrice);
     assert.ok((await search(db, base)).ids.includes(nullPrice.id));
     assert.ok(!(await search(db, { ...base, priceMax: 1000 })).ids.includes(nullPrice.id));

@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { countActiveFilters } from '@/domain/filters';
+import { useUrlSync } from '@/features/filtros/useUrlSync';
 import { QuandoSheet } from '@/features/quando';
 import { useFilters } from '@/state/filters';
 import { useSearchHistory } from '@/state/searchHistory';
@@ -67,6 +68,7 @@ function SearchAllRow() {
 }
 
 export function ExplorarScreen() {
+  useUrlSync();
   const [areaOpen, setAreaOpen] = useState(false);
   const [dateOpen, setDateOpen] = useState(false);
   const resultMode = useResultMode();

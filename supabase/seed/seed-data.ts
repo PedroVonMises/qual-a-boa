@@ -1,24 +1,27 @@
 /**
- * Demo seed for "Qual a boa?" (Vitória/ES). ALL DATA IS PLACEHOLDER.
+ * Demo seed for "Qual a boa?" (Grande Vitória / ES). ALL DATA IS PLACEHOLDER.
  *
- * Venue names/areas follow docs/VENUES.md. Artists and event titles are fictional;
- * they are not claims that the real venues host these events. Casa Maré is a
- * fictional venue. Dates are generated relative to `now` (America/Sao_Paulo, UTC-3).
+ * Venue names/areas follow docs/VENUES.md plus a deterministic 212-venue expansion catalog
+ * (220 total valid, deduplicated venues). Artists and event titles are fictional; they are
+ * not claims that real venues host these events. Casa Maré is a fictional pilot venue.
+ * Dates are generated relative to `now` (America/Sao_Paulo, UTC-3).
  */
 import { createHash } from 'node:crypto';
 
 import type {
   Artist,
-  CoverKey,
   EventItem,
   EventStatus,
   Genre,
+  PriceRange,
   SeedDataset,
   Venue,
 } from '../../app/src/domain/types';
-import { coverFor } from '../../app/src/domain/cover';
+import { coverFor, hashString } from '../../app/src/domain/cover';
 import { cleanTags } from '../../app/src/domain/accessTags';
 import type { AccessTag } from '../../app/src/domain/accessTags';
+import { dedupeVenues, validateVenue } from '../../app/src/domain/venueSchema';
+import { buildExpandedVenues, EVENT_TITLE_TEMPLATES, EXTRA_ARTISTS } from './catalog-200';
 
 /** Deterministic UUID (md5, RFC 4122 v3 layout) derived from a namespaced slug. */
 export function uuidFromSlug(key: string): string {
@@ -37,7 +40,7 @@ export const eventId = (key: string) => uuidFromSlug(`event:${key}`);
 export function slugify(s: string): string {
   return s
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .replace(/&/g, ' e ')
     .replace(/[^a-z0-9]+/g, '-')
@@ -60,75 +63,84 @@ const GENRES: [slug: string, label: string][] = [
   ['karaoke-ao-vivo', 'Karaokê/Ao vivo'],
 ];
 const GENRE_ORDER = new Map(GENRES.map(([slug], i) => [slug, i]));
+const GENRE_SET = new Set(GENRES.map(([slug]) => slug));
 const sortGenres = (slugs: string[]) =>
   [...new Set(slugs)].sort((a, b) => (GENRE_ORDER.get(a) ?? 99) - (GENRE_ORDER.get(b) ?? 99));
 
 // ---------------------------------------------------------------------------
-// Venues
+// Pilot Venues (preserved identically for fixtures & pilot invariants)
 // ---------------------------------------------------------------------------
-type VenueSpec = Omit<Venue, 'id' | 'placeholder'>;
-const VENUES: VenueSpec[] = [
+type VenueSpec = Omit<Venue, 'id' | 'placeholder' | 'updatedAt'>;
+const PILOT_VENUES: VenueSpec[] = [
   {
-    slug: 'bolt', name: 'Bolt', area: 'Jardim da Penha', city: 'Vitória',
+    slug: 'bolt', name: 'Bolt', area: 'Jardim da Penha', city: 'Vitória', uf: 'ES',
     address: 'R. Darcy Grijó, 20 - Jardim da Penha', lat: -20.2778, lng: -40.2908,
     status: 'open', adultOnly: true,
     genreSlugs: ['rock-indie', 'pop-hits', 'funk', 'hip-hop-rnb'],
     accessTags: ['lgbtqia'],
+    priceRange: '$$',
     hours: 'Sex e sáb, 23h–06h', coverKey: 'bolt',
   },
   {
-    slug: 'a-selva', name: 'A Selva', area: 'Centro', city: 'Vitória',
+    slug: 'a-selva', name: 'A Selva', area: 'Centro', city: 'Vitória', uf: 'ES',
     address: 'R. Sete de Setembro, 493 - Centro', lat: -20.3195, lng: -40.3372,
     status: 'open', adultOnly: true,
     genreSlugs: ['eletronica-house', 'funk', 'hip-hop-rnb', 'forro-tecnobrega', 'rock-indie', 'pagode-samba'],
     accessTags: ['lgbtqia', 'vegano'],
+    priceRange: '$$',
     hours: 'Qui a sáb, 22h–05h', coverKey: 'selva',
   },
   {
-    slug: 'gordinho', name: 'Gordinho', area: 'Praia do Canto', city: 'Vitória',
+    slug: 'gordinho', name: 'Gordinho', area: 'Praia do Canto', city: 'Vitória', uf: 'ES',
     address: 'R. Joaquim Lírio, 823 - Praia do Canto', lat: -20.2968, lng: -40.2949,
     status: 'open', adultOnly: true,
     genreSlugs: ['pagode-samba'],
     accessTags: ['pet-friendly'],
+    priceRange: '$',
     hours: 'Qui a sáb, a partir das 18h', coverKey: 'gordinho',
   },
   {
-    slug: 'pub-426', name: 'Pub 426', area: 'Praia do Canto', city: 'Vitória',
+    slug: 'pub-426', name: 'Pub 426', area: 'Praia do Canto', city: 'Vitória', uf: 'ES',
     address: 'R. João da Cruz, 370 - Praia do Canto', lat: -20.2985, lng: -40.2966,
     status: 'open', adultOnly: true,
     genreSlugs: ['rock-indie', 'pop-hits', 'karaoke-ao-vivo'],
     accessTags: ['acessivel', 'vegano'],
+    priceRange: '$$',
     hours: 'Qua a sáb, 21h–03h (karaokê às quartas)', coverKey: 'pub426',
   },
   {
-    slug: 'fluente', name: 'Fluente', area: 'Jardim da Penha', city: 'Vitória',
+    slug: 'fluente', name: 'Fluente', area: 'Jardim da Penha', city: 'Vitória', uf: 'ES',
     address: 'Av. Saturnino Rangel Mauro - Jardim da Penha', lat: -20.2803, lng: -40.2885,
     status: 'unverified', adultOnly: true,
     genreSlugs: ['funk', 'pop-hits', 'sertanejo'],
+    priceRange: '$$',
     hours: 'Sex e sáb, 22h–04h', coverKey: 'fluente',
   },
   {
-    slug: 'correria-music-bar', name: 'Correria Music Bar', area: 'Vila Velha', city: 'Vila Velha',
+    slug: 'correria-music-bar', name: 'Correria Music Bar', area: 'Vila Velha', city: 'Vila Velha', uf: 'ES',
     address: 'Av. Est. José Júlio de Souza, 740 - Praia de Itaparica', lat: -20.3625, lng: -40.2838,
     status: 'open', adultOnly: true,
     genreSlugs: ['metal-punk-goth', 'rock-indie'],
     accessTags: ['pet-friendly'],
+    priceRange: '$',
     hours: 'Sex e sáb, 22h–04h', coverKey: 'generic',
   },
   {
-    slug: 'casa-caipora', name: 'Casa Caipora', area: 'Centro', city: 'Vitória',
+    slug: 'casa-caipora', name: 'Casa Caipora', area: 'Centro', city: 'Vitória', uf: 'ES',
     address: 'R. Nestor Gomes - Centro', lat: -20.3182, lng: -40.3391,
     status: 'closed', adultOnly: true,
     genreSlugs: ['pagode-samba', 'hip-hop-rnb', 'rock-indie', 'eletronica-house'],
+    priceRange: '$$',
     hours: 'Encerrou as atividades em out/2026', coverKey: 'caipora',
   },
   {
     // Pilot demonstration venue.
-    slug: 'casa-mare', name: 'Casa Maré', area: 'Praia do Canto', city: 'Vitória',
+    slug: 'casa-mare', name: 'Casa Maré', area: 'Praia do Canto', city: 'Vitória', uf: 'ES',
     address: 'Rua das Gaivotas, 120 - Praia do Canto', lat: -20.2960, lng: -40.2935,
     status: 'open', adultOnly: true,
     genreSlugs: ['eletronica-house', 'pop-hits', 'sertanejo', 'karaoke-ao-vivo'],
     accessTags: ['acessivel', 'lgbtqia', 'vegano'],
+    priceRange: '$$$',
     hours: 'Qui a sáb, 21h–04h', coverKey: 'mare',
   },
 ];
@@ -136,7 +148,7 @@ const VENUES: VenueSpec[] = [
 // ---------------------------------------------------------------------------
 // Artists (all fictional)
 // ---------------------------------------------------------------------------
-const ARTISTS: [name: string, genres: string[]][] = [
+const PILOT_ARTISTS: [name: string, genres: string[]][] = [
   ['DJ Maresia', ['eletronica-house', 'pop-hits']],
   ['MC Lua Cheia', ['funk']],
   ['Sereno da Ilha', ['pagode-samba']],
@@ -164,8 +176,10 @@ const ARTISTS: [name: string, genres: string[]][] = [
   ['DJ Noite Alta', ['eletronica-house']],
 ];
 
+const ARTISTS: [name: string, genres: string[]][] = [...PILOT_ARTISTS, ...EXTRA_ARTISTS];
+
 // ---------------------------------------------------------------------------
-// Events
+// Pilot Events
 // ---------------------------------------------------------------------------
 const WED = 3, THU = 4, FRI = 5, SAT = 6;
 
@@ -322,16 +336,45 @@ const DEMO_LIVE: { key: string; title: string; startH: number; endH: number; gen
   { key: 'encerrado', title: 'Maré Baixa', startH: -8, endH: -3, genres: ['sertanejo'], artists: ['Duo Moqueca'], price: [25, 35], popularity: 70 },
 ];
 
+function priceForTier(tier: PriceRange | undefined, h: number): [number, number] | 'free' | null {
+  if (h % 9 === 0) return 'free';
+  if (h % 19 === 0) return null;
+  switch (tier) {
+    case '$': return [15, 25];
+    case '$$': return [25, 40];
+    case '$$$': return [35, 55];
+    case '$$$$': return [45, 60];
+    default: return [20, 35];
+  }
+}
+
 export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: true }): SeedDataset {
+  const nowIso = now.toISOString();
   const genres: Genre[] = GENRES.map(([slug, label]) => ({ id: genreId(slug), slug, label }));
 
-  const venues: Venue[] = VENUES.map((v) => ({
-    ...v,
-    id: venueId(v.slug),
-    genreSlugs: sortGenres(v.genreSlugs),
-    accessTags: cleanTags(v.accessTags),
-    placeholder: true,
-  }));
+  const expandedSpecs = buildExpandedVenues();
+  const rawVenues: Venue[] = [...PILOT_VENUES, ...expandedSpecs].map((v) => {
+    const candidate = {
+      ...v,
+      id: venueId(v.slug),
+      uf: v.uf ?? 'ES',
+      genreSlugs: sortGenres(v.genreSlugs),
+      accessTags: cleanTags(v.accessTags),
+      priceRange: v.priceRange ?? '$$',
+      placeholder: true,
+      updatedAt: nowIso,
+    };
+    const res = validateVenue(candidate, GENRE_SET);
+    if (!res.ok) {
+      throw new Error(`Invalid venue "${v.slug}": ${res.errors.join('; ')}`);
+    }
+    return res.value;
+  });
+
+  const { unique: venues, duplicates } = dedupeVenues(rawVenues);
+  if (duplicates.length > 0) {
+    throw new Error(`Duplicate venues detected during seed build: ${duplicates.map((d) => `${d.droppedSlug} (${d.reason})`).join(', ')}`);
+  }
   const venueBySlug = new Map(venues.map((v) => [v.slug, v]));
 
   const artists: Artist[] = ARTISTS.map(([name, g]) => {
@@ -339,6 +382,14 @@ export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: 
     return { id: artistId(slug), slug, name, genreSlugs: sortGenres(g) };
   });
   const artistByName = new Map(artists.map((a) => [a.name, a]));
+  const artistsByGenre = new Map<string, Artist[]>();
+  for (const a of artists) {
+    for (const g of a.genreSlugs) {
+      const list = artistsByGenre.get(g) ?? [];
+      list.push(a);
+      artistsByGenre.set(g, list);
+    }
+  }
 
   const toEvent = (s: EventSpec, kind: 'w' | 'p'): EventItem => {
     const venue = venueBySlug.get(s.venue);
@@ -357,8 +408,9 @@ export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: 
       if (!a) throw new Error(`unknown artist ${name}`);
       return a.id;
     });
+    const id = eventId(key);
     const ev: EventItem = {
-      id: eventId(key),
+      id,
       title: s.title,
       venueId: venue.id,
       startsAt: start.toISOString(),
@@ -366,23 +418,84 @@ export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: 
       priceMin,
       priceMax,
       isFree,
-      ageMin: 18,
+      ageMin: venue.adultOnly ? 18 : 16,
       genreSlugs: sortGenres(s.genres),
       artistIds,
       status: s.status ?? 'published',
-      coverKey: coverFor({ genreSlugs: sortGenres(s.genres), venueSlug: venue.slug, eventId: eventId(key) }),
+      coverKey: coverFor({ genreSlugs: sortGenres(s.genres), venueSlug: venue.slug, eventId: id }),
       popularity: s.popularity,
     };
     if (!isFree) ev.ticketUrl = `https://example.com/ingressos/${key}`;
     return ev;
   };
 
+  // Generate deterministic upcoming + past events for the 212 expanded venues so all 220 venues
+  // are alive in Explore, Search, Filters, and Map without overshadowing the 8 pilot venues.
+  const expandedEvents: EventItem[] = [];
+  const weekdays = [WED, THU, FRI, SAT];
+  for (let i = 0; i < expandedSpecs.length; i++) {
+    const vSpec = expandedSpecs[i];
+    const venue = venueBySlug.get(vSpec.slug)!;
+    const primaryGenre = venue.genreSlugs[0];
+    const pool = artistsByGenre.get(primaryGenre) ?? artists;
+    const titles = EVENT_TITLE_TEMPLATES[primaryGenre] ?? ['Noite na Ilha'];
+    const h = hashString(`cat-ev:${venue.slug}`);
+
+    const makeCatalogEvent = (slot: number, kind: 'w' | 'p'): EventItem => {
+      const sh = hashString(`cat-ev:${venue.slug}:${kind}:${slot}`);
+      const titleBase = titles[(sh >>> 2) % titles.length];
+      const title = slot === 0 ? titleBase : `${titleBase} · Ed. ${slot + 1}`;
+      const weekday = weekdays[(sh >>> 5) % weekdays.length];
+      const weekIdx = kind === 'w' ? ((sh >>> 7) % 4) : (1 + ((sh >>> 7) % 16));
+      const hour = 19 + ((sh >>> 10) % 5); // 19h..23h SP
+      const start = kind === 'w' ? upcomingStart(now, weekday, weekIdx, hour) : pastStart(now, weekday, weekIdx, hour);
+      const end = new Date(start.getTime() + 5 * 3_600_000);
+      const priceSpec = priceForTier(venue.priceRange, sh);
+      const isFree = priceSpec === 'free';
+      const priceMin = Array.isArray(priceSpec) ? priceSpec[0] : isFree ? 0 : null;
+      const priceMax = Array.isArray(priceSpec) ? priceSpec[1] : isFree ? 0 : null;
+      const a1 = pool[sh % pool.length];
+      const a2 = pool[(sh >>> 3) % pool.length];
+      const artistIds = a1.id === a2.id ? [a1.id] : [a1.id, a2.id];
+      const key = `${venue.slug}-cat-${kind}${slot}`;
+      const id = eventId(key);
+      const evGenres = sortGenres(venue.genreSlugs.slice(0, 2));
+      const ev: EventItem = {
+        id,
+        title,
+        venueId: venue.id,
+        startsAt: start.toISOString(),
+        endsAt: end.toISOString(),
+        priceMin,
+        priceMax,
+        isFree,
+        ageMin: 18,
+        genreSlugs: evGenres,
+        artistIds,
+        status: 'published',
+        coverKey: coverFor({ genreSlugs: evGenres, venueSlug: venue.slug, eventId: id }),
+        popularity: 32 + (sh % 42), // 32..73 (keeps pilot demo events on top while feeling organic)
+      };
+      if (!isFree) ev.ticketUrl = `https://example.com/ingressos/${key}`;
+      return ev;
+    };
+
+    if (venue.status !== 'closed') {
+      expandedEvents.push(makeCatalogEvent(0, 'w'));
+      if ((h % 3) === 0) expandedEvents.push(makeCatalogEvent(1, 'w'));
+    }
+    if ((h % 2) === 0 || venue.status === 'closed') {
+      expandedEvents.push(makeCatalogEvent(0, 'p'));
+    }
+  }
+
   const demoLive: EventItem[] = opts.demoLive
     ? DEMO_LIVE.map((d) => {
         const venue = venueBySlug.get('casa-mare');
         if (!venue) throw new Error('casa-mare missing');
+        const id = eventId(`casa-mare-demo-${d.key}`);
         return {
-          id: eventId(`casa-mare-demo-${d.key}`),
+          id,
           title: d.title,
           venueId: venue.id,
           startsAt: new Date(now.getTime() + d.startH * 3_600_000).toISOString(),
@@ -398,7 +511,7 @@ export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: 
             return a.id;
           }),
           status: 'published' as const,
-          coverKey: coverFor({ genreSlugs: d.genres, venueSlug: venue.slug, eventId: eventId(`casa-mare-demo-${d.key}`) }),
+          coverKey: coverFor({ genreSlugs: d.genres, venueSlug: venue.slug, eventId: id }),
           popularity: d.popularity,
           accessTags: cleanTags(d.accessTags),
           ticketUrl: `https://example.com/ingressos/casa-mare-demo-${d.key}`,
@@ -409,6 +522,7 @@ export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: 
   const events = [
     ...UPCOMING.map((s) => toEvent(s, 'w')),
     ...PAST.map((s) => toEvent(s, 'p')),
+    ...expandedEvents,
     ...demoLive,
   ].sort((a, b) => a.startsAt.localeCompare(b.startsAt) || a.id.localeCompare(b.id));
 
@@ -418,5 +532,5 @@ export function buildSeed(now: Date, opts: { demoLive?: boolean } = { demoLive: 
     ids.add(x.id);
   }
 
-  return { generatedAt: now.toISOString(), genres, venues, artists, events };
+  return { generatedAt: nowIso, genres, venues, artists, events };
 }

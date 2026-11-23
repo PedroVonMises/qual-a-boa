@@ -9,6 +9,7 @@ import {
   type GeoPoint,
   type Genre,
   type PastArtist,
+  type PriceRange,
   type SearchItem,
   type SearchPage,
   type SearchParams,
@@ -17,7 +18,13 @@ import {
 } from '@/domain/types';
 import { cleanTags } from '@/domain/accessTags';
 import { haversineKm } from '@/domain/geo';
+import { isUf } from '@/domain/region';
 import type { Repo } from './repo';
+
+/** Hard page size ceiling to prevent oversized payloads and DB memory spikes. */
+export const MAX_SEARCH_LIMIT = 400;
+export const DEFAULT_SEARCH_LIMIT = 20;
+const REQUEST_TIMEOUT_MS = 8_000;
 
 export class RepoError extends Error {
   readonly code: 'network' | 'query' | 'config';
@@ -28,7 +35,6 @@ export class RepoError extends Error {
   }
 }
 
- 
 type Row = Record<string, any>;
 
 const pick = <T>(row: Row, snake: string, camel: string): T => (row[snake] !== undefined ? row[snake] : row[camel]) as T;
@@ -48,12 +54,17 @@ export function mapArtist(r: Row): Artist {
 }
 
 export function mapVenue(r: Row): Venue {
+  const uf = r.uf;
+  const priceRange = pick<string | null>(r, 'price_range', 'priceRange');
+  const imageUrl = pick<string | null>(r, 'image_url', 'imageUrl');
+  const updatedAt = pick<string | null>(r, 'updated_at', 'updatedAt');
   return {
     id: r.id,
     slug: r.slug,
     name: r.name,
     area: r.area,
     city: r.city,
+    ...(isUf(uf) ? { uf } : {}),
     address: r.address ?? undefined,
     lat: Number(r.lat),
     lng: Number(r.lng),
@@ -61,9 +72,12 @@ export function mapVenue(r: Row): Venue {
     adultOnly: pick<boolean>(r, 'adult_only', 'adultOnly') ?? false,
     genreSlugs: pick<string[] | null>(r, 'genre_slugs', 'genreSlugs') ?? [],
     accessTags: cleanTags(pick<string[] | null>(r, 'access_tags', 'accessTags')),
+    ...(priceRange ? { priceRange: priceRange as PriceRange } : {}),
     hours: r.hours ?? undefined,
     coverKey: (pick<string | null>(r, 'cover_key', 'coverKey') ?? 'generic') as CoverKey,
+    ...(imageUrl ? { imageUrl } : {}),
     placeholder: r.placeholder ?? false,
+    ...(updatedAt ? { updatedAt: new Date(updatedAt).toISOString() } : {}),
   };
 }
 
@@ -99,7 +113,12 @@ export function mapEvent(r: Row): EventItem {
   };
 }
 
-const EVENT_SELECT = '*, event_genres(genres(slug)), event_artists(artist_id, billing_order)';
+// Lean column projections (avoid overfetching internal provenance columns).
+const GENRE_SELECT = 'id, slug, label';
+const VENUE_SELECT = 'id, slug, name, area, city, uf, address, lat, lng, status, adult_only, genre_slugs, access_tags, price_range, hours, cover_key, image_url, placeholder, updated_at';
+const ARTIST_SELECT = 'id, slug, name, genre_slugs, photo_url';
+const EVENT_SELECT =
+  'id, venue_id, title, starts_at, ends_at, price_min, price_max, is_free, ticket_url, image_url, age_min, status, cover_key, popularity, access_tags, event_genres(genres(slug)), event_artists(artist_id, billing_order)';
 
 /** One flat row of the `search_events` RPC (see supabase/migrations/0002_search_events.sql). */
 export function mapSearchRow(r: Row): SearchItem {
@@ -125,6 +144,15 @@ export function mapSearchRow(r: Row): SearchItem {
   };
 }
 
+function createTimedFetch(timeoutMs: number): typeof fetch {
+  return (input, init) => {
+    if (typeof AbortController === 'undefined') return fetch(input, init);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(input, { ...init, signal: init?.signal ?? controller.signal }).finally(() => clearTimeout(timer));
+  };
+}
+
 export class SupabaseRepo implements Repo {
   private readonly client: SupabaseClient;
 
@@ -132,7 +160,12 @@ export class SupabaseRepo implements Repo {
     if (!client && (!url || !anonKey)) {
       throw new RepoError('config', 'Supabase não configurado: defina EXPO_PUBLIC_SUPABASE_URL e EXPO_PUBLIC_SUPABASE_ANON_KEY.');
     }
-    this.client = client ?? createClient(url, anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
+    this.client =
+      client ??
+      createClient(url, anonKey, {
+        auth: { persistSession: false, autoRefreshToken: false },
+        global: { fetch: createTimedFetch(REQUEST_TIMEOUT_MS) },
+      });
   }
 
   private fail(error: { message: string }, what: string): never {
@@ -151,7 +184,7 @@ export class SupabaseRepo implements Repo {
   }
 
   async listGenres(): Promise<Genre[]> {
-    const rows = await this.wrap<Row[]>('gêneros', () => this.client.from('genres').select('*').order('label'));
+    const rows = await this.wrap<Row[]>('gêneros', () => this.client.from('genres').select(GENRE_SELECT).order('label'));
     return rows.map(mapGenre);
   }
 
@@ -161,9 +194,11 @@ export class SupabaseRepo implements Repo {
   }
 
   async searchEvents(params: SearchParams): Promise<SearchPage> {
-    const limit = params.limit ?? 20;
+    const rawLimit = params.limit ?? DEFAULT_SEARCH_LIMIT;
+    const limit = Math.min(Math.max(Number.isFinite(rawLimit) ? Math.floor(rawLimit) : DEFAULT_SEARCH_LIMIT, 0), MAX_SEARCH_LIMIT);
     const parsed = Number.parseInt(params.cursor ?? '0', 10);
     const offset = Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+    const sanitizedQuery = params.query?.trim().slice(0, 120) || null;
     const rows = await this.wrap<Row[]>('eventos', () =>
       this.client.rpc('search_events', {
         p_lat: params.lat,
@@ -174,8 +209,8 @@ export class SupabaseRepo implements Repo {
         p_date_from: params.dateFrom ?? null,
         p_date_to: params.dateTo ?? null,
         p_artist_id: params.artistId ?? null,
-        p_area: params.area ?? null,
-        p_query: params.query?.trim() || null,
+        p_area: params.area?.trim().slice(0, 80) ?? null,
+        p_query: sanitizedQuery,
         p_sort: params.sort,
         p_limit: limit,
         p_offset: offset,
@@ -204,15 +239,17 @@ export class SupabaseRepo implements Repo {
     );
     if (!row) return null;
     const event = mapEvent(row);
-    const venueRow = await this.wrap<Row | null>('local', () => this.client.from('venues').select('*').eq('id', event.venueId).maybeSingle());
+    // Parallelize venue and lineup lookups to cut detail latency in half.
+    const [venueRow, arts] = await Promise.all([
+      this.wrap<Row | null>('local', () => this.client.from('venues').select(VENUE_SELECT).eq('id', event.venueId).maybeSingle()),
+      event.artistIds.length
+        ? this.wrap<Row[]>('line-up', () => this.client.from('artists').select(ARTIST_SELECT).in('id', event.artistIds))
+        : Promise.resolve([] as Row[]),
+    ]);
     if (!venueRow) return null;
     const venue = mapVenue(venueRow);
-    let lineup: Artist[] = [];
-    if (event.artistIds.length) {
-      const arts = await this.wrap<Row[]>('line-up', () => this.client.from('artists').select('*').in('id', event.artistIds));
-      const byId = new Map(arts.map((a) => [a.id as string, mapArtist(a)]));
-      lineup = event.artistIds.map((a) => byId.get(a)).filter((a): a is Artist => !!a);
-    }
+    const byId = new Map(arts.map((a) => [a.id as string, mapArtist(a)]));
+    const lineup = event.artistIds.map((a) => byId.get(a)).filter((a): a is Artist => !!a);
     return {
       event,
       venue,
@@ -222,7 +259,7 @@ export class SupabaseRepo implements Repo {
   }
 
   async getVenue(slug: string): Promise<VenueDetail | null> {
-    const venueRow = await this.wrap<Row | null>('local', () => this.client.from('venues').select('*').eq('slug', slug).maybeSingle());
+    const venueRow = await this.wrap<Row | null>('local', () => this.client.from('venues').select(VENUE_SELECT).eq('slug', slug).maybeSingle());
     if (!venueRow) return null;
     const venue = mapVenue(venueRow);
     const [upcomingRows, past] = await Promise.all([
@@ -234,7 +271,8 @@ export class SupabaseRepo implements Repo {
           .eq('status', 'published')
           .gte('starts_at', new Date().toISOString())
           .order('starts_at', { ascending: true })
-          .order('id', { ascending: true }),
+          .order('id', { ascending: true })
+          .limit(50),
       ),
       this.wrap<Row[]>('artistas anteriores', () => this.client.rpc('venue_past_artists', { p_venue_id: venue.id })),
     ]);
@@ -253,7 +291,7 @@ export class SupabaseRepo implements Repo {
   }
 
   async getArtist(slug: string, from?: GeoPoint): Promise<ArtistDetail | null> {
-    const row = await this.wrap<Row | null>('artista', () => this.client.from('artists').select('*').eq('slug', slug).maybeSingle());
+    const row = await this.wrap<Row | null>('artista', () => this.client.from('artists').select(ARTIST_SELECT).eq('slug', slug).maybeSingle());
     if (!row) return null;
     const artist = mapArtist(row);
     const origin = from ?? DEFAULT_LOCATION;
@@ -273,40 +311,36 @@ export class SupabaseRepo implements Repo {
               .eq('status', 'published')
               .gte('starts_at', new Date().toISOString())
               .order('starts_at', { ascending: true })
-              .order('id', { ascending: true }),
+              .order('id', { ascending: true })
+              .limit(50),
           )
         : Promise.resolve([] as Row[]),
       this.wrap<Row[]>('locais', () => this.client.rpc('artist_played_at', { p_artist_id: artist.id })),
     ]);
     const events = eventRows.map(mapEvent);
-    const venueIds = [...new Set(events.map((e) => e.venueId))];
-    const venues = venueIds.length
-      ? await this.wrap<Row[]>('locais', () => this.client.from('venues').select('*').in('id', venueIds))
+    const venueIds = [...new Set([...events.map((e) => e.venueId), ...(played ?? []).map((r) => r.venue_id as string)])];
+    const allVenues = venueIds.length
+      ? await this.wrap<Row[]>('locais', () => this.client.from('venues').select(VENUE_SELECT).in('id', venueIds))
       : [];
-    const venueById = new Map(venues.map((v) => [v.id as string, mapVenue(v)]));
+    const venueById = new Map(allVenues.map((v) => [v.id as string, mapVenue(v)]));
     const upcoming: SearchItem[] = [];
     for (const event of events) {
       const venue = venueById.get(event.venueId);
       if (!venue || venue.status === 'closed') continue;
       upcoming.push({ event, venue, distanceKm: haversineKm(origin.lat, origin.lng, venue.lat, venue.lng) });
     }
-    // artist_played_at returns venue_* summary columns without coordinates: load full venues by id.
-    const playedIds = [...new Set((played ?? []).map((r) => r.venue_id as string))];
-    const playedVenues = playedIds.length
-      ? await this.wrap<Row[]>('locais', () => this.client.from('venues').select('*').in('id', playedIds))
-      : [];
-    const playedById = new Map(playedVenues.map((v) => [v.id as string, mapVenue(v)]));
     const playedAt = (played ?? [])
-      .map((r) => ({ venue: playedById.get(r.venue_id as string), lastPlayedAt: new Date(r.last_played_at).toISOString() }))
+      .map((r) => ({ venue: venueById.get(r.venue_id as string), lastPlayedAt: new Date(r.last_played_at).toISOString() }))
       .filter((p): p is { venue: Venue; lastPlayedAt: string } => !!p.venue);
     return { artist, upcoming, playedAt };
   }
 
   async searchArtists(query: string, limit = 10): Promise<Artist[]> {
-    const q = query.trim();
+    const q = query.trim().slice(0, 120);
     if (!q) return [];
+    const safeLimit = Math.min(Math.max(Math.floor(limit), 1), 50);
     // Server-side fold_text, so "mare" finds "Maré" exactly like SeedRepo.
-    const rows = await this.wrap<Row[]>('artistas', () => this.client.rpc('search_artists', { p_query: q, p_limit: limit }));
+    const rows = await this.wrap<Row[]>('artistas', () => this.client.rpc('search_artists', { p_query: q, p_limit: safeLimit }));
     return rows.map(mapArtist);
   }
 }

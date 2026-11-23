@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500" role="img" aria-label="QUAL A BOA">
+  <defs>
+    <linearGradient id="bg-generic" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#121110"/>
+      <stop offset="100%" stop-color="#262321"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#bg-generic)"/>
+  <circle cx="200" cy="210" r="118" fill="none" stroke="#FF3E7F" stroke-width="14" opacity="0.8"/>
+      <circle cx="200" cy="210" r="70" fill="#F4F1EC" opacity="0.28"/>
+  <rect x="28" y="428" width="180" height="36" rx="18" fill="#121110" fill-opacity="0.72"/>
+  <text x="46" y="451" fill="#F4F1EC" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" letter-spacing="1.4">QUAL A BOA</text>
+</svg>

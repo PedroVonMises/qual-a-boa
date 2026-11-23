@@ -2,92 +2,4459 @@
   {
     "id": "bolt",
     "name": "Bolt",
-    "aliases": ["Bolt Vitória", "Bolt Antimofo", "Bolt Bar"],
+    "aliases": [
+      "Bolt Vitória",
+      "Bolt Antimofo",
+      "Bolt Bar"
+    ],
     "address": "R. Darcy Grijó, 20 - Jardim da Penha",
     "area": "Jardim da Penha",
     "city": "Vitória",
     "lat": -20.2778,
     "lng": -40.2908,
-    "genreSlugs": ["funk", "pop-hits", "rock-indie", "hip-hop-rnb"],
+    "genreSlugs": [
+      "funk",
+      "pop-hits",
+      "rock-indie",
+      "hip-hop-rnb"
+    ],
     "status": "open",
     "hours": "Sex e sáb, 23h–06h"
   },
   {
     "id": "a-selva",
     "name": "A Selva",
-    "aliases": ["Selva", "A Selva Vitória", "Selva Casa de Eventos"],
+    "aliases": [
+      "Selva",
+      "A Selva Vitória",
+      "Selva Casa de Eventos"
+    ],
     "address": "R. Sete de Setembro, 493 - Centro",
     "area": "Centro",
     "city": "Vitória",
     "lat": -20.3195,
     "lng": -40.3372,
-    "genreSlugs": ["funk", "pagode-samba", "eletronica-house", "forro-tecnobrega", "hip-hop-rnb", "rock-indie"],
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "eletronica-house",
+      "rock-indie",
+      "forro-tecnobrega",
+      "hip-hop-rnb"
+    ],
     "status": "open",
     "hours": "Qui a sáb, 22h–05h"
   },
   {
     "id": "gordinho",
     "name": "Gordinho",
-    "aliases": ["Gordinho Praia do Canto", "Gordinho Bar"],
+    "aliases": [
+      "Gordinho Praia do Canto",
+      "Gordinho Bar"
+    ],
     "address": "R. Joaquim Lírio, 823 - Praia do Canto",
     "area": "Praia do Canto",
     "city": "Vitória",
     "lat": -20.2968,
     "lng": -40.2949,
-    "genreSlugs": ["pagode-samba"],
+    "genreSlugs": [
+      "pagode-samba"
+    ],
     "status": "open",
     "hours": "Qui a sáb, a partir das 18h"
   },
   {
     "id": "pub-426",
     "name": "Pub 426",
-    "aliases": ["426", "Pub426", "Pub 426 Vitória"],
+    "aliases": [
+      "426",
+      "Pub426",
+      "Pub 426 Vitória"
+    ],
     "address": "R. João da Cruz, 370 - Praia do Canto",
     "area": "Praia do Canto",
     "city": "Vitória",
     "lat": -20.2985,
     "lng": -40.2966,
-    "genreSlugs": ["pop-hits", "rock-indie", "karaoke-ao-vivo"],
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
     "status": "open",
     "hours": "Qua a sáb, 21h–03h (karaokê às quartas)"
   },
   {
     "id": "fluente",
     "name": "Fluente",
-    "aliases": ["Fluente Vitória", "Fluente Bar"],
+    "aliases": [
+      "Fluente Vitória",
+      "Fluente Bar"
+    ],
     "address": "Av. Saturnino Rangel Mauro - Jardim da Penha",
     "area": "Jardim da Penha",
     "city": "Vitória",
     "lat": -20.2803,
     "lng": -40.2885,
-    "genreSlugs": ["funk", "pop-hits", "sertanejo"],
+    "genreSlugs": [
+      "funk",
+      "sertanejo",
+      "pop-hits"
+    ],
     "status": "unverified",
     "hours": "Sex e sáb, 22h–04h"
   },
   {
     "id": "correria-music-bar",
     "name": "Correria Music Bar",
-    "aliases": ["Correria", "Correria Bar"],
+    "aliases": [
+      "Correria",
+      "Correria Bar"
+    ],
     "address": "Av. Est. José Júlio de Souza, 740 - Praia de Itaparica",
     "area": "Vila Velha",
     "city": "Vila Velha",
     "lat": -20.3625,
     "lng": -40.2838,
-    "genreSlugs": ["metal-punk-goth", "rock-indie"],
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth"
+    ],
     "status": "open",
     "hours": "Sex e sáb, 22h–04h"
   },
   {
     "id": "casa-caipora",
     "name": "Casa Caipora",
-    "aliases": ["Caipora"],
+    "aliases": [
+      "Caipora"
+    ],
     "address": "R. Nestor Gomes - Centro",
     "area": "Centro",
     "city": "Vitória",
     "lat": -20.3182,
     "lng": -40.3391,
-    "genreSlugs": ["pagode-samba", "hip-hop-rnb", "rock-indie", "eletronica-house"],
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "rock-indie",
+      "hip-hop-rnb"
+    ],
     "status": "closed",
     "hours": "Encerrou as atividades em out/2026"
+  },
+  {
+    "id": "casa-mare",
+    "name": "Casa Maré",
+    "aliases": [
+      "Casa Maré Praia do Canto",
+      "Casa Maré Vitória"
+    ],
+    "address": "Rua das Gaivotas, 120 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.296,
+    "lng": -40.2935,
+    "genreSlugs": [
+      "sertanejo",
+      "eletronica-house",
+      "pop-hits",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "club-convento",
+    "name": "Club Convento",
+    "aliases": [
+      "Club Convento Praia do Canto",
+      "Club Convento Vitória"
+    ],
+    "address": "Av. Saturnino de Brito, 919 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.2945,
+    "lng": -40.2895,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "arena-maresia",
+    "name": "Arena Maresia",
+    "aliases": [
+      "Arena Maresia Jardim da Penha",
+      "Arena Maresia Vitória"
+    ],
+    "address": "Av. Hugo Viola, 578 - Jardim da Penha",
+    "area": "Jardim da Penha",
+    "city": "Vitória",
+    "lat": -20.2795,
+    "lng": -40.298,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "espaco-atlantico",
+    "name": "Espaço Atlântico",
+    "aliases": [
+      "Espaço Atlântico Centro",
+      "Espaço Atlântico Vitória"
+    ],
+    "address": "R. Graciano Neves, 891 - Centro",
+    "area": "Centro",
+    "city": "Vitória",
+    "lat": -20.3259,
+    "lng": -40.3307,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "garagem-vitoria-regia",
+    "name": "Garagem Vitória Régia",
+    "aliases": [
+      "Garagem Vitória Régia Jardim Camburi",
+      "Garagem Vitória Régia Vitória"
+    ],
+    "address": "Av. Dante Michelini, 95 - Jardim Camburi",
+    "area": "Jardim Camburi",
+    "city": "Vitória",
+    "lat": -20.2559,
+    "lng": -40.2712,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-pedra-azul",
+    "name": "Pub Pedra Azul",
+    "aliases": [
+      "Pub Pedra Azul Camburi",
+      "Pub Pedra Azul Vitória"
+    ],
+    "address": "Av. Fernando Ferrari, 903 - Camburi",
+    "area": "Camburi",
+    "city": "Vitória",
+    "lat": -20.2762,
+    "lng": -40.2756,
+    "genreSlugs": [
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "unverified",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-terceira-ponte",
+    "name": "Baile Terceira Ponte",
+    "aliases": [
+      "Baile Terceira Ponte Mata da Praia",
+      "Baile Terceira Ponte Vitória"
+    ],
+    "address": "R. Carlos Eduardo Monteiro de Lemos, 264 - Mata da Praia",
+    "area": "Mata da Praia",
+    "city": "Vitória",
+    "lat": -20.2644,
+    "lng": -40.2895,
+    "genreSlugs": [
+      "funk",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-brisa-do-mar",
+    "name": "Mirante Brisa do Mar",
+    "aliases": [
+      "Mirante Brisa do Mar Santa Lúcia",
+      "Mirante Brisa do Mar Vitória"
+    ],
+    "address": "Av. Leitão da Silva, 637 - Santa Lúcia",
+    "area": "Santa Lúcia",
+    "city": "Vitória",
+    "lat": -20.301,
+    "lng": -40.3014,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-capixaba",
+    "name": "Boteco Capixaba",
+    "aliases": [
+      "Boteco Capixaba Bento Ferreira",
+      "Boteco Capixaba Vitória"
+    ],
+    "address": "R. Chafic Murad, 574 - Bento Ferreira",
+    "area": "Bento Ferreira",
+    "city": "Vitória",
+    "lat": -20.3189,
+    "lng": -40.3004,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-moqueca-beats",
+    "name": "Terraço Moqueca Beats",
+    "aliases": [
+      "Terraço Moqueca Beats Enseada do Suá",
+      "Terraço Moqueca Beats Vitória"
+    ],
+    "address": "R. Clóvis Machado, 809 - Enseada do Suá",
+    "area": "Enseada do Suá",
+    "city": "Vitória",
+    "lat": -20.3079,
+    "lng": -40.2872,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-por-do-sol",
+    "name": "Bunker Pôr do Sol",
+    "aliases": [
+      "Bunker Pôr do Sol Praia da Costa",
+      "Bunker Pôr do Sol Vila Velha"
+    ],
+    "address": "Av. Champagnat, 691 - Praia da Costa",
+    "area": "Praia da Costa",
+    "city": "Vila Velha",
+    "lat": -20.3336,
+    "lng": -40.2794,
+    "genreSlugs": [
+      "eletronica-house",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "quintal-ilha-do-boi",
+    "name": "Quintal Ilha do Boi",
+    "aliases": [
+      "Quintal Ilha do Boi Itapuã",
+      "Quintal Ilha do Boi Vila Velha"
+    ],
+    "address": "R. Goiânia, 468 - Itapuã",
+    "area": "Itapuã",
+    "city": "Vila Velha",
+    "lat": -20.3461,
+    "lng": -40.2865,
+    "genreSlugs": [
+      "pagode-samba",
+      "rock-indie",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-ilha-do-frade",
+    "name": "Casa Ilha do Frade",
+    "aliases": [
+      "Casa Ilha do Frade Vila Velha",
+      "Casa Ilha do Frade Vila Velha"
+    ],
+    "address": "Rod. do Sol, 536 - Vila Velha",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.3599,
+    "lng": -40.2917,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "estacao-farol-santa-luzia",
+    "name": "Estação Farol Santa Luzia",
+    "aliases": [
+      "Estação Farol Santa Luzia Glória",
+      "Estação Farol Santa Luzia Vila Velha"
+    ],
+    "address": "Av. Carlos Lindemberg, 175 - Glória",
+    "area": "Glória",
+    "city": "Vila Velha",
+    "lat": -20.344,
+    "lng": -40.3083,
+    "genreSlugs": [
+      "sertanejo",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 20h–03h"
+  },
+  {
+    "id": "lounge-manguezal",
+    "name": "Lounge Manguezal",
+    "aliases": [
+      "Lounge Manguezal Prainha",
+      "Lounge Manguezal Vila Velha"
+    ],
+    "address": "R. Antônio Ataíde, 832 - Prainha",
+    "area": "Prainha",
+    "city": "Vila Velha",
+    "lat": -20.3318,
+    "lng": -40.2915,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "porao-costa-dourada",
+    "name": "Porão Costa Dourada",
+    "aliases": [
+      "Porão Costa Dourada Laranjeiras",
+      "Porão Costa Dourada Serra"
+    ],
+    "address": "R. Castro Alves, 697 - Laranjeiras",
+    "area": "Laranjeiras",
+    "city": "Serra",
+    "lat": -20.2009,
+    "lng": -40.2514,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–04h"
+  },
+  {
+    "id": "galpao-onda-sonora",
+    "name": "Galpão Onda Sonora",
+    "aliases": [
+      "Galpão Onda Sonora Colina de Laranjeiras",
+      "Galpão Onda Sonora Serra"
+    ],
+    "address": "R. Jatobá, 295 - Colina de Laranjeiras",
+    "area": "Colina de Laranjeiras",
+    "city": "Serra",
+    "lat": -20.2096,
+    "lng": -40.2466,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "rock-indie"
+    ],
+    "status": "unverified",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "club-marola",
+    "name": "Club Marola",
+    "aliases": [
+      "Club Marola Manguinhos",
+      "Club Marola Serra"
+    ],
+    "address": "R. Ocidente, 375 - Manguinhos",
+    "area": "Manguinhos",
+    "city": "Serra",
+    "lat": -20.1949,
+    "lng": -40.1964,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "arena-tropicalia",
+    "name": "Arena Tropicália",
+    "aliases": [
+      "Arena Tropicália Jacaraípe",
+      "Arena Tropicália Serra"
+    ],
+    "address": "Av. Abido Saadi, 420 - Jacaraípe",
+    "area": "Jacaraípe",
+    "city": "Serra",
+    "lat": -20.1621,
+    "lng": -40.1961,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "espaco-litoral-sul",
+    "name": "Espaço Litoral Sul",
+    "aliases": [
+      "Espaço Litoral Sul Campo Grande",
+      "Espaço Litoral Sul Cariacica"
+    ],
+    "address": "R. Leopoldina, 354 - Campo Grande",
+    "area": "Campo Grande",
+    "city": "Cariacica",
+    "lat": -20.3415,
+    "lng": -40.3823,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "garagem-vento-leste",
+    "name": "Garagem Vento Leste",
+    "aliases": [
+      "Garagem Vento Leste Itacibá",
+      "Garagem Vento Leste Cariacica"
+    ],
+    "address": "Av. Mário Gurgel, 1320 - Itacibá",
+    "area": "Itacibá",
+    "city": "Cariacica",
+    "lat": -20.3291,
+    "lng": -40.3706,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "arena-baia-azul",
+    "name": "Arena Baía Azul",
+    "aliases": [
+      "Arena Baía Azul Praia do Canto",
+      "Arena Baía Azul Vitória"
+    ],
+    "address": "R. Celso Calmon, 320 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.3025,
+    "lng": -40.2951,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "espaco-cais-das-artes",
+    "name": "Espaço Cais das Artes",
+    "aliases": [
+      "Espaço Cais das Artes Jardim da Penha",
+      "Espaço Cais das Artes Vitória"
+    ],
+    "address": "Av. Anísio Fernandes Coelho, 721 - Jardim da Penha",
+    "area": "Jardim da Penha",
+    "city": "Vitória",
+    "lat": -20.2763,
+    "lng": -40.2878,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "garagem-porto-novo",
+    "name": "Garagem Porto Novo",
+    "aliases": [
+      "Garagem Porto Novo Centro",
+      "Garagem Porto Novo Vitória"
+    ],
+    "address": "Av. Jerônimo Monteiro, 409 - Centro",
+    "area": "Centro",
+    "city": "Vitória",
+    "lat": -20.3187,
+    "lng": -40.3383,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-canoa-quebrada",
+    "name": "Pub Canoa Quebrada",
+    "aliases": [
+      "Pub Canoa Quebrada Jardim Camburi",
+      "Pub Canoa Quebrada Vitória"
+    ],
+    "address": "R. Carlos Martins, 96 - Jardim Camburi",
+    "area": "Jardim Camburi",
+    "city": "Vitória",
+    "lat": -20.2606,
+    "lng": -40.2677,
+    "genreSlugs": [
+      "rock-indie",
+      "forro-tecnobrega",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-lua-nova",
+    "name": "Baile Lua Nova",
+    "aliases": [
+      "Baile Lua Nova Camburi",
+      "Baile Lua Nova Vitória"
+    ],
+    "address": "Av. Fernando Ferrari, 87 - Camburi",
+    "area": "Camburi",
+    "city": "Vitória",
+    "lat": -20.2756,
+    "lng": -40.2842,
+    "genreSlugs": [
+      "funk",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-estrela-dalva",
+    "name": "Mirante Estrela Dalva",
+    "aliases": [
+      "Mirante Estrela Dalva Mata da Praia",
+      "Mirante Estrela Dalva Vitória"
+    ],
+    "address": "R. Carlos Eduardo Monteiro de Lemos, 255 - Mata da Praia",
+    "area": "Mata da Praia",
+    "city": "Vitória",
+    "lat": -20.2647,
+    "lng": -40.2932,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-horizonte",
+    "name": "Boteco Horizonte",
+    "aliases": [
+      "Boteco Horizonte Santa Lúcia",
+      "Boteco Horizonte Vitória"
+    ],
+    "address": "R. José Teixeira, 1319 - Santa Lúcia",
+    "area": "Santa Lúcia",
+    "city": "Vitória",
+    "lat": -20.3057,
+    "lng": -40.2988,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "unverified",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-sereia",
+    "name": "Terraço Sereia",
+    "aliases": [
+      "Terraço Sereia Bento Ferreira",
+      "Terraço Sereia Vitória"
+    ],
+    "address": "R. Chafic Murad, 754 - Bento Ferreira",
+    "area": "Bento Ferreira",
+    "city": "Vitória",
+    "lat": -20.313,
+    "lng": -40.306,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-coral-vivo",
+    "name": "Bunker Coral Vivo",
+    "aliases": [
+      "Bunker Coral Vivo Enseada do Suá",
+      "Bunker Coral Vivo Vitória"
+    ],
+    "address": "R. Clóvis Machado, 1021 - Enseada do Suá",
+    "area": "Enseada do Suá",
+    "city": "Vitória",
+    "lat": -20.3141,
+    "lng": -40.2897,
+    "genreSlugs": [
+      "eletronica-house",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "quintal-pontal",
+    "name": "Quintal Pontal",
+    "aliases": [
+      "Quintal Pontal Praia da Costa",
+      "Quintal Pontal Vila Velha"
+    ],
+    "address": "Av. Antônio Gil Veloso, 1065 - Praia da Costa",
+    "area": "Praia da Costa",
+    "city": "Vila Velha",
+    "lat": -20.3291,
+    "lng": -40.2814,
+    "genreSlugs": [
+      "pagode-samba",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-barra-do-jucu",
+    "name": "Casa Barra do Jucu",
+    "aliases": [
+      "Casa Barra do Jucu Itapuã",
+      "Casa Barra do Jucu Vila Velha"
+    ],
+    "address": "R. Belo Horizonte, 1277 - Itapuã",
+    "area": "Itapuã",
+    "city": "Vila Velha",
+    "lat": -20.3463,
+    "lng": -40.2892,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "estacao-curva-da-jurema",
+    "name": "Estação Curva da Jurema",
+    "aliases": [
+      "Estação Curva da Jurema Vila Velha",
+      "Estação Curva da Jurema Vila Velha"
+    ],
+    "address": "R. Humberto Serrano, 707 - Vila Velha",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.359,
+    "lng": -40.2906,
+    "genreSlugs": [
+      "sertanejo",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 20h–03h"
+  },
+  {
+    "id": "lounge-praia-secreta",
+    "name": "Lounge Praia Secreta",
+    "aliases": [
+      "Lounge Praia Secreta Glória",
+      "Lounge Praia Secreta Vila Velha"
+    ],
+    "address": "R. Santa Rosa, 294 - Glória",
+    "area": "Glória",
+    "city": "Vila Velha",
+    "lat": -20.3383,
+    "lng": -40.3112,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "porao-rota-do-sol",
+    "name": "Porão Rota do Sol",
+    "aliases": [
+      "Porão Rota do Sol Prainha",
+      "Porão Rota do Sol Vila Velha"
+    ],
+    "address": "Praça Almirante Tamandaré, 1166 - Prainha",
+    "area": "Prainha",
+    "city": "Vila Velha",
+    "lat": -20.3326,
+    "lng": -40.2961,
+    "genreSlugs": [
+      "eletronica-house",
+      "rock-indie",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–04h"
+  },
+  {
+    "id": "galpao-avenida-27",
+    "name": "Galpão Avenida 27",
+    "aliases": [
+      "Galpão Avenida 27 Laranjeiras",
+      "Galpão Avenida 27 Serra"
+    ],
+    "address": "Av. Civit, 686 - Laranjeiras",
+    "area": "Laranjeiras",
+    "city": "Serra",
+    "lat": -20.2025,
+    "lng": -40.2489,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "rock-indie"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "club-noite-clara",
+    "name": "Club Noite Clara",
+    "aliases": [
+      "Club Noite Clara Colina de Laranjeiras",
+      "Club Noite Clara Serra"
+    ],
+    "address": "Av. Eldes Scherrer Souza, 1222 - Colina de Laranjeiras",
+    "area": "Colina de Laranjeiras",
+    "city": "Serra",
+    "lat": -20.2035,
+    "lng": -40.2466,
+    "genreSlugs": [
+      "sertanejo",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "arena-som-da-ilha",
+    "name": "Arena Som da Ilha",
+    "aliases": [
+      "Arena Som da Ilha Manguinhos",
+      "Arena Som da Ilha Serra"
+    ],
+    "address": "R. dos Pescadores, 1081 - Manguinhos",
+    "area": "Manguinhos",
+    "city": "Serra",
+    "lat": -20.1896,
+    "lng": -40.2037,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "espaco-pista-027",
+    "name": "Espaço Pista 027",
+    "aliases": [
+      "Espaço Pista 027 Jacaraípe",
+      "Espaço Pista 027 Serra"
+    ],
+    "address": "R. São Pedro, 1154 - Jacaraípe",
+    "area": "Jacaraípe",
+    "city": "Serra",
+    "lat": -20.1682,
+    "lng": -40.1849,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "unverified",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "garagem-frequencia",
+    "name": "Garagem Frequência",
+    "aliases": [
+      "Garagem Frequência Campo Grande",
+      "Garagem Frequência Cariacica"
+    ],
+    "address": "R. Bolívia, 633 - Campo Grande",
+    "area": "Campo Grande",
+    "city": "Cariacica",
+    "lat": -20.3446,
+    "lng": -40.3963,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-subsolo",
+    "name": "Pub Subsolo",
+    "aliases": [
+      "Pub Subsolo Itacibá",
+      "Pub Subsolo Cariacica"
+    ],
+    "address": "R. São João, 527 - Itacibá",
+    "area": "Itacibá",
+    "city": "Cariacica",
+    "lat": -20.3218,
+    "lng": -40.3779,
+    "genreSlugs": [
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "espaco-vibe-tropical",
+    "name": "Espaço Vibe Tropical",
+    "aliases": [
+      "Espaço Vibe Tropical Praia do Canto",
+      "Espaço Vibe Tropical Vitória"
+    ],
+    "address": "R. Joaquim Lírio, 492 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.2913,
+    "lng": -40.3004,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "garagem-cajuina",
+    "name": "Garagem Cajuína",
+    "aliases": [
+      "Garagem Cajuína Jardim da Penha",
+      "Garagem Cajuína Vitória"
+    ],
+    "address": "R. Darcy Grijó, 1165 - Jardim da Penha",
+    "area": "Jardim da Penha",
+    "city": "Vitória",
+    "lat": -20.2735,
+    "lng": -40.2918,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-pitanga",
+    "name": "Pub Pitanga",
+    "aliases": [
+      "Pub Pitanga Centro",
+      "Pub Pitanga Vitória"
+    ],
+    "address": "Av. Jerônimo Monteiro, 1131 - Centro",
+    "area": "Centro",
+    "city": "Vitória",
+    "lat": -20.3259,
+    "lng": -40.3333,
+    "genreSlugs": [
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-goiabeira",
+    "name": "Baile Goiabeira",
+    "aliases": [
+      "Baile Goiabeira Jardim Camburi",
+      "Baile Goiabeira Vitória"
+    ],
+    "address": "R. Carlos Martins, 661 - Jardim Camburi",
+    "area": "Jardim Camburi",
+    "city": "Vitória",
+    "lat": -20.2513,
+    "lng": -40.2766,
+    "genreSlugs": [
+      "funk",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-aroeira",
+    "name": "Mirante Aroeira",
+    "aliases": [
+      "Mirante Aroeira Camburi",
+      "Mirante Aroeira Vitória"
+    ],
+    "address": "R. Eugênio Netto, 666 - Camburi",
+    "area": "Camburi",
+    "city": "Vitória",
+    "lat": -20.2726,
+    "lng": -40.2859,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-castanheira",
+    "name": "Boteco Castanheira",
+    "aliases": [
+      "Boteco Castanheira Mata da Praia",
+      "Boteco Castanheira Vitória"
+    ],
+    "address": "Av. Desembargador Dermeval Lyrio, 234 - Mata da Praia",
+    "area": "Mata da Praia",
+    "city": "Vitória",
+    "lat": -20.2699,
+    "lng": -40.285,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-jacaranda",
+    "name": "Terraço Jacarandá",
+    "aliases": [
+      "Terraço Jacarandá Santa Lúcia",
+      "Terraço Jacarandá Vitória"
+    ],
+    "address": "R. José Teixeira, 1015 - Santa Lúcia",
+    "area": "Santa Lúcia",
+    "city": "Vitória",
+    "lat": -20.3029,
+    "lng": -40.2987,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-ipe-amarelo",
+    "name": "Bunker Ipê Amarelo",
+    "aliases": [
+      "Bunker Ipê Amarelo Bento Ferreira",
+      "Bunker Ipê Amarelo Vitória"
+    ],
+    "address": "R. Chafic Murad, 334 - Bento Ferreira",
+    "area": "Bento Ferreira",
+    "city": "Vitória",
+    "lat": -20.3179,
+    "lng": -40.3033,
+    "genreSlugs": [
+      "sertanejo",
+      "eletronica-house",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "quintal-orquidea",
+    "name": "Quintal Orquídea",
+    "aliases": [
+      "Quintal Orquídea Enseada do Suá",
+      "Quintal Orquídea Vitória"
+    ],
+    "address": "R. José Alexandre Buaiz, 615 - Enseada do Suá",
+    "area": "Enseada do Suá",
+    "city": "Vitória",
+    "lat": -20.3086,
+    "lng": -40.2851,
+    "genreSlugs": [
+      "pagode-samba",
+      "forro-tecnobrega"
+    ],
+    "status": "unverified",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-bromelia",
+    "name": "Casa Bromélia",
+    "aliases": [
+      "Casa Bromélia Praia da Costa",
+      "Casa Bromélia Vila Velha"
+    ],
+    "address": "R. Henrique Moscoso, 1427 - Praia da Costa",
+    "area": "Praia da Costa",
+    "city": "Vila Velha",
+    "lat": -20.3361,
+    "lng": -40.2787,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "estacao-coqueiral",
+    "name": "Estação Coqueiral",
+    "aliases": [
+      "Estação Coqueiral Itapuã",
+      "Estação Coqueiral Vila Velha"
+    ],
+    "address": "R. Goiânia, 613 - Itapuã",
+    "area": "Itapuã",
+    "city": "Vila Velha",
+    "lat": -20.3507,
+    "lng": -40.2852,
+    "genreSlugs": [
+      "sertanejo",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 20h–03h"
+  },
+  {
+    "id": "lounge-palmeira-real",
+    "name": "Lounge Palmeira Real",
+    "aliases": [
+      "Lounge Palmeira Real Vila Velha",
+      "Lounge Palmeira Real Vila Velha"
+    ],
+    "address": "Av. Santa Leopoldina, 1403 - Vila Velha",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.3558,
+    "lng": -40.2923,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "porao-bambui",
+    "name": "Porão Bambuí",
+    "aliases": [
+      "Porão Bambuí Glória",
+      "Porão Bambuí Vila Velha"
+    ],
+    "address": "Av. Jerônimo Monteiro, 1060 - Glória",
+    "area": "Glória",
+    "city": "Vila Velha",
+    "lat": -20.3378,
+    "lng": -40.3082,
+    "genreSlugs": [
+      "eletronica-house",
+      "rock-indie",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–04h"
+  },
+  {
+    "id": "galpao-jequitiba",
+    "name": "Galpão Jequitibá",
+    "aliases": [
+      "Galpão Jequitibá Prainha",
+      "Galpão Jequitibá Vila Velha"
+    ],
+    "address": "R. Vasco Coutinho, 1251 - Prainha",
+    "area": "Prainha",
+    "city": "Vila Velha",
+    "lat": -20.3283,
+    "lng": -40.2891,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "rock-indie"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "club-mangabeira",
+    "name": "Club Mangabeira",
+    "aliases": [
+      "Club Mangabeira Laranjeiras",
+      "Club Mangabeira Serra"
+    ],
+    "address": "Av. Eudes Scherrer de Souza, 348 - Laranjeiras",
+    "area": "Laranjeiras",
+    "city": "Serra",
+    "lat": -20.199,
+    "lng": -40.246,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits",
+      "rock-indie"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "arena-cajueiro",
+    "name": "Arena Cajueiro",
+    "aliases": [
+      "Arena Cajueiro Colina de Laranjeiras",
+      "Arena Cajueiro Serra"
+    ],
+    "address": "R. Jatobá, 967 - Colina de Laranjeiras",
+    "area": "Colina de Laranjeiras",
+    "city": "Serra",
+    "lat": -20.2062,
+    "lng": -40.2452,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "closed",
+    "hours": "Atividades encerradas"
+  },
+  {
+    "id": "espaco-tabuleiro",
+    "name": "Espaço Tabuleiro",
+    "aliases": [
+      "Espaço Tabuleiro Manguinhos",
+      "Espaço Tabuleiro Serra"
+    ],
+    "address": "Av. Atapoã, 1236 - Manguinhos",
+    "area": "Manguinhos",
+    "city": "Serra",
+    "lat": -20.1972,
+    "lng": -40.1985,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "garagem-lagoa-mansa",
+    "name": "Garagem Lagoa Mansa",
+    "aliases": [
+      "Garagem Lagoa Mansa Jacaraípe",
+      "Garagem Lagoa Mansa Serra"
+    ],
+    "address": "Av. Minas Gerais, 359 - Jacaraípe",
+    "area": "Jacaraípe",
+    "city": "Serra",
+    "lat": -20.1755,
+    "lng": -40.1915,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-rio-marinho",
+    "name": "Pub Rio Marinho",
+    "aliases": [
+      "Pub Rio Marinho Campo Grande",
+      "Pub Rio Marinho Cariacica"
+    ],
+    "address": "R. Bolívia, 643 - Campo Grande",
+    "area": "Campo Grande",
+    "city": "Cariacica",
+    "lat": -20.3362,
+    "lng": -40.3918,
+    "genreSlugs": [
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-vale-encantado",
+    "name": "Baile Vale Encantado",
+    "aliases": [
+      "Baile Vale Encantado Itacibá",
+      "Baile Vale Encantado Cariacica"
+    ],
+    "address": "R. São João, 643 - Itacibá",
+    "area": "Itacibá",
+    "city": "Cariacica",
+    "lat": -20.3268,
+    "lng": -40.3676,
+    "genreSlugs": [
+      "funk",
+      "hip-hop-rnb"
+    ],
+    "status": "unverified",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "garagem-morro-moreno",
+    "name": "Garagem Morro Moreno",
+    "aliases": [
+      "Garagem Morro Moreno Praia do Canto",
+      "Garagem Morro Moreno Vitória"
+    ],
+    "address": "R. Celso Calmon, 1224 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.2997,
+    "lng": -40.2888,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-alto-da-penha",
+    "name": "Pub Alto da Penha",
+    "aliases": [
+      "Pub Alto da Penha Jardim da Penha",
+      "Pub Alto da Penha Vitória"
+    ],
+    "address": "R. Francisco Generoso da Fonseca, 1417 - Jardim da Penha",
+    "area": "Jardim da Penha",
+    "city": "Vitória",
+    "lat": -20.2827,
+    "lng": -40.2915,
+    "genreSlugs": [
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-fonte-grande",
+    "name": "Baile Fonte Grande",
+    "aliases": [
+      "Baile Fonte Grande Centro",
+      "Baile Fonte Grande Vitória"
+    ],
+    "address": "R. Gama Rosa, 742 - Centro",
+    "area": "Centro",
+    "city": "Vitória",
+    "lat": -20.3222,
+    "lng": -40.3432,
+    "genreSlugs": [
+      "funk",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-pedra-da-cebola",
+    "name": "Mirante Pedra da Cebola",
+    "aliases": [
+      "Mirante Pedra da Cebola Jardim Camburi",
+      "Mirante Pedra da Cebola Vitória"
+    ],
+    "address": "R. Gelu Vervloet dos Santos, 822 - Jardim Camburi",
+    "area": "Jardim Camburi",
+    "city": "Vitória",
+    "lat": -20.2582,
+    "lng": -40.2628,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-parque-moscoso",
+    "name": "Boteco Parque Moscoso",
+    "aliases": [
+      "Boteco Parque Moscoso Camburi",
+      "Boteco Parque Moscoso Vitória"
+    ],
+    "address": "R. Eugênio Netto, 1506 - Camburi",
+    "area": "Camburi",
+    "city": "Vitória",
+    "lat": -20.2716,
+    "lng": -40.2846,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo",
+      "rock-indie"
+    ],
+    "status": "open",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-escadaria",
+    "name": "Terraço Escadaria",
+    "aliases": [
+      "Terraço Escadaria Mata da Praia",
+      "Terraço Escadaria Vitória"
+    ],
+    "address": "Av. Desembargador Dermeval Lyrio, 1339 - Mata da Praia",
+    "area": "Mata da Praia",
+    "city": "Vitória",
+    "lat": -20.2725,
+    "lng": -40.2924,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-beco-do-carmo",
+    "name": "Bunker Beco do Carmo",
+    "aliases": [
+      "Bunker Beco do Carmo Santa Lúcia",
+      "Bunker Beco do Carmo Vitória"
+    ],
+    "address": "R. José Teixeira, 543 - Santa Lúcia",
+    "area": "Santa Lúcia",
+    "city": "Vitória",
+    "lat": -20.2992,
+    "lng": -40.3059,
+    "genreSlugs": [
+      "eletronica-house",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "quintal-largo-da-lapa",
+    "name": "Quintal Largo da Lapa",
+    "aliases": [
+      "Quintal Largo da Lapa Bento Ferreira",
+      "Quintal Largo da Lapa Vitória"
+    ],
+    "address": "Av. Cezar Hilal, 232 - Bento Ferreira",
+    "area": "Bento Ferreira",
+    "city": "Vitória",
+    "lat": -20.3168,
+    "lng": -40.3063,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-praca-oito",
+    "name": "Casa Praça Oito",
+    "aliases": [
+      "Casa Praça Oito Enseada do Suá",
+      "Casa Praça Oito Vitória"
+    ],
+    "address": "Av. Nossa Senhora dos Navegantes, 608 - Enseada do Suá",
+    "area": "Enseada do Suá",
+    "city": "Vitória",
+    "lat": -20.3115,
+    "lng": -40.2943,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "estacao-cais-do-porto",
+    "name": "Estação Cais do Porto",
+    "aliases": [
+      "Estação Cais do Porto Praia da Costa",
+      "Estação Cais do Porto Vila Velha"
+    ],
+    "address": "Av. Champagnat, 491 - Praia da Costa",
+    "area": "Praia da Costa",
+    "city": "Vila Velha",
+    "lat": -20.3364,
+    "lng": -40.2873,
+    "genreSlugs": [
+      "sertanejo",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 20h–03h"
+  },
+  {
+    "id": "lounge-doca-14",
+    "name": "Lounge Doca 14",
+    "aliases": [
+      "Lounge Doca 14 Itapuã",
+      "Lounge Doca 14 Vila Velha"
+    ],
+    "address": "R. Goiânia, 1463 - Itapuã",
+    "area": "Itapuã",
+    "city": "Vila Velha",
+    "lat": -20.3476,
+    "lng": -40.2871,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "unverified",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "porao-armazem-09",
+    "name": "Porão Armazém 09",
+    "aliases": [
+      "Porão Armazém 09 Vila Velha",
+      "Porão Armazém 09 Vila Velha"
+    ],
+    "address": "Rod. do Sol, 1511 - Vila Velha",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.3607,
+    "lng": -40.2818,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–04h"
+  },
+  {
+    "id": "galpao-estaleiro",
+    "name": "Galpão Estaleiro",
+    "aliases": [
+      "Galpão Estaleiro Glória",
+      "Galpão Estaleiro Vila Velha"
+    ],
+    "address": "R. Santa Rosa, 458 - Glória",
+    "area": "Glória",
+    "city": "Vila Velha",
+    "lat": -20.3379,
+    "lng": -40.3043,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "rock-indie"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "club-marina-sul",
+    "name": "Club Marina Sul",
+    "aliases": [
+      "Club Marina Sul Prainha",
+      "Club Marina Sul Vila Velha"
+    ],
+    "address": "R. Vasco Coutinho, 1135 - Prainha",
+    "area": "Prainha",
+    "city": "Vila Velha",
+    "lat": -20.3316,
+    "lng": -40.2888,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "arena-ancoradouro",
+    "name": "Arena Ancoradouro",
+    "aliases": [
+      "Arena Ancoradouro Laranjeiras",
+      "Arena Ancoradouro Serra"
+    ],
+    "address": "Av. Civit, 1126 - Laranjeiras",
+    "area": "Laranjeiras",
+    "city": "Serra",
+    "lat": -20.19,
+    "lng": -40.2555,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "espaco-mare-viva",
+    "name": "Espaço Maré Viva",
+    "aliases": [
+      "Espaço Maré Viva Colina de Laranjeiras",
+      "Espaço Maré Viva Serra"
+    ],
+    "address": "Av. Eldes Scherrer Souza, 726 - Colina de Laranjeiras",
+    "area": "Colina de Laranjeiras",
+    "city": "Serra",
+    "lat": -20.1999,
+    "lng": -40.2382,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "garagem-quebra-mar",
+    "name": "Garagem Quebra-Mar",
+    "aliases": [
+      "Garagem Quebra-Mar Manguinhos",
+      "Garagem Quebra-Mar Serra"
+    ],
+    "address": "R. Ocidente, 415 - Manguinhos",
+    "area": "Manguinhos",
+    "city": "Serra",
+    "lat": -20.1952,
+    "lng": -40.1991,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-recife",
+    "name": "Pub Recife",
+    "aliases": [
+      "Pub Recife Jacaraípe",
+      "Pub Recife Serra"
+    ],
+    "address": "Av. Nossa Senhora dos Navegantes, 761 - Jacaraípe",
+    "area": "Jacaraípe",
+    "city": "Serra",
+    "lat": -20.1749,
+    "lng": -40.1848,
+    "genreSlugs": [
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-areia-branca",
+    "name": "Baile Areia Branca",
+    "aliases": [
+      "Baile Areia Branca Campo Grande",
+      "Baile Areia Branca Cariacica"
+    ],
+    "address": "R. Bolívia, 1473 - Campo Grande",
+    "area": "Campo Grande",
+    "city": "Cariacica",
+    "lat": -20.3373,
+    "lng": -40.3962,
+    "genreSlugs": [
+      "funk",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-dunas",
+    "name": "Mirante Dunas",
+    "aliases": [
+      "Mirante Dunas Itacibá",
+      "Mirante Dunas Cariacica"
+    ],
+    "address": "R. Manoel Joaquim dos Santos, 1277 - Itacibá",
+    "area": "Itacibá",
+    "city": "Cariacica",
+    "lat": -20.3232,
+    "lng": -40.368,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "pub-foz-do-rio",
+    "name": "Pub Foz do Rio",
+    "aliases": [
+      "Pub Foz do Rio Praia do Canto",
+      "Pub Foz do Rio Vitória"
+    ],
+    "address": "R. Celso Calmon, 136 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.2901,
+    "lng": -40.2927,
+    "genreSlugs": [
+      "eletronica-house",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-cachoeira",
+    "name": "Baile Cachoeira",
+    "aliases": [
+      "Baile Cachoeira Jardim da Penha",
+      "Baile Cachoeira Vitória"
+    ],
+    "address": "R. Francisco Generoso da Fonseca, 512 - Jardim da Penha",
+    "area": "Jardim da Penha",
+    "city": "Vitória",
+    "lat": -20.2795,
+    "lng": -40.2883,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "hip-hop-rnb"
+    ],
+    "status": "unverified",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-serra-alta",
+    "name": "Mirante Serra Alta",
+    "aliases": [
+      "Mirante Serra Alta Centro",
+      "Mirante Serra Alta Vitória"
+    ],
+    "address": "Av. Jerônimo Monteiro, 451 - Centro",
+    "area": "Centro",
+    "city": "Vitória",
+    "lat": -20.3176,
+    "lng": -40.3373,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-mestre-alvaro",
+    "name": "Boteco Mestre Álvaro",
+    "aliases": [
+      "Boteco Mestre Álvaro Jardim Camburi",
+      "Boteco Mestre Álvaro Vitória"
+    ],
+    "address": "Av. Dante Michelini, 625 - Jardim Camburi",
+    "area": "Jardim Camburi",
+    "city": "Vitória",
+    "lat": -20.2627,
+    "lng": -40.267,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-cume",
+    "name": "Terraço Cume",
+    "aliases": [
+      "Terraço Cume Camburi",
+      "Terraço Cume Vitória"
+    ],
+    "address": "Av. Fernando Ferrari, 1515 - Camburi",
+    "area": "Camburi",
+    "city": "Vitória",
+    "lat": -20.2763,
+    "lng": -40.2841,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-nevoeiro",
+    "name": "Bunker Nevoeiro",
+    "aliases": [
+      "Bunker Nevoeiro Mata da Praia",
+      "Bunker Nevoeiro Vitória"
+    ],
+    "address": "R. Carlos Eduardo Monteiro de Lemos, 683 - Mata da Praia",
+    "area": "Mata da Praia",
+    "city": "Vitória",
+    "lat": -20.2727,
+    "lng": -40.2935,
+    "genreSlugs": [
+      "eletronica-house",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "quintal-alvorada",
+    "name": "Quintal Alvorada",
+    "aliases": [
+      "Quintal Alvorada Santa Lúcia",
+      "Quintal Alvorada Vitória"
+    ],
+    "address": "Av. Leitão da Silva, 677 - Santa Lúcia",
+    "area": "Santa Lúcia",
+    "city": "Vitória",
+    "lat": -20.3074,
+    "lng": -40.2993,
+    "genreSlugs": [
+      "pagode-samba",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-crepusculo",
+    "name": "Casa Crepúsculo",
+    "aliases": [
+      "Casa Crepúsculo Bento Ferreira",
+      "Casa Crepúsculo Vitória"
+    ],
+    "address": "R. Chafic Murad, 526 - Bento Ferreira",
+    "area": "Bento Ferreira",
+    "city": "Vitória",
+    "lat": -20.3191,
+    "lng": -40.2972,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "estacao-meia-noite",
+    "name": "Estação Meia-Noite",
+    "aliases": [
+      "Estação Meia-Noite Enseada do Suá",
+      "Estação Meia-Noite Vitória"
+    ],
+    "address": "R. Clóvis Machado, 1253 - Enseada do Suá",
+    "area": "Enseada do Suá",
+    "city": "Vitória",
+    "lat": -20.3109,
+    "lng": -40.2931,
+    "genreSlugs": [
+      "sertanejo",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 20h–03h"
+  },
+  {
+    "id": "lounge-madrugada",
+    "name": "Lounge Madrugada",
+    "aliases": [
+      "Lounge Madrugada Praia da Costa",
+      "Lounge Madrugada Vila Velha"
+    ],
+    "address": "R. Diógenes Malacarne, 1314 - Praia da Costa",
+    "area": "Praia da Costa",
+    "city": "Vila Velha",
+    "lat": -20.3327,
+    "lng": -40.2805,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "porao-aurora-boreal",
+    "name": "Porão Aurora Boreal",
+    "aliases": [
+      "Porão Aurora Boreal Itapuã",
+      "Porão Aurora Boreal Vila Velha"
+    ],
+    "address": "Av. São Paulo, 545 - Itapuã",
+    "area": "Itapuã",
+    "city": "Vila Velha",
+    "lat": -20.3525,
+    "lng": -40.2874,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–04h"
+  },
+  {
+    "id": "galpao-eclipse",
+    "name": "Galpão Eclipse",
+    "aliases": [
+      "Galpão Eclipse Vila Velha",
+      "Galpão Eclipse Vila Velha"
+    ],
+    "address": "R. Humberto Serrano, 1352 - Vila Velha",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.359,
+    "lng": -40.2858,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "rock-indie"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "club-cometa",
+    "name": "Club Cometa",
+    "aliases": [
+      "Club Cometa Glória",
+      "Club Cometa Vila Velha"
+    ],
+    "address": "R. Aurora, 1305 - Glória",
+    "area": "Glória",
+    "city": "Vila Velha",
+    "lat": -20.3431,
+    "lng": -40.3093,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "unverified",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "arena-orbita",
+    "name": "Arena Órbita",
+    "aliases": [
+      "Arena Órbita Prainha",
+      "Arena Órbita Vila Velha"
+    ],
+    "address": "R. Antônio Ataíde, 212 - Prainha",
+    "area": "Prainha",
+    "city": "Vila Velha",
+    "lat": -20.3276,
+    "lng": -40.2883,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "espaco-constelacao",
+    "name": "Espaço Constelação",
+    "aliases": [
+      "Espaço Constelação Laranjeiras",
+      "Espaço Constelação Serra"
+    ],
+    "address": "R. Castro Alves, 1182 - Laranjeiras",
+    "area": "Laranjeiras",
+    "city": "Serra",
+    "lat": -20.1943,
+    "lng": -40.2505,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "garagem-satelite",
+    "name": "Garagem Satélite",
+    "aliases": [
+      "Garagem Satélite Colina de Laranjeiras",
+      "Garagem Satélite Serra"
+    ],
+    "address": "Av. Braúna, 1408 - Colina de Laranjeiras",
+    "area": "Colina de Laranjeiras",
+    "city": "Serra",
+    "lat": -20.1997,
+    "lng": -40.2502,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-galaxia",
+    "name": "Pub Galáxia",
+    "aliases": [
+      "Pub Galáxia Manguinhos",
+      "Pub Galáxia Serra"
+    ],
+    "address": "R. Ocidente, 639 - Manguinhos",
+    "area": "Manguinhos",
+    "city": "Serra",
+    "lat": -20.1948,
+    "lng": -40.1959,
+    "genreSlugs": [
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-nebulosa",
+    "name": "Baile Nebulosa",
+    "aliases": [
+      "Baile Nebulosa Jacaraípe",
+      "Baile Nebulosa Serra"
+    ],
+    "address": "R. São Pedro, 1090 - Jacaraípe",
+    "area": "Jacaraípe",
+    "city": "Serra",
+    "lat": -20.1746,
+    "lng": -40.1827,
+    "genreSlugs": [
+      "funk",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-pulsar",
+    "name": "Mirante Pulsar",
+    "aliases": [
+      "Mirante Pulsar Campo Grande",
+      "Mirante Pulsar Cariacica"
+    ],
+    "address": "Av. Expedito Garcia, 725 - Campo Grande",
+    "area": "Campo Grande",
+    "city": "Cariacica",
+    "lat": -20.3458,
+    "lng": -40.3876,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-sintonia",
+    "name": "Boteco Sintonia",
+    "aliases": [
+      "Boteco Sintonia Itacibá",
+      "Boteco Sintonia Cariacica"
+    ],
+    "address": "Av. Getúlio Vargas, 702 - Itacibá",
+    "area": "Itacibá",
+    "city": "Cariacica",
+    "lat": -20.3237,
+    "lng": -40.3703,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "baile-vinil-78",
+    "name": "Baile Vinil 78",
+    "aliases": [
+      "Baile Vinil 78 Praia do Canto",
+      "Baile Vinil 78 Vitória"
+    ],
+    "address": "R. Moacyr Avidos, 631 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.2933,
+    "lng": -40.2999,
+    "genreSlugs": [
+      "funk",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-fita-k7",
+    "name": "Mirante Fita K7",
+    "aliases": [
+      "Mirante Fita K7 Jardim da Penha",
+      "Mirante Fita K7 Vitória"
+    ],
+    "address": "R. Francisco Generoso da Fonseca, 642 - Jardim da Penha",
+    "area": "Jardim da Penha",
+    "city": "Vitória",
+    "lat": -20.2824,
+    "lng": -40.2906,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-toca-discos",
+    "name": "Boteco Toca-Discos",
+    "aliases": [
+      "Boteco Toca-Discos Centro",
+      "Boteco Toca-Discos Vitória"
+    ],
+    "address": "R. do Rosário, 1388 - Centro",
+    "area": "Centro",
+    "city": "Vitória",
+    "lat": -20.3235,
+    "lng": -40.3388,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-amplificador",
+    "name": "Terraço Amplificador",
+    "aliases": [
+      "Terraço Amplificador Jardim Camburi",
+      "Terraço Amplificador Vitória"
+    ],
+    "address": "Av. Munir Hilal, 819 - Jardim Camburi",
+    "area": "Jardim Camburi",
+    "city": "Vitória",
+    "lat": -20.2639,
+    "lng": -40.2699,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "unverified",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-subwoofer",
+    "name": "Bunker Subwoofer",
+    "aliases": [
+      "Bunker Subwoofer Camburi",
+      "Bunker Subwoofer Vitória"
+    ],
+    "address": "R. Eugênio Netto, 1322 - Camburi",
+    "area": "Camburi",
+    "city": "Vitória",
+    "lat": -20.2767,
+    "lng": -40.2791,
+    "genreSlugs": [
+      "sertanejo",
+      "eletronica-house",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "quintal-batida-forte",
+    "name": "Quintal Batida Forte",
+    "aliases": [
+      "Quintal Batida Forte Mata da Praia",
+      "Quintal Batida Forte Vitória"
+    ],
+    "address": "Av. Desembargador Dermeval Lyrio, 211 - Mata da Praia",
+    "area": "Mata da Praia",
+    "city": "Vitória",
+    "lat": -20.2662,
+    "lng": -40.2837,
+    "genreSlugs": [
+      "pagode-samba",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-grave-pesado",
+    "name": "Casa Grave Pesado",
+    "aliases": [
+      "Casa Grave Pesado Santa Lúcia",
+      "Casa Grave Pesado Vitória"
+    ],
+    "address": "R. Constante Sodré, 474 - Santa Lúcia",
+    "area": "Santa Lúcia",
+    "city": "Vitória",
+    "lat": -20.3038,
+    "lng": -40.3015,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "estacao-ritmo-livre",
+    "name": "Estação Ritmo Livre",
+    "aliases": [
+      "Estação Ritmo Livre Bento Ferreira",
+      "Estação Ritmo Livre Vitória"
+    ],
+    "address": "R. Chafic Murad, 970 - Bento Ferreira",
+    "area": "Bento Ferreira",
+    "city": "Vitória",
+    "lat": -20.3157,
+    "lng": -40.2993,
+    "genreSlugs": [
+      "sertanejo",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 20h–03h"
+  },
+  {
+    "id": "lounge-compassos",
+    "name": "Lounge Compassos",
+    "aliases": [
+      "Lounge Compassos Enseada do Suá",
+      "Lounge Compassos Vitória"
+    ],
+    "address": "R. Clóvis Machado, 717 - Enseada do Suá",
+    "area": "Enseada do Suá",
+    "city": "Vitória",
+    "lat": -20.3115,
+    "lng": -40.2915,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "porao-sinfonia-urbana",
+    "name": "Porão Sinfonia Urbana",
+    "aliases": [
+      "Porão Sinfonia Urbana Praia da Costa",
+      "Porão Sinfonia Urbana Vila Velha"
+    ],
+    "address": "Av. Antônio Gil Veloso, 90 - Praia da Costa",
+    "area": "Praia da Costa",
+    "city": "Vila Velha",
+    "lat": -20.3384,
+    "lng": -40.2853,
+    "genreSlugs": [
+      "funk",
+      "rock-indie",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–04h"
+  },
+  {
+    "id": "galpao-acustico-27",
+    "name": "Galpão Acústico 27",
+    "aliases": [
+      "Galpão Acústico 27 Itapuã",
+      "Galpão Acústico 27 Vila Velha"
+    ],
+    "address": "R. Goiânia, 623 - Itapuã",
+    "area": "Itapuã",
+    "city": "Vila Velha",
+    "lat": -20.3527,
+    "lng": -40.2856,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "rock-indie"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "club-palco-aberto",
+    "name": "Club Palco Aberto",
+    "aliases": [
+      "Club Palco Aberto Vila Velha",
+      "Club Palco Aberto Vila Velha"
+    ],
+    "address": "R. Itaoca, 444 - Vila Velha",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.3635,
+    "lng": -40.2842,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "arena-backstage",
+    "name": "Arena Backstage",
+    "aliases": [
+      "Arena Backstage Glória",
+      "Arena Backstage Vila Velha"
+    ],
+    "address": "R. Aurora, 165 - Glória",
+    "area": "Glória",
+    "city": "Vila Velha",
+    "lat": -20.3397,
+    "lng": -40.3114,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "espaco-camarote-real",
+    "name": "Espaço Camarote Real",
+    "aliases": [
+      "Espaço Camarote Real Prainha",
+      "Espaço Camarote Real Vila Velha"
+    ],
+    "address": "R. Luciano das Neves, 257 - Prainha",
+    "area": "Prainha",
+    "city": "Vila Velha",
+    "lat": -20.3304,
+    "lng": -40.2954,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "garagem-pista-central",
+    "name": "Garagem Pista Central",
+    "aliases": [
+      "Garagem Pista Central Laranjeiras",
+      "Garagem Pista Central Serra"
+    ],
+    "address": "Av. Civit, 346 - Laranjeiras",
+    "area": "Laranjeiras",
+    "city": "Serra",
+    "lat": -20.1972,
+    "lng": -40.2467,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "unverified",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-mezanino",
+    "name": "Pub Mezanino",
+    "aliases": [
+      "Pub Mezanino Colina de Laranjeiras",
+      "Pub Mezanino Serra"
+    ],
+    "address": "Av. Eldes Scherrer Souza, 858 - Colina de Laranjeiras",
+    "area": "Colina de Laranjeiras",
+    "city": "Serra",
+    "lat": -20.2092,
+    "lng": -40.2433,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-varanda-alta",
+    "name": "Baile Varanda Alta",
+    "aliases": [
+      "Baile Varanda Alta Manguinhos",
+      "Baile Varanda Alta Serra"
+    ],
+    "address": "Av. Beira Mar, 358 - Manguinhos",
+    "area": "Manguinhos",
+    "city": "Serra",
+    "lat": -20.1893,
+    "lng": -40.1972,
+    "genreSlugs": [
+      "funk",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-cobertura",
+    "name": "Mirante Cobertura",
+    "aliases": [
+      "Mirante Cobertura Jacaraípe",
+      "Mirante Cobertura Serra"
+    ],
+    "address": "Av. Minas Gerais, 903 - Jacaraípe",
+    "area": "Jacaraípe",
+    "city": "Serra",
+    "lat": -20.1728,
+    "lng": -40.1914,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-rooftop-360",
+    "name": "Boteco Rooftop 360",
+    "aliases": [
+      "Boteco Rooftop 360 Campo Grande",
+      "Boteco Rooftop 360 Cariacica"
+    ],
+    "address": "R. Bolívia, 1313 - Campo Grande",
+    "area": "Campo Grande",
+    "city": "Cariacica",
+    "lat": -20.3407,
+    "lng": -40.3846,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-deck-do-mar",
+    "name": "Terraço Deck do Mar",
+    "aliases": [
+      "Terraço Deck do Mar Itacibá",
+      "Terraço Deck do Mar Cariacica"
+    ],
+    "address": "R. Manoel Joaquim dos Santos, 1349 - Itacibá",
+    "area": "Itacibá",
+    "city": "Cariacica",
+    "lat": -20.3294,
+    "lng": -40.368,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "mirante-quiosque-12",
+    "name": "Mirante Quiosque 12",
+    "aliases": [
+      "Mirante Quiosque 12 Praia do Canto",
+      "Mirante Quiosque 12 Vitória"
+    ],
+    "address": "R. Aleixo Netto, 274 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.2974,
+    "lng": -40.294,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-choperia-imperial",
+    "name": "Boteco Choperia Imperial",
+    "aliases": [
+      "Boteco Choperia Imperial Jardim da Penha",
+      "Boteco Choperia Imperial Vitória"
+    ],
+    "address": "R. Arthur Czartoryski, 639 - Jardim da Penha",
+    "area": "Jardim da Penha",
+    "city": "Vitória",
+    "lat": -20.2761,
+    "lng": -40.2944,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-alambique",
+    "name": "Terraço Alambique",
+    "aliases": [
+      "Terraço Alambique Centro",
+      "Terraço Alambique Vitória"
+    ],
+    "address": "Av. República, 707 - Centro",
+    "area": "Centro",
+    "city": "Vitória",
+    "lat": -20.3204,
+    "lng": -40.3368,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-cachacaria-fina",
+    "name": "Bunker Cachaçaria Fina",
+    "aliases": [
+      "Bunker Cachaçaria Fina Jardim Camburi",
+      "Bunker Cachaçaria Fina Vitória"
+    ],
+    "address": "Av. Munir Hilal, 1069 - Jardim Camburi",
+    "area": "Jardim Camburi",
+    "city": "Vitória",
+    "lat": -20.2542,
+    "lng": -40.2696,
+    "genreSlugs": [
+      "eletronica-house",
+      "metal-punk-goth"
+    ],
+    "status": "closed",
+    "hours": "Atividades encerradas"
+  },
+  {
+    "id": "quintal-destilaria",
+    "name": "Quintal Destilaria",
+    "aliases": [
+      "Quintal Destilaria Camburi",
+      "Quintal Destilaria Vitória"
+    ],
+    "address": "R. Eugênio Netto, 402 - Camburi",
+    "area": "Camburi",
+    "city": "Vitória",
+    "lat": -20.2761,
+    "lng": -40.2792,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-tonel-44",
+    "name": "Casa Tonel 44",
+    "aliases": [
+      "Casa Tonel 44 Mata da Praia",
+      "Casa Tonel 44 Vitória"
+    ],
+    "address": "R. Aristóbulo Barbosa Leão, 170 - Mata da Praia",
+    "area": "Mata da Praia",
+    "city": "Vitória",
+    "lat": -20.2668,
+    "lng": -40.2882,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "unverified",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "estacao-barril-novo",
+    "name": "Estação Barril Novo",
+    "aliases": [
+      "Estação Barril Novo Santa Lúcia",
+      "Estação Barril Novo Vitória"
+    ],
+    "address": "R. José Teixeira, 867 - Santa Lúcia",
+    "area": "Santa Lúcia",
+    "city": "Vitória",
+    "lat": -20.3085,
+    "lng": -40.3059,
+    "genreSlugs": [
+      "sertanejo",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 20h–03h"
+  },
+  {
+    "id": "lounge-malte-forte",
+    "name": "Lounge Malte Forte",
+    "aliases": [
+      "Lounge Malte Forte Bento Ferreira",
+      "Lounge Malte Forte Vitória"
+    ],
+    "address": "R. Amélia da Cunha Ornelas, 1039 - Bento Ferreira",
+    "area": "Bento Ferreira",
+    "city": "Vitória",
+    "lat": -20.3189,
+    "lng": -40.3028,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "porao-lupulo",
+    "name": "Porão Lúpulo",
+    "aliases": [
+      "Porão Lúpulo Enseada do Suá",
+      "Porão Lúpulo Vitória"
+    ],
+    "address": "Av. Nossa Senhora dos Navegantes, 1196 - Enseada do Suá",
+    "area": "Enseada do Suá",
+    "city": "Vitória",
+    "lat": -20.3092,
+    "lng": -40.2876,
+    "genreSlugs": [
+      "pagode-samba",
+      "rock-indie",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–04h"
+  },
+  {
+    "id": "galpao-cervejaria-da-ilha",
+    "name": "Galpão Cervejaria da Ilha",
+    "aliases": [
+      "Galpão Cervejaria da Ilha Praia da Costa",
+      "Galpão Cervejaria da Ilha Vila Velha"
+    ],
+    "address": "R. Henrique Moscoso, 77 - Praia da Costa",
+    "area": "Praia da Costa",
+    "city": "Vila Velha",
+    "lat": -20.3405,
+    "lng": -40.2776,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "rock-indie"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "club-taca-cheia",
+    "name": "Club Taça Cheia",
+    "aliases": [
+      "Club Taça Cheia Itapuã",
+      "Club Taça Cheia Vila Velha"
+    ],
+    "address": "R. Goiânia, 313 - Itapuã",
+    "area": "Itapuã",
+    "city": "Vila Velha",
+    "lat": -20.3462,
+    "lng": -40.2865,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "arena-coquetelaria",
+    "name": "Arena Coquetelaria",
+    "aliases": [
+      "Arena Coquetelaria Vila Velha",
+      "Arena Coquetelaria Vila Velha"
+    ],
+    "address": "Av. Est. José Júlio de Souza, 630 - Vila Velha",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.3697,
+    "lng": -40.2842,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "espaco-negroni",
+    "name": "Espaço Negroni",
+    "aliases": [
+      "Espaço Negroni Glória",
+      "Espaço Negroni Vila Velha"
+    ],
+    "address": "Av. Jerônimo Monteiro, 1456 - Glória",
+    "area": "Glória",
+    "city": "Vila Velha",
+    "lat": -20.339,
+    "lng": -40.3142,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "garagem-mojito",
+    "name": "Garagem Mojito",
+    "aliases": [
+      "Garagem Mojito Prainha",
+      "Garagem Mojito Vila Velha"
+    ],
+    "address": "R. Vasco Coutinho, 1287 - Prainha",
+    "area": "Prainha",
+    "city": "Vila Velha",
+    "lat": -20.3321,
+    "lng": -40.2912,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-caipirinha-club",
+    "name": "Pub Caipirinha Club",
+    "aliases": [
+      "Pub Caipirinha Club Laranjeiras",
+      "Pub Caipirinha Club Serra"
+    ],
+    "address": "Av. Eudes Scherrer de Souza, 848 - Laranjeiras",
+    "area": "Laranjeiras",
+    "city": "Serra",
+    "lat": -20.1978,
+    "lng": -40.2467,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-gengibre",
+    "name": "Baile Gengibre",
+    "aliases": [
+      "Baile Gengibre Colina de Laranjeiras",
+      "Baile Gengibre Serra"
+    ],
+    "address": "R. das Acácias, 409 - Colina de Laranjeiras",
+    "area": "Colina de Laranjeiras",
+    "city": "Serra",
+    "lat": -20.2056,
+    "lng": -40.2475,
+    "genreSlugs": [
+      "funk",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-cardamomo",
+    "name": "Mirante Cardamomo",
+    "aliases": [
+      "Mirante Cardamomo Manguinhos",
+      "Mirante Cardamomo Serra"
+    ],
+    "address": "R. dos Pescadores, 1253 - Manguinhos",
+    "area": "Manguinhos",
+    "city": "Serra",
+    "lat": -20.1967,
+    "lng": -40.2061,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "unverified",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-canela",
+    "name": "Boteco Canela",
+    "aliases": [
+      "Boteco Canela Jacaraípe",
+      "Boteco Canela Serra"
+    ],
+    "address": "Av. Minas Gerais, 55 - Jacaraípe",
+    "area": "Jacaraípe",
+    "city": "Serra",
+    "lat": -20.1632,
+    "lng": -40.1957,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-pimenta-rosa",
+    "name": "Terraço Pimenta Rosa",
+    "aliases": [
+      "Terraço Pimenta Rosa Campo Grande",
+      "Terraço Pimenta Rosa Cariacica"
+    ],
+    "address": "R. Leopoldina, 909 - Campo Grande",
+    "area": "Campo Grande",
+    "city": "Cariacica",
+    "lat": -20.3488,
+    "lng": -40.3945,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-alecrim",
+    "name": "Bunker Alecrim",
+    "aliases": [
+      "Bunker Alecrim Itacibá",
+      "Bunker Alecrim Cariacica"
+    ],
+    "address": "Av. Getúlio Vargas, 426 - Itacibá",
+    "area": "Itacibá",
+    "city": "Cariacica",
+    "lat": -20.3249,
+    "lng": -40.3737,
+    "genreSlugs": [
+      "eletronica-house",
+      "metal-punk-goth",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "boteco-hortela",
+    "name": "Boteco Hortelã",
+    "aliases": [
+      "Boteco Hortelã Praia do Canto",
+      "Boteco Hortelã Vitória"
+    ],
+    "address": "R. Joaquim Lírio, 366 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.293,
+    "lng": -40.2917,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-citrico",
+    "name": "Terraço Cítrico",
+    "aliases": [
+      "Terraço Cítrico Jardim da Penha",
+      "Terraço Cítrico Vitória"
+    ],
+    "address": "Av. Hugo Viola, 1238 - Jardim da Penha",
+    "area": "Jardim da Penha",
+    "city": "Vitória",
+    "lat": -20.2848,
+    "lng": -40.2988,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-ambar",
+    "name": "Bunker Âmbar",
+    "aliases": [
+      "Bunker Âmbar Centro",
+      "Bunker Âmbar Vitória"
+    ],
+    "address": "Av. Jerônimo Monteiro, 917 - Centro",
+    "area": "Centro",
+    "city": "Vitória",
+    "lat": -20.3179,
+    "lng": -40.3417,
+    "genreSlugs": [
+      "eletronica-house",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "quintal-rubi",
+    "name": "Quintal Rubi",
+    "aliases": [
+      "Quintal Rubi Jardim Camburi",
+      "Quintal Rubi Vitória"
+    ],
+    "address": "R. Filogônio Motta, 1348 - Jardim Camburi",
+    "area": "Jardim Camburi",
+    "city": "Vitória",
+    "lat": -20.2495,
+    "lng": -40.2631,
+    "genreSlugs": [
+      "pagode-samba",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-safira",
+    "name": "Casa Safira",
+    "aliases": [
+      "Casa Safira Camburi",
+      "Casa Safira Vitória"
+    ],
+    "address": "Av. Dante Michelini, 340 - Camburi",
+    "area": "Camburi",
+    "city": "Vitória",
+    "lat": -20.2778,
+    "lng": -40.2817,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "estacao-esmeralda",
+    "name": "Estação Esmeralda",
+    "aliases": [
+      "Estação Esmeralda Mata da Praia",
+      "Estação Esmeralda Vitória"
+    ],
+    "address": "R. Carlos Eduardo Monteiro de Lemos, 1502 - Mata da Praia",
+    "area": "Mata da Praia",
+    "city": "Vitória",
+    "lat": -20.2647,
+    "lng": -40.2881,
+    "genreSlugs": [
+      "sertanejo",
+      "eletronica-house",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 20h–03h"
+  },
+  {
+    "id": "lounge-onix",
+    "name": "Lounge Ônix",
+    "aliases": [
+      "Lounge Ônix Santa Lúcia",
+      "Lounge Ônix Vitória"
+    ],
+    "address": "R. José Teixeira, 903 - Santa Lúcia",
+    "area": "Santa Lúcia",
+    "city": "Vitória",
+    "lat": -20.3038,
+    "lng": -40.3034,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "porao-quartzo",
+    "name": "Porão Quartzo",
+    "aliases": [
+      "Porão Quartzo Bento Ferreira",
+      "Porão Quartzo Vitória"
+    ],
+    "address": "R. Chafic Murad, 1266 - Bento Ferreira",
+    "area": "Bento Ferreira",
+    "city": "Vitória",
+    "lat": -20.3204,
+    "lng": -40.3031,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth"
+    ],
+    "status": "unverified",
+    "hours": "Sex e sáb, 22h–04h"
+  },
+  {
+    "id": "galpao-ametista",
+    "name": "Galpão Ametista",
+    "aliases": [
+      "Galpão Ametista Enseada do Suá",
+      "Galpão Ametista Vitória"
+    ],
+    "address": "R. Duckla de Aguiar, 1230 - Enseada do Suá",
+    "area": "Enseada do Suá",
+    "city": "Vitória",
+    "lat": -20.3128,
+    "lng": -40.2841,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "rock-indie"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "club-obsidiana",
+    "name": "Club Obsidiana",
+    "aliases": [
+      "Club Obsidiana Praia da Costa",
+      "Club Obsidiana Vila Velha"
+    ],
+    "address": "R. Henrique Moscoso, 632 - Praia da Costa",
+    "area": "Praia da Costa",
+    "city": "Vila Velha",
+    "lat": -20.3368,
+    "lng": -40.2774,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "arena-veludo",
+    "name": "Arena Veludo",
+    "aliases": [
+      "Arena Veludo Itapuã",
+      "Arena Veludo Vila Velha"
+    ],
+    "address": "Av. Hugo Musso, 579 - Itapuã",
+    "area": "Itapuã",
+    "city": "Vila Velha",
+    "lat": -20.3479,
+    "lng": -40.2834,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "espaco-cetim",
+    "name": "Espaço Cetim",
+    "aliases": [
+      "Espaço Cetim Vila Velha",
+      "Espaço Cetim Vila Velha"
+    ],
+    "address": "Rod. do Sol, 296 - Vila Velha",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.3548,
+    "lng": -40.2894,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "garagem-cobre",
+    "name": "Garagem Cobre",
+    "aliases": [
+      "Garagem Cobre Glória",
+      "Garagem Cobre Vila Velha"
+    ],
+    "address": "Av. Carlos Lindemberg, 83 - Glória",
+    "area": "Glória",
+    "city": "Vila Velha",
+    "lat": -20.3361,
+    "lng": -40.3055,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-bronze",
+    "name": "Pub Bronze",
+    "aliases": [
+      "Pub Bronze Prainha",
+      "Pub Bronze Vila Velha"
+    ],
+    "address": "Praça Almirante Tamandaré, 750 - Prainha",
+    "area": "Prainha",
+    "city": "Vila Velha",
+    "lat": -20.3281,
+    "lng": -40.288,
+    "genreSlugs": [
+      "eletronica-house",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-prata-viva",
+    "name": "Baile Prata Viva",
+    "aliases": [
+      "Baile Prata Viva Laranjeiras",
+      "Baile Prata Viva Serra"
+    ],
+    "address": "Av. Eudes Scherrer de Souza, 108 - Laranjeiras",
+    "area": "Laranjeiras",
+    "city": "Serra",
+    "lat": -20.1932,
+    "lng": -40.2483,
+    "genreSlugs": [
+      "funk",
+      "sertanejo",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-ouro-negro",
+    "name": "Mirante Ouro Negro",
+    "aliases": [
+      "Mirante Ouro Negro Colina de Laranjeiras",
+      "Mirante Ouro Negro Serra"
+    ],
+    "address": "Av. Eldes Scherrer Souza, 922 - Colina de Laranjeiras",
+    "area": "Colina de Laranjeiras",
+    "city": "Serra",
+    "lat": -20.2036,
+    "lng": -40.2397,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-neon-pulse",
+    "name": "Boteco Neon Pulse",
+    "aliases": [
+      "Boteco Neon Pulse Manguinhos",
+      "Boteco Neon Pulse Serra"
+    ],
+    "address": "R. dos Pescadores, 1077 - Manguinhos",
+    "area": "Manguinhos",
+    "city": "Serra",
+    "lat": -20.1885,
+    "lng": -40.1975,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-laser",
+    "name": "Terraço Laser",
+    "aliases": [
+      "Terraço Laser Jacaraípe",
+      "Terraço Laser Serra"
+    ],
+    "address": "R. São Pedro, 1406 - Jacaraípe",
+    "area": "Jacaraípe",
+    "city": "Serra",
+    "lat": -20.1646,
+    "lng": -40.1889,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-estrobo",
+    "name": "Bunker Estrobo",
+    "aliases": [
+      "Bunker Estrobo Campo Grande",
+      "Bunker Estrobo Cariacica"
+    ],
+    "address": "R. Leopoldina, 319 - Campo Grande",
+    "area": "Campo Grande",
+    "city": "Cariacica",
+    "lat": -20.3432,
+    "lng": -40.3811,
+    "genreSlugs": [
+      "eletronica-house",
+      "metal-punk-goth"
+    ],
+    "status": "unverified",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "quintal-fumaca",
+    "name": "Quintal Fumaça",
+    "aliases": [
+      "Quintal Fumaça Itacibá",
+      "Quintal Fumaça Cariacica"
+    ],
+    "address": "R. São João, 1259 - Itacibá",
+    "area": "Itacibá",
+    "city": "Cariacica",
+    "lat": -20.3331,
+    "lng": -40.3751,
+    "genreSlugs": [
+      "pagode-samba",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "terraco-espelho",
+    "name": "Terraço Espelho",
+    "aliases": [
+      "Terraço Espelho Praia do Canto",
+      "Terraço Espelho Vitória"
+    ],
+    "address": "R. Moacyr Avidos, 397 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.2985,
+    "lng": -40.2952,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-caleidoscopio",
+    "name": "Bunker Caleidoscópio",
+    "aliases": [
+      "Bunker Caleidoscópio Jardim da Penha",
+      "Bunker Caleidoscópio Vitória"
+    ],
+    "address": "Av. Anísio Fernandes Coelho, 501 - Jardim da Penha",
+    "area": "Jardim da Penha",
+    "city": "Vitória",
+    "lat": -20.2766,
+    "lng": -40.3001,
+    "genreSlugs": [
+      "eletronica-house",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "quintal-prisma",
+    "name": "Quintal Prisma",
+    "aliases": [
+      "Quintal Prisma Centro",
+      "Quintal Prisma Vitória"
+    ],
+    "address": "Av. República, 1321 - Centro",
+    "area": "Centro",
+    "city": "Vitória",
+    "lat": -20.319,
+    "lng": -40.3382,
+    "genreSlugs": [
+      "pagode-samba",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-mosaico",
+    "name": "Casa Mosaico",
+    "aliases": [
+      "Casa Mosaico Jardim Camburi",
+      "Casa Mosaico Vitória"
+    ],
+    "address": "Av. Dante Michelini, 250 - Jardim Camburi",
+    "area": "Jardim Camburi",
+    "city": "Vitória",
+    "lat": -20.2646,
+    "lng": -40.2703,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "estacao-vitral",
+    "name": "Estação Vitral",
+    "aliases": [
+      "Estação Vitral Camburi",
+      "Estação Vitral Vitória"
+    ],
+    "address": "Av. Adalberto Simão Nader, 1217 - Camburi",
+    "area": "Camburi",
+    "city": "Vitória",
+    "lat": -20.2694,
+    "lng": -40.2785,
+    "genreSlugs": [
+      "sertanejo",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 20h–03h"
+  },
+  {
+    "id": "lounge-grafite",
+    "name": "Lounge Grafite",
+    "aliases": [
+      "Lounge Grafite Mata da Praia",
+      "Lounge Grafite Vitória"
+    ],
+    "address": "R. Aristóbulo Barbosa Leão, 1241 - Mata da Praia",
+    "area": "Mata da Praia",
+    "city": "Vitória",
+    "lat": -20.2669,
+    "lng": -40.2853,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "porao-mural",
+    "name": "Porão Mural",
+    "aliases": [
+      "Porão Mural Santa Lúcia",
+      "Porão Mural Vitória"
+    ],
+    "address": "Av. Leitão da Silva, 829 - Santa Lúcia",
+    "area": "Santa Lúcia",
+    "city": "Vitória",
+    "lat": -20.3084,
+    "lng": -40.3008,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–04h"
+  },
+  {
+    "id": "galpao-atelie",
+    "name": "Galpão Ateliê",
+    "aliases": [
+      "Galpão Ateliê Bento Ferreira",
+      "Galpão Ateliê Vitória"
+    ],
+    "address": "R. Chafic Murad, 1350 - Bento Ferreira",
+    "area": "Bento Ferreira",
+    "city": "Vitória",
+    "lat": -20.3117,
+    "lng": -40.2975,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "rock-indie"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "club-oficina",
+    "name": "Club Oficina",
+    "aliases": [
+      "Club Oficina Enseada do Suá",
+      "Club Oficina Vitória"
+    ],
+    "address": "R. Duckla de Aguiar, 814 - Enseada do Suá",
+    "area": "Enseada do Suá",
+    "city": "Vitória",
+    "lat": -20.3161,
+    "lng": -40.2868,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "arena-fabrica",
+    "name": "Arena Fábrica",
+    "aliases": [
+      "Arena Fábrica Praia da Costa",
+      "Arena Fábrica Vila Velha"
+    ],
+    "address": "R. Henrique Moscoso, 267 - Praia da Costa",
+    "area": "Praia da Costa",
+    "city": "Vila Velha",
+    "lat": -20.3343,
+    "lng": -40.276,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "unverified",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "espaco-usina",
+    "name": "Espaço Usina",
+    "aliases": [
+      "Espaço Usina Itapuã",
+      "Espaço Usina Vila Velha"
+    ],
+    "address": "Av. São Paulo, 1080 - Itapuã",
+    "area": "Itapuã",
+    "city": "Vila Velha",
+    "lat": -20.3524,
+    "lng": -40.2919,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "garagem-caldeira",
+    "name": "Garagem Caldeira",
+    "aliases": [
+      "Garagem Caldeira Vila Velha",
+      "Garagem Caldeira Vila Velha"
+    ],
+    "address": "R. Itaoca, 1089 - Vila Velha",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.3546,
+    "lng": -40.2883,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-forja",
+    "name": "Pub Forja",
+    "aliases": [
+      "Pub Forja Glória",
+      "Pub Forja Vila Velha"
+    ],
+    "address": "R. Santa Rosa, 982 - Glória",
+    "area": "Glória",
+    "city": "Vila Velha",
+    "lat": -20.341,
+    "lng": -40.3117,
+    "genreSlugs": [
+      "funk",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-serralheria",
+    "name": "Baile Serralheria",
+    "aliases": [
+      "Baile Serralheria Prainha",
+      "Baile Serralheria Vila Velha"
+    ],
+    "address": "R. Luciano das Neves, 517 - Prainha",
+    "area": "Prainha",
+    "city": "Vila Velha",
+    "lat": -20.3299,
+    "lng": -40.2968,
+    "genreSlugs": [
+      "funk",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-fundicao",
+    "name": "Mirante Fundição",
+    "aliases": [
+      "Mirante Fundição Laranjeiras",
+      "Mirante Fundição Serra"
+    ],
+    "address": "Av. Civit, 1481 - Laranjeiras",
+    "area": "Laranjeiras",
+    "city": "Serra",
+    "lat": -20.1991,
+    "lng": -40.2534,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-hangar-27",
+    "name": "Boteco Hangar 27",
+    "aliases": [
+      "Boteco Hangar 27 Colina de Laranjeiras",
+      "Boteco Hangar 27 Serra"
+    ],
+    "address": "Av. Eldes Scherrer Souza, 1214 - Colina de Laranjeiras",
+    "area": "Colina de Laranjeiras",
+    "city": "Serra",
+    "lat": -20.2024,
+    "lng": -40.244,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-terminal",
+    "name": "Terraço Terminal",
+    "aliases": [
+      "Terraço Terminal Manguinhos",
+      "Terraço Terminal Serra"
+    ],
+    "address": "R. dos Pescadores, 233 - Manguinhos",
+    "area": "Manguinhos",
+    "city": "Serra",
+    "lat": -20.1953,
+    "lng": -40.1977,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-plataforma",
+    "name": "Bunker Plataforma",
+    "aliases": [
+      "Bunker Plataforma Jacaraípe",
+      "Bunker Plataforma Serra"
+    ],
+    "address": "Av. Abido Saadi, 600 - Jacaraípe",
+    "area": "Jacaraípe",
+    "city": "Serra",
+    "lat": -20.1646,
+    "lng": -40.1856,
+    "genreSlugs": [
+      "eletronica-house",
+      "rock-indie",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "quintal-vagao",
+    "name": "Quintal Vagão",
+    "aliases": [
+      "Quintal Vagão Campo Grande",
+      "Quintal Vagão Cariacica"
+    ],
+    "address": "R. Santa Marta, 1196 - Campo Grande",
+    "area": "Campo Grande",
+    "city": "Cariacica",
+    "lat": -20.3433,
+    "lng": -40.3925,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-trilho",
+    "name": "Casa Trilho",
+    "aliases": [
+      "Casa Trilho Itacibá",
+      "Casa Trilho Cariacica"
+    ],
+    "address": "Av. Mário Gurgel, 336 - Itacibá",
+    "area": "Itacibá",
+    "city": "Cariacica",
+    "lat": -20.3228,
+    "lng": -40.3721,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "bunker-viaduto",
+    "name": "Bunker Viaduto",
+    "aliases": [
+      "Bunker Viaduto Praia do Canto",
+      "Bunker Viaduto Vitória"
+    ],
+    "address": "R. Joaquim Lírio, 1062 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.3019,
+    "lng": -40.2947,
+    "genreSlugs": [
+      "eletronica-house",
+      "metal-punk-goth",
+      "forro-tecnobrega"
+    ],
+    "status": "unverified",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "quintal-arco-iris",
+    "name": "Quintal Arco-Íris",
+    "aliases": [
+      "Quintal Arco-Íris Jardim da Penha",
+      "Quintal Arco-Íris Vitória"
+    ],
+    "address": "R. Arthur Czartoryski, 504 - Jardim da Penha",
+    "area": "Jardim da Penha",
+    "city": "Vitória",
+    "lat": -20.2818,
+    "lng": -40.2925,
+    "genreSlugs": [
+      "pagode-samba",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-ponte-seca",
+    "name": "Casa Ponte Seca",
+    "aliases": [
+      "Casa Ponte Seca Centro",
+      "Casa Ponte Seca Vitória"
+    ],
+    "address": "R. Graciano Neves, 505 - Centro",
+    "area": "Centro",
+    "city": "Vitória",
+    "lat": -20.3217,
+    "lng": -40.3436,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "estacao-passarela",
+    "name": "Estação Passarela",
+    "aliases": [
+      "Estação Passarela Jardim Camburi",
+      "Estação Passarela Vitória"
+    ],
+    "address": "Av. Dante Michelini, 1070 - Jardim Camburi",
+    "area": "Jardim Camburi",
+    "city": "Vitória",
+    "lat": -20.2613,
+    "lng": -40.2634,
+    "genreSlugs": [
+      "sertanejo",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 20h–03h"
+  },
+  {
+    "id": "lounge-rotatoria",
+    "name": "Lounge Rotatória",
+    "aliases": [
+      "Lounge Rotatória Camburi",
+      "Lounge Rotatória Vitória"
+    ],
+    "address": "R. Eugênio Netto, 802 - Camburi",
+    "area": "Camburi",
+    "city": "Vitória",
+    "lat": -20.27,
+    "lng": -40.2811,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "porao-esquina",
+    "name": "Porão Esquina",
+    "aliases": [
+      "Porão Esquina Mata da Praia",
+      "Porão Esquina Vitória"
+    ],
+    "address": "Av. Desembargador Dermeval Lyrio, 978 - Mata da Praia",
+    "area": "Mata da Praia",
+    "city": "Vitória",
+    "lat": -20.2669,
+    "lng": -40.2889,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–04h"
+  },
+  {
+    "id": "galpao-calcadao",
+    "name": "Galpão Calçadão",
+    "aliases": [
+      "Galpão Calçadão Santa Lúcia",
+      "Galpão Calçadão Vitória"
+    ],
+    "address": "Av. Rio Branco, 868 - Santa Lúcia",
+    "area": "Santa Lúcia",
+    "city": "Vitória",
+    "lat": -20.3018,
+    "lng": -40.3031,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "rock-indie"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "club-boulevard",
+    "name": "Club Boulevard",
+    "aliases": [
+      "Club Boulevard Bento Ferreira",
+      "Club Boulevard Vitória"
+    ],
+    "address": "R. Amélia da Cunha Ornelas, 267 - Bento Ferreira",
+    "area": "Bento Ferreira",
+    "city": "Vitória",
+    "lat": -20.3175,
+    "lng": -40.2963,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "arena-alameda",
+    "name": "Arena Alameda",
+    "aliases": [
+      "Arena Alameda Enseada do Suá",
+      "Arena Alameda Vitória"
+    ],
+    "address": "R. Duckla de Aguiar, 1022 - Enseada do Suá",
+    "area": "Enseada do Suá",
+    "city": "Vitória",
+    "lat": -20.312,
+    "lng": -40.2853,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "espaco-travessa",
+    "name": "Espaço Travessa",
+    "aliases": [
+      "Espaço Travessa Praia da Costa",
+      "Espaço Travessa Vila Velha"
+    ],
+    "address": "R. Pernambuco, 898 - Praia da Costa",
+    "area": "Praia da Costa",
+    "city": "Vila Velha",
+    "lat": -20.331,
+    "lng": -40.2862,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "closed",
+    "hours": "Atividades encerradas"
+  },
+  {
+    "id": "garagem-viela",
+    "name": "Garagem Viela",
+    "aliases": [
+      "Garagem Viela Itapuã",
+      "Garagem Viela Vila Velha"
+    ],
+    "address": "Av. São Paulo, 1380 - Itapuã",
+    "area": "Itapuã",
+    "city": "Vila Velha",
+    "lat": -20.3458,
+    "lng": -40.2828,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-patio",
+    "name": "Pub Pátio",
+    "aliases": [
+      "Pub Pátio Vila Velha",
+      "Pub Pátio Vila Velha"
+    ],
+    "address": "Av. Est. José Júlio de Souza, 615 - Vila Velha",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.3649,
+    "lng": -40.2933,
+    "genreSlugs": [
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "unverified",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-claustro",
+    "name": "Baile Claustro",
+    "aliases": [
+      "Baile Claustro Glória",
+      "Baile Claustro Vila Velha"
+    ],
+    "address": "R. Aurora, 77 - Glória",
+    "area": "Glória",
+    "city": "Vila Velha",
+    "lat": -20.337,
+    "lng": -40.3095,
+    "genreSlugs": [
+      "funk",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-jardim-secreto",
+    "name": "Mirante Jardim Secreto",
+    "aliases": [
+      "Mirante Jardim Secreto Prainha",
+      "Mirante Jardim Secreto Vila Velha"
+    ],
+    "address": "R. Vasco Coutinho, 507 - Prainha",
+    "area": "Prainha",
+    "city": "Vila Velha",
+    "lat": -20.3295,
+    "lng": -40.2942,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-estufa",
+    "name": "Boteco Estufa",
+    "aliases": [
+      "Boteco Estufa Laranjeiras",
+      "Boteco Estufa Serra"
+    ],
+    "address": "Av. Eudes Scherrer de Souza, 1108 - Laranjeiras",
+    "area": "Laranjeiras",
+    "city": "Serra",
+    "lat": -20.1999,
+    "lng": -40.2472,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-orquidario",
+    "name": "Terraço Orquidário",
+    "aliases": [
+      "Terraço Orquidário Colina de Laranjeiras",
+      "Terraço Orquidário Serra"
+    ],
+    "address": "R. das Acácias, 581 - Colina de Laranjeiras",
+    "area": "Colina de Laranjeiras",
+    "city": "Serra",
+    "lat": -20.2034,
+    "lng": -40.2427,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-pomar",
+    "name": "Bunker Pomar",
+    "aliases": [
+      "Bunker Pomar Manguinhos",
+      "Bunker Pomar Serra"
+    ],
+    "address": "R. Ocidente, 1243 - Manguinhos",
+    "area": "Manguinhos",
+    "city": "Serra",
+    "lat": -20.1938,
+    "lng": -40.2044,
+    "genreSlugs": [
+      "eletronica-house",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "quintal-quinta-real",
+    "name": "Quintal Quinta Real",
+    "aliases": [
+      "Quintal Quinta Real Jacaraípe",
+      "Quintal Quinta Real Serra"
+    ],
+    "address": "Av. Abido Saadi, 332 - Jacaraípe",
+    "area": "Jacaraípe",
+    "city": "Serra",
+    "lat": -20.1677,
+    "lng": -40.1898,
+    "genreSlugs": [
+      "pagode-samba",
+      "forro-tecnobrega",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-solar",
+    "name": "Casa Solar",
+    "aliases": [
+      "Casa Solar Campo Grande",
+      "Casa Solar Cariacica"
+    ],
+    "address": "R. Leopoldina, 849 - Campo Grande",
+    "area": "Campo Grande",
+    "city": "Cariacica",
+    "lat": -20.3487,
+    "lng": -40.3857,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "estacao-casarao",
+    "name": "Estação Casarão",
+    "aliases": [
+      "Estação Casarão Itacibá",
+      "Estação Casarão Cariacica"
+    ],
+    "address": "R. Manoel Joaquim dos Santos, 1501 - Itacibá",
+    "area": "Itacibá",
+    "city": "Cariacica",
+    "lat": -20.323,
+    "lng": -40.3755,
+    "genreSlugs": [
+      "sertanejo",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 20h–03h"
+  },
+  {
+    "id": "quintal-sobrado",
+    "name": "Quintal Sobrado",
+    "aliases": [
+      "Quintal Sobrado Praia do Canto",
+      "Quintal Sobrado Vitória"
+    ],
+    "address": "R. Celso Calmon, 136 - Praia do Canto",
+    "area": "Praia do Canto",
+    "city": "Vitória",
+    "lat": -20.2977,
+    "lng": -40.2917,
+    "genreSlugs": [
+      "pagode-samba",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-palacete",
+    "name": "Casa Palacete",
+    "aliases": [
+      "Casa Palacete Jardim da Penha",
+      "Casa Palacete Vitória"
+    ],
+    "address": "R. Francisco Generoso da Fonseca, 637 - Jardim da Penha",
+    "area": "Jardim da Penha",
+    "city": "Vitória",
+    "lat": -20.2854,
+    "lng": -40.2874,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "estacao-vila-antiga",
+    "name": "Estação Vila Antiga",
+    "aliases": [
+      "Estação Vila Antiga Centro",
+      "Estação Vila Antiga Vitória"
+    ],
+    "address": "R. Sete de Setembro, 878 - Centro",
+    "area": "Centro",
+    "city": "Vitória",
+    "lat": -20.3193,
+    "lng": -40.3334,
+    "genreSlugs": [
+      "sertanejo",
+      "forro-tecnobrega"
+    ],
+    "status": "unverified",
+    "hours": "Qui a sáb, 20h–03h"
+  },
+  {
+    "id": "lounge-chacara",
+    "name": "Lounge Chácara",
+    "aliases": [
+      "Lounge Chácara Jardim Camburi",
+      "Lounge Chácara Vitória"
+    ],
+    "address": "R. Gelu Vervloet dos Santos, 167 - Jardim Camburi",
+    "area": "Jardim Camburi",
+    "city": "Vitória",
+    "lat": -20.2627,
+    "lng": -40.2769,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
+  },
+  {
+    "id": "porao-rancho-fundo",
+    "name": "Porão Rancho Fundo",
+    "aliases": [
+      "Porão Rancho Fundo Camburi",
+      "Porão Rancho Fundo Vitória"
+    ],
+    "address": "Av. Fernando Ferrari, 1267 - Camburi",
+    "area": "Camburi",
+    "city": "Vitória",
+    "lat": -20.2738,
+    "lng": -40.2788,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–04h"
+  },
+  {
+    "id": "galpao-fazendinha",
+    "name": "Galpão Fazendinha",
+    "aliases": [
+      "Galpão Fazendinha Mata da Praia",
+      "Galpão Fazendinha Vitória"
+    ],
+    "address": "R. Carlos Eduardo Monteiro de Lemos, 1054 - Mata da Praia",
+    "area": "Mata da Praia",
+    "city": "Vitória",
+    "lat": -20.2684,
+    "lng": -40.2875,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "rock-indie"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "club-sertao-vivo",
+    "name": "Club Sertão Vivo",
+    "aliases": [
+      "Club Sertão Vivo Santa Lúcia",
+      "Club Sertão Vivo Vitória"
+    ],
+    "address": "Av. Leitão da Silva, 165 - Santa Lúcia",
+    "area": "Santa Lúcia",
+    "city": "Vitória",
+    "lat": -20.2994,
+    "lng": -40.3075,
+    "genreSlugs": [
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "arena-sanfona",
+    "name": "Arena Sanfona",
+    "aliases": [
+      "Arena Sanfona Bento Ferreira",
+      "Arena Sanfona Vitória"
+    ],
+    "address": "Av. Marechal Mascarenhas de Moraes, 753 - Bento Ferreira",
+    "area": "Bento Ferreira",
+    "city": "Vitória",
+    "lat": -20.3203,
+    "lng": -40.3045,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 22h–05h"
+  },
+  {
+    "id": "espaco-zabumba",
+    "name": "Espaço Zabumba",
+    "aliases": [
+      "Espaço Zabumba Enseada do Suá",
+      "Espaço Zabumba Vitória"
+    ],
+    "address": "Av. Nossa Senhora dos Navegantes, 1044 - Enseada do Suá",
+    "area": "Enseada do Suá",
+    "city": "Vitória",
+    "lat": -20.3127,
+    "lng": -40.2941,
+    "genreSlugs": [
+      "pop-hits",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "garagem-triangulo",
+    "name": "Garagem Triângulo",
+    "aliases": [
+      "Garagem Triângulo Praia da Costa",
+      "Garagem Triângulo Vila Velha"
+    ],
+    "address": "R. Pernambuco, 763 - Praia da Costa",
+    "area": "Praia da Costa",
+    "city": "Vila Velha",
+    "lat": -20.3308,
+    "lng": -40.2765,
+    "genreSlugs": [
+      "rock-indie",
+      "metal-punk-goth",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–03h"
+  },
+  {
+    "id": "pub-pandeiro",
+    "name": "Pub Pandeiro",
+    "aliases": [
+      "Pub Pandeiro Itapuã",
+      "Pub Pandeiro Vila Velha"
+    ],
+    "address": "Av. Hugo Musso, 114 - Itapuã",
+    "area": "Itapuã",
+    "city": "Vila Velha",
+    "lat": -20.3544,
+    "lng": -40.282,
+    "genreSlugs": [
+      "sertanejo",
+      "rock-indie",
+      "karaoke-ao-vivo"
+    ],
+    "status": "open",
+    "hours": "Qua a sáb, 20h–03h"
+  },
+  {
+    "id": "baile-cavaquinho",
+    "name": "Baile Cavaquinho",
+    "aliases": [
+      "Baile Cavaquinho Vila Velha",
+      "Baile Cavaquinho Vila Velha"
+    ],
+    "address": "R. Humberto Serrano, 672 - Vila Velha",
+    "area": "Vila Velha",
+    "city": "Vila Velha",
+    "lat": -20.3659,
+    "lng": -40.2965,
+    "genreSlugs": [
+      "funk",
+      "pagode-samba",
+      "hip-hop-rnb"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "mirante-tamborim",
+    "name": "Mirante Tamborim",
+    "aliases": [
+      "Mirante Tamborim Glória",
+      "Mirante Tamborim Vila Velha"
+    ],
+    "address": "Av. Jerônimo Monteiro, 380 - Glória",
+    "area": "Glória",
+    "city": "Vila Velha",
+    "lat": -20.3365,
+    "lng": -40.3084,
+    "genreSlugs": [
+      "pagode-samba",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 17h–02h"
+  },
+  {
+    "id": "boteco-cuica",
+    "name": "Boteco Cuíca",
+    "aliases": [
+      "Boteco Cuíca Prainha",
+      "Boteco Cuíca Vila Velha"
+    ],
+    "address": "R. Vasco Coutinho, 1131 - Prainha",
+    "area": "Prainha",
+    "city": "Vila Velha",
+    "lat": -20.3336,
+    "lng": -40.292,
+    "genreSlugs": [
+      "pagode-samba",
+      "sertanejo"
+    ],
+    "status": "unverified",
+    "hours": "Qua a dom, 17h–01h"
+  },
+  {
+    "id": "terraco-atabaque",
+    "name": "Terraço Atabaque",
+    "aliases": [
+      "Terraço Atabaque Laranjeiras",
+      "Terraço Atabaque Serra"
+    ],
+    "address": "R. Coelho Neto, 1379 - Laranjeiras",
+    "area": "Laranjeiras",
+    "city": "Serra",
+    "lat": -20.1927,
+    "lng": -40.2538,
+    "genreSlugs": [
+      "funk",
+      "eletronica-house",
+      "pop-hits"
+    ],
+    "status": "open",
+    "hours": "Sex a dom, 19h–04h"
+  },
+  {
+    "id": "bunker-berimbau",
+    "name": "Bunker Berimbau",
+    "aliases": [
+      "Bunker Berimbau Colina de Laranjeiras",
+      "Bunker Berimbau Serra"
+    ],
+    "address": "R. das Acácias, 1089 - Colina de Laranjeiras",
+    "area": "Colina de Laranjeiras",
+    "city": "Serra",
+    "lat": -20.2099,
+    "lng": -40.2437,
+    "genreSlugs": [
+      "eletronica-house",
+      "metal-punk-goth"
+    ],
+    "status": "open",
+    "hours": "Sex e sáb, 23h–06h"
+  },
+  {
+    "id": "quintal-guitarra-sul",
+    "name": "Quintal Guitarra Sul",
+    "aliases": [
+      "Quintal Guitarra Sul Manguinhos",
+      "Quintal Guitarra Sul Serra"
+    ],
+    "address": "Av. Beira Mar, 854 - Manguinhos",
+    "area": "Manguinhos",
+    "city": "Serra",
+    "lat": -20.1872,
+    "lng": -40.1989,
+    "genreSlugs": [
+      "pagode-samba",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a dom, 18h–02h"
+  },
+  {
+    "id": "casa-baixo-eletrico",
+    "name": "Casa Baixo Elétrico",
+    "aliases": [
+      "Casa Baixo Elétrico Jacaraípe",
+      "Casa Baixo Elétrico Serra"
+    ],
+    "address": "Av. Abido Saadi, 104 - Jacaraípe",
+    "area": "Jacaraípe",
+    "city": "Serra",
+    "lat": -20.1707,
+    "lng": -40.1887,
+    "genreSlugs": [
+      "pagode-samba",
+      "pop-hits",
+      "forro-tecnobrega"
+    ],
+    "status": "open",
+    "hours": "Qui a sáb, 21h–04h"
   }
 ]

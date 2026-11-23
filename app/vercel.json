@@ -2,8 +2,56 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "installCommand": "npm ci",
-  "buildCommand": "npx expo export --platform web",
+  "buildCommand": "bash scripts/vercel-build.sh",
   "outputDirectory": "dist",
   "build": { "env": { "EXPO_PUBLIC_APP_ENV": "production" } },
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(self)" }
+      ]
+    },
+    {
+      "source": "/feed/v1/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=60, s-maxage=300, stale-while-revalidate=3600" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/covers/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=604800, immutable" }
+      ]
+    },
+    {
+      "source": "/_expo/static/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/api/health",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/api/(venues|events)(/.*)?",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=30, s-maxage=120, stale-while-revalidate=600" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/feed/(.*)", "destination": "/feed/$1" },
+    { "source": "/covers/(.*)", "destination": "/covers/$1" },
+    { "source": "/maplibre-gl-worker.mjs", "destination": "/maplibre-gl-worker.mjs" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }

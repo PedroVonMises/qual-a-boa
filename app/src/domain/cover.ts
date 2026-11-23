@@ -77,3 +77,25 @@ export function parseCoverKey(key: string): ParsedCoverKey | null {
   const m = /^art:([a-z0-9-]+):([a-z0-9-]+):([a-z0-9-]+)$/.exec(key);
   return m ? { template: m[1], palette: m[2], variant: m[3] } : null;
 }
+
+/** Deterministic illustrated cover for a venue based on its genres and slug. */
+export function venueCoverFor(input: { genreSlugs: readonly string[]; venueSlug: string }): CoverKey {
+  return coverFor({ genreSlugs: input.genreSlugs, venueSlug: input.venueSlug, eventId: `venue:${input.venueSlug}` });
+}
+
+const SAFE_HTTPS_IMAGE_RE = /^https:\/\/[^@/\s]+\.[^@/\s]+(\/[^\s]*)?$/i;
+const SAFE_LOCAL_COVER_RE = /^\/covers\/[a-z0-9-]+\.(svg|png|webp|jpg)$/i;
+
+/** Validates remote HTTPS or local `/covers/*` image URLs; rejects unsafe schemes, userinfo, and malformed strings. */
+export function isValidCoverImageUrl(url: unknown): url is string {
+  if (typeof url !== 'string') return false;
+  const trimmed = url.trim();
+  if (!trimmed || trimmed.length > 1024) return false;
+  return SAFE_HTTPS_IMAGE_RE.test(trimmed) || SAFE_LOCAL_COVER_RE.test(trimmed);
+}
+
+/** Deterministic static SVG fallback asset path in `app/public/covers/` for web/CDN consumers. */
+export function localFallbackCoverPath(genreSlugs: readonly string[] = []): string {
+  const primary = genreSlugs.find((g) => Boolean(GENRE_TEMPLATES[g]));
+  return `/covers/${primary ?? 'generic'}.svg`;
+}

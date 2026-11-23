@@ -1,6 +1,8 @@
 import { Image } from 'expo-image';
+import { useState } from 'react';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
+import { isValidCoverImageUrl } from '@/domain/cover';
 import { useTheme } from '@/theme/ThemeProvider';
 import { space } from '@/theme/tokens';
 import { Icon } from './Icon';
@@ -31,11 +33,20 @@ function initials(name: string) {
 
 export function ArtistRow({ name, subtitle, playedLabel, imageUri, onPress, divider, style, testID }: ArtistRowProps) {
   const { colors } = useTheme();
+  const [failedUri, setFailedUri] = useState<string | null>(null);
+  const safeUri = isValidCoverImageUrl(imageUri) ? imageUri.trim() : undefined;
+  const showImage = !!safeUri && failedUri !== safeUri;
   const content = (
     <>
       <View style={[styles.avatar, { backgroundColor: colors.surfaceAlt }]}>
-        {imageUri ? (
-          <Image source={{ uri: imageUri }} style={styles.avatar} contentFit="cover" accessibilityLabel={`Foto de ${name}`} />
+        {showImage ? (
+          <Image
+            source={{ uri: safeUri }}
+            style={styles.avatar}
+            contentFit="cover"
+            accessibilityLabel={`Foto de ${name}`}
+            onError={() => setFailedUri(safeUri)}
+          />
         ) : (
           <Text variant="bodySm" tone="textMuted">
             {initials(name)}

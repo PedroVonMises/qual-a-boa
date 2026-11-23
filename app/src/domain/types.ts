@@ -6,6 +6,7 @@ import type { Uf } from './region';
 
 export type VenueStatus = 'open' | 'closed' | 'unverified';
 export type EventStatus = 'published' | 'cancelled' | 'draft';
+export type PriceRange = '$' | '$$' | '$$$' | '$$$$';
 /** `recommended` is client-only (domain/recommend.ts): repos and SQL never receive it. */
 export type SortKey = 'distance' | 'price' | 'date' | 'popularity' | 'recommended';
 
@@ -47,10 +48,16 @@ export interface Venue {
   genreSlugs: string[];
   /** Vibe & access tags the venue declares (demonstration data until verified). */
   accessTags?: AccessTag[];
+  /** Typical entry/spend tier: $, $$, $$$, $$$$. */
+  priceRange?: PriceRange;
   hours?: string; // free text for MVP, e.g. 'Sex e sáb, 23h–06h'
   coverKey: CoverKey;
+  /** Optional validated https poster/photo URL; falls back deterministically to coverKey SVG/local asset. */
+  imageUrl?: string;
   /** True while data is a design placeholder, not verified with the venue. */
   placeholder: boolean;
+  /** ISO 8601 UTC timestamp of last catalog verification/update. */
+  updatedAt?: string;
 }
 
 export interface EventItem {

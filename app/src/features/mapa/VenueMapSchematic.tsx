@@ -4,6 +4,7 @@ import Svg, { Path, Rect } from 'react-native-svg';
 import { Text } from '@/ui';
 import { useTheme } from '@/theme/ThemeProvider';
 import { hit, radius, space } from '@/theme/tokens';
+import { capSchematicPins } from './clustering';
 import type { VenueMapProps } from './mapTypes';
 import { pinLabel } from './pins';
 import { NEIGHBORHOODS, project } from './projection';
@@ -13,6 +14,7 @@ const PIN_W = 160;
 /** Schematic SVG map: fallback when the real map cannot load (offline, style error, no native module). */
 export function VenueMapSchematic({ pins, selectedId, onSelect, userLocation }: VenueMapProps) {
   const { colors } = useTheme();
+  const visiblePins = capSchematicPins(pins, selectedId, 28);
   const at = (lat: number, lng: number) => {
     const p = project(lat, lng);
     return { left: `${p.x * 100}%` as const, top: `${p.y * 100}%` as const };
@@ -37,7 +39,7 @@ export function VenueMapSchematic({ pins, selectedId, onSelect, userLocation }: 
           style={[styles.user, at(userLocation.lat, userLocation.lng), { backgroundColor: colors.accent, borderColor: colors.text }]}
         />
       ) : null}
-      {pins.map((pin) => {
+      {visiblePins.map((pin) => {
         const selected = pin.venue.id === selectedId;
         return (
           <View key={pin.venue.id} style={[styles.pinWrap, at(pin.venue.lat, pin.venue.lng)]} pointerEvents="box-none">
@@ -54,6 +56,13 @@ export function VenueMapSchematic({ pins, selectedId, onSelect, userLocation }: 
           </View>
         );
       })}
+      {pins.length > visiblePins.length ? (
+        <View pointerEvents="none" style={[styles.moreBadge, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+          <Text variant="caption" tone="textMuted">
+            +{pins.length - visiblePins.length} casas na lista
+          </Text>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -72,4 +81,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   name: { fontWeight: '600' },
+  moreBadge: {
+    position: 'absolute',
+    right: space.sm,
+    bottom: space.sm,
+    paddingHorizontal: space.sm,
+    paddingVertical: 4,
+    borderRadius: radius.full,
+    borderWidth: 1,
+  },
 });
