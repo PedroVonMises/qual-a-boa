@@ -1,14 +1,12 @@
 {
-  "generatedAt": "2026-11-17T18:04:01.996Z",
+  "generatedAt": "2026-11-23T06:38:34.047Z",
   "counts": {
-    "events": 6,
-    "upcoming": 5,
-    "cancelled": 1,
+    "events": 0,
+    "upcoming": 0,
+    "cancelled": 0,
     "venues": 8,
     "artists": 25
   },
-  "sources": {
-    "carried": 6
-  },
+  "sources": {},
   "schemaVersion": 1
 }
