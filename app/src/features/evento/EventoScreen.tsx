@@ -64,6 +64,7 @@ export function EventoScreen({ id }: { id?: string }) {
       }>
       <Hero
         coverKey={event.coverKey}
+        imageUrl={event.imageUrl}
         onBack={goBack}
         actions={
           <>

@@ -1,5 +1,5 @@
 /**
- * Seed generator. Run from app/:  npm run seed            (seed.sql + app/src/data/seed.json)
+ * Seed generator. Run from app/:  npm run seed            (seed.sql + app/src/data/seed.json + public/feed/v1/* + ingest/data/venues.json)
  *                                 npm run seed -- --fixtures  (also test fixtures)
  *
  * Fixtures: dataset with `now` fixed to 2026-10-23T12:00:00Z plus search cases whose
@@ -10,12 +10,19 @@ import path from 'node:path';
 
 import type { SearchParams, SeedDataset } from '../../app/src/domain/types';
 import { DEFAULT_LOCATION } from '../../app/src/domain/types';
+import { localFallbackCoverPath } from '../../app/src/domain/cover';
+import { dedupeVenues, validateVenue } from '../../app/src/domain/venueSchema';
 import { artistId, buildSeed } from './seed-data';
 import { datasetToSql } from './sql';
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const SEED_SQL = path.join(ROOT, 'supabase', 'seed', 'seed.sql');
 const SEED_JSON = path.join(ROOT, 'app', 'src', 'data', 'seed.json');
+const FEED_DIR = path.join(ROOT, 'app', 'public', 'feed', 'v1');
+const FEED_EVENTS = path.join(FEED_DIR, 'events.json');
+const FEED_VENUES = path.join(FEED_DIR, 'venues.json');
+const FEED_META = path.join(FEED_DIR, 'meta.json');
+const INGEST_VENUES = path.join(ROOT, 'ingest', 'data', 'venues.json');
 const FIXTURES = path.join(ROOT, 'supabase', 'tests', 'fixtures');
 
 export const FIXED_NOW_ISO = '2026-10-23T12:00:00.000Z';
@@ -33,6 +40,7 @@ const write = (file: string, content: string) => {
   console.log(`wrote ${path.relative(ROOT, file)}`);
 };
 const json = (v: unknown) => JSON.stringify(v, null, 2) + '\n';
+const compactJson = (v: unknown) => JSON.stringify(v) + '\n';
 
 /** Search case definitions (params only). Expectations come from SQL. */
 export function searchCaseParams(now: string): { name: string; params: SearchParams }[] {
@@ -104,15 +112,102 @@ async function computeCases(ds: SeedDataset): Promise<SearchCase[]> {
   return cases;
 }
 
+function assertCatalogQuality(ds: SeedDataset): void {
+  const genreSlugs = new Set(ds.genres.map((g) => g.slug));
+  for (const v of ds.venues) {
+    const check = validateVenue(v, genreSlugs);
+    if (!check.ok) throw new Error(`Catalog validation failed for ${v.slug}: ${check.errors.join(', ')}`);
+  }
+  const { unique, duplicates } = dedupeVenues(ds.venues);
+  if (duplicates.length > 0) throw new Error(`Catalog contains ${duplicates.length} duplicate venues`);
+  if (unique.length < 200) throw new Error(`Expected >= 200 valid unique venues, got ${unique.length}`);
+}
+
+function buildMetaPayload(ds: SeedDataset, nowMs: number) {
+  return {
+    generatedAt: ds.generatedAt,
+    counts: {
+      events: ds.events.length,
+      upcoming: ds.events.filter((e) => e.status === 'published' && Date.parse(e.endsAt ?? e.startsAt) >= nowMs).length,
+      cancelled: ds.events.filter((e) => e.status === 'cancelled').length,
+      venues: ds.venues.length,
+      artists: ds.artists.length,
+    },
+    sources: { seed: ds.events.length },
+    schemaVersion: 1,
+  };
+}
+
+function buildLeanVenuesFeed(ds: SeedDataset) {
+  return {
+    generatedAt: ds.generatedAt,
+    total: ds.venues.length,
+    venues: ds.venues.map((v) => ({
+      id: v.id,
+      slug: v.slug,
+      name: v.name,
+      area: v.area,
+      city: v.city,
+      uf: v.uf ?? 'ES',
+      lat: v.lat,
+      lng: v.lng,
+      status: v.status,
+      genreSlugs: v.genreSlugs,
+      priceRange: v.priceRange ?? '$$',
+      hours: v.hours,
+      coverKey: v.coverKey,
+      fallbackCover: localFallbackCoverPath(v.genreSlugs),
+      updatedAt: v.updatedAt ?? ds.generatedAt,
+    })),
+  };
+}
+
+function buildIngestVenues(ds: SeedDataset) {
+  const pilotAliases: Record<string, string[]> = {
+    bolt: ['Bolt Vitória', 'Bolt Antimofo', 'Bolt Bar'],
+    'a-selva': ['Selva', 'A Selva Vitória', 'Selva Casa de Eventos'],
+    gordinho: ['Gordinho Praia do Canto', 'Gordinho Bar'],
+    'pub-426': ['426', 'Pub426', 'Pub 426 Vitória'],
+    fluente: ['Fluente Vitória', 'Fluente Bar'],
+    'correria-music-bar': ['Correria', 'Correria Bar'],
+    'casa-caipora': ['Caipora'],
+  };
+  return ds.venues.map((v) => ({
+    id: v.slug,
+    name: v.name,
+    aliases: pilotAliases[v.slug] ?? [`${v.name} ${v.area}`, `${v.name} ${v.city}`],
+    address: v.address ?? `${v.area}, ${v.city}`,
+    area: v.area,
+    city: v.city,
+    lat: v.lat,
+    lng: v.lng,
+    genreSlugs: v.genreSlugs,
+    status: v.status,
+    hours: v.hours,
+  }));
+}
+
 async function main() {
   const withFixtures = process.argv.includes('--fixtures');
+  const nowIdx = process.argv.indexOf('--now');
+  const now = nowIdx !== -1 && process.argv[nowIdx + 1] ? new Date(process.argv[nowIdx + 1]) : new Date();
+  if (Number.isNaN(now.getTime())) throw new Error('Invalid --now timestamp');
 
-  const ds = buildSeed(new Date());
+  const ds = buildSeed(now);
+  assertCatalogQuality(ds);
+
   write(SEED_SQL, datasetToSql(ds));
   write(SEED_JSON, json(ds));
+  write(FEED_EVENTS, compactJson(ds));
+  write(FEED_VENUES, compactJson(buildLeanVenuesFeed(ds)));
+  write(FEED_META, json(buildMetaPayload(ds, now.getTime())));
+  write(INGEST_VENUES, json(buildIngestVenues(ds)));
+
+  console.log(`catalog verified: ${ds.venues.length} unique valid venues, ${ds.artists.length} artists, ${ds.events.length} events`);
 
   if (withFixtures) {
     const fixed = buildSeed(new Date(FIXED_NOW_ISO));
+    assertCatalogQuality(fixed);
     write(path.join(FIXTURES, 'seed-fixed.json'), json(fixed));
     const cases = await computeCases(fixed);
     write(path.join(FIXTURES, 'search-cases.json'), json(cases));

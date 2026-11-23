@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500" role="img" aria-label="ELETRONICA">
+  <defs>
+    <linearGradient id="bg-eletronica-house" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#08121E"/>
+      <stop offset="100%" stop-color="#132744"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#bg-eletronica-house)"/>
+  <g stroke="#00F5D4" stroke-width="2" opacity="0.35">
+        <line x1="0" y1="120" x2="400" y2="120"/><line x1="0" y1="200" x2="400" y2="200"/><line x1="0" y1="280" x2="400" y2="280"/>
+        <line x1="100" y1="0" x2="100" y2="500"/><line x1="200" y1="0" x2="200" y2="500"/><line x1="300" y1="0" x2="300" y2="500"/>
+      </g>
+      <polygon points="200,90 320,250 200,410 80,250" fill="#9B5DE5" opacity="0.35" stroke="#00F5D4" stroke-width="5"/>
+  <rect x="28" y="428" width="180" height="36" rx="18" fill="#121110" fill-opacity="0.72"/>
+  <text x="46" y="451" fill="#F4F1EC" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" letter-spacing="1.4">ELETRONICA</text>
+</svg>

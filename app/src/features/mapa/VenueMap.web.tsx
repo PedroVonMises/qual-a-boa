@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import type { Map as GlMap, Marker as GlMarker } from 'maplibre-gl';
+import type { GeoJSONSource, Map as GlMap, Marker as GlMarker } from 'maplibre-gl';
 
 import { Icon, Text } from '@/ui';
 import { hit, palette, radius, space } from '@/theme/tokens';
+import { pinsToGeoJson } from './clustering';
 import { ATTRIBUTION, DEFAULT_ZOOM, MAX_ZOOM, MIN_ZOOM, PILOT_BOUNDS } from './mapConfig';
 import { MAP_STYLE } from './mapStyle';
 import type { VenueMapProps } from './mapTypes';
@@ -13,6 +14,10 @@ import { VenueMapSchematic } from './VenueMapSchematic';
 const FALLBACK_NOTE = 'Mapa simplificado (sem conexão com os mapas)';
 const STYLE_TIMEOUT_MS = 15000;
 const FIT_PADDING = { top: 96, right: 48, bottom: 200, left: 48 };
+const SOURCE_ID = 'qab-venues';
+const CLUSTER_LAYER_ID = 'qab-venue-clusters';
+const CLUSTER_COUNT_LAYER_ID = 'qab-venue-cluster-count';
+const POINT_LAYER_ID = 'qab-venue-points';
 
 const CHECK_SVG =
   '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
@@ -140,6 +145,9 @@ export function VenueMap(props: VenueMapProps) {
   return <WebGlVenueMap {...props} onFail={onFail} />;
 }
 
+/** Threshold above which GPU-clustered WebGL layers replace individual DOM markers (smooth 60fps for 200+ venues). */
+const CLUSTER_DOM_THRESHOLD = 24;
+
 function WebGlVenueMap({
   onFail,
   pins,
@@ -152,6 +160,7 @@ function WebGlVenueMap({
 }: VenueMapProps & { onFail: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<GlMap | null>(null);
+  const [styleReady, setStyleReady] = useState(false);
   const libRef = useRef<typeof import('maplibre-gl') | null>(null);
   const markersRef = useRef<GlMarker[]>([]);
   const userMarkerRef = useRef<GlMarker | null>(null);
@@ -159,11 +168,13 @@ function WebGlVenueMap({
   const onSelectRef = useRef(onSelect);
   const centerRef = useRef(center);
   const pinsRef = useRef(pins);
+  const selectedIdRef = useRef(selectedId);
   // Keep the latest props readable from async/imperative code. Declared first so they are current for every effect below.
   useEffect(() => {
     onSelectRef.current = onSelect;
     centerRef.current = center;
     pinsRef.current = pins;
+    selectedIdRef.current = selectedId;
   });
 
   // Load maplibre-gl (separate chunk) and create the map.
@@ -202,6 +213,80 @@ function WebGlVenueMap({
         created.on('load', () => {
           loaded = true;
           if (timer) clearTimeout(timer);
+          if (!created || cancelled) return;
+          // GPU-clustered GeoJSON source handles 200+ venues smoothly at 60fps.
+          created.addSource(SOURCE_ID, {
+            type: 'geojson',
+            data: pinsToGeoJson(pinsRef.current, selectedIdRef.current) as unknown as GeoJSON.FeatureCollection,
+            cluster: true,
+            clusterMaxZoom: 14,
+            clusterRadius: 48,
+          });
+          created.addLayer({
+            id: CLUSTER_LAYER_ID,
+            type: 'circle',
+            source: SOURCE_ID,
+            filter: ['has', 'point_count'],
+            paint: {
+              'circle-color': ['step', ['get', 'point_count'], palette.bone, 15, palette.amber, 40, palette.riotPink],
+              'circle-radius': ['step', ['get', 'point_count'], 18, 15, 22, 40, 26],
+              'circle-stroke-width': 2,
+              'circle-stroke-color': palette.night,
+            },
+          });
+          created.addLayer({
+            id: CLUSTER_COUNT_LAYER_ID,
+            type: 'symbol',
+            source: SOURCE_ID,
+            filter: ['has', 'point_count'],
+            layout: {
+              'text-field': ['get', 'point_count_abbreviated'],
+              'text-font': ['Noto Sans Bold'],
+              'text-size': 13,
+            },
+            paint: {
+              'text-color': palette.night,
+            },
+          });
+          created.addLayer({
+            id: POINT_LAYER_ID,
+            type: 'circle',
+            source: SOURCE_ID,
+            filter: ['!', ['has', 'point_count']],
+            paint: {
+              'circle-color': ['case', ['get', 'selected'], palette.riotPink, ['get', 'recommended'], palette.amber, palette.bone],
+              'circle-radius': ['case', ['get', 'selected'], 10, 7],
+              'circle-stroke-width': 2,
+              'circle-stroke-color': palette.night,
+            },
+          });
+          created.on('click', CLUSTER_LAYER_ID, async (ev) => {
+            if (!created) return;
+            const feature = ev.features?.[0];
+            const clusterId = feature?.properties?.cluster_id;
+            if (clusterId == null || feature?.geometry.type !== 'Point') return;
+            const src = created.getSource(SOURCE_ID) as GeoJSONSource | undefined;
+            if (!src) return;
+            try {
+              const zoom = await src.getClusterExpansionZoom(Number(clusterId));
+              created.easeTo({ center: feature.geometry.coordinates as [number, number], zoom: Math.min(zoom, MAX_ZOOM), duration: 400 });
+            } catch {
+              /* ignore cluster zoom error */
+            }
+          });
+          created.on('click', POINT_LAYER_ID, (ev) => {
+            const id = ev.features?.[0]?.properties?.id;
+            if (typeof id === 'string') onSelectRef.current(id);
+          });
+          for (const layer of [CLUSTER_LAYER_ID, POINT_LAYER_ID]) {
+            created.on('mouseenter', layer, () => {
+              if (created) created.getCanvas().style.cursor = 'pointer';
+            });
+            created.on('mouseleave', layer, () => {
+              if (created) created.getCanvas().style.cursor = '';
+            });
+          }
+          setStyleReady(true);
         });
         // Only a failure before the first load is fatal; later tile hiccups keep the map we already have.
         created.on('error', () => {
@@ -226,12 +311,19 @@ function WebGlVenueMap({
     };
   }, [onFail]);
 
-  // Pin markers.
+  // Sync clustered GeoJSON source + focused DOM pill markers.
   useEffect(() => {
     const lib = libRef.current;
     if (!map || !lib) return;
+    const useClusters = pins.length > CLUSTER_DOM_THRESHOLD;
+    if (styleReady) {
+      const src = map.getSource(SOURCE_ID) as GeoJSONSource | undefined;
+      src?.setData((useClusters ? pinsToGeoJson(pins, selectedId) : pinsToGeoJson([], selectedId)) as unknown as GeoJSON.FeatureCollection);
+    }
     markersRef.current.forEach((m) => m.remove());
-    markersRef.current = pins.map((pin) =>
+    // When clustered (> 24 venues), only mount a DOM pill for the selected venue (O(1) DOM nodes instead of 220+).
+    const domPins = useClusters ? pins.filter((p) => p.venue.id === selectedId) : pins;
+    markersRef.current = domPins.map((pin) =>
       new lib.Marker({
         element: createPinElement(pin, pin.venue.id === selectedId, (id) => onSelectRef.current(id)),
         anchor: 'bottom',
@@ -239,7 +331,7 @@ function WebGlVenueMap({
         .setLngLat([pin.venue.lng, pin.venue.lat])
         .addTo(map),
     );
-  }, [map, pins, selectedId]);
+  }, [map, styleReady, pins, selectedId]);
 
   // User location dot.
   useEffect(() => {

@@ -3,7 +3,7 @@ import { memo, useId, useState, type ComponentType } from 'react';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 import Svg from 'react-native-svg';
 
-import { parseCoverKey } from '@/domain/cover';
+import { isValidCoverImageUrl, parseCoverKey } from '@/domain/cover';
 import type { CoverKey } from '@/domain/types';
 import { BoltArt } from './art/Bolt';
 import { CaiporaArt } from './art/Caipora';
@@ -29,7 +29,7 @@ const LEGACY_ART: Record<string, ComponentType<{ uid: string }>> = {
 
 export interface CoverProps {
   coverKey: CoverKey;
-  /** Organizer poster (https). Falls back to the illustrated cover when missing or when it fails to load. */
+  /** Organizer poster (https) or local `/covers/*` asset. Falls back to the illustrated cover when missing, invalid, or failed. */
   imageUrl?: string;
   style?: StyleProp<ViewStyle>;
 }
@@ -49,17 +49,18 @@ function Art({ coverKey, uid }: { coverKey: string; uid: string }) {
 export const Cover = memo(function Cover({ coverKey, imageUrl, style }: CoverProps) {
   const uid = `c${useId().replace(/[^a-zA-Z0-9]/g, '_')}`;
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
-  const showImage = !!imageUrl && failedUrl !== imageUrl;
+  const safeUrl = isValidCoverImageUrl(imageUrl) ? imageUrl.trim() : undefined;
+  const showImage = !!safeUrl && failedUrl !== safeUrl;
   return (
     <View style={[styles.box, style]} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
       {showImage ? (
         <Image
           testID="cover-image"
-          source={{ uri: imageUrl }}
+          source={{ uri: safeUrl }}
           style={StyleSheet.absoluteFill}
           contentFit="cover"
           accessible={false}
-          onError={() => setFailedUrl(imageUrl ?? null)}
+          onError={() => setFailedUrl(safeUrl)}
         />
       ) : (
         <Svg width="100%" height="100%" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" testID={`cover-${coverKey}`}>

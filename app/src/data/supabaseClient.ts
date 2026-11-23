@@ -8,10 +8,18 @@ export const isRemote = () => env.dataSource === 'supabase' && !!env.supabaseUrl
 
 /** After a failed anonymous sign-in (provider disabled, offline), stay local-only this long before retrying. */
 export const SIGN_IN_COOLDOWN_MS = 60_000;
+const CLIENT_TIMEOUT_MS = 10_000;
 
 let client: SupabaseClient | null = null;
 let pending: Promise<string | null> | null = null;
 let retryAfter = 0;
+
+function timedFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+  if (typeof AbortController === 'undefined') return fetch(input, init);
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), CLIENT_TIMEOUT_MS);
+  return fetch(input, { ...init, signal: init?.signal ?? controller.signal }).finally(() => clearTimeout(timer));
+}
 
 /** Shared client with the session persisted in AsyncStorage. Null when running on seed data. */
 export function getSupabase(): SupabaseClient | null {
@@ -19,6 +27,7 @@ export function getSupabase(): SupabaseClient | null {
   if (!client) {
     client = createClient(env.supabaseUrl, env.supabaseAnonKey, {
       auth: { storage: AsyncStorage, persistSession: true, autoRefreshToken: true, detectSessionInUrl: false },
+      global: { fetch: timedFetch },
     });
   }
   return client;

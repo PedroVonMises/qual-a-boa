@@ -17,7 +17,7 @@ import { VenuePanel } from './VenuePanel';
 import { groupByVenue } from './pins';
 
 const MAP_RADIUS_KM = 25;
-const MAP_LIMIT = 100;
+const MAP_LIMIT = 400;
 
 export function MapaScreen({ now }: { now?: string }) {
   const router = useRouter();

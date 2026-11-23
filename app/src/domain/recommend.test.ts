@@ -1,4 +1,4 @@
-import seed from '@/data/seed.json';
+import seed from '../../../supabase/tests/fixtures/seed-fixed.json';
 import { SeedRepo } from '@/data/seedRepo';
 import { proximityFeature, rankItems, scoreItem, timeFeature } from './recommend';
 import { EMPTY_PROFILE, type RecoContext, type TasteProfile } from './recommendTypes';

@@ -25,6 +25,8 @@ export function normalizeText(s: string): string {
 }
 
 const DEFAULT_LIMIT = 20;
+const MAX_LIMIT = 500;
+const MAX_QUERY_CHARS = 120;
 
 function sortPriceKey(e: EventItem): number {
   if (e.isFree) return 0;
@@ -101,7 +103,8 @@ export class SeedRepo implements Repo {
     this.lastKey = key;
     this.lastItems = items;
 
-    const limit = params.limit ?? DEFAULT_LIMIT;
+    const rawLimit = params.limit ?? DEFAULT_LIMIT;
+    const limit = Math.min(Math.max(Number.isFinite(rawLimit) ? Math.floor(rawLimit) : DEFAULT_LIMIT, 0), MAX_LIMIT);
     const parsed = Number.parseInt(params.cursor ?? '0', 10);
     const offset = Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
     const page = items.slice(offset, offset + limit);
@@ -113,8 +116,8 @@ export class SeedRepo implements Repo {
     const fromMs = params.dateFrom ? Date.parse(params.dateFrom) : nowMs;
     const toMs = params.dateTo ? Date.parse(params.dateTo) : null;
     const genres = params.genreSlugs?.length ? new Set(params.genreSlugs) : null;
-    const area = params.area ? params.area.toLowerCase() : null;
-    const q = params.query?.trim() ? normalizeText(params.query.trim()) : null;
+    const area = params.area ? params.area.trim().slice(0, 80).toLowerCase() : null;
+    const q = params.query?.trim() ? normalizeText(params.query.trim().slice(0, MAX_QUERY_CHARS)) : null;
 
     const items: SearchItem[] = [];
     for (const event of this.data.events) {
@@ -228,11 +231,12 @@ export class SeedRepo implements Repo {
   }
 
   async searchArtists(query: string, limit = 10): Promise<Artist[]> {
-    const q = normalizeText(query.trim());
+    const q = normalizeText(query.trim().slice(0, MAX_QUERY_CHARS));
     if (!q) return [];
+    const safeLimit = Math.min(Math.max(Math.floor(limit), 1), 50);
     return this.data.artists
       .filter((a) => normalizeText(a.name).includes(q))
       .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
-      .slice(0, limit);
+      .slice(0, safeLimit);
   }
 }
