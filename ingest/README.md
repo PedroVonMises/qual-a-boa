@@ -45,7 +45,9 @@ Tier 2 (and 3) records are **not published** until approved. After `run`, open `
 ["link:3f2a9c1d5b7e0a44"]
 ```
 
-The next run publishes it. Un-approving does not retract an already published event (the feed carries events forward): retract by editing it out of `events.json` in the PR, or let it end. Cancellations found on a source page (404/410 or `EventCancelled`) apply to already-published events without approval.
+The next run publishes it.
+
+**Or approve in `/admin`** (migration 0025): when the run has `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` (repo secrets in CI), it sends every record waiting for approval to `public.ingest_candidates`, and the team approves or rejects it in the app's `/admin` > Ingestão. The next run reads the decisions back: approved records are published and added to `data/approved.json` (so the repo keeps the record), rejected ones stop showing up as pending. If Supabase is unreachable the run carries on with `approved.json` alone and lists the error under `skipped`. Un-approving does not retract an already published event (the feed carries events forward): retract by editing it out of `events.json` in the PR, or let it end. Cancellations found on a source page (404/410 or `EventCancelled`) apply to already-published events without approval.
 
 ## Curated submissions (tier 1)
 

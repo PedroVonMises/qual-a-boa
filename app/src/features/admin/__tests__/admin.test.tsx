@@ -70,6 +70,13 @@ const casa = {
   legal_name: 'Bar Novo Ltda', contact_name: 'Rui', whatsapp: '+5527999990000', created_at: recent(),
 };
 
+const ING = '44444444-4444-4444-8444-444444444444';
+const ingest = {
+  id: ING, key: 'link:abc', tier: 2, title: 'Rock no Quintal', starts_at: '2026-12-05T01:00:00Z', venue_name: 'Quintal Rock Bar',
+  venue_matched: false, source_url: 'https://quintal.example/rock', flags: ['venue-unverified', 'price-unknown'],
+  details: { artists: ['Banda A', 'Banda B'] }, first_seen_at: recent(),
+};
+
 function staffRpc(over: Partial<Record<string, ReturnType<Rpc>>> = {}): Rpc {
   return (fn) => {
     if (fn in over) return over[fn]!;
@@ -80,6 +87,7 @@ function staffRpc(over: Partial<Record<string, ReturnType<Rpc>>> = {}): Rpc {
       case 'admin_pending_events': return { data: [festa] };
       case 'admin_pending_accounts': return { data: [casa] };
       case 'admin_recent_actions': return { data: [] };
+      case 'admin_ingest_queue': return { data: [ingest] };
       default: return { data: 'ok' };
     }
   };
@@ -169,5 +177,20 @@ describe('AdminScreen', () => {
     expect(screen.getByText('11.222.333/0001-81')).toBeTruthy();
     await fireEvent.press(screen.getByTestId(`admin-casa-${ACC}-verificar`));
     await waitFor(() => expect(screen.getByTestId(`admin-casa-${ACC}-erro`).props.children).toMatch(/já decidiu/));
+  });
+
+  it('approves an ingest record and refuses one only with a reason', async () => {
+    install(staffRpc({ admin_overview: { data: overview({ ingest_pending: 1 }) } }));
+    await mount();
+    await fireEvent.press(await screen.findByTestId('admin-secao-ingestao'));
+    expect(await screen.findByText('Rock no Quintal')).toBeTruthy();
+    expect(screen.getByText('Casa fora do catálogo')).toBeTruthy();
+    expect(screen.getByText('Sem preço')).toBeTruthy();
+    expect(screen.getByText('Banda A, Banda B')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId(`admin-ingest-${ING}-recusar`));
+    expect(rpcCalls.find(([f]) => f === 'admin_review_ingest')).toBeUndefined();
+    await fireEvent.press(screen.getByTestId(`admin-ingest-${ING}-aprovar`));
+    await waitFor(() => expect(rpcCalls.find(([f]) => f === 'admin_review_ingest')).toBeTruthy());
+    expect(rpcCalls.find(([f]) => f === 'admin_review_ingest')![1]).toEqual({ p_id: ING, p_approve: true, p_note: null });
   });
 });

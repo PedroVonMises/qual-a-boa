@@ -15,6 +15,7 @@ import { linkSourceId } from './adapters/link.js';
 import { resolvePaths, type Paths } from './config.js';
 import { assembleFeed, buildMeta, diffFeeds, diffSummary, isApproved, parseApproved, prTitle, validateFeed, type Feed, type FeedDiff, type Meta } from './publish.js';
 import { USER_AGENT, type RawEvent } from './types.js';
+import type { RemoteReview } from './remote.js';
 
 export interface RunOptions {
   paths?: Partial<Pick<Paths, 'dataDir' | 'outDir' | 'feedDir' | 'cacheDir'>>;
@@ -32,6 +33,8 @@ export interface RunOptions {
   sleep?: (ms: number) => Promise<void>;
   loadOptionalAdapters?: boolean;
   log?: (m: string) => void;
+  /** Curator decisions from /admin (migration 0025). Null/absent: approved.json only. */
+  remote?: RemoteReview | null;
 }
 
 export interface RunResult {
@@ -68,7 +71,21 @@ export async function runPipeline(opts: RunOptions = {}): Promise<RunResult> {
 
   const venueEntries = await readData<VenueEntry[]>(paths, 'venues.json', []);
   const keywords = await readData<GenreKeywords>(paths, 'genre-keywords.json', {});
-  const approved = parseApproved(await readJson<unknown>(join(paths.dataDir, 'approved.json')));
+  const approvedJson = await readJson<unknown>(join(paths.dataDir, 'approved.json'));
+  const approved = parseApproved(approvedJson);
+  const approvedInFile = new Set(approved);
+  const rejected = new Set<string>();
+  const remoteSkips: { ref: string; reason: string }[] = [];
+  if (opts.remote) {
+    try {
+      const d = await opts.remote.decisions();
+      for (const k of d.approved) approved.add(k);
+      for (const k of d.rejected) if (!approved.has(k)) rejected.add(k);
+      log(`remote review: ${d.approved.size} approved, ${d.rejected.size} rejected`);
+    } catch (e) {
+      remoteSkips.push({ ref: 'remote:decisions', reason: e instanceof Error ? e.message : String(e) });
+    }
+  }
   const previous = await readJson<Feed>(join(paths.feedDir, 'events.json'));
 
   const adapters =
@@ -89,7 +106,7 @@ export async function runPipeline(opts: RunOptions = {}): Promise<RunResult> {
   // 1. fetch
   const raws: RawEvent[] = [];
   const needsReview: NeedsReview[] = [];
-  const skipped: { ref: string; reason: string }[] = [];
+  const skipped: { ref: string; reason: string }[] = [...remoteSkips];
   const goneIds = new Set<string>();
   const sourceCounts: Record<string, number> = {};
   const ctx = { now, userAgent: USER_AGENT, dataDir: paths.dataDir, log };
@@ -132,6 +149,7 @@ export async function runPipeline(opts: RunOptions = {}): Promise<RunResult> {
   const pending: Candidate[] = [];
   for (const c of candidates) {
     if (isApproved(c, approved) || (c.event.status === 'cancelled' && prevIds.has(c.event.id))) publishable.push(c);
+    else if (c.sources.some((s) => rejected.has(`${s.source}:${s.sourceId}`))) skipped.push({ ref: c.key, reason: 'rejected by a curator in /admin' });
     else pending.push(c);
   }
   for (const c of publishable) {
@@ -177,6 +195,21 @@ export async function runPipeline(opts: RunOptions = {}): Promise<RunResult> {
       diff,
     };
     await writeFile(join(paths.outDir, 'candidates.json'), JSON.stringify(candidatesDoc, null, 2) + '\n');
+    // Approvals made in /admin are written to approved.json too, so the repo keeps the record (and works offline).
+    const added = [...approved].filter((k) => !approvedInFile.has(k));
+    if (added.length) {
+      const list = [...approved].sort();
+      const doc = approvedJson && !Array.isArray(approvedJson) && typeof approvedJson === 'object' ? { ...(approvedJson as object), approved: list } : list;
+      await writeFile(join(paths.dataDir, 'approved.json'), JSON.stringify(doc, null, 2) + '\n');
+    }
+    if (opts.remote) {
+      try {
+        const n = await opts.remote.push(pending, now);
+        log(`remote review: ${n} pending records sent`);
+      } catch (e) {
+        skipped.push({ ref: 'remote:push', reason: e instanceof Error ? e.message : String(e) });
+      }
+    }
     await writeFile(join(paths.outDir, 'summary.md'), summary);
     await writeFile(join(paths.outDir, 'pr-title.txt'), title + '\n');
     await writeFile(join(paths.feedDir, 'events.json'), JSON.stringify(feed, null, 2) + '\n');
